@@ -96,10 +96,11 @@ struct Route
     int veh_id; //the index of vehicle
     int veh_type; //type of the vehicle
     vector<int> compact_route; //the sequence of serving requests in this route
+    vector<int> used_paths; //the path index used between each adjacent nodes
     vector<int> extended_route; //the sequence of serving and bypassing nodes in this route
     vector<int> node_labels; //label: serve or bypass
-    vector<vector<int>> route_arrtw; //the arrival time window for each node in this route
-    vector<vector<int>> route_deptw; //the departure time window for each node in this route
+    vector<vector<int>> route_arrtw; //the arrival time window for each node in the extended route
+    vector<vector<int>> route_deptw; //the departure time window for each node in the extended route
     vector<int> route_arrtime; //the arrival time at each node in this route
     vector<int> route_load;  //the change of vehicle load in this route
     vector<int> route_mileage;  //the change of travelling distance for this route

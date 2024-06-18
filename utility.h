@@ -31,5 +31,8 @@ vector<vector<double>> modify_init_distmat(vector<vector<double>> init_dist);
 vector<vector<int>> get_neighbours(vector<vector<double>> init_dist, int node_num);
 vector<vector<int>> get_init_tvltime(vector<vector<double>> init_dist, int node_num, double speed);
 vector<vector<int>> get_tvltw(vector<double> source_dist, int plan_horizon, double speed);
+double cal_path_dist(vector<int> route, vector<vector<double>> init_dist, int start_id, int end_id);
+int cal_path_tvltime(vector<int> route, vector<vector<int>> init_timemat, int start_id, int end_id);
+vector<int> find_servednode_id(vector<int> labels); //find the indices for the served nodes
 
 #endif

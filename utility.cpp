@@ -387,6 +387,48 @@ vector<vector<int>> get_tvltw(vector<double> source_dist, int plan_horizon, doub
 	return tvl_tw;
 }
 
+//calculate the distance between two nodes in an extended route
+double cal_path_dist(vector<int> route, vector<vector<double>> init_dist, int start_id, int end_id)
+{
+    double dist_path = 0.0;
+    for(int i = start_id; i < end_id; i++)
+    {
+        int arc_start = route[i];
+        int arc_end = route[i+1];
+        dist_path += init_dist[arc_start][arc_end];
+    }
+    return dist_path;
+}
+
+
+//calculate the travel time between two nodes in an extended route
+int cal_path_tvltime(vector<int> route, vector<vector<int>> init_timemat, int start_id, int end_id)
+{
+    int tvltime_path = 0.0;
+    for(int i = start_id; i < end_id; i++)
+    {
+        int arc_start = route[i];
+        int arc_end = route[i+1];
+        tvltime_path += init_timemat[arc_start][arc_end];
+    }
+    return tvltime_path;
+}
+
+//find the indices for the served nodes
+vector<int> find_servednode_id(vector<int> labels)
+{
+    vector<int> serve_idvec;
+    auto routelen = labels.size();
+    for(int i = 0; i < routelen; i++)
+    {
+        if(labels[i]) //label == 1: serve
+        {
+            serve_idvec.push_back(i);
+        }
+    }
+    return serve_idvec;
+}
+
 // //find the common path segments of two routes
 // vector<vector<vector<int>>> intersect_arcs(vector<vector<vector<int>>> sort_arcset1, vector<vector<vector<int>>> sort_arcset2)
 // {

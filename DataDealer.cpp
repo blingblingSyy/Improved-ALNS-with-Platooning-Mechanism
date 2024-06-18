@@ -13,6 +13,8 @@
 #include "config.h"
 using namespace std;  
 
+class AlternativePaths;
+
 /*BenchmarkInitializer: read and deal with the dataset in the file*/
 BenchmarkInitializer::BenchmarkInitializer(string filepath)
 {
@@ -123,10 +125,10 @@ void BenchmarkInitializer::extract_servetw()
     for(int i = 1; i < file_row; i++)
     {
         int start_serve_early = data_vec[i][4];
-        int start_serve_late = data_vec[i][5];
+        int start_serve_late = data_vec[i][5];  //start service time
         int bypass_early = travel_tw[i-1][0];
         int bypass_late = travel_tw[i-1][1] - data_vec[i][6];  //data_vec[i][6]: const service time for the node
-        service_tw.push_back({max(start_serve_early, bypass_early), min(start_serve_early, bypass_early)});
+        service_tw.push_back({max(start_serve_early, bypass_early), min(start_serve_late, bypass_late)});
     }
 }
 

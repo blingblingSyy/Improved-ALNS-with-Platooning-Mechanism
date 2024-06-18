@@ -10,6 +10,7 @@
                 "${fileDirname}\\main.cpp",
                 "${fileDirname}\\DataDealer.cpp",
                 "${fileDirname}\\utility.cpp",
+                "${fileDirname}\\AlternativePaths.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
