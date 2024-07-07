@@ -8,7 +8,7 @@
 #include "TimeWindowUpdater.h"
 #include "config.h"
 #include "utility.h"
-using namespace std;  
+using namespace std;
 
 /*TimeWindowUpdater: calculate and store the arrival and departure time windows for a given route*/
 TimeWindowUpdater::TimeWindowUpdater(Route &input_route, Nodes &nodes)
@@ -74,17 +74,17 @@ void TimeWindowUpdater::cal_threshold_nodenum()
     threshold_nodenum = int(ceil(wait_max * 1.0 / wait_pernode)); 
 }
 
-//if backward = 0, used to calculate DT2; if backward = 1, used to calculate AT1, start from the arrival time
-int TimeWindowUpdater::cal_nectime(int start_pos, int end_pos, bool backward) //start_pos corresponds to the position of the start node of a path
+//if not_serve_end_node = 0, used to calculate DT2; if not_serve_end_node = 1, used to calculate AT1, start from the arrival time
+int TimeWindowUpdater::cal_nectime(int start_pos, int end_pos, bool not_serve_end_node) //start_pos corresponds to the position of the start node of a path
 {
     int nectime = 0;
     int nec_servetime = 0;
     int nec_tvltime = cal_path_tvltime(route.extended_route, nodeset.initial_timemat, start_pos, end_pos);
-    for(int i = start_pos; i < end_pos; i++)   //backward == 1, used to calculate AT1
+    for(int i = start_pos; i < end_pos; i++)   //not_serve_end_node == 1, used to calculate AT1
     {
         nec_servetime += st_inroute[i];
     }
-    if(!backward) //backward == 0, used to calculate DT2 -> need to add the service time of the end node
+    if(!not_serve_end_node) //not_serve_end_node == 0, used to calculate DT2 -> need to add the service time of the end node
     {
         nec_servetime += st_inroute[end_pos];
     }
@@ -93,10 +93,10 @@ int TimeWindowUpdater::cal_nectime(int start_pos, int end_pos, bool backward) //
 }
 
 //calculate the maximum allowable time between two given nodes in a route
-int TimeWindowUpdater::cal_maxtime(int start_pos, int end_pos, bool backward)
+int TimeWindowUpdater::cal_maxtime(int start_pos, int end_pos, bool not_serve_end_node)
 {
     int maxtime = 0;
-    int nectime = cal_nectime(start_pos, end_pos, backward);
+    int nectime = cal_nectime(start_pos, end_pos, not_serve_end_node);
     int nodes_involved = end_pos - start_pos + 1;
     if(nodes_involved > threshold_nodenum)
     {
@@ -127,7 +127,7 @@ int TimeWindowUpdater::cal_AT1(int node_pos, int lastnode_AT1)
         int tvltime_lastnode = cal_path_tvltime(route.extended_route, nodeset.initial_timemat, node_pos-1, node_pos);
         int case3_AT1 = max(lastnode_AT1, startserve_last) + servetime_lastnode + tvltime_lastnode;
         // int startserve_last = st_inroute[node_pos-1];
-        // int case3_AT1 = max(lastnode_AT1, startserve_last) + cal_nectime(node_pos-1, node_pos, true); //still backward -> no need to add the service time of this node
+        // int case3_AT1 = max(lastnode_AT1, startserve_last) + cal_nectime(node_pos-1, node_pos, true); //still not_serve_end_node -> no need to add the service time of this node
         AT1 = case3_AT1;
         //case 1:
         for(int i = routelen-1; i > node_pos; i--)  //case1: tracking backward from the last node to calculate AT1
@@ -136,7 +136,7 @@ int TimeWindowUpdater::cal_AT1(int node_pos, int lastnode_AT1)
             if(route.node_labels[i]) //label == 1: the referred node is a served node; only care about the start service time of the served nodes
             {
                 int startserve_i = sertw_inroute[i][0]; //get the earliest allowable service start time 
-                int max_time = cal_maxtime(i, node_pos, true); //to calculate AT1, backward is set to be true
+                int max_time = cal_maxtime(i, node_pos, true); //to calculate AT1, not_serve_end_node is set to be true
                 int case1_AT1 = startserve_i - max_time;
                 if(case1_AT1 > AT1)
                 {
@@ -223,7 +223,7 @@ int TimeWindowUpdater::cal_DT2(int node_pos, int nextnode_DT2)
             if(route.node_labels[i]) //label == 1: the referred node is a served node; only care about the start service time of the served nodes
             {
                 int lateserve_i = sertw_inroute[i][1]; //get the earliest allowable service start time 
-                int max_time = cal_maxtime(i, node_pos, false); //to calculate DT2, backward is set to be false
+                int max_time = cal_maxtime(i, node_pos, false); //to calculate DT2, not_serve_end_node is set to be false
                 int case1_DT2 = lateserve_i + max_time;
                 if(case1_DT2 < DT2)
                 {
@@ -424,93 +424,148 @@ int TimeWindowUpdater::calib_wait_max(int used_waiting, int uncal_nodes)
     return total_wait;
 }
 
-//modify the arrival and departure time windows for a route given a modified departure time window for a node
-void TimeWindowUpdater::modify_route_tw(int arc_start_pos, int arc_end_pos, vector<int> overlap_dep_tw)
+//modify the AT1 and DT1 for a route given a modified departure time window for a node //..., vector<vector<int>> &route_deptw, vector<vector<int>> &route_arrtw
+void TimeWindowUpdater::modify_route_tw_AT1_DT1(int arc_start_pos_input, int arc_end_pos_input, vector<vector<int>> original_arrtw_input)
 {
-    //1. first store the original arrival and departure time windows and clear the arrival and departure time windows
-    vector<vector<int>> original_arrtw = route.route_arrtw;
-    vector<vector<int>> original_deptw = route.route_deptw;
-    this->route.route_arrtw.clear();
-    this->route.route_deptw.clear();
-    
-    //2. assign the overlapped departure time windows and arrival time windows of the given arc
-    route.route_deptw[arc_start_pos] = overlap_dep_tw;
-    int arc_dist = cal_path_dist(route.extended_route, nodeset.initial_distmat, arc_start_pos, arc_end_pos);
-    route.route_arrtw[arc_end_pos] = {overlap_dep_tw[0] + arc_dist, overlap_dep_tw[1] + arc_dist};
-    route.route_arrtw[0] = sertw_inroute[0]; //arrival time windows for the starting depot
-    route.route_deptw[routelen-1] = sertw_inroute[routelen-1]; //departure time windows for the ending depot
-    
-    //3. AT1 & DT1 -> void modify_route_tw_AT1_DT1()
     //first calculate AT1 forward from the start position -> move as fast as possible based on the overlapped earliest departure time
-    for(int i = arc_end_pos+1; i < routelen; i++)
+    for(int i = arc_end_pos_input+1; i < routelen; i++)
     {
         int startserve_lastnode = sertw_inroute[i-1][0];
         int arrtime_lastnode = route.route_arrtw[i-1][0];
-        route.route_arrtw[i][0] = max(max(startserve_lastnode, arrtime_lastnode) + cal_nectime(i-1, i, true), original_arrtw[i][0]);
+        route.route_arrtw[i][0] = max(max(startserve_lastnode, arrtime_lastnode) + cal_nectime(i-1, i, true), original_arrtw_input[i][0]);
     }
     //then calculate DT1 based on AT1 for the nodes after the arc_end_pos (including the arc_end_pos)
-    for(int i = routelen-1; i > arc_end_pos; i--)
+    for(int i = routelen-1; i > arc_end_pos_input; i--)
     {
-        int arc_dist_i_AT1 = cal_path_dist(route.extended_route, nodeset.initial_distmat, i-1, i);
+        int arc_dist_i_AT1 = cal_path_tvltime(route.extended_route, nodeset.initial_timemat, i-1, i);
         route.route_deptw[i-1][0] = route.route_arrtw[i][0] - arc_dist_i_AT1;
     }
     //next calculate the remaining waiting time for the nodes after the arc_end_pos (including the arc_end_pos)
     int waiting_after_arc_end_pos = 0;
-    for(int i = arc_end_pos; i < routelen-1; i++) //exclude the ending depot
+    for(int i = arc_end_pos_input; i < routelen-1; i++) //exclude the ending depot
     {
         waiting_after_arc_end_pos += cal_waiting_pernode(i, route.route_arrtw[i][0], route.route_deptw[i][0]);
     }
     //then calculate AT1 backward using the remaining waiting time limit
-    for(int i = arc_start_pos; i > 0; i--) //arc_start_pos = arc_end_pos-1
+    for(int i = arc_start_pos_input; i > 0; i--) //arc_start_pos = arc_end_pos-1
     {
-        int total_wait_max_AT1 = calib_wait_max(wait_max - waiting_after_arc_end_pos, arc_end_pos - i);
-        route.route_arrtw[i][0] = max(route.route_arrtw[arc_end_pos][0] - cal_nectime(i, arc_end_pos, true) - total_wait_max_AT1, original_arrtw[i][0]);
+        int total_wait_max_AT1 = calib_wait_max(wait_max - waiting_after_arc_end_pos, arc_end_pos_input - i);
+        route.route_arrtw[i][0] = max(route.route_arrtw[arc_end_pos_input][0] - cal_nectime(i, arc_end_pos_input, true) - total_wait_max_AT1, original_arrtw_input[i][0]);
     }
     //next calculate DT1 based on AT1 for the nodes before the arc_end_pos (excluding the arc_end_pos)
-    for(int i = arc_start_pos-1; i >= 0; i--) //arc_start_pos = arc_end_pos-1
+    for(int i = arc_start_pos_input-1; i >= 0; i--) //arc_start_pos = arc_end_pos-1
     {
-        int arc_dist_i_DT1 = cal_path_dist(route.extended_route, nodeset.initial_distmat, i, i+1);
+        int arc_dist_i_DT1 = cal_path_tvltime(route.extended_route, nodeset.initial_timemat, i, i+1);
         route.route_deptw[i][0] = route.route_arrtw[i+1][0] - arc_dist_i_DT1;
     }
+}
 
-    //4. AT2 & DT2 -> void modify_route_tw_DT2_AT2()
+//modify the DT2 and AT2 for a route given a modified departure time window for a node //..., vector<vector<int>> &route_deptw, vector<vector<int>> &route_arrtw
+void TimeWindowUpdater::modify_route_tw_DT2_AT2(int arc_start_pos_input, int arc_end_pos_input, vector<vector<int>> original_deptw_input)
+{
     //first calculate DT2 backward from the start position -> move reversely as fast as possible based on the overlapped latest departure time
-    for(int i = arc_start_pos-1; i >= 0; i--)
+    for(int i = arc_start_pos_input-1; i >= 0; i--)
     {
         int lateserve_nextnode = sertw_inroute[i+1][1];
         int servetime_nextnode = st_inroute[i+1];
         int deptime_nextnode = route.route_deptw[i+1][1];
-        int arc_dist_i_DT2 = cal_path_dist(route.extended_route, nodeset.initial_distmat, i, i+1);
-        route.route_deptw[i][1] = min(min(deptime_nextnode - servetime_nextnode, lateserve_nextnode) - arc_dist_i_DT2, original_deptw[i][1]);
+        int arc_dist_i_DT2 = cal_path_tvltime(route.extended_route, nodeset.initial_timemat, i, i+1);
+        route.route_deptw[i][1] = min(min(deptime_nextnode - servetime_nextnode, lateserve_nextnode) - arc_dist_i_DT2, original_deptw_input[i][1]);
     }
     //then calculate AT2 based on DT2 for the nodes before the arc_start_pos (including the arc_start_pos)
-    for(int i = 0; i < arc_start_pos; i++)
+    for(int i = 0; i < arc_start_pos_input; i++)
     {
-        int arc_dist_i_AT2 = cal_path_dist(route.extended_route, nodeset.initial_distmat, i, i+1);
+        int arc_dist_i_AT2 = cal_path_tvltime(route.extended_route, nodeset.initial_timemat, i, i+1);
         route.route_arrtw[i+1][1] = route.route_deptw[i][1] + arc_dist_i_AT2;
     }
     //next calculate the remaining waiting time for the nodes before the arc_start_pos (including the arc_start_pos)
     int waiting_before_arc_start_pos = 0;
-    for(int i = 1; i <= arc_start_pos; i++) //exclude the ending depot
+    for(int i = 1; i <= arc_start_pos_input; i++) //exclude the ending depot
     {
         waiting_before_arc_start_pos += cal_waiting_pernode(i, route.route_arrtw[i][1], route.route_deptw[i][1]);
     }
     //then calculate DT2 forward using the remaining waiting time limit
-    for(int i = arc_end_pos; i < routelen-1; i++) //arc_end_pos = arc_start_pos + 1
+    for(int i = arc_end_pos_input; i < routelen-1; i++) //arc_end_pos = arc_start_pos + 1
     {
-        int total_wait_max_DT2 = calib_wait_max(wait_max - waiting_before_arc_start_pos, i - arc_start_pos);
-        route.route_deptw[i][1] = min(route.route_arrtw[arc_end_pos][1] + cal_nectime(arc_end_pos, i, false) + total_wait_max_DT2, original_deptw[i][1]);  //backward = false -> include the service time for the ending node of a given path
+        int total_wait_max_DT2 = calib_wait_max(wait_max - waiting_before_arc_start_pos, i - arc_start_pos_input);
+        route.route_deptw[i][1] = min(route.route_arrtw[arc_end_pos_input][1] + cal_nectime(arc_end_pos_input, i, false) + total_wait_max_DT2, original_deptw_input[i][1]);  //not_serve_end_node = false -> include the service time for the ending node of a given path
     }
     //next calculate AT2 based on DT2 for the nodes after the arc_end_pos (excluding the arc_end_pos)
-    for(int i = arc_end_pos+1; i < routelen; i++) //arc_start_pos = arc_end_pos-1
+    for(int i = arc_end_pos_input+1; i < routelen; i++) //arc_start_pos = arc_end_pos-1
     {
-        int arc_dist_i_AT2 = cal_path_dist(route.extended_route, nodeset.initial_distmat, i-1, i);
+        int arc_dist_i_AT2 = cal_path_tvltime(route.extended_route, nodeset.initial_timemat, i-1, i);
         route.route_arrtw[i][1] = route.route_deptw[i-1][1] + arc_dist_i_AT2;
     }
+}
+
+
+//modify the arrival and departure time windows for a route given a modified departure time window for a node
+void TimeWindowUpdater::modify_route_tw(int arc_start_pos, vector<int> overlap_dep_tw) //int arc_end_pos
+{
+    int arc_end_pos = arc_start_pos + 1;
+    //1. first store the original arrival and departure time windows and clear the arrival and departure time windows
+    vector<vector<int>> original_arrtw = route.route_arrtw;
+    vector<vector<int>> original_deptw = route.route_deptw;
+    clear_route_tw();
+    
+    //2. assign the overlapped departure time windows and arrival time windows of the given arc
+    route.route_deptw[arc_start_pos] = overlap_dep_tw;
+    int arc_tvltime = cal_path_tvltime(route.extended_route, nodeset.initial_timemat, arc_start_pos, arc_end_pos);
+    route.route_arrtw[arc_end_pos] = {overlap_dep_tw[0] + arc_tvltime, overlap_dep_tw[1] + arc_tvltime};
+    route.route_arrtw[0] = sertw_inroute[0]; //arrival time windows for the starting depot
+    route.route_deptw[routelen-1] = sertw_inroute[routelen-1]; //departure time windows for the ending depot
+    
+    //3. AT1 & DT1 -> void modify_route_tw_AT1_DT1()
+    modify_route_tw_AT1_DT1(arc_start_pos, arc_end_pos, original_arrtw);
+
+    //4. AT2 & DT2 -> void modify_route_tw_DT2_AT2()
+    modify_route_tw_DT2_AT2(arc_start_pos, arc_end_pos, original_deptw);
 }
 
 void TimeWindowUpdater::clear_route_tw()
 {
     this->route.route_arrtw.clear();
     this->route.route_deptw.clear();
+}
+
+//calculate the actual arrival and departure time for a route
+//the purpose is to find a set of arrival and departure time with the minimum trip duration
+void TimeWindowUpdater::set_arrdep_time_one_route(vector<vector<int>> final_arrtw, vector<vector<int>> final_deptw, vector<int> &arrtime_vec, vector<int> &deptime_vec)
+{
+    // vector<vector<int>> arrdep_time_thisroute(final_arrtw.size()); //{{arrtime1, arrtime2, ...}, {deptime1, deptime2, ...}}
+
+    //rule 1
+    arrtime_vec[0] = -1;
+    deptime_vec[0] = final_deptw[0][1]; //the latest departure time of the first node
+    for(int i = 1; i < final_arrtw.size(); i++)
+    {
+        arrtime_vec[i] = deptime_vec[i-1] + nodeset.initial_timemat[i-1][i]; //arrival time of the node
+        deptime_vec[i] = max(arrtime_vec[i] + st_inroute[i], final_deptw[i][0]); //departure time of the node
+    }
+    deptime_vec[final_arrtw.size()-1] = -1;
+    
+    // //rule 2
+    // deptime_vec[routelen-1] = -1;
+    // arrtime_vec[routelen-1] = final_arrtw[routelen-1][0]; //the earliest arrival time of the last node
+    // for(int i = routelen-2; i >= 0; i--)
+    // {
+    //     deptime_vec[i] = arrtime_vec[i+1] - nodeset.initial_timemat[i][i+1]; //departure time of the node
+    //     arrtime_vec[i] = min(deptime_vec[i] - st_inroute[i], final_arrtw[i][1]); //arrival time of the node
+    // }
+    // arrtime_vec[0] = -1;
+
+    // return arrdep_time_thisroute;
+}
+
+int TimeWindowUpdater::route_total_trip_duration(int arrtime_lastnode, int deptime_firstnode)
+{
+    return arrtime_lastnode - deptime_firstnode;
+}
+
+int TimeWindowUpdater::route_total_wait_time(int arrtime_lastnode, int deptime_firstnode)
+{
+    int route_total_tripdur = route_total_trip_duration(arrtime_lastnode, deptime_firstnode);
+    int nec_tripdur = cal_nectime(0, routelen-1, true);
+    int route_wait_time = route_total_tripdur - nec_tripdur;
+    return route_wait_time;
 }

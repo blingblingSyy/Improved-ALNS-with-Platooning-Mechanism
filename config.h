@@ -5,6 +5,7 @@
 
 #include <string> 
 #include <vector>
+#include <tuple>
 using namespace std;
 
 const string ins100_dir = "C:\\Users\\SYY\\Improved_ALNS_Git\\Li_Lim_Benchmark\\pdp_100";
@@ -84,11 +85,15 @@ struct Vehicles
     vector<int> wait_lim;
 };
 
-struct CouplingSol
+struct CouplingArcSol
 {
-    vector<int> coupling_path_seg; //coupling path segments
-    vector<int> coupling_arrtime; //arrival time at each coupling node
-    vector<int> coupling_vehs_id; //indices for coupling vehicles
+    vector<int> thisarc; //coupling arc
+    // vector<int> route_id_set; //the set of routes containing this arc
+    // vector<int> veh_set; //the configuration of platoons formed on this arc -> each platoon contains a set of vehicles
+    // vector<vector<int>> arc_pos_each_route; //the configuration of platoons formed on this arc -> each platoon contains a set of vehicles
+    vector<vector<pair<int, int>>> platoons_config_on_arc; //the configuration of platoons formed on this arc -> each platoon contains a set of vehicles
+    double energy_saving; //the overlapped departure time windows of the start node of the arc for each platoon
+    vector<vector<int>> overlaped_deptw_startnode; //the overlapped departure time windows of the start node of the arc for each platoon
 };
 
 struct Route 
@@ -96,12 +101,13 @@ struct Route
     int veh_id; //the index of vehicle
     int veh_type; //type of the vehicle
     vector<int> compact_route; //the sequence of serving requests in this route
-    vector<int> used_paths; //the path index used between each adjacent nodes
+    vector<int> used_paths_in_compact_route; //the path index used between each adjacent nodes
     vector<int> extended_route; //the sequence of serving and bypassing nodes in this route
     vector<int> node_labels; //label == 1: served; label == 0: bypass
     vector<vector<int>> route_arrtw; //the arrival time window for each node in the extended route
     vector<vector<int>> route_deptw; //the departure time window for each node in the extended route
     vector<int> route_arrtime; //the arrival time at each node in this route
+    vector<int> route_deptime; //the departure time at each node in this route
     vector<int> route_load;  //the change of vehicle load in this route
     vector<int> route_mileage;  //the change of travelling distance for this route
 };
@@ -115,7 +121,11 @@ struct Solution
     // vector<vector<int>> sol_loads;
     // vector<vector<double>> sol_miles; 
     vector<Route> sol_config;
-    vector<CouplingSol> sol_platoons;
+    vector<CouplingArcSol> sol_platoons_per_arc;
+    // vector<int> used_veh_ids;
+    double total_energy_related_dist;
+    int total_trip_duration;
+    int total_unserved_requests;
     double total_obj_val;
     double cpu_time;
 };

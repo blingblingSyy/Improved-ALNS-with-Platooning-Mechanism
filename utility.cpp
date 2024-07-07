@@ -429,6 +429,16 @@ vector<int> find_servednode_id(vector<int> labels)
     return serve_idvec;
 }
 
+// //remove the intersection part of two vectors
+// void remove_intersection(vector<int>& a, vector<int>& b){
+//     unordered_multiset<int> st;
+//     st.insert(a.begin(), a.end());
+//     st.insert(b.begin(), b.end());
+//     auto predicate = [&st](const int& k){return st.count(k) > 1; };
+//     a.erase(remove_if(a.begin(), a.end(), predicate), a.end());
+//     b.erase(remove_if(b.begin(), b.end(), predicate), b.end());
+// }
+
 // //find the common path segments of two routes
 // vector<vector<vector<int>>> intersect_arcs(vector<vector<vector<int>>> sort_arcset1, vector<vector<vector<int>>> sort_arcset2)
 // {

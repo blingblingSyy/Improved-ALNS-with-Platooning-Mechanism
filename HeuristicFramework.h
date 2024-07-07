@@ -17,6 +17,7 @@ class HeuristicFramework
 
     public:
         HeuristicFramework();
+        void find_vehicles_set_in_sol();
         void set_extend_route(Route &route);
         void set_route_labels(Route &route);
         void set_route_loads(Route &route);

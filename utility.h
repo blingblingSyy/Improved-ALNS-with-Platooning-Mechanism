@@ -4,6 +4,7 @@
 #define _UTILITY_H_
 
 #include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
 class RandomNumber  
@@ -34,5 +35,18 @@ vector<vector<int>> get_tvltw(vector<double> source_dist, int plan_horizon, doub
 double cal_path_dist(vector<int> route, vector<vector<double>> init_dist, int start_id, int end_id);
 int cal_path_tvltime(vector<int> route, vector<vector<int>> init_timemat, int start_id, int end_id);
 vector<int> find_servednode_id(vector<int> labels); //find the indices for the served nodes
+
+// void remove_intersection(vector<int>& a, vector<int>& b); //remove the intersection part of two vectors
+
+template<typename T>
+void remove_intersection(vector<T>& a, vector<T>& b)
+{
+    unordered_multiset<T> st;
+    st.insert(a.begin(), a.end());
+    st.insert(b.begin(), b.end());
+    auto predicate = [&st](const T& k){ return st.count(k) > 1; };
+    a.erase(std::remove_if(a.begin(), a.end(), predicate), a.end());
+    b.erase(std::remove_if(b.begin(), b.end(), predicate), b.end());
+}
 
 #endif
