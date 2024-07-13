@@ -22,6 +22,7 @@ class AlternativePaths
         void Dijkstra_AllPaths(); //Shortest Path Matrix for all paths
         vector<vector<int>> generate_paths_tree(vector<int> pred_vecs);
         vector<int> generate_onepath(int end, vector<int> pred_vecs);
+        
     public:
         AlternativePaths(vector<vector<double>> distmat, int nodenum, int ksp_limit);
         vector<DijkstraOneSol> ModifiedYen_OnePath(int start_node, int end_node); 

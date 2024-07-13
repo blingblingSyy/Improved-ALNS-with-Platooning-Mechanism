@@ -63,12 +63,16 @@ class PlatoonMaker
         CouplingArcSol arc_coupling_module(CouplingArc input_arc_config); //integrate all procedures of coupling on an arc
 
         /*platooning on all arcs*/
-        vector<CouplingArcSol> coupling_heuristic_all_arcs(); //systematically decide the sequence of coupling arcs of all routes
-        void set_arrdep_time_all_routes(); //set the arrival time of all nodes within all routes in the solution -> &cur_sol.sol_config[r]
+        void coupling_heuristic_all_arcs(); //systematically decide the sequence of coupling arcs of all routes
     
     public:
         PlatoonMaker(Solution &sol, Nodes nodes);
+        void set_arrdep_time_all_routes(); //set the arrival time of all nodes within all routes in the solution -> &cur_sol.sol_config[r]
         vector<CouplingArcSol> get_coupling_sol();  //a simple getter -> vector<CouplingArcSol>
+        vector<vector<int>> get_unique_arcs_set(); //get the set of unique arcs in the solution
+        int get_arc_appear_times(vector<int> input_arc); //get the total number of times that the arc appears in a solution
+        double cal_arc_total_energy_len(vector<int> input_arc); //get the total length of a given arc -> including the total number of vehicles and total number of positions within each vehicle route
+        double cal_sol_total_energy_dist(); //get the total length of the solution -> including the total number of vehicles and total number of positions within each vehicle route
 };
 
 #endif

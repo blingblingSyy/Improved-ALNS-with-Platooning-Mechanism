@@ -41,8 +41,8 @@ const int VTYPE = 2;
 //store one Dijkstra Solution
 struct DijkstraOneSol
 {
-    double SP_Dist;
-    vector<int> SP_Path;  //from start node to every other nodes
+    double KSP_Dist;
+    vector<int> KSP_Path;  //from start node to every other nodes
 };
 
 // //store Dijkstra Solution from a source node to all other nodes
@@ -52,9 +52,33 @@ struct DijkstraOneSol
 //     vector<vector<int>> SP_Paths_FromStart;  //from start node to every other nodes
 // };
 
+// //store one customer's information
+// struct OneCus
+// {
+//     int cus_id;
+//     int cus_type;
+//     int cus_dmd;
+//     int dmd_type;
+//     int serve_time;
+//     double serve_rate;
+//     vector<int> service_tw;
+//     vector<int> travel_tw;
+//     vector<int> match_mav;
+// };
+
+// //store one vehicle's information
+// struct OneVeh
+// {
+//     int veh_id;
+//     int veh_type;
+//     int veh_cap;
+//     int veh_waillim;
+// };
+
 //store nodes' information
 struct Nodes    
 {
+    // vector<OneCus> customers_config;
     int nodenum;
     vector<int> nodetype;   //0 - passenger; 1 - freight
     vector<int> demands;    //demands for each node, negative demands represent delivery requests
@@ -76,12 +100,13 @@ struct Nodes
 //store AMVs' information
 struct Vehicles     
 {
+    // vector<OneVeh> vehs_config;
     int veh_num;
     double veh_speed;
     int max_range;
     int max_plen;   //maximum platoon length
     vector<int> veh_type;
-    vector<int> veh_cap;
+    vector<int> veh_cap; //different vehicle types have different capacity
     vector<int> wait_lim;
 };
 
@@ -98,6 +123,7 @@ struct CouplingArcSol
 
 struct Route 
 {
+    // OneVeh thisveh;
     int veh_id; //the index of vehicle
     int veh_type; //type of the vehicle
     vector<int> compact_route; //the sequence of serving requests in this route
@@ -121,13 +147,13 @@ struct Solution
     // vector<vector<int>> sol_loads;
     // vector<vector<double>> sol_miles; 
     vector<Route> sol_config;
-    vector<CouplingArcSol> sol_platoons_per_arc;
+    vector<CouplingArcSol> sol_platoons_all_arcs;
     // vector<int> used_veh_ids;
     double total_energy_related_dist;
     int total_trip_duration;
     int total_unserved_requests;
     double total_obj_val;
-    double cpu_time;
+    // double cpu_time;
 };
 
 #endif

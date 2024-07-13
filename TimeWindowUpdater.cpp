@@ -20,14 +20,14 @@ TimeWindowUpdater::TimeWindowUpdater(Route &input_route, Nodes &nodes)
     set_st_route(); //get the service time for each node in the extended route
     set_waiting_lim(); //get the maximum waiting time limit and the waiting limit per node
     cal_threshold_nodenum(); //get the threshold number to calculate the correct waiting time limit for a path
-    //resize the arrival time window and departure time window vectors 
-    route.route_arrtw.resize(routelen);
-    route.route_deptw.resize(routelen);
-    for(int i = 0; i < routelen; i++)
-    {
-        route.route_arrtw[i].resize(2);
-        route.route_deptw[i].resize(2);
-    }
+    // //resize the arrival time window and departure time window vectors 
+    // route.route_arrtw.resize(routelen);
+    // route.route_deptw.resize(routelen);
+    // for(int i = 0; i < routelen; i++)
+    // {
+    //     route.route_arrtw[i].resize(2);
+    //     route.route_deptw[i].resize(2);
+    // }
     //cal_route_tw();
 }
 
@@ -288,6 +288,15 @@ int TimeWindowUpdater::cal_AT2(int node_pos, int thisnode_DT2, int lastnode_DT2)
 
 void TimeWindowUpdater::cal_route_tw()
 {
+    clear_route_tw();
+    //resize the arrival time window and departure time window vectors 
+    route.route_arrtw.resize(routelen);
+    route.route_deptw.resize(routelen);
+    for(int i = 0; i < routelen; i++)
+    {
+        route.route_arrtw[i].resize(2);
+        route.route_deptw[i].resize(2);
+    }
     //AT1
     int lastnode_AT1 = cal_AT1(0, 0);
     route.route_arrtw[0][0] = lastnode_AT1;

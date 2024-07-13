@@ -458,9 +458,10 @@ CouplingArcSol PlatoonMaker::arc_coupling_module(CouplingArc input_arc_config)
     return arc_coupling_sol;
 }
 
-vector<CouplingArcSol> PlatoonMaker::coupling_heuristic_all_arcs()
+void PlatoonMaker::coupling_heuristic_all_arcs()
 {
     coupling_arcs_sol.resize(unique_arcs_num);
+    vector<CouplingArc> unique_arcs_config_copy = unique_arcs_config;
     vector<CouplingArc> no_platoon_arcs_config;
     vector<CouplingArcSol> no_platoon_arcs_sol;
     // vector<int> no_platoon_arcs_idset;
@@ -468,27 +469,27 @@ vector<CouplingArcSol> PlatoonMaker::coupling_heuristic_all_arcs()
     for(int i = 0; i < unique_arcs_num; i++)
     {
         // no_platoon_arcs_idset.push_back(i);
-        coupling_arcs_sol[i] = arc_coupling_module(unique_arcs_config[i]);
+        coupling_arcs_sol[i] = arc_coupling_module(unique_arcs_config_copy[i]);
         if(coupling_arcs_sol[i].energy_saving == 0)
         {
             // no_platoon_arcs_idset.push_back(i);
             no_platoon_arcs_sol.push_back(coupling_arcs_sol[i]);
-            no_platoon_arcs_config.push_back(unique_arcs_config[i]);
+            no_platoon_arcs_config.push_back(unique_arcs_config_copy[i]);
         }
     }
     //remove the arcs that form no platoons
     remove_intersection(coupling_arcs_sol, no_platoon_arcs_sol); //no_platoon_arcs will become empty
-    remove_intersection(unique_arcs_config, no_platoon_arcs_config);
+    remove_intersection(unique_arcs_config_copy, no_platoon_arcs_config);
     //to rank the coupling arc solutions by energy saving amount in descending order
     auto compare = [&](int s, int r) {return coupling_arcs_sol[s].energy_saving > coupling_arcs_sol[r].energy_saving;};
-    // auto my_compare = [&](int s, int r) {return arc_coupling_module(unique_arcs_config[s]).energy_saving > arc_coupling_module(unique_arcs_config[r]).energy_saving;};
-    while(!unique_arcs_config.empty()) //!coupling_arcs_sol.empty()
+    // auto my_compare = [&](int s, int r) {return arc_coupling_module(unique_arcs_config_copy[s]).energy_saving > arc_coupling_module(unique_arcs_config_copy[r]).energy_saving;};
+    while(!unique_arcs_config_copy.empty()) //!coupling_arcs_sol.empty()
     {
         // no_platoon_arcs_config.clear();
         // no_platoon_arcs_sol.clear();
         //rank the set of unique arcs (coupling solutions) based on the energy saving amount in descending order
         sort(coupling_arcs_sol.begin(), coupling_arcs_sol.end(), compare);
-        sort(unique_arcs_config.begin(), unique_arcs_config.end(), compare);
+        sort(unique_arcs_config_copy.begin(), unique_arcs_config_copy.end(), compare);
         //select the first arc with the most energy saving
         CouplingArcSol selected_arcsol = coupling_arcs_sol[0];
         //modify the arrival and departure time windows of cur_sol based on all platoons coupled on this arc
@@ -500,17 +501,18 @@ vector<CouplingArcSol> PlatoonMaker::coupling_heuristic_all_arcs()
         //update the number of platoons of other arcs based on the modified time windows
         for(int s = 1; s < coupling_arcs_sol.size(); s++)
         {
-            coupling_arcs_sol[s] = arc_coupling_module(unique_arcs_config[s]); //pair_feas_graph has been changed
+            coupling_arcs_sol[s] = arc_coupling_module(unique_arcs_config_copy[s]); //pair_feas_graph has been changed
             if(coupling_arcs_sol[s].energy_saving == 0)
             {
                 no_platoon_arcs_sol.push_back(coupling_arcs_sol[s]);
-                no_platoon_arcs_config.push_back(unique_arcs_config[s]);
+                no_platoon_arcs_config.push_back(unique_arcs_config_copy[s]);
             }
+            //only keep the coupling arcs that can be platooned
             remove_intersection(coupling_arcs_sol, no_platoon_arcs_sol); //no_platoon_arcs will become empty
-            remove_intersection(unique_arcs_config, no_platoon_arcs_config);
+            remove_intersection(unique_arcs_config_copy, no_platoon_arcs_config);
         }
     }
-    return coupling_arcs_sol;
+    // return coupling_arcs_sol;
 }
 
 //before set_arrdep_time_all_routes(), do coupling_heuristic_all_arcs() to get the updated route_arrtw and route_deptw
@@ -525,5 +527,59 @@ void PlatoonMaker::set_arrdep_time_all_routes()
 
 vector<CouplingArcSol> PlatoonMaker::get_coupling_sol()
 {
+    coupling_heuristic_all_arcs();
     return coupling_arcs_sol;
+}
+
+//get the set of unique arcs in the solution
+vector<vector<int>> PlatoonMaker::get_unique_arcs_set()
+{
+    return unique_arcs_set;
+}
+
+int PlatoonMaker::get_arc_appear_times(vector<int> input_arc)
+{
+    int arcsize = 0;
+    auto iter_config = find_if(unique_arcs_config.begin(), unique_arcs_config.end(), [&](CouplingArc x){return x.thisarc == input_arc;});
+    for(int i = 0; i < (*iter_config).arc_all_pos.size(); i++)
+    {
+        arcsize += (*iter_config).arc_all_pos[i].size();
+    }    
+    return arcsize;
+}
+
+//given an arc, according to its platooning results, calculate its total energy-related distance cost of the solution
+double PlatoonMaker::cal_arc_total_energy_len(vector<int> input_arc)
+{
+    double arc_total_energy_dist = 0;
+    double arclen = nodeset.initial_distmat[input_arc[0]][input_arc[1]];  //the length of the given arc
+    int arcsize = get_arc_appear_times(input_arc);  //the number of times the arc appears in the solution
+    auto iter_sol = find_if(coupling_arcs_sol.begin(), coupling_arcs_sol.end(), [&](CouplingArcSol x){return x.thisarc == input_arc;});
+    //discuss two cases: 1. the arc is coupled; 2. the arc is not coupled
+    if(iter_sol == coupling_arcs_sol.end()) //no platoons are formed
+    {
+        arc_total_energy_dist = arclen * arcsize;
+        return arc_total_energy_dist;
+    }
+    else //platoons formed
+    {
+        int plnum = (*iter_sol).platoons_config_on_arc.size();
+        for(int p = 0; p < plnum; p++)
+        {
+            int plen = (*iter_sol).platoons_config_on_arc[p].size();
+            arc_total_energy_dist += pl_factor(plen) * plen * arclen;
+        }
+        return arc_total_energy_dist;
+    }
+}
+
+//get the total length of the solution -> including the total number of vehicles and total number of positions within each vehicle route
+double PlatoonMaker::cal_sol_total_energy_dist()
+{
+    double sol_total_energy_dist = 0;
+    for(int i = 0; i < unique_arcs_set.size(); i++)
+    {
+        sol_total_energy_dist += cal_arc_total_energy_len(unique_arcs_set[i]);
+    }
+    return sol_total_energy_dist;
 }

@@ -1,0 +1,488 @@
+#include <iostream>  
+#include <vector>  
+#include <set>
+#include <ctime>  
+#include <cmath>
+#include <cstdlib>  
+#include <string>  
+#include <algorithm>  
+#include <tuple>
+#include "HeuristicFramework.h"
+#include "TimeWindowUpdater.h"
+#include "PlatoonMaker.h"
+#include "config.h"
+#include "utility.h"
+using namespace std;
+
+/*HeuristicFramework: establish a framework for building solutions*/
+HeuristicFramework::HeuristicFramework(Nodes &nodes, Vehicles &vehs) //, Nodes &nodes
+{
+    nodeset = nodes;
+    vehset = vehs;
+}
+
+//for routes
+Route HeuristicFramework::build_new_route_struct(int &input_veh_id, int &input_veh_type, vector<int> &input_compact_route)
+{
+    Route new_route;
+    new_route.veh_id = input_veh_id;
+    new_route.veh_type = input_veh_type;
+    new_route.compact_route = input_compact_route;
+    return new_route;
+}
+
+//initiate the used paths in the initial feasible solution
+void HeuristicFramework::init_used_paths_in_compact_route(Route &route)
+{
+    int path_size = route.compact_route.size() - 1;
+    vector<int> used_paths_vec(path_size, 0);
+    route.used_paths_in_compact_route = used_paths_vec;
+}
+
+//set a used path in a given node position in the compact route
+void HeuristicFramework::set_used_paths(Route &route, int compact_nodepos, int used_path_id)
+{
+    route.used_paths_in_compact_route[compact_nodepos-1] = used_path_id;
+}
+
+void HeuristicFramework::set_extended_route(Route &route)
+{
+    vector<vector<int>> extended_route_set;
+    for(int i = 0; i < route.compact_route.size()-1; i++)
+    {
+        int used_path_id = route.used_paths_in_compact_route[i];
+        for(int j = 0; j < route.compact_route.size(); j++)
+        {
+            vector<int> ij_used_path = nodeset.avail_path_set[i][j][used_path_id].KSP_Path;
+            extended_route_set.push_back(ij_used_path);
+        }
+    }
+    route.extended_route.insert(route.extended_route.end(), extended_route_set[0].begin(), extended_route_set[0].end());
+    for(int s = 1; s < extended_route_set.size(); s++)
+    {
+        route.extended_route.insert(route.extended_route.end(), extended_route_set[s].begin()+1, extended_route_set[s].end());
+    }
+}
+
+void HeuristicFramework::set_node_labels(Route &route)
+{
+    vector<vector<int>> node_labels_set;
+    for(int i = 0; i < route.compact_route.size()-1; i++)
+    {
+        int used_path_id = route.used_paths_in_compact_route[i];
+        for(int j = 0; j < route.compact_route.size(); j++)
+        {
+            vector<int> ij_used_path = nodeset.avail_path_set[i][j][used_path_id].KSP_Path;
+            vector<int> node_labels_vec;
+            for(int p = 0; p < ij_used_path.size(); p++)
+            {
+                if(p == 0 || p == ij_used_path.size()-1)
+                {
+                    node_labels_vec.push_back(1);
+                }
+                else
+                {
+                    node_labels_vec.push_back(0);
+                }
+            }
+            node_labels_set.push_back(node_labels_vec);
+        }
+    }
+    route.node_labels.insert(route.node_labels.end(), node_labels_set[0].begin(), node_labels_set[0].end());
+    for(int s = 1; s < node_labels_set.size(); s++)
+    {
+        route.node_labels.insert(route.node_labels.end(), node_labels_set[s].begin()+1, node_labels_set[s].end());
+    }
+}
+
+void HeuristicFramework::set_route_arrdep_tw(Route &route)
+{
+    TimeWindowUpdater twupdater(route, nodeset);
+    twupdater.cal_route_tw();
+    twupdater.set_route_tw(route.route_deptw, route.route_arrtw);
+}
+
+void HeuristicFramework::set_route_arrdep_time(Route &route)
+{
+    TimeWindowUpdater twupdater(route, nodeset);
+    twupdater.set_arrdep_time_one_route(route.route_arrtw, route.route_deptw, route.route_arrtime, route.route_deptime);
+}
+
+void HeuristicFramework::set_route_loads(Route &route)
+{
+    route.route_load.resize(route.compact_route.size());
+    for(int i = 1; i < route.compact_route.size()-1; i++)
+    {
+        int node_id = route.compact_route[i];
+        route.route_load[0] += (nodeset.demand_type[node_id] == 1) ? -nodeset.demands[node_id] : 0;
+    }
+    for(int k = 1; k < route.compact_route.size(); k++)
+    {
+        route.route_load[k] = route.route_load[k-1] + nodeset.demands[route.compact_route[k]];
+    }
+}
+
+void HeuristicFramework::set_route_mileage(Route &route)
+{
+    route.route_mileage.resize(route.compact_route.size());
+    route.route_mileage[0] = 0;
+    for(int i = 0; i < route.compact_route.size()-1; i++)
+    {
+        double dist_from_i = nodeset.avail_path_set[route.compact_route[i]][route.compact_route[i+1]][route.used_paths_in_compact_route[i]].KSP_Dist;
+        route.route_mileage[i+1] += route.route_mileage[i] + dist_from_i;
+    }
+}
+
+int HeuristicFramework::cal_route_pickup_dmd(Route &route)
+{
+    int pickup_dmd = 0;
+    for(int i = 1; i < route.compact_route.size()-1; i++)
+    {
+        if(nodeset.demand_type[route.compact_route[i]] == 0)
+        {
+            pickup_dmd += nodeset.demands[route.compact_route[i]];
+        }
+    }
+    return pickup_dmd;
+}
+
+int HeuristicFramework::cal_route_delivery_dmd(Route &route)
+{
+    int delivery_dmd = 0;
+    for(int i = 1; i < route.compact_route.size()-1; i++)
+    {
+        if(nodeset.demand_type[route.compact_route[i]] == 1)
+        {
+            delivery_dmd -= nodeset.demands[route.compact_route[i]];
+        }
+    }
+    return delivery_dmd;
+}
+
+int HeuristicFramework::cal_route_trip_dur(Route &route)
+{
+    return (route.route_arrtime[route.extended_route.size()-1] - route.route_deptime[0]);
+}
+
+double HeuristicFramework::cal_route_total_dist(Route &route)
+{
+    double total_dist = 0;
+    for(int i = 0; i < route.compact_route.size()-1; i++)
+    {
+        int used_path_id = route.used_paths_in_compact_route[i];
+        for(int j = 0; j < route.compact_route.size(); j++)
+        {
+            double ij_used_path_dist = nodeset.avail_path_set[i][j][used_path_id].KSP_Dist;
+            total_dist += ij_used_path_dist;
+        }
+    }
+    return total_dist;
+}
+
+//for solutions
+//get the number of routes in the initial solution
+int HeuristicFramework::get_sol_route_num(Solution &sol)
+{
+    return sol.sol_config.size();
+}
+
+Route HeuristicFramework::get_route_config(Solution &sol, int route_id) //route_id != veh_id
+{
+    return sol.sol_config[route_id];
+}
+
+void HeuristicFramework::find_platoons_all_arcs(Solution &sol)
+{
+    PlatoonMaker plmaker(sol, nodeset);
+    sol.sol_platoons_all_arcs = plmaker.get_coupling_sol();
+}
+
+double HeuristicFramework::cal_sol_total_dist(Solution &sol)
+{
+    double total_dist = 0;
+    for(int i = 0; i < sol.sol_config.size(); i++)
+    {
+        total_dist += cal_route_total_dist(sol.sol_config[i]);
+    }
+    return total_dist;
+}
+
+double HeuristicFramework::cal_sol_total_energy_dist_cost(Solution &sol)
+{
+    double sol_total_energy_dist = 0;
+    PlatoonMaker plmaker(sol, nodeset);
+    return plmaker.cal_sol_total_energy_dist();
+}
+
+int HeuristicFramework::cal_sol_total_trip_dur(Solution &sol)
+{
+    int total_tripdur = 0;
+    for(int i = 0; i < sol.sol_config.size(); i++)
+    {
+        total_tripdur += cal_route_trip_dur(sol.sol_config[i]);
+    }
+    return total_tripdur;
+}
+
+int HeuristicFramework::cal_sol_total_unserved_requests(Solution &sol)
+{
+    int total_cus = nodeset.nodenum - 1;  //exclude the depot;
+    int total_served = 0;
+    for(int i = 0; i < sol.sol_config.size(); i++)
+    {
+        total_served += sol.sol_config[i].compact_route.size()-2;
+    }
+    return total_served;
+}
+
+double HeuristicFramework::cal_sol_total_obj_val(Solution &sol)
+{
+    //total obj val = sum weight of total energy-related distance cost, total trip duration, total unserved requests
+    double total_obj_val = 0;
+    total_obj_val += obj_w1 * cal_sol_total_energy_dist_cost(sol);
+    total_obj_val += obj_w2 * cal_sol_total_trip_dur(sol);
+    total_obj_val += obj_w3 * cal_sol_total_unserved_requests(sol);
+    return total_obj_val;
+}
+
+//for nodes and routes operations
+
+int tranform_vehid_to_routeid(vector<Route> sol_config, int input_vehid)
+{
+    auto iter = find_if(sol_config.begin(), sol_config.end(), [&](Route x){return x.veh_id == input_vehid;});
+    if(iter != sol_config.end())
+    {
+        return (iter - sol_config.begin());
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+int HeuristicFramework::tranform_nodepos_extend_to_compact(Route &route, int node_pos_extend)
+{
+    if(route.node_labels[node_pos_extend] == 1)
+    {
+        vector<int>::iterator compact_it = find(route.compact_route.begin(), route.compact_route.end(), route.extended_route[node_pos_extend]);
+        if(compact_it != route.compact_route.end())
+        {
+            return (compact_it - route.compact_route.begin());
+        }
+    }
+    else //route.node_labels[node_pos_extend] == 1 -> find the previous served node
+    {
+        for(auto iter = route.extended_route.begin() + node_pos_extend; iter != route.extended_route.end(); iter++)
+        {
+            if(route.node_labels[iter - route.extended_route.begin()] == 1)
+            {
+                vector<int>::iterator compact_it = find(route.compact_route.begin(), route.compact_route.end(), (*iter));
+                if(compact_it != route.compact_route.end())
+                {
+                    return (compact_it - route.compact_route.begin() - 1);
+                    break;
+                }
+            }
+        }
+    }
+    return -1;
+}
+
+void HeuristicFramework::insert_used_path(vector<int> &used_paths_vec, int insert_nodepos_compact, int used_path_before, int used_path_after)
+{
+    used_paths_vec[insert_nodepos_compact-1] = used_path_before;
+    used_paths_vec.insert(used_paths_vec.begin() + insert_nodepos_compact, used_path_after);
+}
+
+void HeuristicFramework::remove_used_path(vector<int> &used_paths_vec, int remove_nodepos_compact, int changed_used_path)
+{
+    used_paths_vec.erase(used_paths_vec.begin()+remove_nodepos_compact);
+   used_paths_vec[remove_nodepos_compact-1] = changed_used_path;
+}
+
+void HeuristicFramework::insert_a_node(Route &route, int node_pos_compact, int node_id)
+{
+    //veh_id and veh_type unchanged;
+    route.compact_route.insert(route.compact_route.begin() + node_pos_compact, node_id);
+    insert_used_path(route.used_paths_in_compact_route, node_pos_compact, 0, 0);
+    set_extended_route(route);
+    set_node_labels(route);
+    TimeWindowUpdater twupdater(route, nodeset);
+    twupdater.cal_route_tw();
+    twupdater.set_route_tw(route.route_deptw, route.route_arrtw);
+    route.route_arrtime.clear();
+    route.route_deptime.clear();
+    set_route_loads(route);
+    set_route_mileage(route);
+}
+
+void HeuristicFramework::remove_a_node(Route &route, int node_pos_compact)
+{
+    //veh_id and veh_type unchanged;
+    // int node_id = route.compact_route[node_pos_compact];
+    route.compact_route.erase(route.compact_route.begin() + node_pos_compact);
+    remove_used_path(route.used_paths_in_compact_route, node_pos_compact, 0);
+    set_extended_route(route);
+    set_node_labels(route);
+    TimeWindowUpdater twupdater(route, nodeset);
+    twupdater.cal_route_tw();
+    twupdater.set_route_tw(route.route_deptw, route.route_arrtw);
+    route.route_arrtime.clear();
+    route.route_deptime.clear();
+    set_route_loads(route);
+    set_route_mileage(route);
+}
+
+
+// int HeuristicFramework::cal_nodepos_loads(Route &route, int node_pos_in_compact_route)
+// {
+//     if(node_pos_in_compact_route > 0) //for starting depot
+//     {
+//         int load = route.route_load[node_pos_in_compact_route-1] + nodeset.demands[route.compact_route[node_pos_in_compact_route]];
+//         return load;
+//     }
+//     else //for nodes afterward
+//     {
+//         int load;
+//         for(int i = 1; i < route.compact_route.size()-1; i++)
+//         {
+//             int node_id = route.compact_route[i];
+//             load += (nodeset.demand_type[node_id] == 1) ? -nodeset.demands[node_id] : 0;
+//         }
+//         return load;
+//     }
+// }
+
+
+bool HeuristicFramework::check_load_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
+{
+    int vehcap = vehset.veh_cap[route.veh_id];
+    auto IsLoadFeas = [&](int node_load) -> bool {return node_load > 0 && node_load < vehcap;};
+    auto OneTrial = [&](int &load, int i) -> bool 
+    {
+        load += nodeset.demands[route.compact_route[i]];
+        if(!IsLoadFeas(load))
+        {
+            return false;
+        }
+    };
+    int nodedmd = nodeset.demands[insert_nodeid]; // <0
+    if(nodeset.demand_type[insert_nodeid] == 1) //delivery node
+    {
+        int init_load = route.route_load[0] - nodedmd;
+        for(int i = 1; i < insert_nodepos_compact; i++) //when i > insert_nodepos_compact, the load stays feasible
+        {
+            OneTrial(init_load, i);
+            // init_load += nodeset.demands[route.compact_route[i]];
+            // if(!IsLoadFeas(init_load))
+            // {
+            //     return false;
+            // }
+        }
+    }
+    else //pickup node; demand > 0
+    {
+        int init_load = route.route_load[insert_nodepos_compact] + nodedmd;
+        for(int i = insert_nodepos_compact; i < route.compact_route.size(); i++)
+        {
+            OneTrial(init_load, i);
+            // init_load += nodeset.demands[route.compact_route[i]];
+            // if(!IsLoadFeas(init_load))
+            // {
+            //     return false;
+            // }
+        }
+    }
+    return true;
+}
+
+bool HeuristicFramework::check_mileage_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
+{
+    int orig_usedpath_pos = route.used_paths_in_compact_route[insert_nodepos_compact-1];
+    double inc_cost = cal_insertion_cost(route.compact_route, insert_nodeid, insert_nodepos_compact, orig_usedpath_pos);
+    double new_cost = cal_route_total_dist(route) + inc_cost;
+    if(new_cost > vehset.max_range)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool HeuristicFramework::check_tw_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
+{
+    Route route_copy = route;
+    insert_a_node(route_copy, insert_nodepos_compact, insert_nodeid);
+    TimeWindowUpdater twupdater(route_copy, nodeset);
+    return twupdater.check_route_feasibility();
+}
+
+//calculate the insertion cost of a customer into a route at a given position -> between the starting and ending depot;
+double HeuristicFramework::cal_insertion_cost(vector<int> compact_route, int node, int pos, int orig_usedpath_pos)
+{
+    double cost;
+    if(pos < compact_route.size() && pos > 0) //insert the node in the middle of the route
+    {
+        double add_cost1 = nodeset.avail_path_set[compact_route[pos-1]][node][0].KSP_Dist;
+        double add_cost2 = nodeset.avail_path_set[node][compact_route[pos]][0].KSP_Dist;
+        double minus_cost = nodeset.avail_path_set[compact_route[pos-1]][compact_route[pos]][orig_usedpath_pos].KSP_Dist;
+        cost = add_cost1 + add_cost2 - minus_cost;
+    }
+    else //insert the node at the start or the end of the route -> cerr
+    {
+        cerr << "Wrong insertion position!";
+        cost = INF;
+    }
+    return cost;
+}
+
+//calculate the cheapest insertion cost of a customer into a route
+auto HeuristicFramework::cal_cheapest_insert_cost(vector<int> compact_route, vector<int> orig_usedpath_compact, int node)
+{
+    pair<double, int> cost_pos;  // a pair is created to store the cheapest insertion cost and the corresponding position of the node in the route
+    vector<double> all_insertion_costs;
+    for(int i = 1; i < compact_route.size(); i++) //the node cannot be inserted before the starting depot and ending depot
+    {
+        int usedpath_id = orig_usedpath_compact[i-1];
+        double cost = cal_insertion_cost(compact_route, node, i, usedpath_id);
+        all_insertion_costs.push_back(cost);
+    }
+    auto min_pos = min_element(all_insertion_costs.begin(), all_insertion_costs.end());
+    double min_cost = *min_pos;
+    int insert_pos = min_pos - all_insertion_costs.begin() + 1; //1 is for the starting depot
+    cost_pos = make_pair(min_cost,insert_pos);
+    return cost_pos;
+}
+
+//calculate the removal cost of a customer out of a route at a given position
+double HeuristicFramework::cal_removal_cost(vector<int> compact_route, vector<int> orig_usedpath_compact, int pos)
+{
+    double cost;
+    if(pos > 0 && pos < compact_route.size()-1) //remove the node in the middle of the route
+    {
+        double add_cost1 = nodeset.avail_path_set[compact_route[pos-1]][compact_route[pos]][orig_usedpath_compact[pos-1]].KSP_Dist;
+        double add_cost2 = nodeset.avail_path_set[compact_route[pos]][compact_route[pos+1]][orig_usedpath_compact[pos]].KSP_Dist;
+        double minus_cost = nodeset.avail_path_set[compact_route[pos-1]][compact_route[pos+1]][0].KSP_Dist; //initially, link by the shortest path
+        cost = add_cost1 + add_cost2 - minus_cost;
+    }
+    else //pos == 0 or pos == route.size()-1
+    {
+        cerr << "Error! You are removing the depot.";
+    }
+    return cost;
+}
+
+
+//get the best solution
+Solution HeuristicFramework::get_best_solution()
+{
+    return best_sol;
+}
+
+double HeuristicFramework::get_cputime()
+{
+    return cpu_time;
+    // double start = clock(); // get current time
+    // vector<int> uninserted_cus = cus_set;
+    // build_initial_sol(uninserted_cus);
+    // cpu_time = (clock() - start ) / (double) CLOCKS_PER_SEC;    
+}

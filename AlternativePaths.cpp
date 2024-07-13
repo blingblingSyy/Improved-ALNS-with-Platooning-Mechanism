@@ -32,7 +32,7 @@ void AlternativePaths::Dijsktra_body(vector<DijkstraOneSol> &SPset_fromstart, ve
         unvisited_nodes[i] = i;
     }
     
-    auto compare = [&](int s, int r) {return SPset_fromstart[s].SP_Dist < SPset_fromstart[r].SP_Dist;};
+    auto compare = [&](int s, int r) {return SPset_fromstart[s].KSP_Dist < SPset_fromstart[r].KSP_Dist;};
 
     //the main loop
     while(!unvisited_nodes.empty())
@@ -44,10 +44,10 @@ void AlternativePaths::Dijsktra_body(vector<DijkstraOneSol> &SPset_fromstart, ve
 
         for(int r = 0; r < unvisited_nodes.size(); r++)
         {
-            double alt_dist = SPset_fromstart[min_val].SP_Dist + input_distmat[min_val][unvisited_nodes[r]]; //label + actual distance for two adjacent 
-            if(alt_dist < SPset_fromstart[unvisited_nodes[r]].SP_Dist)
+            double alt_dist = SPset_fromstart[min_val].KSP_Dist + input_distmat[min_val][unvisited_nodes[r]]; //label + actual distance for two adjacent 
+            if(alt_dist < SPset_fromstart[unvisited_nodes[r]].KSP_Dist)
             {
-                SPset_fromstart[unvisited_nodes[r]].SP_Dist = alt_dist; //update labels for neighbourhood nodes
+                SPset_fromstart[unvisited_nodes[r]].KSP_Dist = alt_dist; //update labels for neighbourhood nodes
                 pred_fromstart[unvisited_nodes[r]] = min_val;  //update predecessors
             }
         }
@@ -64,15 +64,15 @@ DijkstraOneSol AlternativePaths::Dijkstra_OnePath(int start, int end, vector<vec
     for(int j = 0; j < node_num; j++)
     {
         if(j != start)
-            initial_SPsol[j].SP_Dist = INF;
+            initial_SPsol[j].KSP_Dist = INF;
         else //j == start
-            initial_SPsol[j].SP_Dist = 0;
+            initial_SPsol[j].KSP_Dist = 0;
     }
     
     Dijsktra_body(initial_SPsol, predecessors, input_distmat);
  
-    SP_Start_End.SP_Dist = initial_SPsol[end].SP_Dist;
-    SP_Start_End.SP_Path = generate_onepath(end, predecessors);
+    SP_Start_End.KSP_Dist = initial_SPsol[end].KSP_Dist;
+    SP_Start_End.KSP_Path = generate_onepath(end, predecessors);
 
     return SP_Start_End;
 }
@@ -89,9 +89,9 @@ void AlternativePaths::Dijkstra_AllPaths()
         for(int j = 0; j < node_num; j++)
         {
             if(j != i)
-                SP_AllPaths[i][j].SP_Dist = INF;
+                SP_AllPaths[i][j].KSP_Dist = INF;
             else //j == i
-                SP_AllPaths[i][j].SP_Dist = 0;
+                SP_AllPaths[i][j].KSP_Dist = 0;
         }
         
         Dijsktra_body(SP_AllPaths[i], predecessors, init_distmat);
@@ -99,8 +99,8 @@ void AlternativePaths::Dijkstra_AllPaths()
         //SP_from_i = generate_paths_tree(predecessors);
         for(int z = 0; z < node_num; z++)
         {
-            //SP_AllPaths[i][z].SP_Path = SP_from_i[z];
-            SP_AllPaths[i][z].SP_Path = generate_onepath(z, predecessors);
+            //SP_AllPaths[i][z].KSP_Path = SP_from_i[z];
+            SP_AllPaths[i][z].KSP_Path = generate_onepath(z, predecessors);
         }
     }
 }
@@ -151,19 +151,19 @@ vector<DijkstraOneSol> AlternativePaths::ModifiedYen_OnePath(int start_node, int
     SP1_Start_End = SP_AllPaths[start_node][end_node];
     KShortestPath_Start_End.push_back(SP1_Start_End); //the shortest path is put into A[]
     //define a compare operator to find the solution with the smallest distance in KDeviationPath_Start_End
-    auto compare = [&](int s, int r) {return KDeviationPath_Start_End[s].SP_Dist < KDeviationPath_Start_End[r].SP_Dist;};
+    auto compare = [&](int s, int r) {return KDeviationPath_Start_End[s].KSP_Dist < KDeviationPath_Start_End[r].KSP_Dist;};
     int k = 1;
     while(k < k_limit && KShortestPath_Start_End.size() == k) 
     //if KShortestPath_Start_End.size() < k, it means the last step does not generate any available k-shortest path, then the algorithm stops 
     {
         //generate the current SP by modifying the last SP
-        for(int i = 0; i < KShortestPath_Start_End[k-1].SP_Path.size()-1; i++) //for every path segment (deviation node) in the shortest path
+        for(int i = 0; i < KShortestPath_Start_End[k-1].KSP_Path.size()-1; i++) //for every path segment (deviation node) in the shortest path
         {
             DijkstraOneSol tempSP_Start_End;
             //find the disconnected path segment in the current Dijsktra solution
             vector<vector<double>> copy_distmat = init_distmat;
-            int start_seg = SP1_Start_End.SP_Path[i];
-            int end_seg = SP1_Start_End.SP_Path[i+1];
+            int start_seg = SP1_Start_End.KSP_Path[i];
+            int end_seg = SP1_Start_End.KSP_Path[i+1];
             //initialize the current path segment
             vector<int> old_path = {};
             double old_dist = 0;
@@ -180,18 +180,18 @@ vector<DijkstraOneSol> AlternativePaths::ModifiedYen_OnePath(int start_node, int
             //find whether there are common deviation node in other solutions in A[]
             for(int j = 0; j < KShortestPath_Start_End.size() && j != k-1; j++)
             {
-                for(int p = 0; p < KShortestPath_Start_End[j].SP_Path.size()-1; p++)
+                for(int p = 0; p < KShortestPath_Start_End[j].KSP_Path.size()-1; p++)
                 {
-                    if(KShortestPath_Start_End[j].SP_Path[p] == start_seg)
+                    if(KShortestPath_Start_End[j].KSP_Path[p] == start_seg)
                     {
-                        int anther_end_seg = KShortestPath_Start_End[j].SP_Path[p+1];
+                        int anther_end_seg = KShortestPath_Start_End[j].KSP_Path[p+1];
                         copy_distmat[start_seg][anther_end_seg] = INF;
                     }
                 }
             }
             //use Dijsktra to find a shortest path between start_seg and end_node based on the modified distance matrix
             DijkstraOneSol SPk_Start_End = Dijkstra_OnePath(start_seg, end_node, copy_distmat);
-            vector<int> new_path = SPk_Start_End.SP_Path;
+            vector<int> new_path = SPk_Start_End.KSP_Path;
             //check whether there are subtours in the path
             bool subtour = 0;
             for(int w = 0; w < new_path.size(); w++)
@@ -206,11 +206,11 @@ vector<DijkstraOneSol> AlternativePaths::ModifiedYen_OnePath(int start_node, int
             {
                 //path reconnection
                 old_path.insert(old_path.end(), new_path.begin(), new_path.end());
-                tempSP_Start_End.SP_Path = old_path;
+                tempSP_Start_End.KSP_Path = old_path;
                 //calculate distance
-                tempSP_Start_End.SP_Dist = old_dist + SPk_Start_End.SP_Dist;
+                tempSP_Start_End.KSP_Dist = old_dist + SPk_Start_End.KSP_Dist;
                 //evaluate distance - whether falls into coupling range
-                if(tempSP_Start_End.SP_Dist > SP1_Start_End.SP_Dist*10*1.0/9)
+                if(tempSP_Start_End.KSP_Dist > SP1_Start_End.KSP_Dist*10*1.0/9)
                 {
                     continue; //jump out the current "for" cycle
                 }
@@ -242,8 +242,8 @@ vector<DijkstraOneSol> AlternativePaths::ModifiedYen_OnePath(int start_node, int
 void AlternativePaths::ModifiedYen_AllPaths()
 {
     DijkstraOneSol empty_DijkstraSol;
-    empty_DijkstraSol.SP_Dist = 0;
-    empty_DijkstraSol.SP_Path = {};
+    empty_DijkstraSol.KSP_Dist = 0;
+    empty_DijkstraSol.KSP_Path = {};
     for(int i = 0; i < node_num; i++) //start_node
     {
         KSP_AllPaths[i].resize(node_num);
@@ -268,7 +268,7 @@ vector<vector<double>> AlternativePaths::get_Dijkstra_Dist_allpaths()
         SPdist_allpaths[i].resize(node_num);
         for(int j = 0; j < node_num; j++)
         {
-            SPdist_allpaths[i][j] = SP_AllPaths[i][j].SP_Dist;
+            SPdist_allpaths[i][j] = SP_AllPaths[i][j].KSP_Dist;
         }
     }
 }
@@ -280,7 +280,7 @@ DijkstraOneSol AlternativePaths::get_Dijkstra_onepath(int start_id, int end_id)
 
 double AlternativePaths::get_Dijkstra_Dist_onepath(int start_id, int end_id)
 {
-    return SP_AllPaths[start_id][end_id].SP_Dist;
+    return SP_AllPaths[start_id][end_id].KSP_Dist;
 }
 
 vector<vector<vector<DijkstraOneSol>>> AlternativePaths::get_alternatives_allpaths()
@@ -298,7 +298,7 @@ vector<double> AlternativePaths::get_alternatives_dist_onepath(int start_id, int
     vector<double> altdist_start_end;
     for(int i = 0; i < KSP_AllPaths[start_id][end_id].size(); i++)
     {
-        altdist_start_end.push_back(KSP_AllPaths[start_id][end_id][i].SP_Dist);
+        altdist_start_end.push_back(KSP_AllPaths[start_id][end_id][i].KSP_Dist);
     }
     return altdist_start_end;
 }
