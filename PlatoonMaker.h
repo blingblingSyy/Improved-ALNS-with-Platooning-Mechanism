@@ -69,6 +69,10 @@ class PlatoonMaker
         PlatoonMaker(Solution &sol, Nodes nodes);
         void set_arrdep_time_all_routes(); //set the arrival time of all nodes within all routes in the solution -> &cur_sol.sol_config[r]
         vector<CouplingArcSol> get_coupling_sol();  //a simple getter -> vector<CouplingArcSol>
+        vector<vector<int>> get_arrtw_after_platoon(int rid);
+        vector<vector<int>> get_deptw_after_platoon(int rid);
+        vector<int> get_arrtime_after_platoon(int rid);
+        vector<int> get_deptime_after_platoon(int rid);
         vector<vector<int>> get_unique_arcs_set(); //get the set of unique arcs in the solution
         int get_arc_appear_times(vector<int> input_arc); //get the total number of times that the arc appears in a solution
         double cal_arc_total_energy_len(vector<int> input_arc); //get the total length of a given arc -> including the total number of vehicles and total number of positions within each vehicle route

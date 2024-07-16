@@ -438,6 +438,21 @@ double HeuristicFramework::cal_route_total_dist(Route &route)
     return total_dist;
 }
 
+// //find the indices for the served nodes
+// vector<int> HeuristicFramework::find_servednode_id(vector<int> labels)
+// {
+//     vector<int> serve_idvec;
+//     auto routelen = labels.size();
+//     for(int i = 0; i < routelen; i++)
+//     {
+//         if(labels[i]) //label == 1: serve
+//         {
+//             serve_idvec.push_back(i);
+//         }
+//     }
+//     return serve_idvec;
+// }
+
 /*route feasibility check*/
 bool HeuristicFramework::check_load_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
 {
@@ -537,7 +552,17 @@ void HeuristicFramework::find_platoons_all_arcs(Solution &sol)
 
 void HeuristicFramework::build_complete_sol(Solution &sol)
 {
-    find_platoons_all_arcs(sol);
+    // find_platoons_all_arcs(sol);
+    PlatoonMaker plmaker(sol, nodeset);
+    sol.sol_platoons_all_arcs = plmaker.get_coupling_sol();
+    plmaker.set_arrdep_time_all_routes();
+    for(int i = 0; i < sol.sol_config.size(); i++)
+    {
+        sol.sol_config[i].route_arrtw = plmaker.get_arrtw_after_platoon(i);
+        sol.sol_config[i].route_deptw = plmaker.get_deptw_after_platoon(i);
+        sol.sol_config[i].route_arrtime = plmaker.get_arrtime_after_platoon(i);
+        sol.sol_config[i].route_deptime = plmaker.get_arrtime_after_platoon(i);
+    }
     sol.total_energy_related_dist = cal_sol_total_energy_dist_cost(sol);
     sol.total_trip_duration = cal_sol_total_trip_dur(sol);
     sol.total_unserved_requests = cal_sol_total_unserved_requests(sol);

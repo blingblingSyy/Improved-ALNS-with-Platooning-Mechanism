@@ -56,6 +56,8 @@ class HeuristicFramework
         int cal_route_delivery_dmd(Route &route);
         int cal_route_trip_dur(Route &route);
         double cal_route_total_dist(Route &route);
+        // vector<int> find_servednode_id(vector<int> labels); //find the indices for the served nodes
+
 
         /*route feasibility check*/
         bool check_load_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid);

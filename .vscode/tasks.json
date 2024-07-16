@@ -7,10 +7,15 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
+                // "${file}",
                 "${fileDirname}\\main.cpp",
-                "${fileDirname}\\DataDealer.cpp",
-                "${fileDirname}\\utility.cpp",
-                "${fileDirname}\\AlternativePaths.cpp",
+                // "${fileDirname}\\DataDealer.cpp",
+                // "${fileDirname}\\utility.cpp",
+                // "${fileDirname}\\AlternativePaths.cpp",
+                // "${fileDirname}\\TimeWindowUpdater.cpp",
+                // "${fileDirname}\\PlatoonMaker.cpp",
+                // "${fileDirname}\\HeuristicFramework.cpp",
+                // "${fileDirname}\\InitFeasSol.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],

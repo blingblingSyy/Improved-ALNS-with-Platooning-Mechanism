@@ -531,6 +531,26 @@ vector<CouplingArcSol> PlatoonMaker::get_coupling_sol()
     return coupling_arcs_sol;
 }
 
+vector<vector<int>> PlatoonMaker::get_arrtw_after_platoon(int rid)
+{
+    return cur_sol.sol_config[rid].route_arrtw;
+}
+
+vector<vector<int>> PlatoonMaker::get_deptw_after_platoon(int rid)
+{
+    return cur_sol.sol_config[rid].route_deptw;
+}
+
+vector<int> PlatoonMaker::get_arrtime_after_platoon(int rid)
+{
+    return cur_sol.sol_config[rid].route_arrtime;
+}
+
+vector<int> PlatoonMaker::get_deptime_after_platoon(int rid)
+{
+    return cur_sol.sol_config[rid].route_deptime;
+}
+
 //get the set of unique arcs in the solution
 vector<vector<int>> PlatoonMaker::get_unique_arcs_set()
 {
