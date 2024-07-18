@@ -635,7 +635,8 @@ Solution HeuristicFramework::get_best_solution()
     return best_sol;
 }
 
-double HeuristicFramework::get_cputime()
+vector<double> HeuristicFramework::get_cputime()
 {
+    vector<double> cpu_time = {cpu_time_before_platoon, cpu_time_after_platoon};
     return cpu_time;
 }

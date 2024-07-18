@@ -74,7 +74,7 @@ class BenchmarkInitializer: public DataMaster  //deal with both nodes and vehicl
         void extract_servetw();
         void extract_servicetime();
     public:
-        BenchmarkInitializer(string filepath);
+        BenchmarkInitializer(string filepath, bool modify_dist = true);
         int get_filerow();
         int get_veh_num();
         vector<int> get_veh_type();
@@ -111,10 +111,10 @@ class ResultWriter
         string file_path;
         Solution input_sol;
         string solution_stage;
-        double cpu;
+        vector<double> cpu;
         // vector<string> heu_names;
     public:
-        ResultWriter(string resultpath, string filename, Solution solution, double cpu_time, string stage_name);
+        ResultWriter(string resultpath, string filename, Solution solution, vector<double> cpu_time, string stage_name);
         void write_result();
         void record_solution();
 };

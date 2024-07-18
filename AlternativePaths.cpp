@@ -150,8 +150,6 @@ vector<DijkstraOneSol> AlternativePaths::ModifiedYen_OnePath(int start_node, int
     DijkstraOneSol SP1_Start_End;
     SP1_Start_End = SP_AllPaths[start_node][end_node];
     KShortestPath_Start_End.push_back(SP1_Start_End); //the shortest path is put into A[]
-    //define a compare operator to find the solution with the smallest distance in KDeviationPath_Start_End
-    auto compare = [&](int s, int r) {return KDeviationPath_Start_End[s].KSP_Dist < KDeviationPath_Start_End[r].KSP_Dist;};
     int k = 1;
     while(k < k_limit && KShortestPath_Start_End.size() == k) 
     //if KShortestPath_Start_End.size() < k, it means the last step does not generate any available k-shortest path, then the algorithm stops 
@@ -215,6 +213,7 @@ vector<DijkstraOneSol> AlternativePaths::ModifiedYen_OnePath(int start_node, int
                     continue; //jump out the current "for" cycle
                 }
                 //else: put the temporary solution in B[] if the solution did not appear before
+                //need to define == operator in struct Dijkstra Solution
                 if(find(KDeviationPath_Start_End.begin(), KDeviationPath_Start_End.end(), tempSP_Start_End) == KDeviationPath_Start_End.end())
                 {
                     KDeviationPath_Start_End.push_back(tempSP_Start_End);
@@ -226,6 +225,8 @@ vector<DijkstraOneSol> AlternativePaths::ModifiedYen_OnePath(int start_node, int
             }
         }
         //find the Dijsktra solution with the smallest distance in B[] and put it in A[]. Ties are broken for most intermediate nodes.
+        //define a compare operator to find the solution with the smallest distance in KDeviationPath_Start_End
+        auto compare = [&](DijkstraOneSol s, DijkstraOneSol r) {return s.KSP_Dist < r.KSP_Dist;};
         if(!KDeviationPath_Start_End.empty())
         {
             vector<DijkstraOneSol>::iterator iter = min_element(KDeviationPath_Start_End.begin(), KDeviationPath_Start_End.end(), compare);
@@ -271,6 +272,7 @@ vector<vector<double>> AlternativePaths::get_Dijkstra_Dist_allpaths()
             SPdist_allpaths[i][j] = SP_AllPaths[i][j].KSP_Dist;
         }
     }
+    return SPdist_allpaths;
 }
 
 DijkstraOneSol AlternativePaths::get_Dijkstra_onepath(int start_id, int end_id)

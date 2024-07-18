@@ -297,7 +297,7 @@ vector<vector<double>> DataMaster::get_init_distmat(vector<vector<double>> coord
         }
         init_dist[i][i] = 0;
     }
-    
+    return init_dist;
 }
 
 //modify the initial distance matrix by randomly disconnecting some direct links between two nodes
@@ -313,6 +313,7 @@ vector<vector<double>> DataMaster::modify_init_distmat(vector<vector<double>> in
             copy_dist[i][j] = (r.get_rflt() <= DISCONNECTION_PROB) ? INF : init_dist[i][j];
         }
     }
+    return copy_dist;
 }
 
 //find the neighbours of each node
@@ -366,13 +367,13 @@ vector<vector<int>> DataMaster::get_tvltw(vector<double> source_dist, int plan_h
 }
 
 /*BenchmarkInitializer: read and deal with the dataset in the file*/
-BenchmarkInitializer::BenchmarkInitializer(string filepath): DataMaster()
+BenchmarkInitializer::BenchmarkInitializer(string filepath, bool modify_dist): DataMaster()
 {
     filename = filepath;
     file_row = 0;
     countrows();
     readdata();
-    veh_num = data_vec[0][1];
+    veh_num = data_vec[0][0];
     veh_type = set_mavtype(veh_num, PAS_MAV_PROP);
     veh_cap = set_mavcap(veh_type);
     veh_waitlim = set_mavwlim(veh_type);
@@ -386,7 +387,7 @@ BenchmarkInitializer::BenchmarkInitializer(string filepath): DataMaster()
     match_mavset = set_matchmavs(node_type, veh_type);
     extract_coordinates(); //get coordinates
     initial_distmat = get_init_distmat(coordinates);
-    modified_distmat = modify_init_distmat(initial_distmat);
+    modified_distmat = (modify_dist) ? modify_init_distmat(initial_distmat) : initial_distmat;
     AlternativePaths altpathsets_obj(modified_distmat, node_num, ALTERSET_SIZE_K);
     SP_distmat = altpathsets_obj.get_Dijkstra_Dist_allpaths();
     altpath_sets = altpathsets_obj.get_alternatives_allpaths();
@@ -441,7 +442,7 @@ void BenchmarkInitializer::readdata()
             else  //i == 0
             {
                 data_vec[i].resize(3);
-                for(int j = 0; j < 2; j++)
+                for(int j = 0; j < 3; j++)
                 {
                     data_vec[i][j] = *it;
                     it++;
@@ -646,7 +647,7 @@ void BenchmarkInitializer::build_node_struct(struct Nodes &nodes, vector<int> ma
 
 
 /*ResultWriter: write the results to the result file*/
-ResultWriter::ResultWriter(string filepath, string filename, Solution solution, double cpu_time, string stage_name)
+ResultWriter::ResultWriter(string filepath, string filename, Solution solution, vector<double> cpu_time, string stage_name)
 {
     file_path = filepath;
     file_name = filename;
@@ -752,6 +753,8 @@ void ResultWriter::write_result()
     outfile << "total trip duration: " << input_sol.total_trip_duration << endl;
     outfile << "total unserved requests: " << input_sol.total_unserved_requests << endl;
     outfile << "total objective value: " << input_sol.total_obj_val << endl;
+    outfile << "CPU time before platooning: " << cpu[0] << endl;
+    outfile << "CPU time after platooning: " << cpu[1] << endl;
 
     outfile.close();
 }
@@ -766,6 +769,8 @@ void ResultWriter::record_solution()
     outfile << "total trip duration: " << input_sol.total_trip_duration << endl;
     outfile << "total unserved requests: " << input_sol.total_unserved_requests << endl;
     outfile << "total objective value: " << input_sol.total_obj_val << endl;
-    
+    outfile << "CPU time before platooning: " << cpu[0] << endl;
+    outfile << "CPU time after platooning: " << cpu[1] << endl;
+
     outfile.close();
 }

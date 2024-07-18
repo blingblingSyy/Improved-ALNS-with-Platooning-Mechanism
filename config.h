@@ -43,6 +43,12 @@ struct DijkstraOneSol
 {
     double KSP_Dist;
     vector<int> KSP_Path;  //from start node to every other nodes
+
+    bool operator ==(const DijkstraOneSol& other) const 
+    {
+        if (KSP_Dist != other.KSP_Dist) return false; 
+        return KSP_Path == other.KSP_Path;
+    }
 };
 
 // //store Dijkstra Solution from a source node to all other nodes

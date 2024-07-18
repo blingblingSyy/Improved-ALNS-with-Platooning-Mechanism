@@ -25,7 +25,8 @@ InitFeasSol::InitFeasSol(Nodes &nodes, Vehicles &vehs): HeuristicFramework(nodes
     {
         veh_id_set.push_back(v);
     }
-    cpu_time = 0;
+    cpu_time_before_platoon = 0;
+    cpu_time_after_platoon = 0;
 }
 
 //build a new route with randomly selected node from the set of uninserted customers -> mainly focus on whether vehicle type and customer type match
@@ -195,6 +196,8 @@ Route InitFeasSol::build_new_compact_route(vector<int> &remain_cus_id, vector<in
 //create an initial solution for all customers
 void InitFeasSol::build_initial_sol(vector<int> &unserved_cus_id, vector<int> &unused_vehs_id)
 {
+    double start = clock(); // get current time
+    
     //unserved_cus = cus_set; unused_vehs = veh_set;
     while(!unserved_cus_id.empty() && !unused_vehs_id.empty())
     {
@@ -244,15 +247,17 @@ void InitFeasSol::build_initial_sol(vector<int> &unserved_cus_id, vector<int> &u
             cerr << "No initial solution can be built from the given set of customers and vehicles.";
             break;
         }
+        cpu_time_before_platoon = (clock() - start ) / (double) CLOCKS_PER_SEC;
     }
     build_complete_sol(best_sol);
+    cpu_time_after_platoon = (clock() - start ) / (double) CLOCKS_PER_SEC;
 }
 
 void InitFeasSol::run_algorithm()
 {
-    double start = clock(); // get current time
+    // double start = clock(); // get current time
     vector<int> uninserted_cus = cus_id_set;
     vector<int> unused_vehs = veh_id_set;
     build_initial_sol(uninserted_cus, unused_vehs);
-    cpu_time = (clock() - start ) / (double) CLOCKS_PER_SEC;
+    // cpu_time = (clock() - start ) / (double) CLOCKS_PER_SEC;
 }

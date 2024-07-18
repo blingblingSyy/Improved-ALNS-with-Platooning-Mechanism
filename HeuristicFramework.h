@@ -17,7 +17,8 @@ class HeuristicFramework
         //variables
         Nodes nodeset;
         Vehicles vehset;
-        double cpu_time;
+        double cpu_time_before_platoon;
+        double cpu_time_after_platoon;
         Solution best_sol;
 
         //build struct data
@@ -87,7 +88,7 @@ class HeuristicFramework
         //for algorithm running
         virtual void run_algorithm() = 0; //run the heuristic and record the cpu time
         Solution get_best_solution(); //get the best solution
-        double get_cputime();
+        vector<double> get_cputime();
 };
 
 #endif
