@@ -36,6 +36,7 @@ const double PAS_REQ_PROP = 0.5;    //ratio of passenger requests
 const double INTERSECTIONS_PROB = 0.3; //probability of changing a node to be an intersection
 const double DISCONNECTION_PROB = 0.3; //probability of disconnecting the direct link between a given pair of nodes
 const int VTYPE = 2;
+const int modify_pasdmd_amount = 10;
 
 
 //store one Dijkstra Solution
@@ -90,6 +91,7 @@ struct Nodes
     vector<int> demands;    //demands for each node, negative demands represent delivery requests
     vector<int> demand_type;    //0 - pickup; 1 - delivery
     // vector<vector<int>> demand_pair; //no noed to distinguish pickup demands and delivery demands of the same node
+    vector<vector<double>> coordinates; //coordinate of each node
     vector<vector<int>> neighbours; //ajacent nodes of a given node
     vector<vector<double>> initial_distmat; //initial distance matrix between any two nodes
     vector<vector<int>> initial_timemat; //initial travel time matrix between any two nodes
@@ -125,6 +127,23 @@ struct CouplingArcSol
     vector<vector<pair<int, int>>> platoons_config_on_arc; //the configuration of platoons formed on this arc -> each platoon contains a set of vehicles
     double energy_saving; //the overlapped departure time windows of the start node of the arc for each platoon
     vector<vector<int>> overlaped_deptw_startnode; //the overlapped departure time windows of the start node of the arc for each platoon
+
+    bool operator ==(const CouplingArcSol& other) const 
+    {
+        if (thisarc != other.thisarc) return false; 
+        return platoons_config_on_arc == other.platoons_config_on_arc;
+    }
+
+    bool operator <(const CouplingArcSol& other) const 
+    {
+        return energy_saving < other.energy_saving;
+    }
+    
+    bool operator >(const CouplingArcSol& other) const 
+    {
+        return energy_saving > other.energy_saving;
+    }
+    
 };
 
 struct Route 

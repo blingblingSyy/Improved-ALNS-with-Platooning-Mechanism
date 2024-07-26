@@ -30,6 +30,11 @@ class PlatoonMaker
             vector<int> common_vehs; //{0,1,2}
             vector<int> routes_id; //{3,4,5}
             vector<vector<int>> arc_all_pos; //{{}, {}, {}}
+
+            bool operator ==(const CouplingArc& other) const 
+            {
+                return thisarc == other.thisarc;
+            }
         };
         vector<CouplingArc> unique_arcs_config;
         vector<CouplingArcSol> coupling_arcs_sol; //all coupling cases for all arcs of the current solution
@@ -47,7 +52,7 @@ class PlatoonMaker
         vector<pair<int, int>> build_graph_node_set(CouplingArc input_arc_config); //build the node set for the pairwise feasibility graph for a given arc
         // vector<vector<pair<int, int>>> build_pairwise_feasibility_graph(vector<int> input_arc, vector<int> used_routes, vector<int> correspond_arc_pos); //build pairwise feasibility graph for a given arc
         vector<vector<bool>> build_pairwise_feasibility_graph(vector<pair<int, int>> &graph_nodes, vector<Route> &sol_config_copy); //build pairwise feasibility graph for a given arc
-        void process_neighbor_in_set(int input_u, vector<int> &input_set, vector<vector<bool>> &pair_feas_graph, bool keep_or_not);
+        vector<int> process_neighbor_in_set(int input_u, vector<int> input_set, vector<vector<bool>> &pair_feas_graph, bool keep_or_not);
         void BronKerbosch(vector<int> Rset, vector<int> Pset, vector<int> Xset, vector<vector<bool>> &pair_feas_graph, vector<vector<int>> &maximal_cliques_set); //Bron-Kerbosch algorithm -> find all maximal cliques
         vector<pair<int, int>> transform_id_graphnode(vector<int> &clique_idset, vector<pair<int, int>> &graph_nodes);
         vector<vector<int>> BK_maximal_cliques_idset(vector<pair<int, int>> &graph_nodes, vector<vector<bool>> &pair_feas_graph);

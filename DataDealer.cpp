@@ -150,7 +150,7 @@ vector<int> DataMaster::randdemand(vector<int> nodetype)
 }
 
 //modify demands according to node types by setting demands
-void DataMaster::modify_demand(vector<int> &initial_dmd, vector<int> nodetype)
+void DataMaster::modify_demand(vector<int> &initial_dmd, vector<int> nodetype, bool modify_pasdmd)
 {
     int nodenum = nodetype.size();
     for(int i = 0; i < nodenum; i++)
@@ -160,14 +160,23 @@ void DataMaster::modify_demand(vector<int> &initial_dmd, vector<int> nodetype)
             initial_dmd[i] = 0;
         }
     }
+    if(modify_pasdmd)
+    {
+        for(int i = 0; i < nodenum; i++)
+        {
+            if(nodetype[i] == 0)
+            {
+                initial_dmd[i] = int(ceil(initial_dmd[i]*1.0 / 10));
+            }
+        }
+    }
 }
 
 //set the demand type for each node based on the node types and the demands
 vector<int> DataMaster::set_demand_type(vector<int> demands, vector<int> nodetype)
 {
-    vector<int> dmd_type; //0: pickup nodes; 1: delivery nodes; 2: depot or intersections
-    int nodenum = nodetype.size();
-    for(int i = 0; i < nodenum; i++)
+    vector<int> dmd_type(nodetype.size()); //0: pickup nodes; 1: delivery nodes; 2: depot or intersections
+    for(int i = 0; i < nodetype.size(); i++)
     {
         if(nodetype[i] != 2)
         {
@@ -291,11 +300,18 @@ vector<vector<double>> DataMaster::get_init_distmat(vector<vector<double>> coord
     for(int i = 0; i < nodenum; i++)
     {
         init_dist[i].resize(nodenum);
-        for(int j = 0; j < nodenum && j != i; j++)
+        for(int j = i+1; j < nodenum && j > i; j++)
         {
             init_dist[i][j] = cal_euclid_dist(coordinates[i], coordinates[j]);
         }
         init_dist[i][i] = 0;
+    }
+    for(int i = 0; i < nodenum; i++)
+    {
+        for(int j = 0; j < i; j++)
+        {
+            init_dist[i][j] = init_dist[j][i];
+        }
     }
     return init_dist;
 }
@@ -306,11 +322,12 @@ vector<vector<double>> DataMaster::modify_init_distmat(vector<vector<double>> in
     int nodenum = init_dist.size();
     vector<vector<double>> copy_dist = init_dist;
     RandomNumber r;
-    for(int i = 0; i < nodenum; i++)
+    for(int i = 0; i < nodenum-1; i++)
     {
-        for(int j = 0; j < nodenum && j != i; j++)
+        for(int j = i+1; j < nodenum; j++)
         {
             copy_dist[i][j] = (r.get_rflt() <= DISCONNECTION_PROB) ? INF : init_dist[i][j];
+            copy_dist[j][i] = copy_dist[i][j];
         }
     }
     return copy_dist;
@@ -359,6 +376,7 @@ vector<vector<int>> DataMaster::get_tvltw(vector<double> source_dist, int plan_h
         if(plan_horizon - source_time <= 0 + source_time)
         {
             cerr << "Infeasible travel time window of node "<< i << endl;
+            tvl_tw[i] = {0, 0};
         }
         else
             tvl_tw[i] = {0 + source_time, plan_horizon - source_time};  //by default, the starting time of the planning horizon is 0
@@ -367,7 +385,7 @@ vector<vector<int>> DataMaster::get_tvltw(vector<double> source_dist, int plan_h
 }
 
 /*BenchmarkInitializer: read and deal with the dataset in the file*/
-BenchmarkInitializer::BenchmarkInitializer(string filepath, bool modify_dist): DataMaster()
+BenchmarkInitializer::BenchmarkInitializer(string filepath, bool add_intersects, bool modify_dist, bool modify_pasdmd): DataMaster()
 {
     filename = filepath;
     file_row = 0;
@@ -381,18 +399,50 @@ BenchmarkInitializer::BenchmarkInitializer(string filepath, bool modify_dist): D
     max_dist = MAX_DIST;
     pl_max = PLEN_MAX;
     node_num = file_row-1;
-    node_type = set_nodetype(node_num, PAS_REQ_PROP, true);
+    node_type = {2, 2, 2, 0, 1, 2, 0}; //set_nodetype(node_num, PAS_REQ_PROP, add_intersects); //{2, 2, 2, 0, 1, 2, 0} for test1.txt
     extract_demands(node_type); //get demands
+    modify_demand(demands, node_type, modify_pasdmd);
     dmd_type = set_demand_type(demands, node_type);
     match_mavset = set_matchmavs(node_type, veh_type);
     extract_coordinates(); //get coordinates
     initial_distmat = get_init_distmat(coordinates);
     modified_distmat = (modify_dist) ? modify_init_distmat(initial_distmat) : initial_distmat;
+
+    //self-defined data for test1.txt (deleted later)
+    modified_distmat[0][2] = INF;
+    modified_distmat[0][3] = INF;
+    modified_distmat[0][6] = INF;
+    modified_distmat[1][3] = INF;
+    modified_distmat[1][4] = INF;
+    modified_distmat[1][5] = INF;
+    modified_distmat[1][6] = INF;
+    modified_distmat[2][0] = INF;
+    modified_distmat[2][5] = INF;
+    modified_distmat[2][6] = INF;
+    modified_distmat[3][0] = INF;
+    modified_distmat[3][1] = INF;
+    modified_distmat[3][4] = INF;
+    modified_distmat[3][5] = INF;
+    modified_distmat[3][6] = INF;
+    modified_distmat[4][1] = INF;
+    modified_distmat[4][3] = INF;
+    modified_distmat[4][5] = INF;
+    modified_distmat[4][6] = INF;
+    modified_distmat[5][1] = INF;
+    modified_distmat[5][2] = INF;
+    modified_distmat[5][3] = INF;
+    modified_distmat[5][4] = INF;
+    modified_distmat[6][0] = INF;
+    modified_distmat[6][1] = INF;
+    modified_distmat[6][2] = INF;
+    modified_distmat[6][3] = INF;
+    modified_distmat[6][4] = INF;
+
     AlternativePaths altpathsets_obj(modified_distmat, node_num, ALTERSET_SIZE_K);
     SP_distmat = altpathsets_obj.get_Dijkstra_Dist_allpaths();
     altpath_sets = altpathsets_obj.get_alternatives_allpaths();
     neighbours = get_neighbours(modified_distmat, node_num);
-    travel_tw = get_tvltw(SP_distmat[0], data_vec[1][5], veh_speed);
+    travel_tw = get_tvltw(SP_distmat[0], data_vec[1][5], veh_speed); //data_vec[1][5]: planning horizon
     extract_servetw(); //get modified service time windows for each node
     extract_servicetime(); //get service time for each node
 }
@@ -459,7 +509,6 @@ void BenchmarkInitializer::extract_demands(vector<int> nodetype)
     {
         demands.push_back(data_vec[i][3]); //the first node is depot
     }
-    modify_demand(demands, nodetype);
 }
 
 //extract coordinates from the benchmark data
@@ -613,8 +662,9 @@ vector<int> BenchmarkInitializer::get_service_time()
 }
 
 //initialize the amv structure
-void BenchmarkInitializer::build_mav_struct(struct Vehicles &mavs)
+Vehicles BenchmarkInitializer::get_mav_struct()
 {
+    Vehicles mavs;
     //initialize the information of mav_set
     mavs.veh_num = this->veh_num;
     mavs.veh_speed = this->veh_speed;
@@ -623,15 +673,18 @@ void BenchmarkInitializer::build_mav_struct(struct Vehicles &mavs)
     mavs.veh_type = this->veh_type;
     mavs.veh_cap = this->veh_cap;
     mavs.wait_lim = this->veh_waitlim;
+    return mavs;
 }
 
 //initialize the node structure
-void BenchmarkInitializer::build_node_struct(struct Nodes &nodes, vector<int> mav_type)
+Nodes BenchmarkInitializer::get_node_struct()
 {
+    Nodes nodes;
     nodes.nodenum = this->node_num;
     nodes.nodetype = this->node_type;
     nodes.demands = this->demands;
     nodes.demand_type = this->dmd_type;
+    nodes.coordinates = this->coordinates;
     nodes.neighbours = this->neighbours;
     nodes.initial_distmat = this->initial_distmat;
     nodes.initial_timemat = get_init_tvltime(nodes.initial_distmat, this->node_num, this->veh_speed);
@@ -643,6 +696,7 @@ void BenchmarkInitializer::build_node_struct(struct Nodes &nodes, vector<int> ma
     nodes.service_time = this->servetime_const;
     nodes.match_mav = this->match_mavset;
     nodes.service_rate = set_serverate(node_type);
+    return nodes;
 }
 
 

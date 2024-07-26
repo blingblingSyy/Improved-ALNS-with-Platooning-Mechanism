@@ -26,6 +26,7 @@ class TimeWindowUpdater
         void set_sertw_route();
         void set_st_route();
         void cal_threshold_nodenum(); //calculate the threshold node number to use the total waiting time per node instead of the waiting time for the whole route
+        int cal_wait_time_budget(int nodes_involved);
         int cal_nectime(int start_pos, int end_pos, bool not_serve_end_node); //calculate the necessary time between two given nodes in a route
         int cal_maxtime(int start_pos, int end_pos, bool not_serve_end_node); //calculate the maximum allowable time between two given nodes in a route
         
@@ -57,7 +58,7 @@ class TimeWindowUpdater
         vector<int> get_infeasible_nodepos(); //a simple getter
         
         /*modify the time windows based on a modified time window of a given arc*/
-        void modify_route_tw(int arc_start_pos, vector<int> overlap_dep_tw); //modify the arrival and departure time windows for a route given a modified departure time window for a node //..., vector<vector<int>> &route_deptw, vector<vector<int>> &route_arrtw
+        void calibrate_route_tw(int arc_start_pos, vector<int> overlap_dep_tw); //modify the arrival and departure time windows for a route given a modified departure time window for a node //..., vector<vector<int>> &route_deptw, vector<vector<int>> &route_arrtw
         
         /*calculate the actual arrival, departure, waiting time at a node*/
         int cal_waiting_pernode(int nodepos, int arrtime_pos, int deptime_pos); //calculate the actual waiting time spent at a given node in a route

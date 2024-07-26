@@ -43,6 +43,7 @@ class HeuristicFramework
         void remove_used_path(vector<int> &used_paths_vec, int remove_nodepos_compact, int changed_used_path);
         void modify_route_insert_node(Route &route, int node_pos_compact, int node_id);
         void modify_route_remove_node(Route &route, int node_pos_compact);
+        bool modify_route_used_path(Route &route, int modify_arcpos_compact, int modified_usedpath_id);
         // bool insert_check_module(Route &route, int node_pos_compact, int node_id);
         // bool remove_check_module(Route &route, int node_pos_compact);
         // void complete_modified_route(Route &route);
@@ -67,6 +68,8 @@ class HeuristicFramework
         bool check_tw_remove_feas(Route &route, int remove_nodepos_compact);
         bool check_route_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid);
         bool check_route_remove_feas(Route &route, int remove_nodepos_compact);
+        bool check_route_subtour(Route &route); //check whether the route contains subtours
+        bool check_route_modify_usedpath_feas(Route &route, int modify_arcpos_compact, int modified_usedpath_id);
 
         /*building a solution*/
         void find_platoons_all_arcs(Solution &sol);

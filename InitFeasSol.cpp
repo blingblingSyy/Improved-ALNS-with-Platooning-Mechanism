@@ -19,7 +19,10 @@ InitFeasSol::InitFeasSol(Nodes &nodes, Vehicles &vehs): HeuristicFramework(nodes
 {
     for(int i = 0; i < nodeset.nodenum; i++)
     {
-        cus_id_set.push_back(i);
+        if(nodes.nodetype[i] != 2)
+        {
+            cus_id_set.push_back(i);
+        }
     }
     for(int v = 0; v < vehs.veh_num; v++)
     {
@@ -138,9 +141,14 @@ Route InitFeasSol::build_new_compact_route(vector<int> &remain_cus_id, vector<in
 {
     int init_vehid = -1, init_vehtype = -1; vector<int> init_compact_route = {0, 0};
     Route init_route = build_new_route_struct(init_vehid, init_vehtype, init_compact_route);
-    auto FailTrial = [&]() -> Route {return init_route;};
+    Route init_route_copy = init_route;
+    auto FailTrial = [&]() -> Route {return init_route_copy;};
     auto OneTrial = [&](auto cus_it, auto veh_it) -> Route
     {
+        int route_veh_id = (*veh_it);
+        int route_veh_type = nodeset.nodetype[(*cus_it)];
+        init_route.veh_id = route_veh_id;
+        init_route.veh_type = route_veh_type;
         bool isfeas = check_route_insert_feas(init_route, 1, (*cus_it));
         if(!isfeas)
         {
@@ -148,10 +156,6 @@ Route InitFeasSol::build_new_compact_route(vector<int> &remain_cus_id, vector<in
         }
         else
         {
-            int route_veh_id = (*veh_it);
-            int route_veh_type = nodeset.nodetype[(*cus_it)];
-            init_route.veh_id = route_veh_id;
-            init_route.veh_type = route_veh_type;
             modify_route_insert_node(init_route, 1, (*cus_it));
             set_route_loads(init_route);
             set_route_mileage(init_route); //not setting the time
@@ -162,20 +166,20 @@ Route InitFeasSol::build_new_compact_route(vector<int> &remain_cus_id, vector<in
     };
     if(remain_cus_id.empty() || remain_vehs_id.empty()) //if any set is empty, return no new route
     {
-        FailTrial();
+        return FailTrial();
     }
     else //if neither set is empty, do the following
     {
-        //randomly pick a customer to be inserted
+        //randomly pick a customer to be inserted (note that the customer should not have nodetype of 2, which is for the intersection)
         RandomNumber r;
-        int pick_pos = r.get_rint(0, static_cast<int>(remain_cus_id.size())-1);
+        int pick_pos = 0; //r.get_rint(0, static_cast<int>(remain_cus_id.size())-1);
         int cus_type = nodeset.nodetype[remain_cus_id[pick_pos]];
         //after picking the customer, check whether there are lefting vehicles of the same type as the customer type to be inserted
         vector<int>::iterator veh_it = find_if(remain_vehs_id.begin(), remain_vehs_id.end(), [&](int x) -> bool {return vehset.veh_type[x] == cus_type;});
         if(veh_it != remain_vehs_id.end())  //there are at least one vehicle of the same type as the chosen customer
         {
             auto cus_it = remain_cus_id.begin() + pick_pos;
-            OneTrial(cus_it, veh_it);
+            return OneTrial(cus_it, veh_it);
         }
         else //there are no lefting vehicles of the same type as the selected customer type -> change a customer to create a new route
         {
@@ -183,14 +187,15 @@ Route InitFeasSol::build_new_compact_route(vector<int> &remain_cus_id, vector<in
             if(new_cus_it != remain_cus_id.end())
             {
                 auto new_veh_it = remain_vehs_id.begin();
-                OneTrial(new_cus_it, new_veh_it);
+                return OneTrial(new_cus_it, new_veh_it);
             }
             else //this means that the remaining customers and vehicles are incompatible
             {
-                FailTrial();
+                return FailTrial();
             }
         }
     }
+    // return init_route;
 }
 
 //create an initial solution for all customers
@@ -241,14 +246,23 @@ void InitFeasSol::build_initial_sol(vector<int> &unserved_cus_id, vector<int> &u
             }
             set_route_arrdep_tw(new_route_config);
             best_sol.sol_config.push_back(new_route_config);
-        }
+        } 
         else //in case that the remaining customers and vehicles are incompatible
         {
             cerr << "No initial solution can be built from the given set of customers and vehicles.";
             break;
         }
-        cpu_time_before_platoon = (clock() - start ) / (double) CLOCKS_PER_SEC;
     }
+
+    //need to be deleted later
+    best_sol.sol_config[1].used_paths_in_compact_route = {1,1};
+    set_extended_route(best_sol.sol_config[1]);
+    set_node_labels(best_sol.sol_config[1]);
+    TimeWindowUpdater twupdater(best_sol.sol_config[1], nodeset);
+    twupdater.cal_route_tw();
+    twupdater.set_route_tw(best_sol.sol_config[1].route_deptw, best_sol.sol_config[1].route_arrtw);
+
+    cpu_time_before_platoon = (clock() - start ) / (double) CLOCKS_PER_SEC;
     build_complete_sol(best_sol);
     cpu_time_after_platoon = (clock() - start ) / (double) CLOCKS_PER_SEC;
 }

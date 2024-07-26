@@ -20,7 +20,7 @@ class DataMaster
     //setting nodes
     vector<int> set_nodetype(int node_num, double prob, bool add_intersects);
     vector<int> randdemand(vector<int> nodetype);
-    void modify_demand(vector<int> &initial_dmd, vector<int> nodetype);
+    void modify_demand(vector<int> &initial_dmd, vector<int> nodetype, bool modify_pasdmd);
     vector<int> set_demand_type(vector<int> demands, vector<int> nodetype);
     vector<int> set_sertime_const(vector<int> node_type);
     vector<double> set_serverate(vector<int> node_type);
@@ -74,7 +74,7 @@ class BenchmarkInitializer: public DataMaster  //deal with both nodes and vehicl
         void extract_servetw();
         void extract_servicetime();
     public:
-        BenchmarkInitializer(string filepath, bool modify_dist = true);
+        BenchmarkInitializer(string filepath, bool add_intersects = true, bool modify_dist = true, bool modify_pasdmd = true);
         int get_filerow();
         int get_veh_num();
         vector<int> get_veh_type();
@@ -97,8 +97,8 @@ class BenchmarkInitializer: public DataMaster  //deal with both nodes and vehicl
         vector<vector<int>> get_travel_tw();
         vector<vector<int>> get_service_tw();
         vector<int> get_service_time();
-        void build_mav_struct(struct Vehicles &mavs);
-        void build_node_struct(struct Nodes &nodes, vector<int> mav_type);
+        Vehicles get_mav_struct();
+        Nodes get_node_struct();
 };
 
 

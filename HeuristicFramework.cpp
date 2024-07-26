@@ -73,6 +73,8 @@ Route HeuristicFramework::build_new_route_struct(int &input_veh_id, int &input_v
     new_route.veh_type = input_veh_type;
     new_route.compact_route = input_compact_route;
     init_used_paths_in_compact_route(new_route);
+    set_route_loads(new_route);
+    set_route_mileage(new_route);
     return new_route;
 }
 
@@ -80,7 +82,7 @@ Route HeuristicFramework::build_new_route_struct(int &input_veh_id, int &input_v
 void HeuristicFramework::init_used_paths_in_compact_route(Route &route)
 {
     int path_size = route.compact_route.size() - 1;
-    if(path_size > 1)
+    if(path_size > 0)
     {
         vector<int> used_paths_vec(path_size, 0);
         route.used_paths_in_compact_route = used_paths_vec;        
@@ -95,15 +97,15 @@ void HeuristicFramework::set_used_paths(Route &route, int compact_nodepos, int u
 
 void HeuristicFramework::set_extended_route(Route &route)
 {
+    route.extended_route.clear();
     vector<vector<int>> extended_route_set;
     for(int i = 0; i < route.compact_route.size()-1; i++)
     {
+        int node1 = route.compact_route[i];
+        int node2 = route.compact_route[i+1];
         int used_path_id = route.used_paths_in_compact_route[i];
-        for(int j = 0; j < route.compact_route.size(); j++)
-        {
-            vector<int> ij_used_path = nodeset.avail_path_set[i][j][used_path_id].KSP_Path;
-            extended_route_set.push_back(ij_used_path);
-        }
+        vector<int> ij_used_path = nodeset.avail_path_set[node1][node2][used_path_id].KSP_Path;
+        extended_route_set.push_back(ij_used_path);
     }
     route.extended_route.insert(route.extended_route.end(), extended_route_set[0].begin(), extended_route_set[0].end());
     for(int s = 1; s < extended_route_set.size(); s++)
@@ -114,33 +116,34 @@ void HeuristicFramework::set_extended_route(Route &route)
 
 void HeuristicFramework::set_node_labels(Route &route)
 {
+    route.node_labels.clear();
     vector<vector<int>> node_labels_set;
     for(int i = 0; i < route.compact_route.size()-1; i++)
     {
+        int node1 = route.compact_route[i];
+        int node2 = route.compact_route[i+1];
         int used_path_id = route.used_paths_in_compact_route[i];
-        for(int j = 0; j < route.compact_route.size(); j++)
+        vector<int> ij_used_path = nodeset.avail_path_set[node1][node2][used_path_id].KSP_Path;
+        vector<int> node_labels_vec;
+        for(int p = 0; p < ij_used_path.size(); p++)
         {
-            vector<int> ij_used_path = nodeset.avail_path_set[i][j][used_path_id].KSP_Path;
-            vector<int> node_labels_vec;
-            for(int p = 0; p < ij_used_path.size(); p++)
+            if(p == ij_used_path.size()-1)
             {
-                if(p == 0 || p == ij_used_path.size()-1)
-                {
-                    node_labels_vec.push_back(1);
-                }
-                else
-                {
-                    node_labels_vec.push_back(0);
-                }
+                node_labels_vec.push_back(1);
             }
-            node_labels_set.push_back(node_labels_vec);
+            else
+            {
+                node_labels_vec.push_back(0);
+            }
         }
+        node_labels_set.push_back(node_labels_vec);
     }
     route.node_labels.insert(route.node_labels.end(), node_labels_set[0].begin(), node_labels_set[0].end());
     for(int s = 1; s < node_labels_set.size(); s++)
     {
         route.node_labels.insert(route.node_labels.end(), node_labels_set[s].begin()+1, node_labels_set[s].end());
     }
+    route.node_labels[route.node_labels.size()-1] = 0;
 }
 
 void HeuristicFramework::set_route_arrdep_tw(Route &route)
@@ -193,7 +196,8 @@ void HeuristicFramework::remove_used_path(vector<int> &used_paths_vec, int remov
     used_paths_vec[remove_nodepos_compact-1] = changed_used_path;
 }
 
-void HeuristicFramework::modify_route_insert_node(Route &route, int node_pos_compact, int node_id)
+//should also consider the case of inserting multiple nodes together? -> but in reality, nodes are inserted one by one -> still, the feasibility check and the actual insertion or removal operation should be seperate and independent, otherwise the cal_cheapest_cost will be problematic
+void HeuristicFramework::modify_route_insert_node(Route &route, int node_pos_compact, int node_id) 
 {
     //veh_id and veh_type unchanged;
     route.compact_route.insert(route.compact_route.begin() + node_pos_compact, node_id);
@@ -213,6 +217,7 @@ void HeuristicFramework::modify_route_insert_node(Route &route, int node_pos_com
     // set_route_mileage(route);
 }
 
+//add later: should also consider the case of removing multiple nodes together
 void HeuristicFramework::modify_route_remove_node(Route &route, int node_pos_compact)
 {
     //veh_id and veh_type unchanged;
@@ -232,6 +237,38 @@ void HeuristicFramework::modify_route_remove_node(Route &route, int node_pos_com
     route.route_mileage.clear();
     // set_route_loads(route);
     // set_route_mileage(route);
+}
+
+bool HeuristicFramework::modify_route_used_path(Route &route, int modify_arcpos_compact, int modified_usedpath_id) //may be revised later -> seperate the feasibility check and the actual modification?
+{
+    Route routecopy = route;
+    routecopy.used_paths_in_compact_route[modify_arcpos_compact] = modified_usedpath_id;
+    set_extended_route(routecopy);
+    set_node_labels(routecopy);
+
+    TimeWindowUpdater twupdater(routecopy, nodeset);
+    twupdater.cal_route_tw();
+    bool istimefeas = twupdater.check_route_feasibility();
+    //bool isdistfeas = check_mileage_insert_feas -> this only consider the feasibility of inserting a node rather than modifying a used path
+
+    bool isdistfeas;
+    int node1 = route.compact_route[modify_arcpos_compact];
+    int node2 = route.compact_route[modify_arcpos_compact+1];
+    double orig_usedpath = route.used_paths_in_compact_route[modify_arcpos_compact];
+    double orig_dist = nodeset.avail_path_set[node1][node2][orig_usedpath].KSP_Dist;
+    double new_dist = nodeset.avail_path_set[node1][node2][modified_usedpath_id].KSP_Dist;
+    isdistfeas = (route.route_mileage[route.compact_route.size()-1] + new_dist - orig_dist) <= vehset.max_range;
+
+    if(istimefeas && isdistfeas)
+    {
+        route = routecopy;
+        twupdater.set_route_tw(route.route_deptw, route.route_arrtw);
+        return true;
+    }
+    else
+    {
+        return false; //the route is not changed
+    }
 }
 
 // bool HeuristicFramework::insert_check_module(Route &route, int node_pos_compact, int node_id)
@@ -354,11 +391,11 @@ pair<double, int> HeuristicFramework::cal_cheapest_insert_cost(Route &route, int
         // TimeWindowUpdater twupdater(route_copy, nodeset);
         // twupdater.cal_route_tw();
         // bool timefeas = twupdater.check_route_feasibility();
-        // bool isfeas = check_route_insert_feas(timefeas, route, i, route.compact_route[i]);
-        bool isfeas = check_route_insert_feas(route, i, route.compact_route[i]);
+        // bool isfeas = check_route_insert_feas(timefeas, route, i, node);
+        bool isfeas = check_route_insert_feas(route, i, node); //i: inserted position; 
         if(isfeas)
         {
-            int usedpath_id = route.used_paths_in_compact_route[i-1];
+            int usedpath_id = route.used_paths_in_compact_route[i-1]; //this is the original used path before inserting the node
             double cost = cal_insertion_cost(route.compact_route, node, i, usedpath_id);
             all_insertion_costs.push_back(cost);
         }
@@ -428,10 +465,12 @@ double HeuristicFramework::cal_route_total_dist(Route &route)
     double total_dist = 0;
     for(int i = 0; i < route.compact_route.size()-1; i++)
     {
+        int node1 = route.compact_route[i];
         int used_path_id = route.used_paths_in_compact_route[i];
         for(int j = 0; j < route.compact_route.size(); j++)
         {
-            double ij_used_path_dist = nodeset.avail_path_set[i][j][used_path_id].KSP_Dist;
+            int node2 = route.compact_route[i];
+            double ij_used_path_dist = nodeset.avail_path_set[node1][node2][used_path_id].KSP_Dist;
             total_dist += ij_used_path_dist;
         }
     }
@@ -456,44 +495,43 @@ double HeuristicFramework::cal_route_total_dist(Route &route)
 /*route feasibility check*/
 bool HeuristicFramework::check_load_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
 {
+    bool isfeas = true;
     int vehcap = vehset.veh_cap[route.veh_id];
-    auto IsLoadFeas = [&](int node_load) -> bool {return node_load > 0 && node_load < vehcap;};
-    auto OneTrial = [&](int &load, int i) -> bool 
+    auto IsLoadFeas = [&](int node_load) -> bool {return node_load > 0 && node_load < vehcap;}; //if true -> feasible
+    int insert_nodedmd = nodeset.demands[insert_nodeid];
+    if(nodeset.demand_type[insert_nodeid] == 1) //delivery node
     {
-        load += nodeset.demands[route.compact_route[i]];
-        if(!IsLoadFeas(load))
+        int starting_load = route.route_load[0] - insert_nodedmd;
+        if(!IsLoadFeas(starting_load))
         {
             return false;
         }
-    };
-    int nodedmd = nodeset.demands[insert_nodeid]; // <0
-    if(nodeset.demand_type[insert_nodeid] == 1) //delivery node
-    {
-        int init_load = route.route_load[0] - nodedmd;
-        for(int i = 1; i < insert_nodepos_compact; i++) //when i > insert_nodepos_compact, the load stays feasible
+        for(int i = 1; i < insert_nodepos_compact; i++)
         {
-            OneTrial(init_load, i);
-            // init_load += nodeset.demands[route.compact_route[i]];
-            // if(!IsLoadFeas(init_load))
-            // {
-            //     return false;
-            // }
+            starting_load += nodeset.demands[route.compact_route[i]];
+            if(!IsLoadFeas(starting_load))
+            {
+                return false;
+            }
         }
     }
-    else //pickup node; demand > 0
+    else //pickup node
     {
-        int init_load = route.route_load[insert_nodepos_compact] + nodedmd;
-        for(int i = insert_nodepos_compact; i < route.compact_route.size(); i++)
+        int starting_load = route.route_load[insert_nodepos_compact-1] + insert_nodedmd;
+        if(!IsLoadFeas(starting_load))
         {
-            OneTrial(init_load, i);
-            // init_load += nodeset.demands[route.compact_route[i]];
-            // if(!IsLoadFeas(init_load))
-            // {
-            //     return false;
-            // }
+            return false;
+        }
+        for(int i = insert_nodepos_compact; i < route.compact_route.size()-1; i++)
+        {
+            starting_load += nodeset.demands[route.compact_route[i]];
+            if(!IsLoadFeas(starting_load))
+            {
+                return false;
+            }
         }
     }
-    return true;
+    return isfeas;
 }
 
 bool HeuristicFramework::check_mileage_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
@@ -513,6 +551,7 @@ bool HeuristicFramework::check_tw_insert_feas(Route &route, int insert_nodepos_c
     Route route_copy = route;
     modify_route_insert_node(route_copy, insert_nodepos_compact, insert_nodeid);
     TimeWindowUpdater twupdater(route_copy, nodeset);
+    twupdater.cal_route_tw();
     return twupdater.check_route_feasibility();
 }
 

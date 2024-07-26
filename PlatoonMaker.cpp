@@ -7,6 +7,7 @@
 #include <string>  
 #include <algorithm>  
 #include <tuple>
+#include <numeric>
 #include "PlatoonMaker.h"
 #include "config.h"
 #include "utility.h"
@@ -65,6 +66,7 @@ void PlatoonMaker::find_vehs_on_all_arcs()
 {
     for(int u = 0; u < unique_arcs_num; u++)
     {
+        unique_arcs_config[u].thisarc = unique_arcs_set[u];
         for(int r = 0; r < routes_num; r++)
         {
             if(find(arcs_based_extended_routes[r].begin(), arcs_based_extended_routes[r].end(), unique_arcs_set[u]) != arcs_based_extended_routes[r].end())
@@ -93,7 +95,7 @@ void PlatoonMaker::find_all_arcpos_each_veh()
             {
                 int arc_pos = it - arcs_based_extended_routes[rid].begin();
                 unique_arcs_config[u].arc_all_pos[i].push_back(arc_pos);
-                it = find(it, arcs_based_extended_routes[rid].end(), unique_arcs_set[u]);
+                it = find(it+1, arcs_based_extended_routes[rid].end(), unique_arcs_set[u]);
             }
         }
     }
@@ -193,68 +195,114 @@ vector<vector<bool>> PlatoonMaker::build_pairwise_feasibility_graph(vector<pair<
     // vector<pair<int, int>> graph_nodes = build_graph_node_set(input_arc_config);
     int graph_nodes_size = graph_nodes.size();
     vector<vector<bool>> pairwise_feasibility_graph(graph_nodes_size);
-    for(int i = 0; i < graph_nodes_size-1; i++)
+    for(int i = 0; i < graph_nodes_size; i++)
     {
         pairwise_feasibility_graph[i].resize(graph_nodes_size);
-        for(int j = i; j < graph_nodes_size; j++)
+        for(int j = i; j < graph_nodes_size; j++) //case: j >= i
         {
             bool veh_connect = check_pair_connectivity(graph_nodes[i], graph_nodes[j], sol_config_copy);
             pairwise_feasibility_graph[i][j] = (veh_connect) ? true : false;
-            pairwise_feasibility_graph[j][i] = pairwise_feasibility_graph[i][j];
+        }
+    }
+    for(int i = 1; i < graph_nodes_size; i++)
+    {
+        for(int j = 0; j < i; j++) //case: j < i
+        {
+            pairwise_feasibility_graph[i][j] = pairwise_feasibility_graph[j][i];
         }
     }
     return pairwise_feasibility_graph;
 }
 
 //erase the neighbourhood of a given element from a given vector set
-void PlatoonMaker::process_neighbor_in_set(int input_u, vector<int> &input_set, vector<vector<bool>> &pair_feas_graph, bool keep_or_not)
+vector<int> PlatoonMaker::process_neighbor_in_set(int input_u, vector<int> input_set, vector<vector<bool>> &pair_feas_graph, bool keep_or_not)
 {
-    for(int i = 0; i < input_set.size(); i++)
+    vector<int> input_set_copy = input_set;
+    for(int i = 0; i < input_set_copy.size(); i++) //if input_set_copy is empty, then the for cycle will not be executed
     {
         if(!keep_or_not) //remove the neighbourhood (keep_or_not == 0)
         {
-            if(pair_feas_graph[input_u][input_set[i]]) //if u and Pset[i] are connected. If u = Pset[i], they are unconnected
+            if(pair_feas_graph[input_u][input_set_copy[i]]) //if u and Pset[i] are connected. If u = Pset[i], they are unconnected
             {
-                input_set[i] = -1;
+                input_set_copy[i] = -1;
             }
         }
         else //keep the neighbourhood (keep_or_not == 1), remove the elements that are not neighbourhood
         {
-            if(!pair_feas_graph[input_u][input_set[i]]) //if u and Pset[i] are unconnected. If u = Pset[i], they are unconnected
+            if(!pair_feas_graph[input_u][input_set_copy[i]]) //if u and Pset[i] are unconnected. If u = Pset[i], they are unconnected
             {
-                input_set[i] = -1;
+                input_set_copy[i] = -1;
             }
         }
     }
-    input_set.erase(remove(input_set.begin(), input_set.end(), -1), input_set.end()); //P \ N(u)
+    input_set_copy.erase(remove(input_set_copy.begin(), input_set_copy.end(), -1), input_set_copy.end()); //P \ N(u)
+    return input_set_copy;
 }
 
 //basic Bron-Kerbosch algorithm
 void PlatoonMaker::BronKerbosch(vector<int> Rset, vector<int> Pset, vector<int> Xset, vector<vector<bool>> &pair_feas_graph, vector<vector<int>> &maximal_cliques_set)
 {
-    if(Pset.empty() && Xset.empty())
+    if(Pset.empty() && Xset.empty()) //report a maximal clique when both Pset and Xset are empty
     {
         maximal_cliques_set.push_back(Rset); //report R
+        // if(find(maximal_cliques_set.begin(), maximal_cliques_set.end(), Rset) == maximal_cliques_set.end())
+        // {
+        //     maximal_cliques_set.push_back(Rset); //report R
+        // }
     }
-    vector<int> Mixset = Pset;
-    Mixset.insert(Mixset.end(), Xset.begin(), Xset.end());
-    int u = Mixset[0]; //choose pivot to be the first element in Pset & Xset
-    process_neighbor_in_set(u, Pset, pair_feas_graph, false); //P \ N(u)
-    while(!Pset.empty())
+    else
     {
-        int v = Pset[0];
-        vector<int> Rset1 = Rset, Pset1 = Pset, Xset1 = Xset;
-        if(find(Rset1.begin(), Rset1.end(), v) == Rset1.end())
+        vector<int> Mixset = Pset;
+        Mixset.insert(Mixset.end(), Xset.begin(), Xset.end());
+        int u = Mixset[0]; //choose pivot to be the first element in Pset & Xset -> the element is the index of the first graph node
+        vector<int> P_erase_u_neighbour = process_neighbor_in_set(u, Pset, pair_feas_graph, false); //P \ N(u)
+        if(!P_erase_u_neighbour.empty())
         {
-            Rset1.push_back(v); //Rset1 = Rset + {v}
+            for(int i = 0; i < P_erase_u_neighbour.size(); i++)
+            {
+                int v = P_erase_u_neighbour[i];
+                vector<int> Rset1 = Rset;
+                Rset1.push_back(v); //Rset1 = Rset + {v}
+                // if(find(Rset1.begin(), Rset1.end(), v) == Rset1.end())
+                // {
+                //     Rset1.push_back(v); //Rset1 = Rset + {v}
+                // }
+                vector<int> P_keep_v_neighbour = process_neighbor_in_set(v, Pset, pair_feas_graph, true); //Pset1 = N(v) in Pset (upper layer of Pset)
+                vector<int> X_keep_v_neighbour = process_neighbor_in_set(v, Xset, pair_feas_graph, true); //Xset1 = N(v) in Xset (upper layer of Xset)
+                BronKerbosch(Rset1, P_keep_v_neighbour, X_keep_v_neighbour, pair_feas_graph, maximal_cliques_set);
+                Pset.erase(remove(Pset.begin(), Pset.end(), v), Pset.end()); //Pset = Pset \ {v};
+                Xset.push_back(v); //Xset = Xset + {v}
+            }
         }
-        process_neighbor_in_set(v, Pset1, pair_feas_graph, true); //Pset1 = N(v) in Pset
-        process_neighbor_in_set(v, Xset1, pair_feas_graph, true); //Xset1 = N(v) in Xset
-        BronKerbosch(Rset1, Pset1, Xset1, pair_feas_graph, maximal_cliques_set);
-        Pset.erase(Pset.begin()); //Pset = Pset \ {v};
-        Xset.push_back(v); //Xset = Xset + {v}
     }
 }
+
+// //(original) basic Bron-Kerbosch algorithm
+// void PlatoonMaker::BronKerbosch(vector<int> Rset, vector<int> Pset, vector<int> Xset, vector<vector<bool>> &pair_feas_graph, vector<vector<int>> &maximal_cliques_set)
+// {
+//     if(Pset.empty() && Xset.empty())
+//     {
+//         maximal_cliques_set.push_back(Rset); //report R
+//     }
+//     vector<int> Mixset = Pset;
+//     Mixset.insert(Mixset.end(), Xset.begin(), Xset.end());
+//     int u = Mixset[0]; //choose pivot to be the first element in Pset & Xset -> the element is the index of the first graph node
+//     process_neighbor_in_set(u, Pset, pair_feas_graph, false); //P \ N(u)
+//     while(!Pset.empty())
+//     {
+//         int v = Pset[0];
+//         vector<int> Rset1 = Rset, Pset1 = Pset, Xset1 = Xset;
+//         if(find(Rset1.begin(), Rset1.end(), v) == Rset1.end())
+//         {
+//             Rset1.push_back(v); //Rset1 = Rset + {v}
+//         }
+//         process_neighbor_in_set(v, Pset1, pair_feas_graph, true); //Pset1 = N(v) in Pset
+//         process_neighbor_in_set(v, Xset1, pair_feas_graph, true); //Xset1 = N(v) in Xset
+//         BronKerbosch(Rset1, Pset1, Xset1, pair_feas_graph, maximal_cliques_set);
+//         Pset.erase(Pset.begin()); //Pset = Pset \ {v};
+//         Xset.push_back(v); //Xset = Xset + {v}
+//     }
+// }
 
 //transform the vector of node id to the corresponding graph node
 vector<pair<int, int>> PlatoonMaker::transform_id_graphnode(vector<int> &clique_idset, vector<pair<int, int>> &graph_nodes)
@@ -311,17 +359,27 @@ vector<vector<pair<int, int>>> PlatoonMaker::BK_maximal_cliques(vector<pair<int,
 //find the maximum clique with node indices for one arc given the current graph nodes
 vector<int> PlatoonMaker::BK_maximum_clique_idset(vector<vector<int>> all_maximal_cliques_idset_one_arc)
 {   
-    int maximal_clique_size = 0;
-    int maximal_clique_id = all_maximal_cliques_idset_one_arc[0].size();
-    for(int i = 1; i < all_maximal_cliques_idset_one_arc.size(); i++)
+    int all_cliques_num = all_maximal_cliques_idset_one_arc.size();
+    vector<int> all_cliques_size(all_cliques_num);
+    for(int i = 0; i < all_cliques_num; i++)
     {
-        int clique_size = all_maximal_cliques_idset_one_arc[i].size();
-        if(clique_size > maximal_clique_size)
-        {
-            maximal_clique_id = i;
-        }
+        all_cliques_size[i] = all_maximal_cliques_idset_one_arc[i].size();
     }
-    return all_maximal_cliques_idset_one_arc[maximal_clique_id];
+    auto it = max_element(all_cliques_size.begin(), all_cliques_size.end());
+    return all_maximal_cliques_idset_one_arc[it - all_cliques_size.begin()];
+
+    // int maximal_clique_size = all_maximal_cliques_idset_one_arc[0].size();
+    // int maximal_clique_id = 0;
+    // for(int i = 1; i < all_maximal_cliques_idset_one_arc.size(); i++)
+    // {
+    //     int clique_size = all_maximal_cliques_idset_one_arc[i].size();
+    //     if(clique_size > maximal_clique_size)
+    //     {
+    //         maximal_clique_id = i;
+    //         maximal_clique_size = clique_size;
+    //     }
+    // }
+    // return all_maximal_cliques_idset_one_arc[maximal_clique_id];
 }
 
 
@@ -378,7 +436,7 @@ void PlatoonMaker::update_arrdeptw_on_route(vector<pair<int, int>> &platoon_conf
             int rid = platoon_config_on_arc[i].first;
             int arc_start_pos = platoon_config_on_arc[i].second;
             TimeWindowUpdater twupdater(sol_config_copy[rid], nodeset);  //only update the departure time windows of the routes used in the platoon
-            twupdater.modify_route_tw(arc_start_pos, maximum_platoon_tw);
+            twupdater.calibrate_route_tw(arc_start_pos, maximum_platoon_tw);
             twupdater.set_route_tw(sol_config_copy[rid].route_deptw, sol_config_copy[rid].route_arrtw); //modify the arrival and departure time windows for a route given a modified departure time window for a node //..., vector<vector<int>> &route_deptw, vector<vector<int>> &route_arrtw
         }
     }
@@ -398,7 +456,7 @@ vector<vector<pair<int, int>>> PlatoonMaker::find_platoons_one_arc(vector<pair<i
         vector<pair<int, int>> maximum_clique_thisarc = transform_id_graphnode(maximum_clique_thisarc_idset, graph_nodes);
         all_cliques_thisarc.push_back(maximum_clique_thisarc);
         //output the overlapped departure time windows of each platoon
-        vector<int> maximum_platoon_tw = cal_overlap_deptw_on_arc_per_platoon(maximum_clique_thisarc);
+        vector<int> maximum_platoon_tw = cal_overlap_deptw_on_arc_per_platoon(maximum_clique_thisarc); //what if returning {}?
         overlapped_deptw_each_platoon.push_back(maximum_platoon_tw);
         //update time windows with the maximum platoon
         vector<Route> sol_config_copy = cur_sol.sol_config;
@@ -406,15 +464,11 @@ vector<vector<pair<int, int>>> PlatoonMaker::find_platoons_one_arc(vector<pair<i
         //remove all the nodes corresponding to the nodes in the maximum clique
         remove_intersection(graph_nodes, maximum_clique_thisarc);
         //remove all the links adjacent to the nodes in the maximum clique
-        pair_feas_graph = build_pairwise_feasibility_graph(graph_nodes, sol_config_copy);
-        // for(int i = 0; i < maximum_clique_thisarc_idset.size(); i++)
-        // {
-        //     for(int j = 0; j < pair_feas_graph.size(); j++)
-        //     {
-        //         pair_feas_graph[maximum_clique_thisarc_idset[i]][j] = false;
-        //         pair_feas_graph[j][maximum_clique_thisarc_idset[i]] = false;
-        //     }
-        // }
+        if(!graph_nodes.empty())
+        {
+            pair_feas_graph = build_pairwise_feasibility_graph(graph_nodes, sol_config_copy);
+        }
+        // pair_feas_graph = build_pairwise_feasibility_graph(graph_nodes, sol_config_copy);
     }
     return all_cliques_thisarc;
 }
@@ -458,40 +512,91 @@ CouplingArcSol PlatoonMaker::arc_coupling_module(CouplingArc input_arc_config)
     return arc_coupling_sol;
 }
 
+// void PlatoonMaker::coupling_heuristic_all_arcs()
+// {
+//     coupling_arcs_sol.resize(unique_arcs_num);
+//     vector<CouplingArc> unique_arcs_config_copy = unique_arcs_config;
+//     vector<CouplingArc> no_platoon_arcs_config;
+//     vector<CouplingArcSol> no_platoon_arcs_sol;
+//     // vector<int> no_platoon_arcs_idset;
+//     //initialize the no_platoon_arcs_idset
+//     for(int i = 0; i < unique_arcs_num; i++)
+//     {
+//         // no_platoon_arcs_idset.push_back(i);
+//         coupling_arcs_sol[i] = arc_coupling_module(unique_arcs_config_copy[i]);
+//         if(coupling_arcs_sol[i].energy_saving == 0)
+//         {
+//             // no_platoon_arcs_idset.push_back(i);
+//             no_platoon_arcs_sol.push_back(coupling_arcs_sol[i]);
+//             no_platoon_arcs_config.push_back(unique_arcs_config_copy[i]);
+//         }
+//     }
+//     //remove the arcs that form no platoons
+//     remove_intersection(coupling_arcs_sol, no_platoon_arcs_sol); //no_platoon_arcs will become empty
+//     remove_intersection(unique_arcs_config_copy, no_platoon_arcs_config);
+//     //to rank the coupling arc solutions by energy saving amount in descending order
+//     auto compare = [&](int s, int r) {return coupling_arcs_sol[s].energy_saving > coupling_arcs_sol[r].energy_saving;};
+//     while(!unique_arcs_config_copy.empty()) //!coupling_arcs_sol.empty()
+//     {
+//         // no_platoon_arcs_config.clear();
+//         // no_platoon_arcs_sol.clear();
+//         //rank the set of unique arcs (coupling solutions) based on the energy saving amount in descending order
+//         sort(coupling_arcs_sol.begin(), coupling_arcs_sol.end(), compare);
+//         sort(unique_arcs_config_copy.begin(), unique_arcs_config_copy.end(), compare);
+//         //select the first arc with the most energy saving
+//         CouplingArcSol selected_arcsol = coupling_arcs_sol[0];
+//         //modify the arrival and departure time windows of cur_sol based on all platoons coupled on this arc
+//         for(int k = 0; k < selected_arcsol.platoons_config_on_arc.size(); k++)
+//         {
+//             //update the arrival and departure time windows of all common routes in cur_sol
+//             update_arrdeptw_on_route(selected_arcsol.platoons_config_on_arc[k], selected_arcsol.overlaped_deptw_startnode[k], cur_sol.sol_config);
+//         }
+//         //update the number of platoons of other arcs based on the modified time windows
+//         for(int s = 1; s < coupling_arcs_sol.size(); s++)
+//         {
+//             coupling_arcs_sol[s] = arc_coupling_module(unique_arcs_config_copy[s]); //pair_feas_graph has been changed
+//             if(coupling_arcs_sol[s].energy_saving == 0)
+//             {
+//                 no_platoon_arcs_sol.push_back(coupling_arcs_sol[s]);
+//                 no_platoon_arcs_config.push_back(unique_arcs_config_copy[s]);
+//             }
+//             //only keep the coupling arcs that can be platooned
+//             remove_intersection(coupling_arcs_sol, no_platoon_arcs_sol); //no_platoon_arcs will become empty
+//             remove_intersection(unique_arcs_config_copy, no_platoon_arcs_config);
+//         }
+//     }
+//     // return coupling_arcs_sol;
+// }
+
 void PlatoonMaker::coupling_heuristic_all_arcs()
 {
-    coupling_arcs_sol.resize(unique_arcs_num);
-    vector<CouplingArc> unique_arcs_config_copy = unique_arcs_config;
-    vector<CouplingArc> no_platoon_arcs_config;
-    vector<CouplingArcSol> no_platoon_arcs_sol;
-    // vector<int> no_platoon_arcs_idset;
-    //initialize the no_platoon_arcs_idset
+    vector<pair<int, CouplingArcSol>> remaining_coupling_arcs_sol;
+    vector<pair<int, CouplingArcSol>> no_platoon_arcs_sol;
+
+    //initialize the no_platoon_arcs_sol
     for(int i = 0; i < unique_arcs_num; i++)
     {
-        // no_platoon_arcs_idset.push_back(i);
-        coupling_arcs_sol[i] = arc_coupling_module(unique_arcs_config_copy[i]);
-        if(coupling_arcs_sol[i].energy_saving == 0)
+        CouplingArcSol one_coupling_arc_sol = arc_coupling_module(unique_arcs_config[i]);
+        remaining_coupling_arcs_sol.push_back(make_pair(i, one_coupling_arc_sol));
+
+        if(one_coupling_arc_sol.energy_saving == 0)
         {
-            // no_platoon_arcs_idset.push_back(i);
-            no_platoon_arcs_sol.push_back(coupling_arcs_sol[i]);
-            no_platoon_arcs_config.push_back(unique_arcs_config_copy[i]);
+            no_platoon_arcs_sol.push_back(make_pair(i, one_coupling_arc_sol));
         }
     }
-    //remove the arcs that form no platoons
-    remove_intersection(coupling_arcs_sol, no_platoon_arcs_sol); //no_platoon_arcs will become empty
-    remove_intersection(unique_arcs_config_copy, no_platoon_arcs_config);
+    //remove the arcs that form no platoons -> this will update the remaining_coupling_arcs_sol
+    remove_intersection(remaining_coupling_arcs_sol, no_platoon_arcs_sol);
+
     //to rank the coupling arc solutions by energy saving amount in descending order
-    auto compare = [&](int s, int r) {return coupling_arcs_sol[s].energy_saving > coupling_arcs_sol[r].energy_saving;};
-    // auto my_compare = [&](int s, int r) {return arc_coupling_module(unique_arcs_config_copy[s]).energy_saving > arc_coupling_module(unique_arcs_config_copy[r]).energy_saving;};
-    while(!unique_arcs_config_copy.empty()) //!coupling_arcs_sol.empty()
+    auto compare = [&](pair<int, CouplingArcSol> s, pair<int, CouplingArcSol> r) {return s.second > r.second;};
+    while(!remaining_coupling_arcs_sol.empty())
     {
-        // no_platoon_arcs_config.clear();
-        // no_platoon_arcs_sol.clear();
         //rank the set of unique arcs (coupling solutions) based on the energy saving amount in descending order
-        sort(coupling_arcs_sol.begin(), coupling_arcs_sol.end(), compare);
-        sort(unique_arcs_config_copy.begin(), unique_arcs_config_copy.end(), compare);
+        sort(remaining_coupling_arcs_sol.begin(), remaining_coupling_arcs_sol.end(), compare);
         //select the first arc with the most energy saving
-        CouplingArcSol selected_arcsol = coupling_arcs_sol[0];
+        CouplingArcSol selected_arcsol = remaining_coupling_arcs_sol[0].second;
+        coupling_arcs_sol.push_back(selected_arcsol); //this will update the coupling_arcs_sol
+        remaining_coupling_arcs_sol.erase(remaining_coupling_arcs_sol.begin()); //this will update the remaining_coupling_arcs_sol
         //modify the arrival and departure time windows of cur_sol based on all platoons coupled on this arc
         for(int k = 0; k < selected_arcsol.platoons_config_on_arc.size(); k++)
         {
@@ -499,20 +604,18 @@ void PlatoonMaker::coupling_heuristic_all_arcs()
             update_arrdeptw_on_route(selected_arcsol.platoons_config_on_arc[k], selected_arcsol.overlaped_deptw_startnode[k], cur_sol.sol_config);
         }
         //update the number of platoons of other arcs based on the modified time windows
-        for(int s = 1; s < coupling_arcs_sol.size(); s++)
+        for(int s = 1; s < remaining_coupling_arcs_sol.size(); s++)
         {
-            coupling_arcs_sol[s] = arc_coupling_module(unique_arcs_config_copy[s]); //pair_feas_graph has been changed
-            if(coupling_arcs_sol[s].energy_saving == 0)
+            int unique_arc_index = remaining_coupling_arcs_sol[s].first;
+            remaining_coupling_arcs_sol[s].second = arc_coupling_module(unique_arcs_config[unique_arc_index]); //pair_feas_graph has been changed
+            if(remaining_coupling_arcs_sol[s].second.energy_saving == 0)
             {
-                no_platoon_arcs_sol.push_back(coupling_arcs_sol[s]);
-                no_platoon_arcs_config.push_back(unique_arcs_config_copy[s]);
+                no_platoon_arcs_sol.push_back(remaining_coupling_arcs_sol[s]);
             }
             //only keep the coupling arcs that can be platooned
-            remove_intersection(coupling_arcs_sol, no_platoon_arcs_sol); //no_platoon_arcs will become empty
-            remove_intersection(unique_arcs_config_copy, no_platoon_arcs_config);
+            remove_intersection(remaining_coupling_arcs_sol, no_platoon_arcs_sol);
         }
     }
-    // return coupling_arcs_sol;
 }
 
 //before set_arrdep_time_all_routes(), do coupling_heuristic_all_arcs() to get the updated route_arrtw and route_deptw

@@ -143,99 +143,216 @@ vector<vector<int>> AlternativePaths::generate_paths_tree(vector<int> pred_vecs)
 }
 
 //Find K's shortest path with Yen's algorithm given a start and end node
+// vector<DijkstraOneSol> AlternativePaths::ModifiedYen_OnePath(int start_node, int end_node)
+// {
+//     vector<DijkstraOneSol> KShortestPath_Start_End;  //A[] for Yen
+//     vector<DijkstraOneSol> KDeviationPath_Start_End; //B[] for Yen
+//     DijkstraOneSol SP1_Start_End;
+//     SP1_Start_End = SP_AllPaths[start_node][end_node]; //start with the shortest path between the start node and the end node
+//     KShortestPath_Start_End.push_back(SP1_Start_End); //the shortest path is put into A[]
+//     int k = 1; //what does k mean?
+//     while(k < k_limit && KShortestPath_Start_End.size() == k) //KShortestPath_Start_End.size() < k_limit && !KDeviationPath_Start_End.empty()
+//     //if KShortestPath_Start_End.size() < k, it means the last step does not generate any available k-shortest path (this means that the k-shortest path does not satisfy the detour-making conditions), then the algorithm stops 
+//     {
+//         //generate the current SP by modifying the last SP
+//         vector<int> last_SP = KShortestPath_Start_End[k-1].KSP_Path;
+//         for(int i = 0; i < last_SP.size()-1; i++) //for every deviation node in the shortest path except the end_node
+//         {
+//             //find the disconnected path segment in the current Dijsktra solution
+//             vector<vector<double>> copy_distmat = init_distmat;
+//             int start_seg = last_SP[i]; //SP1_Start_End.KSP_Path[i];
+//             int end_seg = last_SP[i+1]; //SP1_Start_End.KSP_Path[i+1];
+//             //initialize the current path segment
+//             vector<int> old_path = {};
+//             double old_dist = 0;
+//             for(int s = 0; s < i+1; s++) //when i = 2, the fixed part are the elements from i = 0 to i = 2 of the positions in the SP solution of the last ieteration
+//             {
+//                 old_path.push_back(last_SP[s]); //the fixed path segment
+//             }
+//             for(int r = 0; r < old_path.size()-1; r++) //bug: old_path is empty with 0 size
+//             {
+//                 old_dist += init_distmat[old_path[r]][old_path[r+1]]; //the total distance for the fixed path segment
+//             }
+//             //modify the distance matrix by disconnecting specific links from the deviation node
+//             copy_distmat[start_seg][end_seg] = INF;
+//             //find whether there are common deviation node in other solutions in A[] -> debug: need to ensure that the fixed part before the deviation node is the same
+//             for(int j = 0; j < KShortestPath_Start_End.size() && j != k-1; j++) //A[]
+//             {
+//                 //for each path in A[] other than the current path
+//                 vector<int> previous_SP = KShortestPath_Start_End[j].KSP_Path;
+//                 auto iter = search(previous_SP.begin(), previous_SP.end(), old_path.begin(), old_path.end());
+//                 if(iter != previous_SP.end()) //you can find the fixed part in other solutions in A[]
+//                 {
+//                     int endnode_pos = iter + old_path.size() - previous_SP.begin();
+//                     if(previous_SP[endnode_pos] == start_seg && previous_SP[endnode_pos+1] != end_seg)
+//                     {
+//                         copy_distmat[start_seg][previous_SP[endnode_pos+1]] = INF;
+//                     }
+//                 }
+//                 // for(int p = 0; p < previous_SP.size()-1; p++)
+//                 // {
+//                 //     if(KShortestPath_Start_End[j].KSP_Path[p] == start_seg)
+//                 //     {
+//                 //         int anther_end_seg = KShortestPath_Start_End[j].KSP_Path[p+1];
+//                 //         copy_distmat[start_seg][anther_end_seg] = INF;
+//                 //     }
+//                 // }
+//             }
+//             //use Dijsktra to find a shortest path between start_seg and end_node based on the modified distance matrix
+//             DijkstraOneSol SPk_Start_End = Dijkstra_OnePath(start_seg, end_node, copy_distmat);
+//             vector<int> new_path = SPk_Start_End.KSP_Path;
+//             if(new_path.empty())
+//             {
+//                 continue;
+//             }
+//             //check whether there are subtours in the path
+//             bool subtour = 0;
+//             for(int w = 1; w < new_path.size(); w++) //w starts from 1 because the start node in new_path is the same as the end node in old_path
+//             {
+//                 if(find(old_path.begin(), old_path.end(), new_path[w]) != old_path.end())
+//                 {
+//                     //have subtours in the new path, discard it
+//                     subtour += 1;
+//                     break;
+//                 }
+//             }
+//             if(!subtour) //if no subtour
+//             {
+//                 DijkstraOneSol tempSP_Start_End; 
+//                 //path reconnection
+//                 old_path.insert(old_path.end(), new_path.begin()+1, new_path.end()); //bug: new_path is empty because of unconnected nodes
+//                 tempSP_Start_End.KSP_Path = old_path;
+//                 //calculate distance
+//                 tempSP_Start_End.KSP_Dist = old_dist + SPk_Start_End.KSP_Dist;
+//                 //evaluate distance - whether falls into coupling range
+//                 if(tempSP_Start_End.KSP_Dist > SP1_Start_End.KSP_Dist*10*1.0/9)
+//                 {
+//                     continue; //jump out the current "for" cycle -> visit the next deviation node
+//                 }
+//                 //else: put the temporary solution in B[] if the solution did not appear before
+//                 //need to define == operator in struct Dijkstra Solution
+//                 if(find(KDeviationPath_Start_End.begin(), KDeviationPath_Start_End.end(), tempSP_Start_End) == KDeviationPath_Start_End.end())
+//                 {
+//                     KDeviationPath_Start_End.push_back(tempSP_Start_End);
+//                 }
+//                 // else
+//                 // {
+//                 //     continue;
+//                 // }
+//             }
+//         }
+//         //find the Dijsktra solution with the smallest distance in B[] and put it in A[]. Ties are broken for most intermediate nodes.
+//         //define a compare operator to find the solution with the smallest distance in KDeviationPath_Start_End
+//         auto compare = [&](DijkstraOneSol s, DijkstraOneSol r) {return s.KSP_Dist < r.KSP_Dist;};
+//         if(!KDeviationPath_Start_End.empty())
+//         {
+//             vector<DijkstraOneSol>::iterator iter = min_element(KDeviationPath_Start_End.begin(), KDeviationPath_Start_End.end(), compare);
+//             // auto min_pos = iter - KDeviationPath_Start_End.begin();
+//             DijkstraOneSol selected_KSPsol = *iter; //KDeviationPath_Start_End[min_pos];
+//             KShortestPath_Start_End.push_back(selected_KSPsol);
+//             KDeviationPath_Start_End.erase(iter);
+//         }
+//         k += 1;
+//     }
+//     return KShortestPath_Start_End;
+// }
+
 vector<DijkstraOneSol> AlternativePaths::ModifiedYen_OnePath(int start_node, int end_node)
 {
     vector<DijkstraOneSol> KShortestPath_Start_End;  //A[] for Yen
     vector<DijkstraOneSol> KDeviationPath_Start_End; //B[] for Yen
-    DijkstraOneSol SP1_Start_End;
-    SP1_Start_End = SP_AllPaths[start_node][end_node];
-    KShortestPath_Start_End.push_back(SP1_Start_End); //the shortest path is put into A[]
-    int k = 1;
-    while(k < k_limit && KShortestPath_Start_End.size() == k) 
-    //if KShortestPath_Start_End.size() < k, it means the last step does not generate any available k-shortest path, then the algorithm stops 
+    DijkstraOneSol SP1_Start_End = SP_AllPaths[start_node][end_node]; //start with the shortest path between the start node and the end node
+    KDeviationPath_Start_End.push_back(SP1_Start_End); //the shortest path is put into B[]
+    while(KShortestPath_Start_End.size() < k_limit && !KDeviationPath_Start_End.empty())
+    //if KDeviationPath_Start_End is empty, it means the no valid candidate KSP solution is generated by deviating the current solution
     {
+        //find the Dijsktra solution with the smallest distance in B[] and put it in A[]
+        //define a compare operator to find the solution with the smallest distance in KDeviationPath_Start_End
+        auto compare = [&](DijkstraOneSol s, DijkstraOneSol r) {return s.KSP_Dist < r.KSP_Dist;};
+        vector<DijkstraOneSol>::iterator iter = min_element(KDeviationPath_Start_End.begin(), KDeviationPath_Start_End.end(), compare);
+        DijkstraOneSol selected_KSPsol = *iter;
+        KShortestPath_Start_End.push_back(selected_KSPsol);
+        KDeviationPath_Start_End.erase(iter);
+
+        int k = KShortestPath_Start_End.size();
         //generate the current SP by modifying the last SP
-        for(int i = 0; i < KShortestPath_Start_End[k-1].KSP_Path.size()-1; i++) //for every path segment (deviation node) in the shortest path
+        vector<int> last_SP = KShortestPath_Start_End[k-1].KSP_Path;
+        for(int i = 0; i < last_SP.size()-1; i++) //for every deviation node in the shortest path except the end_node
         {
-            DijkstraOneSol tempSP_Start_End;
             //find the disconnected path segment in the current Dijsktra solution
             vector<vector<double>> copy_distmat = init_distmat;
-            int start_seg = SP1_Start_End.KSP_Path[i];
-            int end_seg = SP1_Start_End.KSP_Path[i+1];
+            int start_seg = last_SP[i]; //SP1_Start_End.KSP_Path[i];
+            int end_seg = last_SP[i+1]; //SP1_Start_End.KSP_Path[i+1];
             //initialize the current path segment
             vector<int> old_path = {};
             double old_dist = 0;
-            for(int s = 0; s < i; s++)
+            for(int s = 0; s < i+1; s++) //when i = 2, the fixed part are the elements from i = 0 to i = 2 of the positions in the SP solution of the last ieteration
             {
-                old_path.push_back(s); //the fixed path segment
+                old_path.push_back(last_SP[s]); //the fixed path segment
             }
-            for(int r = 0; r < old_path.size()-1; r++)
+            for(int r = 0; r < old_path.size()-1; r++) //bug: old_path is empty with 0 size
             {
-                old_dist += init_distmat[r][r+1]; //the total distance for the fixed path segment
+                old_dist += init_distmat[old_path[r]][old_path[r+1]]; //the total distance for the fixed path segment
             }
             //modify the distance matrix by disconnecting specific links from the deviation node
             copy_distmat[start_seg][end_seg] = INF;
-            //find whether there are common deviation node in other solutions in A[]
-            for(int j = 0; j < KShortestPath_Start_End.size() && j != k-1; j++)
+            //find whether there are common deviation node in other solutions in A[] -> debug: need to ensure that the fixed part before the deviation node is the same
+            for(int j = 0; j < k-1; j++) //A[]; k = KShortestPath_Start_End.size();
             {
-                for(int p = 0; p < KShortestPath_Start_End[j].KSP_Path.size()-1; p++)
+                //for each path in A[] other than the current path
+                vector<int> previous_SP = KShortestPath_Start_End[j].KSP_Path;
+                auto iter = search(previous_SP.begin(), previous_SP.end(), old_path.begin(), old_path.end());
+                if(iter != previous_SP.end()) //you can find the fixed part in other solutions in A[]
                 {
-                    if(KShortestPath_Start_End[j].KSP_Path[p] == start_seg)
+                    int endnode_pos = iter + old_path.size() - previous_SP.begin();
+                    if(previous_SP[endnode_pos] == start_seg && previous_SP[endnode_pos+1] != end_seg)
                     {
-                        int anther_end_seg = KShortestPath_Start_End[j].KSP_Path[p+1];
-                        copy_distmat[start_seg][anther_end_seg] = INF;
+                        copy_distmat[start_seg][previous_SP[endnode_pos+1]] = INF;
                     }
                 }
             }
             //use Dijsktra to find a shortest path between start_seg and end_node based on the modified distance matrix
             DijkstraOneSol SPk_Start_End = Dijkstra_OnePath(start_seg, end_node, copy_distmat);
             vector<int> new_path = SPk_Start_End.KSP_Path;
-            //check whether there are subtours in the path
+            //check 1: whether a new path can be generated
+            if(new_path.empty()) //if cannot generate the new path because of node disconnectivity, do the next iteration (i+=1)
+            {
+                continue;
+            }
+            //check 2: whether there are subtours in the path
             bool subtour = 0;
-            for(int w = 0; w < new_path.size(); w++)
+            for(int w = 1; w < new_path.size(); w++) //w starts from 1 because the start node in new_path is the same as the end node in old_path
             {
                 if(find(old_path.begin(), old_path.end(), new_path[w]) != old_path.end())
                 {
                     //have subtours in the new path, discard it
                     subtour += 1;
+                    break;
                 }
             }
             if(!subtour) //if no subtour
             {
+                DijkstraOneSol tempSP_Start_End; 
                 //path reconnection
-                old_path.insert(old_path.end(), new_path.begin(), new_path.end());
+                old_path.insert(old_path.end(), new_path.begin()+1, new_path.end()); //bug: new_path is empty because of unconnected nodes
                 tempSP_Start_End.KSP_Path = old_path;
                 //calculate distance
                 tempSP_Start_End.KSP_Dist = old_dist + SPk_Start_End.KSP_Dist;
                 //evaluate distance - whether falls into coupling range
                 if(tempSP_Start_End.KSP_Dist > SP1_Start_End.KSP_Dist*10*1.0/9)
                 {
-                    continue; //jump out the current "for" cycle
+                    continue; //jump out the current "for" cycle -> visit the next deviation node
                 }
-                //else: put the temporary solution in B[] if the solution did not appear before
+                //else: put the temporary solution in B[] if the solution did not appear in both A[] and B[] before
                 //need to define == operator in struct Dijkstra Solution
-                if(find(KDeviationPath_Start_End.begin(), KDeviationPath_Start_End.end(), tempSP_Start_End) == KDeviationPath_Start_End.end())
+                vector<DijkstraOneSol> AB_set = KShortestPath_Start_End;
+                AB_set.insert(AB_set.end(), KDeviationPath_Start_End.begin(), KDeviationPath_Start_End.end());
+                if(find(AB_set.begin(), AB_set.end(), tempSP_Start_End) == AB_set.end())
                 {
                     KDeviationPath_Start_End.push_back(tempSP_Start_End);
                 }
-                // else
-                // {
-                //     continue;
-                // }
             }
         }
-        //find the Dijsktra solution with the smallest distance in B[] and put it in A[]. Ties are broken for most intermediate nodes.
-        //define a compare operator to find the solution with the smallest distance in KDeviationPath_Start_End
-        auto compare = [&](DijkstraOneSol s, DijkstraOneSol r) {return s.KSP_Dist < r.KSP_Dist;};
-        if(!KDeviationPath_Start_End.empty())
-        {
-            vector<DijkstraOneSol>::iterator iter = min_element(KDeviationPath_Start_End.begin(), KDeviationPath_Start_End.end(), compare);
-            auto min_pos = iter - KDeviationPath_Start_End.begin();
-            DijkstraOneSol selected_KSPsol = KDeviationPath_Start_End[min_pos];
-            KShortestPath_Start_End.push_back(selected_KSPsol);
-            KDeviationPath_Start_End.erase(iter);
-        }
-        k += 1;
     }
     return KShortestPath_Start_End;
 }
@@ -248,11 +365,14 @@ void AlternativePaths::ModifiedYen_AllPaths()
     for(int i = 0; i < node_num; i++) //start_node
     {
         KSP_AllPaths[i].resize(node_num);
-        for(int j = 0; j < node_num && j != i; j++) //end_node
-        {
-            KSP_AllPaths[i][j] = ModifiedYen_OnePath(i, j); //check when j == i
-        }
         KSP_AllPaths[i][i].push_back(empty_DijkstraSol);
+        for(int j = 0; j < node_num; j++) //end_node
+        {
+            if(j != i)
+            {
+                KSP_AllPaths[i][j] = ModifiedYen_OnePath(i, j);
+            }
+        }
     }
 }
 
