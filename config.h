@@ -38,6 +38,8 @@ const double DISCONNECTION_PROB = 0.3; //probability of disconnecting the direct
 const int VTYPE = 2;
 const int modify_pasdmd_amount = 10;
 
+const int ALTERSET_SIZE_K = 5; //the limit of the size of alternative paths
+
 
 //store one Dijkstra Solution
 struct DijkstraOneSol
@@ -174,10 +176,11 @@ struct Solution
     vector<Route> sol_config;
     vector<CouplingArcSol> sol_platoons_all_arcs;
     // vector<int> used_veh_ids;
+    double total_dist_before_platoon;
     double total_energy_related_dist;
     int total_trip_duration;
     int total_unserved_requests;
-    double total_obj_val;
+    double total_obj_val_after_platoon;
     // double cpu_time;
 };
 

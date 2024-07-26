@@ -803,10 +803,11 @@ void ResultWriter::write_result()
         outfile << "energy saving on this arc:" << allplatoons[i].energy_saving << endl;
     }
     outfile << endl;
+    outfile << "total distance before platooning: " << input_sol.total_dist_before_platoon << endl;
     outfile << "total energy-related distance cost: " << input_sol.total_energy_related_dist << endl;
     outfile << "total trip duration: " << input_sol.total_trip_duration << endl;
     outfile << "total unserved requests: " << input_sol.total_unserved_requests << endl;
-    outfile << "total objective value: " << input_sol.total_obj_val << endl;
+    outfile << "total objective value after platooning: " << input_sol.total_obj_val_after_platoon << endl;
     outfile << "CPU time before platooning: " << cpu[0] << endl;
     outfile << "CPU time after platooning: " << cpu[1] << endl;
 
@@ -819,10 +820,11 @@ void ResultWriter::record_solution()
     outfile << "Instance name: " << file_name << endl;
     outfile << "Algorithm Stage: " << solution_stage << endl;
 
+    outfile << "total distance before platooning: " << input_sol.total_dist_before_platoon << endl;
     outfile << "total energy-related distance cost: " << input_sol.total_energy_related_dist << endl;
     outfile << "total trip duration: " << input_sol.total_trip_duration << endl;
     outfile << "total unserved requests: " << input_sol.total_unserved_requests << endl;
-    outfile << "total objective value: " << input_sol.total_obj_val << endl;
+    outfile << "total objective value after platooning: " << input_sol.total_obj_val_after_platoon << endl;
     outfile << "CPU time before platooning: " << cpu[0] << endl;
     outfile << "CPU time after platooning: " << cpu[1] << endl;
 

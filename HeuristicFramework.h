@@ -62,14 +62,16 @@ class HeuristicFramework
 
 
         /*route feasibility check*/
-        bool check_load_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid);
-        bool check_mileage_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid);
-        bool check_tw_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid);
-        bool check_tw_remove_feas(Route &route, int remove_nodepos_compact);
+        bool check_nodeinsert_load_feas(Route &route, int insert_nodepos_compact, int insert_nodeid);
+        bool check_nodeinsert_mileage_feas(Route &route, int insert_nodepos_compact, int insert_nodeid);
+        bool check_nodeinsert_tw_feas(Route &route, int insert_nodepos_compact, int insert_nodeid);
+        bool check_noderemove_tw_feas(Route &route, int remove_nodepos_compact);
+        bool check_nodeinsert_usedpath_feas(Route &route, int insert_nodepos_compact, int insert_nodeid);
+        bool check_noderemove_usedpath_feas(Route &route, int remove_nodepos_compact);
+        bool check_route_subtour(Route &route); //check whether the route contains subtours
         bool check_route_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid);
         bool check_route_remove_feas(Route &route, int remove_nodepos_compact);
-        bool check_route_subtour(Route &route); //check whether the route contains subtours
-        bool check_route_modify_usedpath_feas(Route &route, int modify_arcpos_compact, int modified_usedpath_id);
+        bool check_modify_usedpath_feas(Route &route, int modify_arcpos_compact, int modified_usedpath_id);
 
         /*building a solution*/
         void find_platoons_all_arcs(Solution &sol);
@@ -83,7 +85,8 @@ class HeuristicFramework
         // double cal_route_energy_dist(Solution &sol, int route_id);
         int cal_sol_total_trip_dur(Solution &sol);
         int cal_sol_total_unserved_requests(Solution &sol);
-        double cal_sol_total_obj_val(Solution &sol);
+        double cal_sol_objval_after_platoon(Solution &sol);
+        double cal_sol_objval_before_platoon(Solution &sol);
 
     public:
         HeuristicFramework(Nodes &nodes, Vehicles &vehs);
@@ -92,6 +95,8 @@ class HeuristicFramework
         virtual void run_algorithm() = 0; //run the heuristic and record the cpu time
         Solution get_best_solution(); //get the best solution
         vector<double> get_cputime();
+        double get_sol_objval_before_platoon(Solution &sol);
+        double get_sol_objval_after_platoon(Solution &sol);
 };
 
 #endif

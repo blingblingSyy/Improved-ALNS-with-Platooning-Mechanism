@@ -249,7 +249,7 @@ bool HeuristicFramework::modify_route_used_path(Route &route, int modify_arcpos_
     TimeWindowUpdater twupdater(routecopy, nodeset);
     twupdater.cal_route_tw();
     bool istimefeas = twupdater.check_route_feasibility();
-    //bool isdistfeas = check_mileage_insert_feas -> this only consider the feasibility of inserting a node rather than modifying a used path
+    //bool isdistfeas = check_nodeinsert_mileage_feas -> this only consider the feasibility of inserting a node rather than modifying a used path
 
     bool isdistfeas;
     int node1 = route.compact_route[modify_arcpos_compact];
@@ -278,8 +278,8 @@ bool HeuristicFramework::modify_route_used_path(Route &route, int modify_arcpos_
 //     TimeWindowUpdater twupdater(route_copy, nodeset);
 //     twupdater.cal_route_tw();
 //     bool timefeas = twupdater.check_route_feasibility();
-//     bool loadfeas = check_load_insert_feas(route, node_pos_compact, node_id);
-//     bool milefeas = check_mileage_insert_feas(route, node_pos_compact, node_id);
+//     bool loadfeas = check_nodeinsert_load_feas(route, node_pos_compact, node_id);
+//     bool milefeas = check_nodeinsert_mileage_feas(route, node_pos_compact, node_id);
 //     if(timefeas && loadfeas && milefeas)
 //     {
 //         route = route_copy;
@@ -466,13 +466,9 @@ double HeuristicFramework::cal_route_total_dist(Route &route)
     for(int i = 0; i < route.compact_route.size()-1; i++)
     {
         int node1 = route.compact_route[i];
+        int node2 = route.compact_route[i+1];
         int used_path_id = route.used_paths_in_compact_route[i];
-        for(int j = 0; j < route.compact_route.size(); j++)
-        {
-            int node2 = route.compact_route[i];
-            double ij_used_path_dist = nodeset.avail_path_set[node1][node2][used_path_id].KSP_Dist;
-            total_dist += ij_used_path_dist;
-        }
+        total_dist += nodeset.avail_path_set[node1][node2][used_path_id].KSP_Dist;
     }
     return total_dist;
 }
@@ -493,7 +489,7 @@ double HeuristicFramework::cal_route_total_dist(Route &route)
 // }
 
 /*route feasibility check*/
-bool HeuristicFramework::check_load_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
+bool HeuristicFramework::check_nodeinsert_load_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
 {
     bool isfeas = true;
     int vehcap = vehset.veh_cap[route.veh_id];
@@ -534,7 +530,7 @@ bool HeuristicFramework::check_load_insert_feas(Route &route, int insert_nodepos
     return isfeas;
 }
 
-bool HeuristicFramework::check_mileage_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
+bool HeuristicFramework::check_nodeinsert_mileage_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
 {
     int orig_usedpath_pos = route.used_paths_in_compact_route[insert_nodepos_compact-1];
     double inc_cost = cal_insertion_cost(route.compact_route, insert_nodeid, insert_nodepos_compact, orig_usedpath_pos);
@@ -546,7 +542,7 @@ bool HeuristicFramework::check_mileage_insert_feas(Route &route, int insert_node
     return true;
 }
 
-bool HeuristicFramework::check_tw_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
+bool HeuristicFramework::check_nodeinsert_tw_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
 {
     Route route_copy = route;
     modify_route_insert_node(route_copy, insert_nodepos_compact, insert_nodeid);
@@ -555,12 +551,35 @@ bool HeuristicFramework::check_tw_insert_feas(Route &route, int insert_nodepos_c
     return twupdater.check_route_feasibility();
 }
 
-bool HeuristicFramework::check_tw_remove_feas(Route &route, int remove_nodepos_compact)
+bool HeuristicFramework::check_noderemove_tw_feas(Route &route, int remove_nodepos_compact)
 {
     Route route_copy = route;
     modify_route_remove_node(route_copy, remove_nodepos_compact);
     TimeWindowUpdater twupdater(route_copy, nodeset);
     return twupdater.check_route_feasibility();
+}
+
+bool HeuristicFramework::check_nodeinsert_usedpath_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
+{
+    int node1 = route.compact_route[insert_nodepos_compact-1];
+    int node2 = route.compact_route[insert_nodepos_compact];
+    bool linkfeas1 = !nodeset.avail_path_set[node1][insert_nodeid].empty();
+    bool linkfeas2 = !nodeset.avail_path_set[insert_nodeid][node2].empty();
+    return (linkfeas1 && linkfeas2);
+}
+
+bool HeuristicFramework::check_noderemove_usedpath_feas(Route &route, int remove_nodepos_compact)
+{
+    int node1 = route.compact_route[remove_nodepos_compact-1];
+    int node2 = route.compact_route[remove_nodepos_compact+1];
+    return !nodeset.avail_path_set[node1][node2].empty();
+}
+
+//check whether the route contains subtours with depot
+bool HeuristicFramework::check_route_subtour(Route &route)
+{
+    bool has_subtour = find(route.extended_route.begin()+1, route.extended_route.end()-1, 0) != route.extended_route.end()-1;
+    return has_subtour;
 }
 
 bool HeuristicFramework::check_route_insert_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
@@ -570,16 +589,42 @@ bool HeuristicFramework::check_route_insert_feas(Route &route, int insert_nodepo
     // TimeWindowUpdater twupdater(route_copy, nodeset);
     // inserted_twupdater.cal_route_tw();
     // bool timefeas = inserted_twupdater.check_route_feasibility();
-    bool timefeas = check_tw_insert_feas(route, insert_nodepos_compact, insert_nodeid);
-    bool loadfeas = check_load_insert_feas(route, insert_nodepos_compact, insert_nodeid);
-    bool milefeas = check_mileage_insert_feas(route, insert_nodepos_compact, insert_nodeid);
+    bool timefeas = check_nodeinsert_tw_feas(route, insert_nodepos_compact, insert_nodeid);
+    bool loadfeas = check_nodeinsert_load_feas(route, insert_nodepos_compact, insert_nodeid);
+    bool milefeas = check_nodeinsert_mileage_feas(route, insert_nodepos_compact, insert_nodeid);
+    bool usedpathfeas = check_nodeinsert_usedpath_feas(route, insert_nodepos_compact, insert_nodeid);
     return (timefeas && loadfeas && milefeas) ? true : false;
 }
 
 //when removing a node, need to check the time feasibility
 bool HeuristicFramework::check_route_remove_feas(Route &route, int remove_nodepos_compact)
 {
-    return check_tw_remove_feas(route, remove_nodepos_compact);
+    bool timefeas = check_noderemove_tw_feas(route, remove_nodepos_compact);
+    bool usedpath_feas = check_noderemove_usedpath_feas(route, remove_nodepos_compact);
+    return timefeas;
+}
+
+bool HeuristicFramework::check_modify_usedpath_feas(Route &route, int modify_arcpos_compact, int modified_usedpath_id)
+{
+    Route routecopy = route;
+    routecopy.used_paths_in_compact_route[modify_arcpos_compact] = modified_usedpath_id;
+    set_extended_route(routecopy);
+    set_node_labels(routecopy);
+
+    TimeWindowUpdater twupdater(routecopy, nodeset);
+    twupdater.cal_route_tw();
+    bool istimefeas = twupdater.check_route_feasibility();
+    //bool isdistfeas = check_nodeinsert_mileage_feas -> this only consider the feasibility of inserting a node rather than modifying a used path
+
+    bool isdistfeas;
+    int node1 = route.compact_route[modify_arcpos_compact];
+    int node2 = route.compact_route[modify_arcpos_compact+1];
+    double orig_usedpath = route.used_paths_in_compact_route[modify_arcpos_compact];
+    double orig_dist = nodeset.avail_path_set[node1][node2][orig_usedpath].KSP_Dist;
+    double new_dist = nodeset.avail_path_set[node1][node2][modified_usedpath_id].KSP_Dist;
+    isdistfeas = (route.route_mileage[route.compact_route.size()-1] + new_dist - orig_dist) <= vehset.max_range;
+
+    return (istimefeas && isdistfeas);
 }
 
 /*building a solution*/
@@ -602,10 +647,11 @@ void HeuristicFramework::build_complete_sol(Solution &sol)
         sol.sol_config[i].route_arrtime = plmaker.get_arrtime_after_platoon(i);
         sol.sol_config[i].route_deptime = plmaker.get_arrtime_after_platoon(i);
     }
+    sol.total_dist_before_platoon = cal_sol_total_dist(sol);
     sol.total_energy_related_dist = cal_sol_total_energy_dist_cost(sol);
     sol.total_trip_duration = cal_sol_total_trip_dur(sol);
     sol.total_unserved_requests = cal_sol_total_unserved_requests(sol);
-    sol.total_obj_val = cal_sol_total_obj_val(sol);
+    sol.total_obj_val_after_platoon = cal_sol_objval_after_platoon(sol);
 }
 
 /*calculating a solution*/
@@ -649,16 +695,23 @@ int HeuristicFramework::cal_sol_total_trip_dur(Solution &sol)
 
 int HeuristicFramework::cal_sol_total_unserved_requests(Solution &sol)
 {
-    int total_cus = nodeset.nodenum - 1;  //exclude the depot;
+    int total_cus = 0;  //exclude the depot and the intersections;
+    for(int i = 1; i < nodeset.nodenum; i++)
+    {
+        if(nodeset.nodetype[i] != 2)
+        {
+            total_cus += 1;
+        }
+    }
     int total_served = 0;
     for(int i = 0; i < sol.sol_config.size(); i++)
     {
         total_served += sol.sol_config[i].compact_route.size()-2;
     }
-    return total_served;
+    return (total_cus - total_served);
 }
 
-double HeuristicFramework::cal_sol_total_obj_val(Solution &sol)
+double HeuristicFramework::cal_sol_objval_after_platoon(Solution &sol)
 {
     //total obj val = sum weight of total energy-related distance cost, total trip duration, total unserved requests
     double total_obj_val = 0;
@@ -667,6 +720,17 @@ double HeuristicFramework::cal_sol_total_obj_val(Solution &sol)
     total_obj_val += obj_w3 * cal_sol_total_unserved_requests(sol);
     return total_obj_val;
 }
+
+double HeuristicFramework::cal_sol_objval_before_platoon(Solution &sol)
+{
+    //total obj val = sum weight of total energy-related distance cost, total trip duration, total unserved requests
+    double total_obj_val = 0;
+    total_obj_val += obj_w1 * cal_sol_total_dist(sol);
+    total_obj_val += obj_w2 * cal_sol_total_trip_dur(sol);
+    total_obj_val += obj_w3 * cal_sol_total_unserved_requests(sol);
+    return total_obj_val;
+}
+
 
 //get the best solution
 Solution HeuristicFramework::get_best_solution()
@@ -679,3 +743,17 @@ vector<double> HeuristicFramework::get_cputime()
     vector<double> cpu_time = {cpu_time_before_platoon, cpu_time_after_platoon};
     return cpu_time;
 }
+
+double HeuristicFramework::get_sol_objval_before_platoon(Solution &sol)
+{
+    double objval = cal_sol_objval_before_platoon(sol);
+    return objval;
+}
+
+
+double HeuristicFramework::get_sol_objval_after_platoon(Solution &sol)
+{
+    double objval = cal_sol_objval_after_platoon(sol);
+    return objval;
+}
+

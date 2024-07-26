@@ -677,9 +677,9 @@ double PlatoonMaker::cal_arc_total_energy_len(vector<int> input_arc)
     double arc_total_energy_dist = 0;
     double arclen = nodeset.initial_distmat[input_arc[0]][input_arc[1]];  //the length of the given arc
     int arcsize = get_arc_appear_times(input_arc);  //the number of times the arc appears in the solution
-    auto iter_sol = find_if(coupling_arcs_sol.begin(), coupling_arcs_sol.end(), [&](CouplingArcSol x){return x.thisarc == input_arc;});
+    auto iter_sol = find_if(cur_sol.sol_platoons_all_arcs.begin(), cur_sol.sol_platoons_all_arcs.end(), [&](CouplingArcSol x){return x.thisarc == input_arc;});
     //discuss two cases: 1. the arc is coupled; 2. the arc is not coupled
-    if(iter_sol == coupling_arcs_sol.end()) //no platoons are formed
+    if(iter_sol == cur_sol.sol_platoons_all_arcs.end()) //no platoons are formed
     {
         arc_total_energy_dist = arclen * arcsize;
         return arc_total_energy_dist;

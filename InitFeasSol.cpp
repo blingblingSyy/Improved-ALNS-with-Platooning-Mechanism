@@ -261,6 +261,7 @@ void InitFeasSol::build_initial_sol(vector<int> &unserved_cus_id, vector<int> &u
     TimeWindowUpdater twupdater(best_sol.sol_config[1], nodeset);
     twupdater.cal_route_tw();
     twupdater.set_route_tw(best_sol.sol_config[1].route_deptw, best_sol.sol_config[1].route_arrtw);
+    set_route_mileage(best_sol.sol_config[1]);
 
     cpu_time_before_platoon = (clock() - start ) / (double) CLOCKS_PER_SEC;
     build_complete_sol(best_sol);
