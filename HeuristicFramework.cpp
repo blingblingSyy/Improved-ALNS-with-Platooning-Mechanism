@@ -651,7 +651,7 @@ void HeuristicFramework::build_complete_sol(Solution &sol)
     sol.total_energy_related_dist = cal_sol_total_energy_dist_cost(sol);
     sol.total_trip_duration = cal_sol_total_trip_dur(sol);
     sol.total_unserved_requests = cal_sol_total_unserved_requests(sol);
-    sol.total_obj_val_after_platoon = cal_sol_objval_after_platoon(sol);
+    sol.total_objval_after_platoon = cal_sol_objval_after_platoon(sol);
 }
 
 /*calculating a solution*/
