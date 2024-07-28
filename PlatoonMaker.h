@@ -22,8 +22,6 @@ class PlatoonMaker
         vector<vector<vector<int>>> arcs_based_extended_routes;
         vector<vector<int>> unique_arcs_set; //the set of unique arcs in the solution
         int unique_arcs_num; //the number of unique arcs
-        // vector<vector<int>> vehs_on_unique_arcs;  //the vehicles set that shares the same arc
-        // vector<vector<vector<int>>> vehs_arcs_matrix; //row being the vehicle, column being the unique arc, the content being the vector of the positions of the arc in the corresponding route
         struct CouplingArc
         {
             vector<int> thisarc; //{1,2}

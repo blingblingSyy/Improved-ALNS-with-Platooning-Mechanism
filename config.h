@@ -1,4 +1,4 @@
-// Config.h
+// Config.h //for model config
 
 #ifndef _CONFIG_H_    //include guards
 #define _CONFIG_H_
@@ -39,7 +39,6 @@ const int VTYPE = 2;
 const int modify_pasdmd_amount = 10;
 
 const int ALTERSET_SIZE_K = 5; //the limit of the size of alternative paths
-
 
 //store one Dijkstra Solution
 struct DijkstraOneSol
@@ -180,7 +179,7 @@ struct Solution
     double total_energy_related_dist;
     int total_trip_duration;
     int total_unserved_requests;
-    double total_obj_val_after_platoon;
+    double total_objval_after_platoon;
     // double cpu_time;
 };
 

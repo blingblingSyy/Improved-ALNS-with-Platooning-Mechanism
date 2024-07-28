@@ -807,7 +807,7 @@ void ResultWriter::write_result()
     outfile << "total energy-related distance cost: " << input_sol.total_energy_related_dist << endl;
     outfile << "total trip duration: " << input_sol.total_trip_duration << endl;
     outfile << "total unserved requests: " << input_sol.total_unserved_requests << endl;
-    outfile << "total objective value after platooning: " << input_sol.total_obj_val_after_platoon << endl;
+    outfile << "total objective value after platooning: " << input_sol.total_objval_after_platoon << endl;
     outfile << "CPU time before platooning: " << cpu[0] << endl;
     outfile << "CPU time after platooning: " << cpu[1] << endl;
 
@@ -824,7 +824,7 @@ void ResultWriter::record_solution()
     outfile << "total energy-related distance cost: " << input_sol.total_energy_related_dist << endl;
     outfile << "total trip duration: " << input_sol.total_trip_duration << endl;
     outfile << "total unserved requests: " << input_sol.total_unserved_requests << endl;
-    outfile << "total objective value after platooning: " << input_sol.total_obj_val_after_platoon << endl;
+    outfile << "total objective value after platooning: " << input_sol.total_objval_after_platoon << endl;
     outfile << "CPU time before platooning: " << cpu[0] << endl;
     outfile << "CPU time after platooning: " << cpu[1] << endl;
 
