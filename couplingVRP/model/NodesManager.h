@@ -4,102 +4,63 @@
 #define _NODESMANAGER_H_
 
 #include <vector>
-#include <string>
-#include <fstream>
 #include "config.h"
 using namespace std;
 
-/// @brief this class is to process the data for nodes
+/// @brief a class to process the data for nodes
 class NodesManager
 {
     protected:
-    //setting mavs
-    vector<int> set_mavtype(int mav_num, double prob);
-    vector<int> set_mavcap(vector<int> mav_type);
-    vector<int> set_mavwlim(vector<int> mav_type);
+        //! whether to modify some nodes to be intersections
+        bool add_intersects;
 
-    //setting nodes
-    vector<int> set_nodetype(int node_num, double prob, bool add_intersects);
-    vector<int> randdemand(vector<int> nodetype);
-    void modify_demand(vector<int> &initial_dmd, vector<int> nodetype, bool modify_pasdmd);
-    vector<int> set_demand_type(vector<int> demands, vector<int> nodetype);
-    vector<int> set_sertime_const(vector<int> node_type);
-    vector<double> set_serverate(vector<int> node_type);
-    vector<vector<int>> set_sertw(vector<vector<int>> tvl_tw, vector<int> nodetype);
-    vector<vector<int>> set_matchmavs(vector<int> nodetype, vector<int> mavtype);
-    vector<vector<int>> get_tvltw(vector<double> source_dist, int plan_horizon, double speed);
-    vector<vector<int>> get_neighbours(vector<vector<double>> init_dist, int node_num);
-    
-    //setting matrices
-    vector<vector<double>> get_init_distmat(vector<vector<double>> coordinates);
-    vector<vector<double>> modify_init_distmat(vector<vector<double>> init_dist);
-    vector<vector<int>> get_init_tvltime(vector<vector<double>> init_dist, int node_num, double speed);
-    
+        //! whether to reduce the passenger demands by a factor
+        bool shrink_pasdmd;
+
     public:
-    NodesManager();
+        NodesManager(bool add_intersects, bool shrink_pasdmd);
+        ~NodesManager() {}; 
+
+        //! identify a node's type by its demands
+        int identify_nodetype(int nodeid, int nodedmd);
+
+        //! set the types of all nodes: 0 for passenger and 1 for freight
+        vector<int> set_nodetype(int node_num, double prob, bool add_intersects);
+        
+        //! randomly generate demands based on the node types for all nodes
+        vector<int> randdemand(vector<int> nodetype);
+        
+        //! modify the demands for intersections and passengers
+        void modify_demand(vector<int> &initial_dmd, vector<int> nodetype, bool modify_pasdmd);
+        
+        //! set different constant service time for different types of nodes
+        vector<int> set_servetime(vector<int> node_type);
+        
+        //! set different service rate for different types of nodes
+        vector<double> set_serverate(vector<int> node_type);
+        
+        //! set the travelable time windows for all nodes
+        vector<vector<int>> cal_tvltw(vector<double> source_dist, int plan_horizon, double speed);
+        
+        //! set the service time windows for all nodes from top given their different node types
+        vector<vector<int>> set_sertw(vector<vector<int>> tvl_tw, vector<int> nodetype);
+        
+        //! set the set of vehicles of the same type for all nodes
+        vector<vector<int>> set_matchmavs(vector<int> nodetype, vector<int> mavtype);
+        
+        //! get the set of adjacent nodes for all nodes given the initial distance matrix
+        vector<vector<int>> get_neighbours(vector<vector<double>> init_dist, int node_num);
+        
+        //! calculate the initial distance matrix for all pairs of nodes
+        vector<vector<double>> cal_init_distmat(vector<vector<double>> coordinates);
+        
+        //! modify the initial distance matrix by changing connectivity between nodes
+        vector<vector<double>> modify_init_distmat(vector<vector<double>> init_dist);
+        
+        //! get the initial travel time matrix based on the (modified) initial distance matrix
+        vector<vector<int>> get_init_tvltime(vector<vector<double>> init_dist, int node_num, double speed);
 
 };
 
-//Read data from the instances
-class BenchmarkInitializer: public NodesManager  //deal with both nodes and vehicles and make modification based on the benchmark dataset
-{
-    private: 
-        string filename;
-        int file_row;
-        vector<vector<int>> data_vec;
-        int veh_num;
-        vector<int> veh_type;
-        vector<int> veh_cap;
-        vector<int> veh_waitlim;
-        int veh_speed;
-        int max_dist;  //need to be set
-        int pl_max; //need to be set
-        int node_num;
-        vector<int> node_type;
-        vector<int> demands;    //negative if the request is a delivery request
-        vector<int> dmd_type;
-        vector<vector<int>> match_mavset;
-        vector<vector<double>> coordinates;
-        vector<vector<double>> initial_distmat;
-        vector<vector<double>> modified_distmat;
-        vector<vector<double>> SP_distmat;
-        vector<vector<vector<ADijkstraSol>>> altpath_sets;
-        vector<vector<int>> neighbours;
-        vector<vector<int>> travel_tw;
-        vector<vector<int>> service_tw;
-        vector<int> servetime_const; 
-        void countrows();
-        void readdata();
-        void extract_demands(vector<int> nodetype);
-        void extract_coordinates();
-        void extract_servetw();
-        void extract_servicetime();
-    public:
-        BenchmarkInitializer(string filepath, bool add_intersects = true, bool modify_dist = true, bool modify_pasdmd = true);
-        int getRowNum();
-        int get_veh_num();
-        vector<int> get_veh_type();
-        vector<int> get_veh_cap();
-        vector<int> get_veh_waitlim();
-        int get_veh_speed();
-        int get_max_dist();
-        int get_plmax();
-        int get_node_num();
-        vector<int> get_nodetype();
-        vector<int> get_demands();
-        vector<int> get_dmdtype();
-        vector<vector<int>> get_matchmavs();
-        vector<vector<double>> get_coordinates();
-        vector<vector<double>> get_initial_distmat();
-        vector<vector<double>> get_modified_distmat();
-        vector<vector<double>> get_SP_distmat();
-        vector<vector<vector<ADijkstraSol>>> get_altpath_set();
-        vector<vector<int>> get_ajacent_nodes();
-        vector<vector<int>> get_travel_tw();
-        vector<vector<int>> get_service_tw();
-        vector<int> get_service_time();
-        Vehicles get_mav_struct();
-        Nodes get_node_struct();
-};
 
 #endif

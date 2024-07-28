@@ -191,7 +191,7 @@ vector<int> NodesManager::set_demand_type(vector<int> demands, vector<int> nodet
 }
 
 //generate constant service time length for each location (for self-created data)
-vector<int> NodesManager::set_sertime_const(vector<int> node_type)
+vector<int> NodesManager::set_servetime(vector<int> node_type)
 {
     vector<int> serve_time(int(node_type.size()));
     for(int i = 0; i < node_type.size(); i++)
@@ -367,7 +367,7 @@ vector<vector<int>> NodesManager::get_init_tvltime(vector<vector<double>> init_d
 
 //generate available AMV travelling time windows for each customer: earliest arrival time & latest leaving time
 //to model time-space network, transform time into integers
-vector<vector<int>> NodesManager::get_tvltw(vector<double> source_dist, int plan_horizon, double speed)   //source dist is the shortest path distance from the depot
+vector<vector<int>> NodesManager::cal_tvltw(vector<double> source_dist, int plan_horizon, double speed)   //source dist is the shortest path distance from the depot
 {
     vector<vector<int>> tvl_tw(int(source_dist.size()));
     for(int i = 0; i < source_dist.size(); i++)
@@ -442,7 +442,7 @@ BenchmarkInitializer::BenchmarkInitializer(string filepath, bool add_intersects,
     SP_distmat = altpathsets_obj.get_Dijkstra_Dist_allpaths();
     altpath_sets = altpathsets_obj.get_alternatives_allpaths();
     neighbours = get_neighbours(modified_distmat, node_num);
-    travel_tw = get_tvltw(SP_distmat[0], data_vec[1][5], veh_speed); //data_vec[1][5]: planning horizon
+    travel_tw = cal_tvltw(SP_distmat[0], data_vec[1][5], veh_speed); //data_vec[1][5]: planning horizon
     extract_servetw(); //get modified service time windows for each node
     extract_servicetime(); //get service time for each node
 }

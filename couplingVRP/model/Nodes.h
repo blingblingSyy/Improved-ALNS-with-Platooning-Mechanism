@@ -2,15 +2,27 @@
 #define NODES_H_
 
 #include <vector>
+#include "couplingVRP/model/RawInstance.h"
+#include "couplingVRP/model/NodesManager.h"
 #include "couplingVRP/model/ADijkstraSol.h"
 #include "couplingVRP/model/AlternativePaths.h"
-#include "couplingVRP/model/RawInstance.h"
 using namespace std;
+
+class RawInstance;
+class NodesManager;
+class ADijkstraSol;
+class AlternativePaths;
 
 /// @brief the class is to define the features of all nodes and the methods to set, modify and get the nodes information
 class Nodes
 {
     private:
+        //! a copy of raw data of input instance
+        RawInstance rawInstance;
+
+        //! a manager of processing nodes data
+        NodesManager NodesMan;
+
         //! the number of nodes including the depot, customers, and intersections
         int nodenum;
 
@@ -54,7 +66,7 @@ class Nodes
         vector<double> service_rate;
 
     public:
-        Nodes(RawInstance inputInstance);
+        Nodes(RawInstance inputInstance, bool modify_connectivity);
         ~Nodes() {};
 
         //! a simple getter
@@ -67,7 +79,7 @@ class Nodes
         int getDemands(int nodeid) {return demands[nodeid];};
 
         //! a simple getter
-        vector<double> getCoordinate(int nodeid) {return coordinates[nodeid]};
+        vector<double> getCoordinate(int nodeid) {return coordinates[nodeid];};
 
         //! a simple getter
         double getInitialDist(int nodeid1, int nodeid2) {return initial_distmat[nodeid1][nodeid2];};
@@ -80,29 +92,19 @@ class Nodes
 
         //! a simple getter
         vector<int> getNeighbour(int nodeid) {return neighbours[nodeid];};
+
+        //! a simple getter
+        vector<int> getTravelTW(int nodeid) {return travel_tw[nodeid];};
+
+        //! a simple getter
+        vector<int> getServiceTW(int nodeid) {return service_tw[nodeid];};
+
+        //! a simple getter 
+        int getServiceTime(int nodeid) {return service_time[nodeid];};
+
+        //! a simple getter
+        double getServiceRate(int nodeid) {return service_rate[nodeid];};
 };
-
-
-vector<vector<int>> BenchmarkInitializer::get_ajacent_nodes()
-{
-    return neighbours;
-}
-
-vector<vector<int>> BenchmarkInitializer::get_travel_tw()
-{
-    return travel_tw;
-}
-
-vector<vector<int>> BenchmarkInitializer::get_service_tw()
-{
-    return service_tw;
-}
-
-vector<int> BenchmarkInitializer::get_service_time()
-{
-    return servetime_const;
-}
-
 
 
 #endif
