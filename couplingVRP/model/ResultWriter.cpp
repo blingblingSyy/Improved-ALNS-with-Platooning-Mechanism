@@ -15,14 +15,14 @@ using namespace std;
 
 class AlternativePaths;
 
-DataMaster::DataMaster()
+NodesManager::NodesManager()
 {
 
 }
 
 
 //generate type for each MAV - 0 for passenger and 1 for freight
-vector<int> DataMaster::set_mavtype(int mav_num, double prob)   //prob = PAS_MAV_PROP
+vector<int> NodesManager::set_mavtype(int mav_num, double prob)   //prob = PAS_MAV_PROP
 {
     vector<int> mav_type(mav_num);
     int pas_mavs = int(ceil(mav_num * prob));
@@ -61,7 +61,7 @@ vector<int> DataMaster::set_mavtype(int mav_num, double prob)   //prob = PAS_MAV
 }
 
 //link vehicle capacity with each vehicle type
-vector<int> DataMaster::set_mavcap(vector<int> mav_type)    //0 for passenger and 1 for freight
+vector<int> NodesManager::set_mavcap(vector<int> mav_type)    //0 for passenger and 1 for freight
 {
     vector<int> mav_cap(int(mav_type.size()));
     for(int i = 0; i < mav_type.size(); i++)
@@ -72,7 +72,7 @@ vector<int> DataMaster::set_mavcap(vector<int> mav_type)    //0 for passenger an
 }
 
 //generate waiting time limit for each AMV
-vector<int> DataMaster::set_mavwlim(vector<int> mav_type)
+vector<int> NodesManager::set_mavwlim(vector<int> mav_type)
 {
     vector<int> mav_wlim(int(mav_type.size()));
     for(int i = 0; i < mav_type.size(); i++)
@@ -85,7 +85,7 @@ vector<int> DataMaster::set_mavwlim(vector<int> mav_type)
 
 //generate type for each request - 0 for passenger and 1 for freight
 //in larger transportation network, some nodes have type 2, which are intersections without demands. 
-vector<int> DataMaster::set_nodetype(int node_num, double prob, bool add_intersects) //prob = PAS_REQ_PROP
+vector<int> NodesManager::set_nodetype(int node_num, double prob, bool add_intersects) //prob = PAS_REQ_PROP
 {
     vector<int> node_type(node_num);
     int pas_reqs = int(ceil(node_num * prob));
@@ -126,7 +126,7 @@ vector<int> DataMaster::set_nodetype(int node_num, double prob, bool add_interse
 }
 
 //generate random demand for each node according to their node type (for self-created data)
-vector<int> DataMaster::randdemand(vector<int> nodetype)
+vector<int> NodesManager::randdemand(vector<int> nodetype)
 {
     vector<int> demand;
     demand.resize(int(nodetype.size()));
@@ -150,7 +150,7 @@ vector<int> DataMaster::randdemand(vector<int> nodetype)
 }
 
 //modify demands according to node types by setting demands
-void DataMaster::modify_demand(vector<int> &initial_dmd, vector<int> nodetype, bool modify_pasdmd)
+void NodesManager::modify_demand(vector<int> &initial_dmd, vector<int> nodetype, bool modify_pasdmd)
 {
     int nodenum = nodetype.size();
     for(int i = 0; i < nodenum; i++)
@@ -173,7 +173,7 @@ void DataMaster::modify_demand(vector<int> &initial_dmd, vector<int> nodetype, b
 }
 
 //set the demand type for each node based on the node types and the demands
-vector<int> DataMaster::set_demand_type(vector<int> demands, vector<int> nodetype)
+vector<int> NodesManager::set_demand_type(vector<int> demands, vector<int> nodetype)
 {
     vector<int> dmd_type(nodetype.size()); //0: pickup nodes; 1: delivery nodes; 2: depot or intersections
     for(int i = 0; i < nodetype.size(); i++)
@@ -191,7 +191,7 @@ vector<int> DataMaster::set_demand_type(vector<int> demands, vector<int> nodetyp
 }
 
 //generate constant service time length for each location (for self-created data)
-vector<int> DataMaster::set_sertime_const(vector<int> node_type)
+vector<int> NodesManager::set_sertime_const(vector<int> node_type)
 {
     vector<int> serve_time(int(node_type.size()));
     for(int i = 0; i < node_type.size(); i++)
@@ -213,7 +213,7 @@ vector<int> DataMaster::set_sertime_const(vector<int> node_type)
 }
 
 //generate service rate for each customer (for self-created data)
-vector<double> DataMaster::set_serverate(vector<int> node_type)
+vector<double> NodesManager::set_serverate(vector<int> node_type)
 {
     vector<double> serve_rate(int(node_type.size()));
     for(int i = 0; i < node_type.size(); i++)
@@ -235,7 +235,7 @@ vector<double> DataMaster::set_serverate(vector<int> node_type)
 }
 
 //generate available AMV serving time window for each customer according to their node type (for self-created data)
-vector<vector<int>> DataMaster::set_sertw(vector<vector<int>> tvl_tw, vector<int> nodetype) //the two parameters should be of the same length
+vector<vector<int>> NodesManager::set_sertw(vector<vector<int>> tvl_tw, vector<int> nodetype) //the two parameters should be of the same length
 {
     RandomNumber r;
     vector<vector<int>> ser_tw(int(tvl_tw.size()));
@@ -264,7 +264,7 @@ vector<vector<int>> DataMaster::set_sertw(vector<vector<int>> tvl_tw, vector<int
 }
 
 //get the combination of customers and amvs of the same type
-vector<vector<int>> DataMaster::set_matchmavs(vector<int> nodetype, vector<int> mavtype)
+vector<vector<int>> NodesManager::set_matchmavs(vector<int> nodetype, vector<int> mavtype)
 {
     vector<vector<int>> match_comb;
     match_comb.resize(int(nodetype.size()));
@@ -293,7 +293,7 @@ vector<vector<int>> DataMaster::set_matchmavs(vector<int> nodetype, vector<int> 
 
 
 //get initial distance matrix given the coordinate of each node
-vector<vector<double>> DataMaster::get_init_distmat(vector<vector<double>> coordinates)
+vector<vector<double>> NodesManager::get_init_distmat(vector<vector<double>> coordinates)
 {
     int nodenum = coordinates.size();
     vector<vector<double>> init_dist(nodenum);
@@ -317,7 +317,7 @@ vector<vector<double>> DataMaster::get_init_distmat(vector<vector<double>> coord
 }
 
 //modify the initial distance matrix by randomly disconnecting some direct links between two nodes
-vector<vector<double>> DataMaster::modify_init_distmat(vector<vector<double>> init_dist)
+vector<vector<double>> NodesManager::modify_init_distmat(vector<vector<double>> init_dist)
 {
     int nodenum = init_dist.size();
     vector<vector<double>> copy_dist = init_dist;
@@ -334,7 +334,7 @@ vector<vector<double>> DataMaster::modify_init_distmat(vector<vector<double>> in
 }
 
 //find the neighbours of each node
-vector<vector<int>> DataMaster::get_neighbours(vector<vector<double>> init_dist, int node_num)
+vector<vector<int>> NodesManager::get_neighbours(vector<vector<double>> init_dist, int node_num)
 {
     vector<vector<int>> adjacent_nodes(node_num);
     for(int i = 0; i < node_num; i++)
@@ -351,7 +351,7 @@ vector<vector<int>> DataMaster::get_neighbours(vector<vector<double>> init_dist,
 }
 
 //generate the travel time matrix based on original distance matrix
-vector<vector<int>> DataMaster::get_init_tvltime(vector<vector<double>> init_dist, int node_num, double speed)
+vector<vector<int>> NodesManager::get_init_tvltime(vector<vector<double>> init_dist, int node_num, double speed)
 {
     vector<vector<int>> travel_time(node_num);
     for(int i = 0; i < node_num; i++)
@@ -367,7 +367,7 @@ vector<vector<int>> DataMaster::get_init_tvltime(vector<vector<double>> init_dis
 
 //generate available AMV travelling time windows for each customer: earliest arrival time & latest leaving time
 //to model time-space network, transform time into integers
-vector<vector<int>> DataMaster::get_tvltw(vector<double> source_dist, int plan_horizon, double speed)   //source dist is the shortest path distance from the depot
+vector<vector<int>> NodesManager::get_tvltw(vector<double> source_dist, int plan_horizon, double speed)   //source dist is the shortest path distance from the depot
 {
     vector<vector<int>> tvl_tw(int(source_dist.size()));
     for(int i = 0; i < source_dist.size(); i++)
@@ -385,7 +385,7 @@ vector<vector<int>> DataMaster::get_tvltw(vector<double> source_dist, int plan_h
 }
 
 /*BenchmarkInitializer: read and deal with the dataset in the file*/
-BenchmarkInitializer::BenchmarkInitializer(string filepath, bool add_intersects, bool modify_dist, bool modify_pasdmd): DataMaster()
+BenchmarkInitializer::BenchmarkInitializer(string filepath, bool add_intersects, bool modify_dist, bool modify_pasdmd): NodesManager()
 {
     filename = filepath;
     file_row = 0;
@@ -541,7 +541,7 @@ void BenchmarkInitializer::extract_servicetime()
 }
 
 //get the number of rows in the file
-int BenchmarkInitializer::get_filerow()
+int BenchmarkInitializer::getRowNum()
 {
     return file_row;
 }
@@ -636,7 +636,7 @@ vector<vector<double>> BenchmarkInitializer::get_SP_distmat()
     return SP_distmat;
 }
 
-vector<vector<vector<DijkstraOneSol>>> BenchmarkInitializer::get_altpath_set()
+vector<vector<vector<ADijkstraSol>>> BenchmarkInitializer::get_altpath_set()
 {
     return altpath_sets;
 }

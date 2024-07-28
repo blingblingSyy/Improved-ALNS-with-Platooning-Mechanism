@@ -15,6 +15,8 @@
 #include "InitFeasSol.h"
 using namespace std;  
 
+// const string ins100_dir = "C:\\Users\\SYY\\Improved_ALNS_Git\\Li_Lim_Benchmark\\pdp_100";
+// const string result_dir = "C:\\Users\\SYY\\Improved_ALNS_Git\\results";
 
 int main()
 {
@@ -23,7 +25,7 @@ int main()
     bool modify_nodes_to_intersects = false;
     bool modify_connectivity = false;
     bool modify_pasdmd = true;
-    BenchmarkInitializer data1(file_path, modify_nodes_to_intersects, modify_connectivity, modify_pasdmd);
+    RawInstance data1(file_path, modify_nodes_to_intersects, modify_connectivity, modify_pasdmd);
     Vehicles vehset = data1.get_mav_struct();
     Nodes nodeset = data1.get_node_struct();
     InitFeasSol initial_sol(nodeset, vehset);

@@ -88,6 +88,8 @@
         "syncstream": "cpp",
         "thread": "cpp",
         "typeindex": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "xstring": "cpp",
+        "cassert": "cpp"
     }
 }

@@ -1,7 +1,7 @@
-// DataReader.h
+// NodesManager.h
 
-#ifndef _DATAREADER_H_    //include guards
-#define _DATAREADER_H_
+#ifndef _NODESMANAGER_H_    //include guards
+#define _NODESMANAGER_H_
 
 #include <vector>
 #include <string>
@@ -9,7 +9,8 @@
 #include "config.h"
 using namespace std;
 
-class DataMaster
+/// @brief this class is to process the data for nodes
+class NodesManager
 {
     protected:
     //setting mavs
@@ -35,12 +36,12 @@ class DataMaster
     vector<vector<int>> get_init_tvltime(vector<vector<double>> init_dist, int node_num, double speed);
     
     public:
-    DataMaster();
+    NodesManager();
 
 };
 
 //Read data from the instances
-class BenchmarkInitializer: public DataMaster  //deal with both nodes and vehicles and make modification based on the benchmark dataset
+class BenchmarkInitializer: public NodesManager  //deal with both nodes and vehicles and make modification based on the benchmark dataset
 {
     private: 
         string filename;
@@ -62,7 +63,7 @@ class BenchmarkInitializer: public DataMaster  //deal with both nodes and vehicl
         vector<vector<double>> initial_distmat;
         vector<vector<double>> modified_distmat;
         vector<vector<double>> SP_distmat;
-        vector<vector<vector<DijkstraOneSol>>> altpath_sets;
+        vector<vector<vector<ADijkstraSol>>> altpath_sets;
         vector<vector<int>> neighbours;
         vector<vector<int>> travel_tw;
         vector<vector<int>> service_tw;
@@ -75,7 +76,7 @@ class BenchmarkInitializer: public DataMaster  //deal with both nodes and vehicl
         void extract_servicetime();
     public:
         BenchmarkInitializer(string filepath, bool add_intersects = true, bool modify_dist = true, bool modify_pasdmd = true);
-        int get_filerow();
+        int getRowNum();
         int get_veh_num();
         vector<int> get_veh_type();
         vector<int> get_veh_cap();
@@ -92,31 +93,13 @@ class BenchmarkInitializer: public DataMaster  //deal with both nodes and vehicl
         vector<vector<double>> get_initial_distmat();
         vector<vector<double>> get_modified_distmat();
         vector<vector<double>> get_SP_distmat();
-        vector<vector<vector<DijkstraOneSol>>> get_altpath_set();
+        vector<vector<vector<ADijkstraSol>>> get_altpath_set();
         vector<vector<int>> get_ajacent_nodes();
         vector<vector<int>> get_travel_tw();
         vector<vector<int>> get_service_tw();
         vector<int> get_service_time();
         Vehicles get_mav_struct();
         Nodes get_node_struct();
-};
-
-
-//Write algorithm results to files
-class ResultWriter
-{
-    private: 
-        ofstream outfile;
-        string file_name;
-        string file_path;
-        Solution input_sol;
-        string solution_stage;
-        vector<double> cpu;
-        // vector<string> heu_names;
-    public:
-        ResultWriter(string resultpath, string filename, Solution solution, vector<double> cpu_time, string stage_name);
-        void write_result();
-        void record_solution();
 };
 
 #endif

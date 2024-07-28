@@ -7,6 +7,7 @@
 // #include <bits/stdc++.h>
 using namespace std;
 
+/// @brief a class to generate random number of given type from a specific interval
 class RandomNumber  
 {  
      public:  

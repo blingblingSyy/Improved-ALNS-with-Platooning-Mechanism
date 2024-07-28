@@ -36,7 +36,7 @@ const double PAS_REQ_PROP = 0.5;    //ratio of passenger requests
 const double INTERSECTIONS_PROB = 0.3; //probability of changing a node to be an intersection
 const double DISCONNECTION_PROB = 0.3; //probability of disconnecting the direct link between a given pair of nodes
 const int VTYPE = 2;
-const int modify_pasdmd_amount = 10;
+const int modify_pasdmd_amount = 10; //shrink the passenger demand by a factor of 10
 
 const int ALTERSET_SIZE_K = 5; //the limit of the size of alternative paths
 
@@ -46,12 +46,12 @@ const double obj_w2 = 1;
 const double obj_w3 = 10;
 
 //store one Dijkstra Solution
-struct DijkstraOneSol
+struct ADijkstraSol
 {
     double KSP_Dist;
     vector<int> KSP_Path;  //from start node to every other nodes
 
-    bool operator ==(const DijkstraOneSol& other) const 
+    bool operator ==(const ADijkstraSol& other) const 
     {
         if (KSP_Dist != other.KSP_Dist) return false; 
         return KSP_Path == other.KSP_Path;
@@ -103,7 +103,7 @@ struct Nodes
     vector<vector<int>> initial_timemat; //initial travel time matrix between any two nodes
     vector<vector<double>> SP_distmat; //shortest path distance matrix between any two nodes
     vector<vector<int>> SP_timemat;  //shortest path travel time matrix between any two nodes
-    vector<vector<vector<DijkstraOneSol>>> avail_path_set; //available path set consists of all possible paths including shortest path and detours between any two nodes
+    vector<vector<vector<ADijkstraSol>>> avail_path_set; //available path set consists of all possible paths including shortest path and detours between any two nodes
     vector<vector<int>> service_tw;  //possible time window to serve a node; for depot, the time window is the planning horizon
     vector<vector<int>> travel_tw;  //possible time window to bypass a node
     vector<int> service_time; //service time is constant if 1) a node is only served by one vehicle; or 2) the service time is independent on the service amount
