@@ -34,6 +34,18 @@ class PlatoonMaker
                 return thisarc == other.thisarc;
             }
         };
+
+        //calculate the distance reduction factor for a platoon of specific length
+double pl_factor(int length)
+{
+    if(length <= 0)
+    {
+        throw "Division by zero or negative condition!";
+    }
+    return double(1+0.90*(length-1)) / double(length);
+}
+
+
         vector<CouplingArc> unique_arcs_config;
         vector<CouplingArcSol> coupling_arcs_sol; //all coupling cases for all arcs of the current solution
         

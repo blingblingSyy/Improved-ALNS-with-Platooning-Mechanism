@@ -38,7 +38,7 @@ const double DISCONNECTION_PROB = 0.3; //probability of disconnecting the direct
 const int VTYPE = 2;
 const int modify_pasdmd_amount = 10; //shrink the passenger demand by a factor of 10
 
-const int ALTERSET_SIZE_K = 5; //the limit of the size of alternative paths
+const int AVAIL_PATHSET_SIZE_K = 5; //the limit of the size of alternative paths
 
 //parameters for the objective function
 const double obj_w1 = 1;

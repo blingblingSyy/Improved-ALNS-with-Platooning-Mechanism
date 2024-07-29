@@ -30,6 +30,7 @@ class RawInstance
 
     public:
         RawInstance(string filepath);
+        RawInstance() = default;
         ~RawInstance(){};
 
         //! a simple getter
@@ -37,6 +38,30 @@ class RawInstance
 
         //! a simple getter
         vector<int> getRowData(int rowid);
+
+        //! get the planning horizon of the system
+        int getPlanHorizon() {return data_vec[1][5];};
+
+        //! extract the number of vehicles from the instance data
+        int extract_vehnum() {return data_vec[0][0];};
+
+        //! extract the capacity of vehicles from the instance data
+        int extract_vehcap() {return data_vec[0][1];};
+
+        //! extract the speed of vehicles from the instance data
+        int extract_vehspeed() {return data_vec[0][2];};
+
+        //! extract demands from the instance data
+        vector<int> extract_demands();
+
+        //! extract coordinates from the instance data
+        vector<vector<double>> extract_coordinates();
+
+        //! extract service time windows from the instance data
+        vector<vector<int>> extract_sertw();
+
+        //! extract service time from the instance data
+        vector<int> extract_sertime();
 };
 
 #endif

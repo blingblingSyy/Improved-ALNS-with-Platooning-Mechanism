@@ -1,124 +1,77 @@
-/*
+#ifndef VEHICLES_H_
+#define VEHICLES_H_
 
-//get the number of rows in the file
-int BenchmarkInitializer::getRowNum()
-{
-    return rownum;
-}
+#include <vector>
+#include "couplingVRP/model/RawInstance.h"
+#include "couplingVRP/model/VehiclesManager.h"
+using namespace std;
 
-//get the number of mavs
-int BenchmarkInitializer::get_veh_num()
-{
-    return veh_num;
-}
 
-//set vehicle type
-vector<int> BenchmarkInitializer::get_veh_type()
+/// @brief the class is to define the features of all vehicles and the methods to set, modify and get the vehicles information
+class Vehicles
 {
-    return veh_type;
-}
+    private:
+        //! a copy of raw data of input instance
+        RawInstance rawInstance;
 
-vector<int> BenchmarkInitializer::get_veh_cap()
-{
-    return veh_cap;
-}
+        //! a manager of processing nodes data
+        VehiclesManager VehsMan;
+        
+        //! the total number of vehicles
+        int veh_num;
 
-vector<int> BenchmarkInitializer::get_veh_waitlim()
-{
-    return veh_waitlim;
-}
+        //! the vehicle speed in the system
+        int veh_speed;
 
-//get vehicle speed
-int BenchmarkInitializer::get_veh_speed()
-{
-    return veh_speed;
-}
+        //! the type of each vehicle
+        vector<int> veh_types;
 
-//get the maximum distance for each vehicle
-int BenchmarkInitializer::get_max_dist()
-{
-    return max_dist;
-}
+        //! the capacity of each vehicle
+        vector<int> veh_cap;
 
-//get the maximum platoon length set in the road network
-int BenchmarkInitializer::get_plmax()
-{
-    return pl_max;
+        //! the waiting time limit per node of each vehicle
+        vector<int> veh_wlim_pernode;
+
+        //! the maximum waiting time limit of each vehicle for all nodes
+        int veh_wlim_max;
+
+        //! the maximum distance range of each vehicle for all nodes
+        double veh_range;
+
+        //! the maximum platoon length of vehicles 
+        int veh_plmax;
+
+        //! build the complete information of all nodes
+        void buildVehsStruct();
+
+    public:
+        Vehicles(RawInstance& inputInstance, VehiclesManager& VehsMan);
+        ~Vehicles() {};
+
+        //! a simple getter
+        int getVehNum() {return veh_num;}; 
+
+        //! a simple getter
+        int getVehSpeed() {return veh_speed;};
+
+        //! a simple getter
+        int getVehType(int vehid) {return veh_types[vehid];};
+
+        //! a simple getter
+        int getVehCap(int vehid) {return veh_cap[vehid];};
+
+        //! a simple getter
+        int getVehWaitTimePerNode(int vehid) {return veh_wlim_pernode[vehid];};
+
+        //! a simple getter
+        int getVehWaitTimeMax() {return veh_wlim_max;};
+
+        //! a simple getter
+        double getVehRange() {return veh_range;};
+
+        //! a simple getter
+        int getPlatoonMaxLen() {return veh_plmax;};
 };
 
 
-//get the number of nodes in the road network
-int BenchmarkInitializer::get_node_num()  //including the depot node
-{
-    return node_num;
-};
-
-//get the passenger or freight types of each node in the road network
-vector<int> BenchmarkInitializer::get_nodetype()
-{
-    return node_type;
-};
-
-vector<int> BenchmarkInitializer::get_demands()
-{
-    return demands;
-}
-
-//get the demand types of each node in the road network
-vector<int> BenchmarkInitializer::get_dmdtype()
-{
-    return dmd_type;
-};
-
-vector<vector<int>> BenchmarkInitializer::get_matchmavs()
-{
-    return match_mavset;
-}
-
-vector<vector<double>> BenchmarkInitializer::get_coordinates()
-{
-    return coordinates;
-}
-
-//get the original distance matrix from the road network
-vector<vector<double>> BenchmarkInitializer::get_initial_distmat()
-{
-    return initial_distmat;
-}
-
-vector<vector<double>> BenchmarkInitializer::get_modified_distmat()
-{
-    return modified_distmat;
-}
-
-vector<vector<double>> BenchmarkInitializer::get_SP_distmat()
-{
-    return SP_distmat;
-}
-
-vector<vector<vector<ADijkstraSol>>> BenchmarkInitializer::get_altpath_set()
-{
-    return altpath_sets;
-}
-
-vector<vector<int>> BenchmarkInitializer::get_ajacent_nodes()
-{
-    return neighbours;
-}
-
-vector<vector<int>> BenchmarkInitializer::get_travel_tw()
-{
-    return travel_tw;
-}
-
-vector<vector<int>> BenchmarkInitializer::get_service_tw()
-{
-    return service_tw;
-}
-
-vector<int> BenchmarkInitializer::get_service_time()
-{
-    return servetime_const;
-}
-
-*/
+#endif

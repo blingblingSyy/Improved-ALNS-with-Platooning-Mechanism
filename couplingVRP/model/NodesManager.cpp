@@ -3,19 +3,13 @@
 #include <cmath>
 #include <cstdlib>  
 #include <algorithm>  
+#include <cassert>
 #include "couplingVRP/model/NodesManager.h"
-#include "utility.h"
-#include "config.h"
+#include "couplingVRP/model/utility.h"
+#include "couplingVRP/model/config.h"
 using namespace std;  
 
-int NodesManager::identify_nodetype(int nodeid, int nodedmd)
-{
-
-}
-
-
-//in larger transportation network, some nodes have type 2, which are intersections without demands. 
-vector<int> NodesManager::set_nodetype(int node_num, double prob, bool add_intersects) //prob = PAS_REQ_PROP
+vector<int> NodesManager::set_nodetype(int node_num, bool add_intersects, double prob)
 {
     vector<int> node_type(node_num);
     int pas_reqs = int(ceil(node_num * prob));
@@ -55,7 +49,6 @@ vector<int> NodesManager::set_nodetype(int node_num, double prob, bool add_inter
     return node_type;
 }
 
-//generate random demand for each node according to their node type (for self-created data)
 vector<int> NodesManager::randdemand(vector<int> nodetype)
 {
     vector<int> demand;
@@ -79,8 +72,7 @@ vector<int> NodesManager::randdemand(vector<int> nodetype)
     return demand;
 }
 
-//modify demands according to node types by setting demands
-void NodesManager::modify_demand(vector<int> &initial_dmd, vector<int> nodetype, bool modify_pasdmd)
+void NodesManager::modify_demands(vector<int> &initial_dmd, vector<int> nodetype, bool modify_pasdmd)
 {
     int nodenum = nodetype.size();
     for(int i = 0; i < nodenum; i++)
@@ -102,25 +94,6 @@ void NodesManager::modify_demand(vector<int> &initial_dmd, vector<int> nodetype,
     }
 }
 
-//set the demand type for each node based on the node types and the demands
-vector<int> NodesManager::set_demand_type(vector<int> demands, vector<int> nodetype)
-{
-    vector<int> dmd_type(nodetype.size()); //0: pickup nodes; 1: delivery nodes; 2: depot or intersections
-    for(int i = 0; i < nodetype.size(); i++)
-    {
-        if(nodetype[i] != 2)
-        {
-            dmd_type[i] = (demands[i] >= 0) ? 0 : 1;
-        }
-        else //nodetype[i] == 2
-        {
-            dmd_type[i] = 2;
-        }
-    }
-    return dmd_type;
-}
-
-//generate constant service time length for each location (for self-created data)
 vector<int> NodesManager::set_servetime(vector<int> node_type)
 {
     vector<int> serve_time(int(node_type.size()));
@@ -142,7 +115,6 @@ vector<int> NodesManager::set_servetime(vector<int> node_type)
     return serve_time;
 }
 
-//generate service rate for each customer (for self-created data)
 vector<double> NodesManager::set_serverate(vector<int> node_type)
 {
     vector<double> serve_rate(int(node_type.size()));
@@ -164,9 +136,38 @@ vector<double> NodesManager::set_serverate(vector<int> node_type)
     return serve_rate;
 }
 
-//generate available AMV serving time window for each customer according to their node type (for self-created data)
-vector<vector<int>> NodesManager::set_sertw(vector<vector<int>> tvl_tw, vector<int> nodetype) //the two parameters should be of the same length
+vector<vector<int>> NodesManager::cal_tvltw(vector<double> source_dist, int plan_horizon, double speed)
 {
+    vector<vector<int>> tvl_tw(int(source_dist.size()));
+    for(int i = 0; i < source_dist.size(); i++)   //source dist is the shortest path distance from the depot
+    {
+        int source_time = int(ceil(source_dist[i] / speed));
+        if(plan_horizon - source_time <= 0 + source_time)
+        {
+            cerr << "Infeasible travel time window of node "<< i << endl;
+            tvl_tw[i] = {0, 0};
+        }
+        else
+            tvl_tw[i] = {0 + source_time, plan_horizon - source_time};  //by default, the starting time of the planning horizon is 0
+    }
+	return tvl_tw;
+}
+
+vector<vector<int>> NodesManager::calibrate_sertw(vector<vector<int>> initial_sertw, vector<int> servetime, vector<vector<int>> tvl_tw)
+{
+    // assert(initial_sertw.size() == tvl_tw.size());
+    vector<vector<int>> updated_sertw;
+    for(int i = 0; i < initial_sertw.size(); i++)
+    {
+        updated_sertw.push_back({max(initial_sertw[i][0], tvl_tw[i][0]), min(initial_sertw[i][1], tvl_tw[i][1])});
+    }
+    return updated_sertw;
+}
+
+
+vector<vector<int>> NodesManager::set_sertw(vector<vector<int>> tvl_tw, vector<int> nodetype)
+{
+    // assert(tvl_tw.size() == nodetype.size());
     RandomNumber r;
     vector<vector<int>> ser_tw(int(tvl_tw.size()));
     for(int i = 0; i < tvl_tw.size(); i++)
@@ -187,43 +188,29 @@ vector<vector<int>> NodesManager::set_sertw(vector<vector<int>> tvl_tw, vector<i
         }
         else
         {
-            ser_tw[i] = tvl_tw[i];
+            ser_tw[i] = tvl_tw[i]; //for depot and intersections
         }
     }
     return ser_tw;
 }
 
-//get the combination of customers and amvs of the same type
-vector<vector<int>> NodesManager::set_matchmavs(vector<int> nodetype, vector<int> mavtype)
+vector<vector<int>> NodesManager::find_adjacent_nodes(vector<vector<double>> init_dist, int node_num)
 {
-    vector<vector<int>> match_comb;
-    match_comb.resize(int(nodetype.size()));
-    for(int i = 0; i < nodetype.size(); i++)
+    vector<vector<int>> adjacent_nodes(node_num);
+    for(int i = 0; i < node_num; i++)
     {
-        if(nodetype[i] < 2)
+        for(int j = 0; j < node_num; j++)
         {
-            for(int v = 0; v < mavtype.size(); v++)
+            if((i != j) && (init_dist[i][j] != INF))
             {
-                if(mavtype[v] == nodetype[i])
-                {
-                    match_comb[i].push_back(v);
-                }
-            }
-        }
-        else    //nodetype[i] == 2 -> intersections
-        {
-            for(int v = 0; v < mavtype.size(); v++)
-            {
-                match_comb[i].push_back(v);
+                adjacent_nodes[i].push_back(j);
             }
         }
     }
-    return match_comb;
+    return adjacent_nodes;
 }
 
-
-//get initial distance matrix given the coordinate of each node
-vector<vector<double>> NodesManager::get_init_distmat(vector<vector<double>> coordinates)
+vector<vector<double>> NodesManager::cal_init_distmat(vector<vector<double>> coordinates)
 {
     int nodenum = coordinates.size();
     vector<vector<double>> init_dist(nodenum);
@@ -246,7 +233,6 @@ vector<vector<double>> NodesManager::get_init_distmat(vector<vector<double>> coo
     return init_dist;
 }
 
-//modify the initial distance matrix by randomly disconnecting some direct links between two nodes
 vector<vector<double>> NodesManager::modify_init_distmat(vector<vector<double>> init_dist)
 {
     int nodenum = init_dist.size();
@@ -263,24 +249,7 @@ vector<vector<double>> NodesManager::modify_init_distmat(vector<vector<double>> 
     return copy_dist;
 }
 
-//find the neighbours of each node
-vector<vector<int>> NodesManager::get_neighbours(vector<vector<double>> init_dist, int node_num)
-{
-    vector<vector<int>> adjacent_nodes(node_num);
-    for(int i = 0; i < node_num; i++)
-    {
-        for(int j = 0; j < node_num; j++)
-        {
-            if((i != j) && (init_dist[i][j] != INF))
-            {
-                adjacent_nodes[i].push_back(j);
-            }
-        }
-    }
-    return adjacent_nodes;
-}
 
-//generate the travel time matrix based on original distance matrix
 vector<vector<int>> NodesManager::get_init_tvltime(vector<vector<double>> init_dist, int node_num, double speed)
 {
     vector<vector<int>> travel_time(node_num);
@@ -293,23 +262,4 @@ vector<vector<int>> NodesManager::get_init_tvltime(vector<vector<double>> init_d
         }
     }
     return travel_time;
-}
-
-//generate available AMV travelling time windows for each customer: earliest arrival time & latest leaving time
-//to model time-space network, transform time into integers
-vector<vector<int>> NodesManager::cal_tvltw(vector<double> source_dist, int plan_horizon, double speed)   //source dist is the shortest path distance from the depot
-{
-    vector<vector<int>> tvl_tw(int(source_dist.size()));
-    for(int i = 0; i < source_dist.size(); i++)
-    {
-        int source_time = int(ceil(source_dist[i] / speed));
-        if(plan_horizon - source_time <= 0 + source_time)
-        {
-            cerr << "Infeasible travel time window of node "<< i << endl;
-            tvl_tw[i] = {0, 0};
-        }
-        else
-            tvl_tw[i] = {0 + source_time, plan_horizon - source_time};  //by default, the starting time of the planning horizon is 0
-    }
-	return tvl_tw;
 }

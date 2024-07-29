@@ -5,13 +5,9 @@
 #include "couplingVRP/model/RawInstance.h"
 #include "couplingVRP/model/NodesManager.h"
 #include "couplingVRP/model/ADijkstraSol.h"
-#include "couplingVRP/model/AlternativePaths.h"
+#include "couplingVRP/model/AvailablePaths.h"
 using namespace std;
 
-class RawInstance;
-class NodesManager;
-class ADijkstraSol;
-class AlternativePaths;
 
 /// @brief the class is to define the features of all nodes and the methods to set, modify and get the nodes information
 class Nodes
@@ -22,6 +18,15 @@ class Nodes
 
         //! a manager of processing nodes data
         NodesManager NodesMan;
+
+        //! whether to add intersections in the input nodes or not
+        bool add_intersects;
+        
+        //! whether to shrink the passenger-type demands to meet the problem setting
+        bool shrink_pasdmd;
+        
+        //! whether to modify the connectivity between some nodes or not
+        bool modify_connectivity;
 
         //! the number of nodes including the depot, customers, and intersections
         int nodenum;
@@ -40,6 +45,9 @@ class Nodes
         
         //! initial distance matrix
         vector<vector<double>> initial_distmat;
+
+        //! modified distance matrix by setting some links to be disconnected
+        vector<vector<double>> modified_distmat;
 
         //! initial travel time matrix (round up to integer)
         vector<vector<int>> initial_timemat;
@@ -65,8 +73,11 @@ class Nodes
         //! the service rate for each node, usually different for passegners and freight
         vector<double> service_rate;
 
+        //! build the complete information of all nodes
+        void buildNodesStruct(int veh_speed);
+
     public:
-        Nodes(RawInstance inputInstance, bool modify_connectivity);
+        Nodes(RawInstance& inputInstance, NodesManager& NodesMan, bool add_intersects = true, bool shrink_pasdmd = true, bool modify_connectivity = true, int veh_speed = 1);
         ~Nodes() {};
 
         //! a simple getter
@@ -82,10 +93,10 @@ class Nodes
         vector<double> getCoordinate(int nodeid) {return coordinates[nodeid];};
 
         //! a simple getter
-        double getInitialDist(int nodeid1, int nodeid2) {return initial_distmat[nodeid1][nodeid2];};
+        vector<vector<double>> getInitialDist() {return initial_distmat;};
 
         //! a simple getter
-        int getSPtime(int nodeid1, int nodeid2) {return SP_timemat[nodeid1][nodeid2];};
+        vector<vector<int>> getSPtime() {return SP_timemat;};
 
         //! a simple getter
         vector<ADijkstraSol> getAvailPathSet(int nodeid1, int nodeid2) {return avail_path_set[nodeid1][nodeid2];};

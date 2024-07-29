@@ -12,15 +12,22 @@ class ADijkstraSol
         vector<int> KSP_Path;
 
     public:
-        ADijkstraSol(); 
+        ADijkstraSol() {KSP_Dist = 0; KSP_Path = {};}; 
         ~ADijkstraSol() {};
         
-        //! a comparator
+        //! a == comparator
         virtual bool operator ==(const ADijkstraSol& other) const;
+
+        //! a < comparator
+        virtual bool operator <(const ADijkstraSol& other) const;
 
         //! a simple getter
         double getDist() {return KSP_Dist;};
         vector<int> getPath() {return KSP_Path;};
+
+        //! a simple setter
+        void setDist(double inputDist) {KSP_Dist = inputDist;};
+        void setPath(vector<int> inputPath) {KSP_Path = inputPath;};
 };
 
 #endif

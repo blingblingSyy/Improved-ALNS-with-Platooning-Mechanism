@@ -462,7 +462,7 @@ vector<vector<pair<int, int>>> PlatoonMaker::find_platoons_one_arc(vector<pair<i
         vector<Route> sol_config_copy = cur_sol.sol_config;
         update_arrdeptw_on_route(maximum_clique_thisarc, maximum_platoon_tw, sol_config_copy);
         //remove all the nodes corresponding to the nodes in the maximum clique
-        remove_intersection(graph_nodes, maximum_clique_thisarc);
+        process_intersections(graph_nodes, maximum_clique_thisarc);
         //remove all the links adjacent to the nodes in the maximum clique
         if(!graph_nodes.empty())
         {
@@ -532,8 +532,8 @@ CouplingArcSol PlatoonMaker::arc_coupling_module(CouplingArc input_arc_config)
 //         }
 //     }
 //     //remove the arcs that form no platoons
-//     remove_intersection(coupling_arcs_sol, no_platoon_arcs_sol); //no_platoon_arcs will become empty
-//     remove_intersection(unique_arcs_config_copy, no_platoon_arcs_config);
+//     process_intersections(coupling_arcs_sol, no_platoon_arcs_sol); //no_platoon_arcs will become empty
+//     process_intersections(unique_arcs_config_copy, no_platoon_arcs_config);
 //     //to rank the coupling arc solutions by energy saving amount in descending order
 //     auto compare = [&](int s, int r) {return coupling_arcs_sol[s].energy_saving > coupling_arcs_sol[r].energy_saving;};
 //     while(!unique_arcs_config_copy.empty()) //!coupling_arcs_sol.empty()
@@ -561,8 +561,8 @@ CouplingArcSol PlatoonMaker::arc_coupling_module(CouplingArc input_arc_config)
 //                 no_platoon_arcs_config.push_back(unique_arcs_config_copy[s]);
 //             }
 //             //only keep the coupling arcs that can be platooned
-//             remove_intersection(coupling_arcs_sol, no_platoon_arcs_sol); //no_platoon_arcs will become empty
-//             remove_intersection(unique_arcs_config_copy, no_platoon_arcs_config);
+//             process_intersections(coupling_arcs_sol, no_platoon_arcs_sol); //no_platoon_arcs will become empty
+//             process_intersections(unique_arcs_config_copy, no_platoon_arcs_config);
 //         }
 //     }
 //     // return coupling_arcs_sol;
@@ -585,7 +585,7 @@ void PlatoonMaker::coupling_heuristic_all_arcs()
         }
     }
     //remove the arcs that form no platoons -> this will update the remaining_coupling_arcs_sol
-    remove_intersection(remaining_coupling_arcs_sol, no_platoon_arcs_sol);
+    process_intersections(remaining_coupling_arcs_sol, no_platoon_arcs_sol);
 
     //to rank the coupling arc solutions by energy saving amount in descending order
     auto compare = [&](pair<int, CouplingArcSol> s, pair<int, CouplingArcSol> r) {return s.second > r.second;};
@@ -613,7 +613,7 @@ void PlatoonMaker::coupling_heuristic_all_arcs()
                 no_platoon_arcs_sol.push_back(remaining_coupling_arcs_sol[s]);
             }
             //only keep the coupling arcs that can be platooned
-            remove_intersection(remaining_coupling_arcs_sol, no_platoon_arcs_sol);
+            process_intersections(remaining_coupling_arcs_sol, no_platoon_arcs_sol);
         }
     }
 }
