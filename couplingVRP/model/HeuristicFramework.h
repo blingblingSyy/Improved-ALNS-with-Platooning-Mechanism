@@ -27,7 +27,7 @@ class HeuristicFramework
 
         //for nodes and routes operations
         int tranform_vehid_to_routeid(vector<Route> sol_config, int input_vehid);
-        int tranform_nodepos_extend_to_compact(Route &route, int node_pos_extend);
+        int transform_nodepos_extend_to_compact(Route &route, int node_pos_extend);
 
         /*building a route*/
         Route build_new_route_struct(int &input_veh_id, int &input_veh_type, vector<int> &input_compact_route);

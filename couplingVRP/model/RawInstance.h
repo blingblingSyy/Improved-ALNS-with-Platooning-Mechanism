@@ -29,8 +29,13 @@ class RawInstance
         void readdata();
 
     public:
+        //! constructor
         RawInstance(string filepath);
+
+        //! default constructor
         RawInstance() = default;
+
+        //! destructor
         ~RawInstance(){};
 
         //! a simple getter

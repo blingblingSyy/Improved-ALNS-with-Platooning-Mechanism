@@ -259,7 +259,7 @@ void InitFeasSol::build_initial_sol(vector<int> &unserved_cus_id, vector<int> &u
     set_extended_route(best_sol.sol_config[1]);
     set_node_labels(best_sol.sol_config[1]);
     TimeWindowUpdater twupdater(best_sol.sol_config[1], nodeset);
-    twupdater.cal_route_tw();
+    twupdater.calRouteExpectedTW();
     twupdater.set_route_tw(best_sol.sol_config[1].route_deptw, best_sol.sol_config[1].route_arrtw);
     set_route_mileage(best_sol.sol_config[1]);
 

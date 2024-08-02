@@ -6,8 +6,7 @@
 #include <vector>
 using namespace std;
 
-#include "couplingVRP/model/ADijkstraSol.h"
-#include "couplingVRP/model/config.h"
+class ADijkstraSol;
 
 /// @brief a class to find the K's shortest path for all pairs of nodes
 class AvailablePaths

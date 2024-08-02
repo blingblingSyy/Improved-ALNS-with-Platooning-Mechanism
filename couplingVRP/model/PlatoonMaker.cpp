@@ -31,8 +31,8 @@ PlatoonMaker::PlatoonMaker(Solution &sol, Nodes nodes) //, Nodes &nodes
 vector<vector<int>> PlatoonMaker::make_arc_based_route(vector<int> input_extended_route)
 {
     vector<vector<int>> arcs_based_route;
-    int routelen = input_extended_route.size();
-    for(int i = 0; i < routelen-1; i++)
+    int extendroutelen = input_extended_route.size();
+    for(int i = 0; i < extendroutelen-1; i++)
     {
         arcs_based_route.push_back({input_extended_route[i], input_extended_route[i+1]});
     }
@@ -436,7 +436,7 @@ void PlatoonMaker::update_arrdeptw_on_route(vector<pair<int, int>> &platoon_conf
             int rid = platoon_config_on_arc[i].first;
             int arc_start_pos = platoon_config_on_arc[i].second;
             TimeWindowUpdater twupdater(sol_config_copy[rid], nodeset);  //only update the departure time windows of the routes used in the platoon
-            twupdater.calibrate_route_tw(arc_start_pos, maximum_platoon_tw);
+            twupdater.CalibRouteTW(arc_start_pos, maximum_platoon_tw);
             twupdater.set_route_tw(sol_config_copy[rid].route_deptw, sol_config_copy[rid].route_arrtw); //modify the arrival and departure time windows for a route given a modified departure time window for a node //..., vector<vector<int>> &route_deptw, vector<vector<int>> &route_arrtw
         }
     }
@@ -624,7 +624,7 @@ void PlatoonMaker::set_arrdep_time_all_routes()
     for(int i = 0; i < cur_sol.sol_config.size(); i++)
     {
         TimeWindowUpdater tw_updater(cur_sol.sol_config[i], nodeset);
-        tw_updater.set_arrdep_time_one_route(cur_sol.sol_config[i].route_arrtw, cur_sol.sol_config[i].route_deptw, cur_sol.sol_config[i].route_arrtime, cur_sol.sol_config[i].route_deptime);
+        tw_updater.setFinalArrDepTime(cur_sol.sol_config[i].route_arrtw, cur_sol.sol_config[i].route_deptw, cur_sol.sol_config[i].route_arrtime, cur_sol.sol_config[i].route_deptime);
     }
 }
 

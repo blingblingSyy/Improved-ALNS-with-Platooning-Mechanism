@@ -2,22 +2,27 @@
 #define NODES_H_
 
 #include <vector>
-#include "couplingVRP/model/RawInstance.h"
-#include "couplingVRP/model/NodesManager.h"
-#include "couplingVRP/model/ADijkstraSol.h"
-#include "couplingVRP/model/AvailablePaths.h"
 using namespace std;
 
+class RawInstance;
+class ADijkstraSol;
+class AvailablePaths;
 
 /// @brief the class is to define the features of all nodes and the methods to set, modify and get the nodes information
 class Nodes
 {
     private:
         //! a copy of raw data of input instance
-        RawInstance rawInstance;
+        RawInstance* rawInstance;
 
-        //! a manager of processing nodes data
-        NodesManager NodesMan;
+        //! whether to re-design the demands instead of using the raw demands from the instance
+        bool reset_demands;
+
+        //! whether to re-design the service time instead of using the raw service time from the instance
+        bool reset_sertime;
+
+        //! whether to re-design the service time window instead of using the raw service time window from the instance
+        bool reset_sertw;
 
         //! whether to add intersections in the input nodes or not
         bool add_intersects;
@@ -73,11 +78,50 @@ class Nodes
         //! the service rate for each node, usually different for passegners and freight
         vector<double> service_rate;
 
+        //! set the types of all nodes: 0 for passenger and 1 for freight
+        vector<int> set_nodetype(int node_num, bool add_intersects, double prob = PAS_REQ_PROP);
+        
+        //! randomly generate demands based on the node types for all nodes
+        vector<int> randdemand(vector<int> nodetype);
+        
+        //! modify the demands for intersections and passengers
+        void modify_demands(vector<int> &initial_dmd, vector<int> nodetype, bool shrink_pasdmd);
+        
+        //! set different constant service time for different types of nodes
+        vector<int> set_servetime(vector<int> node_type);
+        
+        //! set different service rate for different types of nodes
+        vector<double> set_serverate(vector<int> node_type);
+        
+        //! set the travelable time windows for all nodes
+        vector<vector<int>> cal_tvltw(vector<double> source_dist, int plan_horizon, double speed);
+        
+        //! calibrate the service time windows for all nodes based on the travel time windows
+        void calibrate_sertw(vector<vector<int>>& initial_sertw, vector<int> servetime, vector<vector<int>> tvl_tw);
+        
+        //! set the service time windows for all nodes from top given their different node types
+        vector<vector<int>> set_sertw(vector<vector<int>> tvl_tw, vector<int> nodetype);
+
+        //! get the set of adjacent nodes for all nodes given the initial distance matrix
+        vector<vector<int>> find_adjacent_nodes(vector<vector<double>> init_dist, int node_num);
+        
+        //! calculate the initial distance matrix for all pairs of nodes
+        vector<vector<double>> cal_init_distmat(vector<vector<double>> coordinates);
+        
+        //! modify the initial distance matrix by changing connectivity between nodes
+        vector<vector<double>> modify_init_distmat(vector<vector<double>> init_dist);
+        
+        //! get the initial travel time matrix based on the (modified) initial distance matrix
+        vector<vector<int>> cal_init_tvltime(vector<vector<double>> init_dist, int node_num, double speed);
+
         //! build the complete information of all nodes
         void buildNodesStruct(int veh_speed);
 
     public:
-        Nodes(RawInstance& inputInstance, NodesManager& NodesMan, bool add_intersects = true, bool shrink_pasdmd = true, bool modify_connectivity = true, int veh_speed = 1);
+        //! constructor
+        Nodes(RawInstance& inputInstance, bool reset_demands = false, bool reset_sertime = false, bool reset_sertw = false, bool add_intersects = true, bool shrink_pasdmd = true, bool modify_connectivity = true, int veh_speed = 1);
+        
+        //! destructor
         ~Nodes() {};
 
         //! a simple getter
@@ -96,10 +140,19 @@ class Nodes
         vector<vector<double>> getInitialDist() {return initial_distmat;};
 
         //! a simple getter
+        vector<vector<int>> getInitialTime() {return initial_timemat;};
+
+        //! a simple getter
+        vector<vector<double>> getSPdist() {return SP_distmat;};
+
+        //! a simple getter
         vector<vector<int>> getSPtime() {return SP_timemat;};
 
         //! a simple getter
         vector<ADijkstraSol> getAvailPathSet(int nodeid1, int nodeid2) {return avail_path_set[nodeid1][nodeid2];};
+
+        //! a simple getter
+        ADijkstraSol getOnePath(int nodeid1, int nodeid2, int pathid);
 
         //! a simple getter
         vector<int> getNeighbour(int nodeid) {return neighbours[nodeid];};

@@ -1,12 +1,12 @@
-#ifndef APLATOON_H_
-#define APLATOON_H_
+#ifndef PLATOONSONEARC_H_
+#define PLATOONSONEARC_H_
 
 #include <vector>
 #include <tuple>
 using namespace std;
 
 /// @brief a class to store a platoon's configuration on one arc
-class APlatoon
+class PlatoonsOneArc
 {
     private:
         //! the arc on which the platoon is formed
@@ -37,8 +37,8 @@ class APlatoon
         double calEnergySaving();
 
     public:
-        APlatoon() {}; 
-        ~APlatoon() {};
+        PlatoonsOneArc() {}; 
+        ~PlatoonsOneArc() {};
         
         //! a == comparator
         virtual bool operator ==(const APlatoon& other) const;

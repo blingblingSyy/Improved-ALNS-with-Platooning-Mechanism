@@ -12,7 +12,10 @@ class ADijkstraSol
         vector<int> KSP_Path;
 
     public:
+        //! constructor
         ADijkstraSol() {KSP_Dist = 0; KSP_Path = {};}; 
+
+        //! destructor
         ~ADijkstraSol() {};
         
         //! a == comparator

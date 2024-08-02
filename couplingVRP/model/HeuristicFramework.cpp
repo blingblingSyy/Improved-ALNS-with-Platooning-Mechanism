@@ -36,7 +36,7 @@ int HeuristicFramework::tranform_vehid_to_routeid(vector<Route> sol_config, int 
     }
 }
 
-int HeuristicFramework::tranform_nodepos_extend_to_compact(Route &route, int node_pos_extend)
+int HeuristicFramework::transform_nodepos_extend_to_compact(Route &route, int node_pos_extend)
 {
     if(route.node_labels[node_pos_extend] == 1)
     {
@@ -149,14 +149,14 @@ void HeuristicFramework::set_node_labels(Route &route)
 void HeuristicFramework::set_route_arrdep_tw(Route &route)
 {
     TimeWindowUpdater twupdater(route, nodeset);
-    twupdater.cal_route_tw();
+    twupdater.calRouteExpectedTW();
     twupdater.set_route_tw(route.route_deptw, route.route_arrtw);
 }
 
 void HeuristicFramework::set_route_arrdep_time(Route &route)
 {
     TimeWindowUpdater twupdater(route, nodeset);
-    twupdater.set_arrdep_time_one_route(route.route_arrtw, route.route_deptw, route.route_arrtime, route.route_deptime);
+    twupdater.setFinalArrDepTime(route.route_arrtw, route.route_deptw, route.route_arrtime, route.route_deptime);
 }
 
 void HeuristicFramework::set_route_loads(Route &route)
@@ -205,7 +205,7 @@ void HeuristicFramework::modify_route_insert_node(Route &route, int node_pos_com
     set_extended_route(route);
     set_node_labels(route);
     // TimeWindowUpdater twupdater(route, nodeset);
-    // twupdater.cal_route_tw();
+    // twupdater.calRouteExpectedTW();
     // twupdater.set_route_tw(route.route_deptw, route.route_arrtw);
     route.route_arrtw.clear();
     route.route_deptw.clear();
@@ -227,7 +227,7 @@ void HeuristicFramework::modify_route_remove_node(Route &route, int node_pos_com
     set_extended_route(route);
     set_node_labels(route);
     // TimeWindowUpdater twupdater(route, nodeset);
-    // twupdater.cal_route_tw();
+    // twupdater.calRouteExpectedTW();
     // twupdater.set_route_tw(route.route_deptw, route.route_arrtw);
     route.route_arrtw.clear();
     route.route_deptw.clear();
@@ -247,8 +247,8 @@ bool HeuristicFramework::modify_route_used_path(Route &route, int modify_arcpos_
     set_node_labels(routecopy);
 
     TimeWindowUpdater twupdater(routecopy, nodeset);
-    twupdater.cal_route_tw();
-    bool istimefeas = twupdater.check_route_feasibility();
+    twupdater.calRouteExpectedTW();
+    bool istimefeas = twupdater.isRouteTimeFeas();
     //bool isdistfeas = check_nodeinsert_mileage_feas -> this only consider the feasibility of inserting a node rather than modifying a used path
 
     bool isdistfeas;
@@ -276,8 +276,8 @@ bool HeuristicFramework::modify_route_used_path(Route &route, int modify_arcpos_
 //     Route route_copy = route;
 //     modify_route_insert_node(route_copy, node_pos_compact, node_id);
 //     TimeWindowUpdater twupdater(route_copy, nodeset);
-//     twupdater.cal_route_tw();
-//     bool timefeas = twupdater.check_route_feasibility();
+//     twupdater.calRouteExpectedTW();
+//     bool timefeas = twupdater.isRouteTimeFeas();
 //     bool loadfeas = check_nodeinsert_load_feas(route, node_pos_compact, node_id);
 //     bool milefeas = check_nodeinsert_mileage_feas(route, node_pos_compact, node_id);
 //     if(timefeas && loadfeas && milefeas)
@@ -299,8 +299,8 @@ bool HeuristicFramework::modify_route_used_path(Route &route, int modify_arcpos_
 //     Route route_copy = route;
 //     modify_route_remove_node(route_copy, node_pos_compact);
 //     TimeWindowUpdater twupdater(route_copy, nodeset);
-//     twupdater.cal_route_tw();
-//     bool timefeas = twupdater.check_route_feasibility();
+//     twupdater.calRouteExpectedTW();
+//     bool timefeas = twupdater.isRouteTimeFeas();
 //     if(timefeas)
 //     {
 //         route = route_copy;
@@ -389,8 +389,8 @@ pair<double, int> HeuristicFramework::cal_cheapest_insert_cost(Route &route, int
         // Route route_copy = route;
         // modify_route_insert_node(route_copy, i, route.compact_route[i]);
         // TimeWindowUpdater twupdater(route_copy, nodeset);
-        // twupdater.cal_route_tw();
-        // bool timefeas = twupdater.check_route_feasibility();
+        // twupdater.calRouteExpectedTW();
+        // bool timefeas = twupdater.isRouteTimeFeas();
         // bool isfeas = check_route_insert_feas(timefeas, route, i, node);
         bool isfeas = check_route_insert_feas(route, i, node); //i: inserted position; 
         if(isfeas)
@@ -477,8 +477,8 @@ double HeuristicFramework::cal_route_total_dist(Route &route)
 // vector<int> HeuristicFramework::find_servednode_id(vector<int> labels)
 // {
 //     vector<int> serve_idvec;
-//     auto routelen = labels.size();
-//     for(int i = 0; i < routelen; i++)
+//     auto extendroutelen = labels.size();
+//     for(int i = 0; i < extendroutelen; i++)
 //     {
 //         if(labels[i]) //label == 1: serve
 //         {
@@ -547,8 +547,8 @@ bool HeuristicFramework::check_nodeinsert_tw_feas(Route &route, int insert_nodep
     Route route_copy = route;
     modify_route_insert_node(route_copy, insert_nodepos_compact, insert_nodeid);
     TimeWindowUpdater twupdater(route_copy, nodeset);
-    twupdater.cal_route_tw();
-    return twupdater.check_route_feasibility();
+    twupdater.calRouteExpectedTW();
+    return twupdater.isRouteTimeFeas();
 }
 
 bool HeuristicFramework::check_noderemove_tw_feas(Route &route, int remove_nodepos_compact)
@@ -556,7 +556,7 @@ bool HeuristicFramework::check_noderemove_tw_feas(Route &route, int remove_nodep
     Route route_copy = route;
     modify_route_remove_node(route_copy, remove_nodepos_compact);
     TimeWindowUpdater twupdater(route_copy, nodeset);
-    return twupdater.check_route_feasibility();
+    return twupdater.isRouteTimeFeas();
 }
 
 bool HeuristicFramework::check_nodeinsert_usedpath_feas(Route &route, int insert_nodepos_compact, int insert_nodeid)
@@ -587,8 +587,8 @@ bool HeuristicFramework::check_route_insert_feas(Route &route, int insert_nodepo
     // Route route_copy = route;
     // modify_route_insert_node(route_copy, insert_nodepos_compact, insert_nodeid);
     // TimeWindowUpdater twupdater(route_copy, nodeset);
-    // inserted_twupdater.cal_route_tw();
-    // bool timefeas = inserted_twupdater.check_route_feasibility();
+    // inserted_twupdater.calRouteExpectedTW();
+    // bool timefeas = inserted_twupdater.isRouteTimeFeas();
     bool timefeas = check_nodeinsert_tw_feas(route, insert_nodepos_compact, insert_nodeid);
     bool loadfeas = check_nodeinsert_load_feas(route, insert_nodepos_compact, insert_nodeid);
     bool milefeas = check_nodeinsert_mileage_feas(route, insert_nodepos_compact, insert_nodeid);
@@ -612,8 +612,8 @@ bool HeuristicFramework::check_modify_usedpath_feas(Route &route, int modify_arc
     set_node_labels(routecopy);
 
     TimeWindowUpdater twupdater(routecopy, nodeset);
-    twupdater.cal_route_tw();
-    bool istimefeas = twupdater.check_route_feasibility();
+    twupdater.calRouteExpectedTW();
+    bool istimefeas = twupdater.isRouteTimeFeas();
     //bool isdistfeas = check_nodeinsert_mileage_feas -> this only consider the feasibility of inserting a node rather than modifying a used path
 
     bool isdistfeas;
