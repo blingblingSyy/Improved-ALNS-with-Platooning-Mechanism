@@ -51,11 +51,20 @@ class AROUTE
         //! copy another route
         void copyFromOtherRoute(AROUTE& input_route);
 
+        //! evaluate the cost of inserting a node
+        void evaluateRouteByInsertNode(int insert_pos, int insert_nodeid);
+
         //! actually insert a node (link with the shortest path)
         void setRouteByInsertNode(int insert_pos, int insert_nodeid);
 
+        //! evaluate the cost of removing a node
+        void evaluateRouteByRemoveNode(int remove_pos);
+
         //! actually remove a node (link with the shortest path)
         void setRouteByRemoveNode(int remove_pos);
+
+        //! evaluate the cost of modifying a path
+        void evaluateRouteByModifyUsedPath(int modified_arcpos, int used_path_id);
 
         //! modify a used path: also modify the extended path and the vector of node labels
         void setRouteByModifyUsedPath(int modified_arcpos, int used_path_id); //the arcpos is the position of the start node of the arc
