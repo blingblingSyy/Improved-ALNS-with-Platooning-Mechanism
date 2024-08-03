@@ -19,6 +19,12 @@ public:
 	//! Destructor.
 	virtual ~VRPSolution() {};
 
+    //! build a new route with randomly selected node from the set of uninserted customers
+    void buildNewRoute();
+
+    //! build an initial solution from scratch
+    void buildInitialSol();
+
 	//! A getter for the value of the objective function.
 	virtual double getObjectiveValue();
 
@@ -91,9 +97,6 @@ public:
     //! calculate the objective value after platooning
     double calTotalObjectiveValue();
 
-    //! a simple getter
-
-
 private:
     //! the route configuration of the solution
     vector<AROUTE*> sol_config;
@@ -124,6 +127,12 @@ private:
 
     //! the customers that has not been inserted
     vector<int> nonInserted;
+
+    //! the cpu time before making platoons
+    double getCpuBeforePlatooning;
+
+    //! the cpu time after making platoons
+    double getCpuAfterPlatooning;
 
 };
 

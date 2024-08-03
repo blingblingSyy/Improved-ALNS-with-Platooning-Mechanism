@@ -5,10 +5,15 @@
 #include <tuple>
 using namespace std;
 
+class Nodes;
+
 /// @brief a class to store a platoon's configuration on one arc
 class APlatoon
 {
     private:
+        //! the input nodeset
+        Nodes* nodeset;
+        
         //! the arc on which the platoon is formed
         vector<int> arc;
 
@@ -27,17 +32,17 @@ class APlatoon
         //! the amount of energy saving by forming platoons on this arc
         double energy_saving;
 
-        //! calculate the length of arc
-        double calArcLen();
-
-        //! calculate the overlapping departure time windows of the platoon on this arc
-        vector<int> calOverlapDTW();
-
-        //! calculate the energy saving by this platoon on this arc
-        double calEnergySaving();
-
     public:
-        APlatoon() {}; 
+        //! constructor
+        APlatoon(Nodes& nodeset); 
+
+        //! copy constructor
+        APlatoon(APlatoon& p);
+
+        //! default constructor
+        APlatoon() = default;
+
+        //! destructor
         ~APlatoon() {};
         
         //! a == comparator
@@ -51,16 +56,36 @@ class APlatoon
 
         //! a simple getter
         vector<int> getArc() {return arc;};
-        int getArcLen() {return arclen;};
-        int getPlen() {return plen;};
-        vector<pair<int, int>> getPlatoonConfig() {return config;};
-        vector<int> getOverlapDTW() {return overlap_deptw;};
-        double getEnergySaving() {return energy_saving;};
 
-        //! a simple setter
+        //! a simple getter
+        vector<pair<int, int>> getPlatoonConfig() {return config;};
+
+        //! a simple getter
+        vector<int> getOverlapDTW() {return overlap_deptw;};
+
+        //! a simple getter to get the common vehicles involved in the platoon
+        vector<int> getRouteidsInPlatoon();
+
+        //! calculate the length of arc
+        double calArcLen();
+
+        //! calculate the length of the platoon
+        int calPLen();
+
+        //! calculate the energy saving by this platoon on this arc
+        double calEnergySaving();
+
+        //! a simple setter of the arc
         void setArc(vector<int> inputArc) {arc = inputArc;};
+
+        //! a simple setter of the platoon configuration
         void setConfig(vector<pair<int, int>> inputConfig) {config = inputConfig;};
-        void addVehicle(pair<int, int> inputVehicle) {config.push_back(inputVehicle);};
+
+        //! a simple setter to expand the platoon
+        void addOneConfig(pair<int, int> inputVehiclePos) {config.push_back(inputVehiclePos);};
+
+        //! a simple setter of the overlapping departure time windows
+        void setOverlapDTW(vector<int> input_overlaptw) {overlap_deptw = input_overlaptw;};
 
 };
 

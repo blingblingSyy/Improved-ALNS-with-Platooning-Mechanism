@@ -8,9 +8,9 @@
 #include <algorithm>  
 #include <tuple>
 #include <numeric>
-#include "PlatoonMaker.h"
-#include "config.h"
-#include "utility.h"
+#include "couplingVRP/model/PlatoonMaker.h"
+#include "couplingVRP/model/config.h"
+#include "couplingVRP/model/utility.h"
 using namespace std;  
 
 /*PlatoonMaker: make platoons based on the current solution*/

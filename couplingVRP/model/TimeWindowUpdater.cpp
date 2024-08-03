@@ -5,7 +5,7 @@
 #include <cstdlib>  
 #include <string>  
 #include <algorithm>  
-#include <cassert>
+#include <assert.h>
 #include "couplingVRP/model/TimeWindowUpdater.h"
 #include "couplingVRP/model/Nodes.h"
 #include "couplingVRP/model/config.h"

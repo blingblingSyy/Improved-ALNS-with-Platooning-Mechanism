@@ -6,18 +6,18 @@
 #include <vector>
 #include <string>
 #include <tuple>
-#include "config.h"
-#include "TimeWindowUpdater.h"
 using namespace std;
 
 class TimeWindowUpdater;
+class VRPSolution;
+class Nodes;
 
 //update the arrival and departure time windows within a route
 class PlatoonMaker
 {
     private: 
-        Solution cur_sol;
-        Nodes nodeset;
+        VRPSolution* cur_sol;
+        Nodes* nodeset;
         int routes_num; //the total number of vehicles/routes of the solution
         vector<vector<vector<int>>> arcs_based_extended_routes;
         vector<vector<int>> unique_arcs_set; //the set of unique arcs in the solution
@@ -81,7 +81,7 @@ double pl_factor(int length)
         void coupling_heuristic_all_arcs(); //systematically decide the sequence of coupling arcs of all routes
     
     public:
-        PlatoonMaker(Solution &sol, Nodes nodes);
+        PlatoonMaker(VRPSolution& sol, Nodes& nodes);
         void set_arrdep_time_all_routes(); //set the arrival time of all nodes within all routes in the solution -> &cur_sol.sol_config[r]
         vector<CouplingArcSol> get_coupling_sol();  //a simple getter -> vector<CouplingArcSol>
         vector<vector<int>> get_arrtw_after_platoon(int rid);
