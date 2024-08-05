@@ -64,7 +64,10 @@ class APlatoon
         vector<int> getOverlapDTW() {return overlap_deptw;};
 
         //! a simple getter to get the common vehicles involved in the platoon
-        vector<int> getRouteidsInPlatoon();
+        vector<int> getCommonRoutes();
+
+        //! a simple getter
+        double getEnergySaving() {return energy_saving;};
 
         //! calculate the length of arc
         double calArcLen();

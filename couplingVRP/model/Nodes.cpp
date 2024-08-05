@@ -283,7 +283,7 @@ vector<vector<double>> Nodes::cal_init_distmat(vector<vector<double>> coordinate
         init_dist[i].resize(nodenum);
         for(int j = i+1; j < nodenum && j > i; j++)
         {
-            init_dist[i][j] = cal_euclid_dist(coordinates[i], coordinates[j]);
+            init_dist[i][j] = calEuclidDist(coordinates[i], coordinates[j]);
         }
         init_dist[i][i] = 0;
     }

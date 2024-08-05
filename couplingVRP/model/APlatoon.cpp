@@ -38,7 +38,7 @@ bool APlatoon::operator >(const APlatoon& other) const
     return this->energy_saving >= other.energy_saving;
 } 
 
-vector<int> APlatoon::getRouteidsInPlatoon()
+vector<int> APlatoon::getCommonRoutes()
 {
     vector<int> commonVehs;
     for(int i = 0; i < config.size(); i++)
@@ -72,5 +72,6 @@ void APlatoon::setConfig(vector<pair<int, int>> inputConfig)
 double APlatoon::calEnergySaving()
 {
     //(n - (1+0.9(n-1)))d = 0.1(n-1)d
-    return 0.1*(plen-1)*arclen;
+    energy_saving = 0.1*(plen-1)*arclen;
+    return energy_saving;
 }

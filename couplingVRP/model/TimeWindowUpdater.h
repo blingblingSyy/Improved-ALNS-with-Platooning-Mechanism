@@ -99,7 +99,7 @@ class TimeWindowUpdater
         TimeWindowUpdater(vector<int> extended_route, vector<int> node_labels, int WaitTimePerNode, int WaitMaxRoute, Nodes& nodes);
         
         //! destructor
-        ~TimeWindowUpdater() {};
+        ~TimeWindowUpdater();
 
         //! calculate the expected arrival and departure time windows of a route
         void calRouteExpectedTW();

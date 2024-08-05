@@ -16,14 +16,17 @@ class RandomNumber
           float get_rflt(int begin = 0, int end = 1);
 }; 
 
+//! calculate the average number of an numeric vector
+double calAverage(vector<int> vec);
+
 //! calculate the euclidean distance between two coordinates
-double cal_euclid_dist(vector<double> x1_coord, vector<double> x2_coord);
+double calEuclidDist(vector<double> x1_coord, vector<double> x2_coord);
 
 //! calculate the distance of a path from a specific start node and end node position
-double cal_path_dist(vector<int> route, vector<vector<double>> init_dist, int start_id, int end_id);
+double calPathDist(vector<int> route, vector<vector<double>> init_dist, int start_id, int end_id);
 
 //! calculate the travel time of a path from a specific start node and end node position
-int cal_path_tvltime(vector<int> route, vector<vector<int>> init_timemat, int start_id, int end_id);
+int calPathTvlTime(vector<int> route, vector<vector<int>> init_timemat, int start_id, int end_id);
 
 //! Erasing multiple elements with specified positions from a vector 
 //! (but no need to retain the original order of the elements)

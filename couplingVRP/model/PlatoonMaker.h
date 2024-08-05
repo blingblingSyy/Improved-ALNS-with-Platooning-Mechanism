@@ -9,89 +9,160 @@
 using namespace std;
 
 class TimeWindowUpdater;
+class APlatoon;
 class VRPSolution;
 class Nodes;
+class ARoute;
 
-//update the arrival and departure time windows within a route
+/// @brief a class to systematically make platoons for the current solution and update the arrival and departure time for all routes
 class PlatoonMaker
 {
     private: 
+        //! the pointer to the current input solution
         VRPSolution* cur_sol;
-        Nodes* nodeset;
-        int routes_num; //the total number of vehicles/routes of the solution
-        vector<vector<vector<int>>> arcs_based_extended_routes;
-        vector<vector<int>> unique_arcs_set; //the set of unique arcs in the solution
-        int unique_arcs_num; //the number of unique arcs
-        struct CouplingArc
-        {
-            vector<int> thisarc; //{1,2}
-            vector<int> common_vehs; //{0,1,2}
-            vector<int> routes_id; //{3,4,5}
-            vector<vector<int>> arc_all_pos; //{{}, {}, {}}
 
-            bool operator ==(const CouplingArc& other) const 
+        //! the pointer to the input nodes set
+        Nodes* nodeset;
+
+        //! the number of routes invovled in the solution
+        int routes_num; 
+        
+        //! all the extended routes in the solution that consist of arcs instead of nodes
+        vector<vector<vector<int>>> arcs_based_extended_routes;
+
+        //! the set of unique arcs in the solution
+        vector<vector<int>> unique_arcs_set;
+        
+        //! the number of unique arcs in the solution
+        int unique_arcs_num;
+        
+        //! the occurance information of an arc in the solution
+        struct OccuranceOneArc
+        {
+            vector<int> thisarc; // {1,2}
+            vector<int> common_vehs; // {0,1,2}
+            vector<int> common_routes; // {3,4,5}
+            vector<vector<int>> arc_all_pos; // {{}, {}, {}}
+            vector<pair<int, int>> pairwise_feas_graph_nodeset; // <route_id, arcpos>
+
+            bool operator ==(const OccuranceOneArc& other) const 
             {
                 return thisarc == other.thisarc;
             }
         };
 
-        //calculate the distance reduction factor for a platoon of specific length
-double pl_factor(int length)
-{
-    if(length <= 0)
-    {
-        throw "Division by zero or negative condition!";
-    }
-    return double(1+0.90*(length-1)) / double(length);
-}
+        //! the set of occurance information for each unique arc - OccuranceOneArc
+        vector<OccuranceOneArc> unique_arcs_occurance;
 
+        //! the set of all valid platooning solutions
+        vector<APlatoon*> all_valid_platoons;
 
-        vector<CouplingArc> unique_arcs_config;
-        vector<CouplingArcSol> coupling_arcs_sol; //all coupling cases for all arcs of the current solution
+        //! set the pivot arc position in all routes in order to minimize the total trip duration
+        vector<int> pivotArc_all_routes;
         
-        /*construct the structure of the platooning solution*/
-        vector<vector<int>> make_arc_based_route(vector<int> input_extended_route); //make the route consist of arcs
-        void set_arcs_based_extended_routes();
-        void find_unqiue_arcs(); //find the set of unique arcs in the given solution
-        void find_vehs_on_all_arcs();    //set the CouplingArc.common_vehs
-        void find_all_arcpos_each_veh();    //set the CouplingArc.arc_pos
-        
-        /*platooning on one arc*/
-        // bool check_pair_connectivity(int routeid1, int routeid2, int arc_pos1, int arc_pos2);
-        bool check_pair_connectivity(pair<int, int> route_pos1, pair<int, int> route_pos2, vector<Route> sol_config_copy);
-        vector<pair<int, int>> build_graph_node_set(CouplingArc input_arc_config); //build the node set for the pairwise feasibility graph for a given arc
-        // vector<vector<pair<int, int>>> build_pairwise_feasibility_graph(vector<int> input_arc, vector<int> used_routes, vector<int> correspond_arc_pos); //build pairwise feasibility graph for a given arc
-        vector<vector<bool>> build_pairwise_feasibility_graph(vector<pair<int, int>> &graph_nodes, vector<Route> &sol_config_copy); //build pairwise feasibility graph for a given arc
-        vector<int> process_neighbor_in_set(int input_u, vector<int> input_set, vector<vector<bool>> &pair_feas_graph, bool keep_or_not);
-        void BronKerbosch(vector<int> Rset, vector<int> Pset, vector<int> Xset, vector<vector<bool>> &pair_feas_graph, vector<vector<int>> &maximal_cliques_set); //Bron-Kerbosch algorithm -> find all maximal cliques
-        vector<pair<int, int>> transform_id_graphnode(vector<int> &clique_idset, vector<pair<int, int>> &graph_nodes);
-        vector<vector<int>> BK_maximal_cliques_idset(vector<pair<int, int>> &graph_nodes, vector<vector<bool>> &pair_feas_graph);
-        vector<vector<pair<int, int>>> BK_maximal_cliques(vector<pair<int, int>> &graph_nodes, vector<vector<bool>> &pair_feas_graph); //Bron-Kerbosch algorithm -> find all maximal cliques
-        vector<int> BK_maximum_clique_idset(vector<vector<int>> all_maximal_cliques_idset_one_arc); //find the maximum clique
-        vector<pair<int, int>> BK_maximum_clique(vector<vector<pair<int, int>>> all_maximal_cliques_one_arc); //find the maximum clique
-        
-        vector<int> cal_overlap_deptw_on_arc_per_platoon(vector<pair<int, int>> platoon_config_on_arc); //calcualate the overlapped departure time window of the start node on the given arc
-        void update_arrdeptw_on_route(vector<pair<int, int>> &platoon_config_on_arc, vector<int> maximum_platoon_tw, vector<Route> &sol_config_copy); //update the arrival time windows of all nodes within a given route
-        vector<vector<pair<int, int>>> find_platoons_one_arc(vector<pair<int, int>> &graph_nodes, vector<vector<bool>> &pair_feas_graph, vector<vector<int>> &overlapped_deptw_each_platoon); //until no nodes are left
-        // int cal_platoon_num_one_arc(vector<vector<pair<int, int>>> &all_pair_feas_graph); //calculate the number of platoons formed on the given arc
-        double cal_energy_saving(vector<int> thisarc, vector<pair<int, int>> &graph_nodes, vector<vector<pair<int, int>>> &all_cliques_one_arc); //calculate the energy saving amount based on the platoons formed on the given arc
-        CouplingArcSol arc_coupling_module(CouplingArc input_arc_config); //integrate all procedures of coupling on an arc
+        //! build an arc-based route
+        vector<vector<int>> buildArcBasedRoute(vector<int> input_extended_route);
 
-        /*platooning on all arcs*/
-        void coupling_heuristic_all_arcs(); //systematically decide the sequence of coupling arcs of all routes
+        //! set all extended routes in the solution to be arc-based routes
+        void setAllArcBasedExtendedRoutes();
+
+        //! find all unique arcs in the solution
+        void findAllUniqueArcs();
+
+        //! find the common vehicles with each arc: Set the OccuranceOneArc.common_vehs and OccuranceOneArc.common_routes
+        void findCommonVehs();
+        
+        //! find the positions of each arc in all routes: Set the OccuranceOneArc.arc_all_pos and OccuranceOneArc.pairwise_feas_graph_nodeset
+        void findArcPosAllRoutes();
+        
+        //! check the connectivity of two nodes in the pairwise feasibility graph based on the overlapping departure time windows
+        bool checkPairConnectivity(pair<int, int> route_pos1, pair<int, int> route_pos2, vector<ARoute*>& sol_config_copy);
+        
+        //! build the set of nodes in the pairwise feasibility graph for each unique arc
+        vector<pair<int, int>> buildFullGraphNodesSet(OccuranceOneArc input_arc_config); 
+
+        //! build the pairwise feasibility graph for a given arc
+        vector<vector<bool>> buildPairwiseFeasGraph(vector<pair<int, int>>& graph_nodes, vector<ARoute*>& sol_config_copy);
+        
+        //! process the neighbor (keep or remove) for an input graph node in the BronKerbosch algorithm
+        vector<int> processNodeNeighborsInSet(int input_u, vector<int> input_set, vector<vector<bool>>& pair_feas_graph, bool keep);
+        
+        //! the main body of BronKerbosch algorithm to find all maximal cliques based on a pairwise feasibility graph
+        void BronKerbosch(vector<int> Rset, vector<int> Pset, vector<int> Xset, vector<vector<bool>>& pair_feas_graph, vector<vector<int>>& maximal_cliques_set);
+        
+        //! transform the cliques with ID set to cliques with graph nodes
+        vector<pair<int, int>> transformIDsetToNodeset(vector<int>& clique_idset, vector<pair<int, int>>& graph_nodes);
+        
+        //! find all maximal cliques with ID set with the BronKerbosch algorithm 
+        vector<vector<int>> findMaximalCliquesIDset(vector<pair<int, int>>& graph_nodes, vector<vector<bool>>& pair_feas_graph);
+        
+        //! find the maximum clique with node set based on the BronKerbosch algorithm
+        vector<APlatoon*> findMaximalCliquesNodeset(vector<pair<int, int>>& graph_nodes, vector<vector<bool>>& pair_feas_graph);
+        
+        //! find the maximum clique with ID set based on all the maximal cliques for a given arc
+        vector<int> findMaxCliqueSizeIDset(vector<vector<int>> all_maximal_cliques_idset_one_arc);
+
+        //! find the maximum clique with node set based on all the maximal cliques for a given arc
+        APlatoon* findMaxCliqueSavingNodeset(vector<APlatoon*> all_maximal_cliques);
+        
+        //! calculate the overlapping departure time windows for one platoon on a given arc
+        vector<int> calOverlapDeptwOnePlatoon(vector<pair<int, int>> platoon_config_on_arc);
+
+        //! update the overlapping departure time windows for the selected platoon on a given arc
+        vector<int> shrinkOverlapDeptwOnePlatoon(APlatoon* input_platoon, vector<int> overlap_deptw);
+        
+        //! update the arrival and departure time windows for all routes with the platoon, given the platoon's updated departure time windows
+        void updateArrDeptwAllCouplingRoutes(vector<pair<int, int>>& platoon_config_on_arc, vector<int> maximum_platoon_tw, vector<ARoute*>& sol_config_copy);
+        
+        //!  find all platoons on one arc based on the current pairwise feasibility graph (until no nodes are left)
+        vector<APlatoon*> findAllPlatoons(vector<pair<int, int>>& graph_nodes, vector<vector<bool>>& pair_feas_graph);
+        // vector<vector<pair<int, int>>> findAllPlatoons(vector<pair<int, int>>& graph_nodes, vector<vector<bool>>& pair_feas_graph, vector<vector<int>>& overlapped_deptw_each_platoon);
+
+        //! calculate the total energy saving for all platoons on one arc
+        double calEnergySavingAllPlatoonsOneArc(vector<int> thisarc, vector<pair<int, int>>& graph_nodes, vector<vector<pair<int, int>>>& all_cliques_one_arc);
+        
+        //! systematically and iteratively find all valid platoons for one arc
+        vector<APlatoon*> CouplingModuleOneArc(OccuranceOneArc input_arc_config);
+
+        //! systematically and iteratively find all platoons for all arcs in the solution
+        void CouplingHeuristic(); 
     
     public:
+        //! constructor
         PlatoonMaker(VRPSolution& sol, Nodes& nodes);
-        void set_arrdep_time_all_routes(); //set the arrival time of all nodes within all routes in the solution -> &cur_sol.sol_config[r]
-        vector<CouplingArcSol> get_coupling_sol();  //a simple getter -> vector<CouplingArcSol>
-        vector<vector<int>> get_arrtw_after_platoon(int rid);
-        vector<vector<int>> get_deptw_after_platoon(int rid);
-        vector<int> get_arrtime_after_platoon(int rid);
-        vector<int> get_deptime_after_platoon(int rid);
-        vector<vector<int>> get_unique_arcs_set(); //get the set of unique arcs in the solution
-        int get_arc_appear_times(vector<int> input_arc); //get the total number of times that the arc appears in a solution
-        double cal_arc_total_energy_len(vector<int> input_arc); //get the total length of a given arc -> including the total number of vehicles and total number of positions within each vehicle route
-        double cal_sol_total_energy_dist(); //get the total length of the solution -> including the total number of vehicles and total number of positions within each vehicle route
+
+        //! destructor
+        ~PlatoonMaker() {};
+
+        //! set the final arrival and departure time for all routes in the solution
+        void setArrDepTimeAllRoutes(); //set the arrival time of all nodes within all routes in the solution -> &cur_sol.sol_config[r]
+        
+        //! a simple getter to get all platoons for a solution
+        vector<APlatoon*> getAllPlatoons();
+
+        //! a simple getter to get all platoons on a given arc
+        vector<APlatoon*> getAllPlatoonsOneArc(vector<int> input_arc);
+
+        //! a simple getter to get the updated arrival time windows for a given route after making all platoons
+        vector<vector<int>> getArrtwAfterPlatooning(int rid);
+
+        //! a simple getter to get the updated departure time windows for a given route after making all platoons
+        vector<vector<int>> getDeptwAfterPlatooning(int rid);
+
+        //! a simple getter to get the final arrival time for a given route after making all platoons
+        vector<int> getArrTimeAfterPlatooning(int rid);
+
+        //! a simple getter to get the final departure time for a given route after making all platoons
+        vector<int> getDepTimeAfterPlatooning(int rid);
+
+        //! a simple getter to get the set of unique arcs
+        vector<vector<int>> getUniqueArcsSet();
+
+        //! a simple getter to get the total number of times that the arc appears in a solution
+        int getArcShowTimes(vector<int> input_arc);
+
+        //! calculate the total energy-related distance costs for the solution
+        double calSolTotalEnergyDist(); //get the total length of the solution -> including the total number of vehicles and total number of positions within each vehicle route
 };
 
 #endif

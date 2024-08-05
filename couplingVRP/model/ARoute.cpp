@@ -13,7 +13,7 @@
 #include "couplingVRP/model/ADijkstraSol.h"
 using namespace std;
 
-AROUTE::AROUTE(Nodes& nodeset, Vehicles& vehset)
+ARoute::ARoute(Nodes& nodeset, Vehicles& vehset)
 {
     this->nodeset = &nodeset;
     this->vehset = &vehset;
@@ -21,7 +21,7 @@ AROUTE::AROUTE(Nodes& nodeset, Vehicles& vehset)
 
 }
 
-AROUTE::AROUTE(AROUTE& route)
+ARoute::ARoute(ARoute& route)
 {
     this->vehid = route.vehid;
     this->vehtype = route.vehtype;
@@ -37,7 +37,23 @@ AROUTE::AROUTE(AROUTE& route)
     this->route_mileage = route.route_mileage;
 }
 
-int AROUTE::transform_nodepos_extend_to_compact(int node_pos_extend)
+void ARoute::setVehIdType(int input_vehid)
+{
+    vehid = input_vehid;
+    vehtype = vehset->getVehType(input_vehid);
+}
+
+int ARoute::getRouteWaitTimeLimitPerNode()
+{
+    return vehset->getVehWaitTimePerNode(vehid);
+}
+
+int ARoute::getRouteWaitMaxLimit()
+{
+    return vehset->getVehWaitTimeMax(vehid);
+}
+
+int ARoute::transform_nodepos_extend_to_compact(int node_pos_extend)
 {
     if(node_labels[node_pos_extend] == 1)
     {
@@ -65,7 +81,7 @@ int AROUTE::transform_nodepos_extend_to_compact(int node_pos_extend)
     return -1;
 }
 
-int AROUTE::transform_nodepos_compact_to_extend(int node_pos_compact)
+int ARoute::transform_nodepos_compact_to_extend(int node_pos_compact)
 {
     for(int i = 0; i < extended_route.size(); i++)
     {
@@ -77,13 +93,13 @@ int AROUTE::transform_nodepos_compact_to_extend(int node_pos_compact)
     return -1;
 }
 
-vector<int> AROUTE::findExtendPath(int node1, int node2, int used_path_in_between)
+vector<int> ARoute::findExtendPath(int node1, int node2, int used_path_in_between)
 {
     vector<int> path = nodeset->getOnePath(node1, node2, used_path_in_between).getPath();
     return path;
 }
 
-void AROUTE::initEmptyRoute()
+void ARoute::initEmptyRoute()
 {
     vehid = -1;
     vehtype = -1;
@@ -94,7 +110,7 @@ void AROUTE::initEmptyRoute()
     route_mileage.resize(2, 0);
 }
 
-void AROUTE::setInitUsedPaths()
+void ARoute::initUsedPaths()
 {
     int path_size = compact_route.size()-1;
     if(path_size > 0)
@@ -108,7 +124,7 @@ void AROUTE::setInitUsedPaths()
     }
 }
 
-void AROUTE::setExtendedRoute()
+void ARoute::buildExtendedRoute()
 {
     extended_route.clear();
     for(int i = 0; i < compact_route.size()-1; i++)
@@ -128,7 +144,7 @@ void AROUTE::setExtendedRoute()
     }
 }
 
-void AROUTE::setNodeLabels()
+void ARoute::buildNodeLabels()
 {
     node_labels.clear();
     node_labels.push_back(0);
@@ -145,7 +161,7 @@ void AROUTE::setNodeLabels()
     node_labels[node_labels.size()-1] = 0;
 }
 
-void AROUTE::setExpectedArrDepTW()
+void ARoute::InitExpectedArrDepTW()
 {
     TimeWindowUpdater twupdater(extended_route, node_labels, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
     twupdater.calRouteExpectedTW();
@@ -153,7 +169,7 @@ void AROUTE::setExpectedArrDepTW()
     expected_deptw = twupdater.getRouteDepTW();
 }
 
-void AROUTE::setArrDepTime()
+void ARoute::calArrDepTime()
 {
     TimeWindowUpdater twupdater(extended_route, node_labels, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
     twupdater.setRouteArrTW(expected_arrtw);
@@ -163,7 +179,7 @@ void AROUTE::setArrDepTime()
     actual_deptime = twupdater.getRouteDepTime();
 }
 
-void AROUTE::calRouteLoad()
+void ARoute::calRouteLoad()
 {
     route_load.resize(compact_route.size());
     for(int i = 1; i < compact_route.size()-1; i++)
@@ -177,7 +193,7 @@ void AROUTE::calRouteLoad()
     }
 }
 
-void AROUTE::calRouteMileage()
+void ARoute::calRouteMileage()
 {
     route_mileage.resize(compact_route.size());
     route_mileage[0] = 0;
@@ -188,21 +204,21 @@ void AROUTE::calRouteMileage()
     }
 }
 
-vector<int> AROUTE::insertNodeIntoCompactRoute(int insert_pos, int insert_nodeid)
+vector<int> ARoute::insertNodeIntoCompactRoute(int insert_pos, int insert_nodeid)
 {
     vector<int> compact_route_copy = compact_route;
     compact_route_copy.insert(compact_route_copy.begin()+insert_pos, insert_nodeid);
     return compact_route_copy;
 }
 
-vector<int> AROUTE::setUsedPathsByInsertNode(int insert_pos, int insert_nodeid)
+vector<int> ARoute::setUsedPathsByInsertNode(int insert_pos, int insert_nodeid)
 {
     vector<int> used_paths_copy = used_paths_in_compact_route;
     used_paths_copy[insert_pos-1] = 0;
     used_paths_copy.insert(used_paths_copy.begin()+insert_pos, 0);
 }
 
-vector<int> AROUTE::setExtendRouteByInsertNode(int insert_pos, int insert_nodeid)
+vector<int> ARoute::setExtendRouteByInsertNode(int insert_pos, int insert_nodeid)
 {
     vector<int> extended_route_copy;
     int segnode1 = transform_nodepos_compact_to_extend(insert_pos-1);
@@ -216,7 +232,7 @@ vector<int> AROUTE::setExtendRouteByInsertNode(int insert_pos, int insert_nodeid
     return extended_route_copy;
 }
 
-vector<int> AROUTE::setNodeLabelsByInsertNode(int insert_pos, int insert_nodeid)
+vector<int> ARoute::setNodeLabelsByInsertNode(int insert_pos, int insert_nodeid)
 {
     vector<int> node_labels_copy;
     int segnode1 = transform_nodepos_compact_to_extend(insert_pos-1);
@@ -235,7 +251,7 @@ vector<int> AROUTE::setNodeLabelsByInsertNode(int insert_pos, int insert_nodeid)
     return node_labels_copy;
 }
 
-vector<int> AROUTE::setRouteLoadByInsertNode(int insert_pos, int insert_nodeid)
+vector<int> ARoute::setRouteLoadByInsertNode(int insert_pos, int insert_nodeid)
 {
     vector<int> route_load_copy = route_load;
     route_load_copy.insert(route_load_copy.begin()+insert_pos, route_load[insert_pos-1]);
@@ -259,7 +275,7 @@ vector<int> AROUTE::setRouteLoadByInsertNode(int insert_pos, int insert_nodeid)
     return route_load_copy;
 }
 
-vector<int> AROUTE::setRouteMileageByInsertNode(int insert_pos, int insert_nodeid)
+vector<int> ARoute::setRouteMileageByInsertNode(int insert_pos, int insert_nodeid)
 {
     vector<int> route_mileage_copy = route_mileage;
     route_mileage_copy.insert(route_mileage_copy.begin()+insert_pos, route_mileage[insert_pos-1]);
@@ -272,14 +288,14 @@ vector<int> AROUTE::setRouteMileageByInsertNode(int insert_pos, int insert_nodei
     return route_mileage_copy;
 }
 
-vector<int> AROUTE::removeNodeFromCompactRoute(int remove_pos)
+vector<int> ARoute::removeNodeFromCompactRoute(int remove_pos)
 {
     vector<int> compact_route_copy = compact_route;
     compact_route_copy.erase(compact_route_copy.begin() + remove_pos);
     return compact_route_copy;
 }
 
-vector<int> AROUTE::setUsedPathsByRemoveNode(int remove_pos)
+vector<int> ARoute::setUsedPathsByRemoveNode(int remove_pos)
 {
     vector<int> used_paths_copy = used_paths_in_compact_route;
     used_paths_copy.erase(used_paths_copy.begin()+remove_pos);
@@ -287,7 +303,7 @@ vector<int> AROUTE::setUsedPathsByRemoveNode(int remove_pos)
     return used_paths_copy;
 }
 
-vector<int> AROUTE::setExtendRouteByRemoveNode(int remove_pos)
+vector<int> ARoute::setExtendRouteByRemoveNode(int remove_pos)
 {
     vector<int> extended_route_copy;
     int segnode1 = transform_nodepos_compact_to_extend(remove_pos-1);
@@ -299,7 +315,7 @@ vector<int> AROUTE::setExtendRouteByRemoveNode(int remove_pos)
     return extended_route_copy;
 }
 
-vector<int> AROUTE::setNodeLabelsByRemoveNode(int remove_pos)
+vector<int> ARoute::setNodeLabelsByRemoveNode(int remove_pos)
 {
     vector<int> node_labels_copy;
     int segnode1 = transform_nodepos_compact_to_extend(remove_pos-1);
@@ -314,7 +330,7 @@ vector<int> AROUTE::setNodeLabelsByRemoveNode(int remove_pos)
     return node_labels_copy;
 }
 
-vector<int> AROUTE::setRouteLoadByRemoveNode(int remove_pos)
+vector<int> ARoute::setRouteLoadByRemoveNode(int remove_pos)
 {
     vector<int> route_load_copy = route_load;
     route_load_copy.erase(route_load_copy.begin()+remove_pos);
@@ -338,7 +354,7 @@ vector<int> AROUTE::setRouteLoadByRemoveNode(int remove_pos)
     return route_load_copy;
 }
 
-vector<int> AROUTE::setRouteMileageByRemoveNode(int remove_pos)
+vector<int> ARoute::setRouteMileageByRemoveNode(int remove_pos)
 {
     vector<int> route_mileage_copy = route_mileage;
     route_mileage_copy.erase(route_mileage_copy.begin()+remove_pos);
@@ -350,14 +366,14 @@ vector<int> AROUTE::setRouteMileageByRemoveNode(int remove_pos)
     return route_mileage_copy;
 }
 
-vector<int> AROUTE::modifyUsedPath(int modified_arcpos, int used_path_id)
+vector<int> ARoute::modifyUsedPath(int modified_arcpos, int used_path_id)
 {
     vector<int> used_paths_copy = used_paths_in_compact_route;
     used_paths_copy[modified_arcpos] = used_path_id;
     return used_paths_copy;
 }
 
-vector<int> AROUTE::setExtendRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
+vector<int> ARoute::setExtendRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
 {
     vector<int> extended_route_copy;
     int segnode1 = transform_nodepos_compact_to_extend(modified_arcpos);
@@ -369,7 +385,7 @@ vector<int> AROUTE::setExtendRouteByModifyUsedPath(int modified_arcpos, int used
     return extended_route_copy;
 }
 
-vector<int> AROUTE::setNodeLabelsByModifyUsedPath(int modified_arcpos, int used_path_id)
+vector<int> ARoute::setNodeLabelsByModifyUsedPath(int modified_arcpos, int used_path_id)
 {
     vector<int> node_labels_copy;
     int segnode1 = transform_nodepos_compact_to_extend(modified_arcpos);
@@ -384,7 +400,7 @@ vector<int> AROUTE::setNodeLabelsByModifyUsedPath(int modified_arcpos, int used_
     return node_labels_copy;
 }
 
-vector<int> AROUTE::setRouteMileageByModifyUsedPath(int modified_arcpos, int used_path_id)
+vector<int> ARoute::setRouteMileageByModifyUsedPath(int modified_arcpos, int used_path_id)
 {
     vector<int> route_mileage_copy = route_mileage;
     int increDist = nodeset->getOnePath(compact_route[modified_arcpos], compact_route[modified_arcpos+1], used_path_id).getDist()
@@ -396,20 +412,20 @@ vector<int> AROUTE::setRouteMileageByModifyUsedPath(int modified_arcpos, int use
     return route_mileage_copy;
 }
 
-bool AROUTE::isEmpty()
+bool ARoute::isEmpty()
 {
     vector<int> initroute = {0,0};
     return (vehid == -1) && (compact_route == initroute);
 }
 
-void AROUTE::resetRoute(int input_vehid, vector<int> input_compact_route)
+void ARoute::resetRoute(int input_vehid, vector<int> input_compact_route)
 {
     vehid = input_vehid;
     vehtype = vehset->getVehType(vehid);
     compact_route = input_compact_route;
-    setInitUsedPaths();
-    setExtendedRoute();
-    setNodeLabels();
+    initUsedPaths();
+    buildExtendedRoute();
+    buildNodeLabels();
     calRouteLoad();
     calRouteMileage();
     TimeWindowUpdater twupdater(extended_route, node_labels, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
@@ -418,7 +434,7 @@ void AROUTE::resetRoute(int input_vehid, vector<int> input_compact_route)
     expected_deptw = twupdater.getRouteDepTW();
 }
 
-void AROUTE::copyFromOtherRoute(AROUTE& input_route)
+void ARoute::copyFromOtherRoute(ARoute& input_route)
 {
     this->vehid = input_route.vehid;
     this->vehtype = input_route.vehtype;
@@ -434,7 +450,7 @@ void AROUTE::copyFromOtherRoute(AROUTE& input_route)
     this->route_mileage = input_route.route_mileage;
 }
 
-void AROUTE::evaluateRouteByInsertNode(int insert_pos, int insert_nodeid)
+void ARoute::evaluateRouteByInsertNode(int insert_pos, int insert_nodeid)
 {
     assert(vehid != -1);
     //veh_id and veh_type unchanged
@@ -462,7 +478,7 @@ void AROUTE::evaluateRouteByInsertNode(int insert_pos, int insert_nodeid)
     }
 }
 
-void AROUTE::setRouteByInsertNode(int insert_pos, int insert_nodeid)
+void ARoute::setRouteByInsertNode(int insert_pos, int insert_nodeid)
 {
     assert(vehid != -1);
     //veh_id and veh_type unchanged
@@ -478,7 +494,7 @@ void AROUTE::setRouteByInsertNode(int insert_pos, int insert_nodeid)
     this->expected_deptw = twupdater.getRouteDepTW();
 }
 
-void AROUTE::evaluateRouteByRemoveNode(int remove_pos)
+void ARoute::evaluateRouteByRemoveNode(int remove_pos)
 {
     assert(vehid != -1);
     //veh_id and veh_type unchanged
@@ -505,7 +521,7 @@ void AROUTE::evaluateRouteByRemoveNode(int remove_pos)
     }
 }
 
-void AROUTE::setRouteByRemoveNode(int remove_pos)
+void ARoute::setRouteByRemoveNode(int remove_pos)
 {
     assert(vehid != -1);
     //veh_id and veh_type unchanged
@@ -521,7 +537,7 @@ void AROUTE::setRouteByRemoveNode(int remove_pos)
     this->expected_deptw = twupdater.getRouteDepTW();
 }
 
-void AROUTE::evaluateRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
+void ARoute::evaluateRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
 {
     assert(vehid != -1);
     //veh_id and veh_type unchanged
@@ -546,7 +562,7 @@ void AROUTE::evaluateRouteByModifyUsedPath(int modified_arcpos, int used_path_id
     }
 }
 
-void AROUTE::setRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
+void ARoute::setRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
 {
     assert(vehid != -1);
     //veh_id and veh_type unchanged
@@ -560,14 +576,14 @@ void AROUTE::setRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
     this->expected_deptw = twupdater.getRouteDepTW();
 }
 
-bool AROUTE::isTimeFeas(vector<int> extended_route1, vector<int> node_labels1)
+bool ARoute::isTimeFeas(vector<int> extended_route1, vector<int> node_labels1)
 {
     TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
     twupdater.calRouteExpectedTW();
     return twupdater.isRouteTimeFeas();
 }
 
-bool AROUTE::isLoadFeas(vector<int> input_load_vec)
+bool ARoute::isLoadFeas(vector<int> input_load_vec)
 {
     auto isNodeLoadFeas = [&](int node_load) -> bool {return node_load > 0 && node_load < vehset->getVehCap(vehid);};
     for(int i = 0; i < route_load.size(); i++)
@@ -580,17 +596,17 @@ bool AROUTE::isLoadFeas(vector<int> input_load_vec)
     return true;
 }
 
-bool AROUTE::isDistFeas(int total_dist)
+bool ARoute::isDistFeas(int total_dist)
 {
     return total_dist <= vehset->getVehRange();
 }
 
-bool AROUTE::isLinkFeas(int arcpos, vector<int> compactRoute)
+bool ARoute::isLinkFeas(int arcpos, vector<int> compactRoute)
 {
     return !nodeset->getAvailPathSet(compactRoute[arcpos], compactRoute[arcpos+1]).empty();
 }
 
-bool AROUTE::isRouteFeas()
+bool ARoute::isRouteFeas()
 {
     bool timefeas = isTimeFeas(extended_route, node_labels);
     bool loadfeas = isLoadFeas(route_load);
@@ -603,7 +619,7 @@ bool AROUTE::isRouteFeas()
     return timefeas && loadfeas && distfeas && linkfeas;
 }
 
-double AROUTE::calInsertionCosts(int insert_pos, int insert_nodeid)
+double ARoute::calInsertionCosts(int insert_pos, int insert_nodeid)
 {
     double cost;
     int orig_usedpath_pos = used_paths_in_compact_route[insert_pos-1];
@@ -622,7 +638,7 @@ double AROUTE::calInsertionCosts(int insert_pos, int insert_nodeid)
     return cost;
 }
 
-pair<double, int> AROUTE::calCheapestInsertionCosts(int insert_nodeid)
+pair<double, int> ARoute::calCheapestInsertionCosts(int insert_nodeid)
 {
     pair<double, int> cost_pos;  // a pair is created to store the cheapest insertion cost and the corresponding position of the node in the route
     vector<double> all_insertion_costs;
@@ -639,7 +655,7 @@ pair<double, int> AROUTE::calCheapestInsertionCosts(int insert_nodeid)
     return cost_pos;
 }
 
-double AROUTE::calRemovalCosts(int removal_pos)
+double ARoute::calRemovalCosts(int removal_pos)
 {
     double cost;
     if(removal_pos > 0 && removal_pos < compact_route.size()-1) //remove the node in the middle of the route
@@ -657,7 +673,7 @@ double AROUTE::calRemovalCosts(int removal_pos)
     return cost;
 }
 
-double AROUTE::getRouteOperatorCosts(RouteOperationKind routeOperator)
+double ARoute::getRouteOperatorCosts(RouteOperationKind routeOperator)
 {
     switch (routeOperator)
     {

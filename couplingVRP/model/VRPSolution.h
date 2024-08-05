@@ -5,7 +5,7 @@
 #include "src/alns/ISolution.h"
 using namespace std;
 
-class AROUTE;
+class ARoute;
 class ISolution;
 class APlatoon;
 class Nodes;
@@ -46,15 +46,6 @@ public:
 	//! just implement a method returning 0.
 	virtual int distance(ISolution&);
 
-	//! This method create a copy of the solution.
-	virtual ISolution* getCopy();
-
-	//! Compute a hash key of the solution.
-	virtual long long getHash();
-
-	//! a simple getter
-	std::vector<int>& getNonInserted(){return nonInserted;};
-    
     //! recompute the costs for a new solution
 	void recomputeCost();
     
@@ -97,9 +88,30 @@ public:
     //! calculate the objective value after platooning
     double calTotalObjectiveValue();
 
+	//! This method create a copy of the solution.
+	virtual ISolution* getCopy();
+
+	//! Compute a hash key of the solution.
+	virtual long long getHash();
+
+	//! a simple getter
+	std::vector<int>& getNonInserted(){return nonInserted;};
+    
+    //! a simple getter
+    int getRoutesNum() {return sol_config.size();};
+
+    //! a simmple getter to get a route
+    ARoute* getOneRoute(int rid) {return sol_config[rid];};
+
+    //! a simple getter
+    vector<ARoute*> getAllRoutes() {return sol_config;};
+
+    //! a simple gettere
+    vector<APlatoon*> getAllPlatoons() {return platoons_config;};
+
 private:
     //! the route configuration of the solution
-    vector<AROUTE*> sol_config;
+    vector<ARoute*> sol_config;
 
     //! the number of routes involved
 	int routesNum;

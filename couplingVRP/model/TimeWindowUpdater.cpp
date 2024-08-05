@@ -25,6 +25,11 @@ TimeWindowUpdater::TimeWindowUpdater(vector<int> extended_route, vector<int> nod
     setServiceTime();
 }
 
+TimeWindowUpdater::~TimeWindowUpdater()
+{
+    clear_route_tw();
+    clear_route_time();
+}
 
 void TimeWindowUpdater::initTimeElements()
 {
@@ -72,7 +77,7 @@ int TimeWindowUpdater::calNecessaryTime(int start_pos, int end_pos, bool serve_s
     assert(start_pos <= end_pos);
     int nectime = 0;
     int nec_servetime = 0;
-    int nec_tvltime = cal_path_tvltime(extended_route, initial_timemat, start_pos, end_pos);
+    int nec_tvltime = calPathTvlTime(extended_route, initial_timemat, start_pos, end_pos);
     if(serve_start_pos) nec_servetime += st_inroute[start_pos];
     if(serve_end_pos) nec_servetime += st_inroute[end_pos];
     for(int i = start_pos+1; i < end_pos; i++)
@@ -118,7 +123,7 @@ int TimeWindowUpdater::calExpectedAT1(int node_pos, int lastnode_AT1)
         //case 3:
         int startserve_last = sertw_inroute[node_pos-1][0]; //if the node is a bypassed node, then the service time window takes its travel time window
         int servetime_lastnode = st_inroute[node_pos-1];
-        int tvltime_lastnode = cal_path_tvltime(extended_route, initial_timemat, node_pos-1, node_pos); //start_nodepos (nodepos-1) needs to be smaller than end_nodepos (node_pos)
+        int tvltime_lastnode = calPathTvlTime(extended_route, initial_timemat, node_pos-1, node_pos); //start_nodepos (nodepos-1) needs to be smaller than end_nodepos (node_pos)
         int case3_AT1 = max(lastnode_AT1, startserve_last) + servetime_lastnode + tvltime_lastnode;
         AT1 = case3_AT1;
         //case 1:
@@ -157,7 +162,7 @@ int TimeWindowUpdater::calExpectedDT1(int node_pos, int thisnode_AT1, int nextno
     int DT1;
     if(node_pos < extendroutelen-1) // && node_pos >= 0) //including the starting depot
     {
-        int tvltime_nextnode = cal_path_tvltime(extended_route, initial_timemat, node_pos, node_pos+1);
+        int tvltime_nextnode = calPathTvlTime(extended_route, initial_timemat, node_pos, node_pos+1);
         DT1 = nextnode_AT1 - tvltime_nextnode;
     }
     else //node_pos == extendroutelen-1 => the ending depot
@@ -179,7 +184,7 @@ int TimeWindowUpdater::calExpectedDT2(int node_pos, int nextnode_DT2)
         //case 3:
         int lateserve_next = sertw_inroute[node_pos+1][1];
         int servetime_nextnode = st_inroute[node_pos+1];
-        int tvltime_nextnode = cal_path_tvltime(extended_route, initial_timemat, node_pos, node_pos+1);
+        int tvltime_nextnode = calPathTvlTime(extended_route, initial_timemat, node_pos, node_pos+1);
         int case3_DT2 = min(nextnode_DT2 - servetime_nextnode, lateserve_next) - tvltime_nextnode;
         DT2 = case3_DT2;
         //case 1:
@@ -223,7 +228,7 @@ int TimeWindowUpdater::calExpectedAT2(int node_pos, int thisnode_DT2, int lastno
     }
     else //if(node_pos > 0 && node_pos <= extendroutelen-1)
     {
-        int tvltime_lastnode = cal_path_tvltime(extended_route, initial_timemat, node_pos-1, node_pos);
+        int tvltime_lastnode = calPathTvlTime(extended_route, initial_timemat, node_pos-1, node_pos);
         AT2 = lastnode_DT2 + tvltime_lastnode;
     }
     return AT2;
@@ -338,7 +343,7 @@ void TimeWindowUpdater::Calib_AT1_DT1(int fixed_deptw_arcpos, vector<vector<int>
     //then calculate DT1 based on AT1 for the nodes after the fixed_arrtw_next_arcpos (including the fixed_arrtw_next_arcpos)
     for(int i = extendroutelen-1; i > fixed_arrtw_next_arcpos; i--)
     {
-        int arc_dist_i_AT1 = cal_path_tvltime(extended_route, initial_timemat, i-1, i);
+        int arc_dist_i_AT1 = calPathTvlTime(extended_route, initial_timemat, i-1, i);
         route_deptw[i-1][0] = route_arrtw[i][0] - arc_dist_i_AT1;
     }
     //next calculate the remaining waiting time for the nodes after the fixed_arrtw_next_arcpos (including the fixed_arrtw_next_arcpos)
@@ -358,7 +363,7 @@ void TimeWindowUpdater::Calib_AT1_DT1(int fixed_deptw_arcpos, vector<vector<int>
     //next calculate DT1 based on AT1 for the nodes before the fixed_arrtw_next_arcpos (excluding the fixed_arrtw_next_arcpos)
     for(int i = fixed_deptw_arcpos-1; i >= 0; i--)
     {
-        int arc_dist_i_DT1 = cal_path_tvltime(extended_route, initial_timemat, i, i+1);
+        int arc_dist_i_DT1 = calPathTvlTime(extended_route, initial_timemat, i, i+1);
         route_deptw[i][0] = route_arrtw[i+1][0] - arc_dist_i_DT1;
     }
 }
@@ -372,13 +377,13 @@ void TimeWindowUpdater::Calib_DT2_AT2(int fixed_deptw_arcpos, vector<vector<int>
         int lateserve_nextnode = sertw_inroute[i+1][1];
         int servetime_nextnode = st_inroute[i+1];
         int deptime_nextnode = route_deptw[i+1][1];
-        int arc_dist_i_DT2 = cal_path_tvltime(extended_route, initial_timemat, i, i+1);
+        int arc_dist_i_DT2 = calPathTvlTime(extended_route, initial_timemat, i, i+1);
         route_deptw[i][1] = min(min(deptime_nextnode - servetime_nextnode, lateserve_nextnode) - arc_dist_i_DT2, original_deptw_input[i][1]);
     }
     //then calculate AT2 based on DT2 for the nodes before the fixed_deptw_arcpos (including the fixed_deptw_arcpos)
     for(int i = 1; i < fixed_arrtw_next_arcpos; i++)
     {
-        int arc_dist_i_AT2 = cal_path_tvltime(extended_route, initial_timemat, i-1, i);
+        int arc_dist_i_AT2 = calPathTvlTime(extended_route, initial_timemat, i-1, i);
         route_arrtw[i][1] = route_deptw[i-1][1] + arc_dist_i_AT2;
     }
     //next calculate the remaining waiting time for the nodes before the fixed_deptw_arcpos (including the fixed_deptw_arcpos)
@@ -398,7 +403,7 @@ void TimeWindowUpdater::Calib_DT2_AT2(int fixed_deptw_arcpos, vector<vector<int>
     //next calculate AT2 based on DT2 for the nodes after the fixed_arrtw_next_arcpos (excluding the fixed_arrtw_next_arcpos)
     for(int i = fixed_arrtw_next_arcpos+1; i < extendroutelen; i++) 
     {
-        int arc_dist_i_AT2 = cal_path_tvltime(extended_route, initial_timemat, i-1, i);
+        int arc_dist_i_AT2 = calPathTvlTime(extended_route, initial_timemat, i-1, i);
         route_arrtw[i][1] = route_deptw[i-1][1] + arc_dist_i_AT2;
     }
 }
@@ -412,7 +417,7 @@ void TimeWindowUpdater::CalibRouteTW(int fixed_deptw_arcpos, vector<int> overlap
     
     //2. assign the overlapped departure time windows and arrival time windows of the given arc
     route_deptw[fixed_deptw_arcpos] = overlap_dep_tw;
-    int arc_tvltime = cal_path_tvltime(extended_route, initial_timemat, fixed_deptw_arcpos, fixed_arrtw_next_arcpos);
+    int arc_tvltime = calPathTvlTime(extended_route, initial_timemat, fixed_deptw_arcpos, fixed_arrtw_next_arcpos);
     route_arrtw[fixed_arrtw_next_arcpos] = {overlap_dep_tw[0] + arc_tvltime, overlap_dep_tw[1] + arc_tvltime};
     route_arrtw[0] = sertw_inroute[0]; //arrival time windows for the starting depot
     route_deptw[extendroutelen-1] = sertw_inroute[extendroutelen-1]; //departure time windows for the ending depot

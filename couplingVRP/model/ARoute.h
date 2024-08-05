@@ -10,7 +10,7 @@ class ADijkstraSol;
 class TimeWindowUpdater;
 
 /// @brief a class to store the configuration of a route and the methods to modify and update a route
-class AROUTE
+class ARoute
 {
     public:
         //! Enumeration representing the various kind of operations on the route.
@@ -24,20 +24,21 @@ class AROUTE
             NoChange
         };
 
+    public:
         //! constructor
-        AROUTE(Nodes& nodeset, Vehicles& vehset);
+        ARoute(Nodes& nodeset, Vehicles& vehset);
 
         //! copy constructor
-        AROUTE(AROUTE& route);
+        ARoute(ARoute& route);
         
         //! default constructor
-        AROUTE() = default;
+        ARoute() = default;
 
         //! destructor
-        ~AROUTE() {};
+        ~ARoute() {};
 
         //! set the vehicle index of a route
-        void setVehIdType(int input_vehid) {vehid = input_vehid, vehtype = vehset->getVehType(input_vehid);};
+        void setVehIdType(int input_vehid);
 
         //! set the operation kind being used of the route
         void setRouteOperator(RouteOperationKind operation) {routeOperator = operation;};
@@ -49,7 +50,7 @@ class AROUTE
         void resetRoute(int input_vehid, vector<int> new_compact_route);
 
         //! copy another route
-        void copyFromOtherRoute(AROUTE& input_route);
+        void copyFromOtherRoute(ARoute& input_route);
 
         //! evaluate the cost of inserting a node
         void evaluateRouteByInsertNode(int insert_pos, int insert_nodeid);
@@ -118,10 +119,16 @@ class AROUTE
         vector<int> getNodeLables() {return node_labels;};
 
         //! a simple getter
-        vector<int> getExpectedArrTW(int nodepos) {return expected_arrtw[nodepos];};
+        vector<int> getNodeExpectedArrTW(int nodepos) {return expected_arrtw[nodepos];};
+
+        //! a simple getter
+        vector<vector<int>> getRouteExpectedArrTW() {return expected_arrtw;};
 
         //! a simple getter 
         vector<int> getExpectedDepTW(int nodepos) {return expected_deptw[nodepos];};
+
+        //! a simple getter
+        vector<vector<int>> getRouteExpectedDepTW() {return expected_deptw;};
 
         //! a simple getter
         vector<int> getFinalArrTime() {return actual_arrtime;};
@@ -136,13 +143,22 @@ class AROUTE
         vector<int> getRouteMileage() {return route_mileage;};
 
         //! a simple getter
-        int getRouteWaitTimeLimitPerNode() {return vehset->getVehWaitTimePerNode(vehid);};
+        int getRouteWaitTimeLimitPerNode();
 
         //! a simple getter
-        int getRouteWaitMaxLimit() {return vehset->getVehWaitTimeMax(vehid);};
+        int getRouteWaitMaxLimit();
 
         //! a simple getter
         double getRouteOperatorCosts(RouteOperationKind routeOperator);
+
+        //! a simple updater
+        void updateRouteExpectedArrTW(vector<vector<int>> input_arrtw) {expected_arrtw = input_arrtw;};
+
+        //! a simple updater
+        void updateRouteExpectedDepTW(vector<vector<int>> input_deptw) {expected_deptw = input_deptw;};
+
+        //! set the final arrival and departure time of the extended route
+        void calArrDepTime();
 
     private:
         //! the pointer to the nodeset
@@ -212,19 +228,16 @@ class AROUTE
         void initEmptyRoute();
 
         //! initialize the used paths in the compact route
-        void setInitUsedPaths();
+        void initUsedPaths();
 
         //! set the complete extended path based on the compact route and the used paths
-        void setExtendedRoute();
+        void buildExtendedRoute();
 
         //! set the complete node labels based on the compoact route and the used paths
-        void setNodeLabels();
+        void buildNodeLabels();
 
-        //! set the expected time windows of the extended route
-        void setExpectedArrDepTW();
-
-        //! set the final arrival and departure time of the extended route
-        void setArrDepTime();
+        //! set the initial expected time windows of the extended route
+        void InitExpectedArrDepTW();
 
         //! calculate the load of the route
         void calRouteLoad();

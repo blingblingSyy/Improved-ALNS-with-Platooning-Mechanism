@@ -6,6 +6,8 @@
 #include <cstring>
 #include <algorithm>
 #include <math.h>
+#include <numeric>
+#include <functional>
 #include "config.h"
 #include "utility.h"
 
@@ -26,12 +28,18 @@ float RandomNumber::get_rflt(int begin, int end)
     return begin + float(rand()) / float(RAND_MAX) * (end - begin);
 }
 
-double cal_euclid_dist(vector<double> x1_coord, vector<double> x2_coord)
+double calAverage(vector<int> vec)
+{
+    double average = accumulate(vec.begin(), vec.end(), 0.0) / vec.size();
+    return average;
+}
+
+double calEuclidDist(vector<double> x1_coord, vector<double> x2_coord)
 {
     return sqrt((x1_coord[0] - x2_coord[0])*(x1_coord[0] - x2_coord[0]) + (x1_coord[1] - x2_coord[1])*(x1_coord[1] - x2_coord[1]));
 }
 
-double cal_path_dist(vector<int> route, vector<vector<double>> init_dist, int start_id, int end_id)
+double calPathDist(vector<int> route, vector<vector<double>> init_dist, int start_id, int end_id)
 {
     double dist_path = 0.0;
     for(int i = start_id; i < end_id; i++)
@@ -45,7 +53,7 @@ double cal_path_dist(vector<int> route, vector<vector<double>> init_dist, int st
 
 
 //calculate the travel time between two nodes in an extended route
-int cal_path_tvltime(vector<int> route, vector<vector<int>> init_timemat, int start_id, int end_id)
+int calPathTvlTime(vector<int> route, vector<vector<int>> init_timemat, int start_id, int end_id)
 {
     int tvltime_path = 0.0;
     for(int i = start_id; i < end_id; i++)
