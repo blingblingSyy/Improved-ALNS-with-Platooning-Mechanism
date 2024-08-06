@@ -95,7 +95,7 @@ int ARoute::transform_nodepos_compact_to_extend(int node_pos_compact)
 
 vector<int> ARoute::findExtendPath(int node1, int node2, int used_path_in_between)
 {
-    vector<int> path = nodeset->getOnePath(node1, node2, used_path_in_between).getPath();
+    vector<int> path = nodeset->getOnePath(node1, node2, used_path_in_between)->getPath();
     return path;
 }
 
@@ -132,7 +132,7 @@ void ARoute::buildExtendedRoute()
         int node1 = compact_route[i];
         int node2 = compact_route[i+1];
         int used_path_id = used_paths_in_compact_route[i];
-        vector<int> ij_used_path = nodeset->getOnePath(node1, node2, used_path_id).getPath();
+        vector<int> ij_used_path = nodeset->getOnePath(node1, node2, used_path_id)->getPath();
         if(i == 0)
         {
             extended_route.insert(extended_route.end(), ij_used_path.begin(), ij_used_path.end());
@@ -153,7 +153,7 @@ void ARoute::buildNodeLabels()
         int node1 = compact_route[i];
         int node2 = compact_route[i+1];
         int used_path_id = used_paths_in_compact_route[i];
-        int ij_used_path_size = nodeset->getOnePath(node1, node2, used_path_id).getPath().size();
+        int ij_used_path_size = nodeset->getOnePath(node1, node2, used_path_id)->getPath().size();
         vector<int> node_labels_vec(ij_used_path_size);
         node_labels_vec[ij_used_path_size-1] = 1;
         node_labels.insert(node_labels.end(), node_labels_vec.begin()+1, node_labels_vec.end());
@@ -199,7 +199,7 @@ void ARoute::calRouteMileage()
     route_mileage[0] = 0;
     for(int i = 0; i < compact_route.size()-1; i++)
     {
-        double dist_from_i = nodeset->getOnePath(compact_route[i], compact_route[i+1], used_paths_in_compact_route[i]).getDist();
+        double dist_from_i = nodeset->getOnePath(compact_route[i], compact_route[i+1], used_paths_in_compact_route[i])->getDist();
         route_mileage[i+1] += route_mileage[i] + dist_from_i;
     }
 }
@@ -279,7 +279,7 @@ vector<int> ARoute::setRouteMileageByInsertNode(int insert_pos, int insert_nodei
 {
     vector<int> route_mileage_copy = route_mileage;
     route_mileage_copy.insert(route_mileage_copy.begin()+insert_pos, route_mileage[insert_pos-1]);
-    route_mileage_copy[insert_pos] += nodeset->getOnePath(compact_route[insert_pos-1], insert_nodeid, 0).getDist();
+    route_mileage_copy[insert_pos] += nodeset->getOnePath(compact_route[insert_pos-1], insert_nodeid, 0)->getDist();
     int increDist = calInsertionCosts(insert_pos, insert_nodeid);
     for(int i = insert_pos+1; i < route_mileage_copy.size(); i++)
     {
@@ -403,8 +403,8 @@ vector<int> ARoute::setNodeLabelsByModifyUsedPath(int modified_arcpos, int used_
 vector<int> ARoute::setRouteMileageByModifyUsedPath(int modified_arcpos, int used_path_id)
 {
     vector<int> route_mileage_copy = route_mileage;
-    int increDist = nodeset->getOnePath(compact_route[modified_arcpos], compact_route[modified_arcpos+1], used_path_id).getDist()
-                    - nodeset->getOnePath(compact_route[modified_arcpos], compact_route[modified_arcpos+1], used_paths_in_compact_route[modified_arcpos]).getDist();
+    int increDist = nodeset->getOnePath(compact_route[modified_arcpos], compact_route[modified_arcpos+1], used_path_id)->getDist()
+                    - nodeset->getOnePath(compact_route[modified_arcpos], compact_route[modified_arcpos+1], used_paths_in_compact_route[modified_arcpos])->getDist();
     for(int i = modified_arcpos+1; i < route_mileage_copy.size(); i++)
     {
         route_mileage_copy[i] += increDist;
@@ -625,9 +625,9 @@ double ARoute::calInsertionCosts(int insert_pos, int insert_nodeid)
     int orig_usedpath_pos = used_paths_in_compact_route[insert_pos-1];
     if(insert_pos < compact_route.size() && insert_pos > 0) //insert the node in the middle of the route
     {
-        double add_cost1 = nodeset->getOnePath(compact_route[insert_pos-1], insert_nodeid, 0).getDist();
-        double add_cost2 = nodeset->getOnePath(insert_nodeid, compact_route[insert_pos], 0).getDist();
-        double minus_cost = nodeset->getOnePath(compact_route[insert_pos-1], compact_route[insert_pos], orig_usedpath_pos).getDist();
+        double add_cost1 = nodeset->getOnePath(compact_route[insert_pos-1], insert_nodeid, 0)->getDist();
+        double add_cost2 = nodeset->getOnePath(insert_nodeid, compact_route[insert_pos], 0)->getDist();
+        double minus_cost = nodeset->getOnePath(compact_route[insert_pos-1], compact_route[insert_pos], orig_usedpath_pos)->getDist();
         cost = add_cost1 + add_cost2 - minus_cost;
     }
     else //insert the node at the start or the end of the route -> cerr
@@ -660,9 +660,9 @@ double ARoute::calRemovalCosts(int removal_pos)
     double cost;
     if(removal_pos > 0 && removal_pos < compact_route.size()-1) //remove the node in the middle of the route
     {
-        double add_cost1 = nodeset->getOnePath(compact_route[removal_pos-1], compact_route[removal_pos], used_paths_in_compact_route[removal_pos-1]).getDist();
-        double add_cost2 = nodeset->getOnePath(compact_route[removal_pos], compact_route[removal_pos+1], used_paths_in_compact_route[removal_pos]).getDist();
-        double minus_cost = nodeset->getOnePath(compact_route[removal_pos-1], compact_route[removal_pos+1], 0).getDist(); //initially, link by the shortest path
+        double add_cost1 = nodeset->getOnePath(compact_route[removal_pos-1], compact_route[removal_pos], used_paths_in_compact_route[removal_pos-1])->getDist();
+        double add_cost2 = nodeset->getOnePath(compact_route[removal_pos], compact_route[removal_pos+1], used_paths_in_compact_route[removal_pos])->getDist();
+        double minus_cost = nodeset->getOnePath(compact_route[removal_pos-1], compact_route[removal_pos+1], 0)->getDist(); //initially, link by the shortest path
         cost = add_cost1 + add_cost2 - minus_cost;
     }
     else //pos == 0 or pos == route.size()-1

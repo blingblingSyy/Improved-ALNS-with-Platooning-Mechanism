@@ -5,12 +5,12 @@
 #include <cstdlib>  
 #include <string>  
 #include <algorithm>  
-#include "couplingVRP/model/AvailablePaths.h"
+#include "couplingVRP/model/KSPBuilder.h"
 #include "couplingVRP/model/ADijkstraSol.h"
 #include "couplingVRP/model/config.h"
 using namespace std;  
 
-AvailablePaths::AvailablePaths(vector<vector<double>> distmat, int nodenum, int ksp_limit)
+KSPBuilder::KSPBuilder(vector<vector<double>> distmat, int nodenum, int ksp_limit)
 {
     init_distmat = distmat;
     node_num = nodenum;
@@ -22,7 +22,7 @@ AvailablePaths::AvailablePaths(vector<vector<double>> distmat, int nodenum, int 
     ModifiedYen_AllPaths(); //generate KSP_AllPaths
 }
 
-void AvailablePaths::Dijsktra_body(vector<ADijkstraSol> &SPset_fromstart, vector<int> &pred_fromstart, vector<vector<double>> input_distmat)
+void KSPBuilder::Dijsktra_body(vector<ADijkstraSol*> &SPset_fromstart, vector<int> &pred_fromstart, vector<vector<double>> input_distmat)
 {
     //unvisited node
     vector<int> unvisited_nodes(node_num); //temporary list
@@ -31,7 +31,7 @@ void AvailablePaths::Dijsktra_body(vector<ADijkstraSol> &SPset_fromstart, vector
         unvisited_nodes[i] = i;
     }
     
-    auto compare = [&](int s, int r) {return SPset_fromstart[s].getDist() < SPset_fromstart[r].getDist();};
+    auto compare = [&](int s, int r) {return SPset_fromstart[s]->getDist() < SPset_fromstart[r]->getDist();};
 
     //the main loop
     while(!unvisited_nodes.empty())
@@ -43,39 +43,39 @@ void AvailablePaths::Dijsktra_body(vector<ADijkstraSol> &SPset_fromstart, vector
 
         for(int r = 0; r < unvisited_nodes.size(); r++)
         {
-            double alt_dist = SPset_fromstart[min_val].getDist() + input_distmat[min_val][unvisited_nodes[r]]; //label + actual distance for two adjacent 
-            if(alt_dist < SPset_fromstart[unvisited_nodes[r]].getDist())
+            double alt_dist = SPset_fromstart[min_val]->getDist() + input_distmat[min_val][unvisited_nodes[r]]; //label + actual distance for two adjacent 
+            if(alt_dist < SPset_fromstart[unvisited_nodes[r]]->getDist())
             {
-                SPset_fromstart[unvisited_nodes[r]].setDist(alt_dist); //update labels for neighbourhood nodes
+                SPset_fromstart[unvisited_nodes[r]]->setDist(alt_dist); //update labels for neighbourhood nodes
                 pred_fromstart[unvisited_nodes[r]] = min_val;  //update predecessors
             }
         }
     }
 }
 
-ADijkstraSol AvailablePaths::Dijkstra_OnePath(int start, int end, vector<vector<double>> input_distmat) //calculate the shortest path distance between any two given nodes
+ADijkstraSol* KSPBuilder::Dijkstra_OnePath(int start, int end, vector<vector<double>> input_distmat) //calculate the shortest path distance between any two given nodes
 {
-    ADijkstraSol SP_Start_End;
+    ADijkstraSol* SP_Start_End;
     //initialize predecessors and labels for SP tree from start node i
     vector<int> predecessors(node_num, -1);
-    vector<ADijkstraSol> initial_SPsol(node_num);  //shortest path structure from node i
+    vector<ADijkstraSol*> initial_SPsol(node_num);  //shortest path structure from node i
     for(int j = 0; j < node_num; j++)
     {
         if(j != start)
-            initial_SPsol[j].setDist(INF);
+            initial_SPsol[j]->setDist(INF);
         else //j == start
-            initial_SPsol[j].setDist(0); //this is defaulted
+            initial_SPsol[j]->setDist(0); //this is defaulted
     }
     
     Dijsktra_body(initial_SPsol, predecessors, input_distmat);
  
-    SP_Start_End.setDist(initial_SPsol[end].getDist());
-    SP_Start_End.setPath(generate_onepath(end, predecessors));
+    SP_Start_End->setDist(initial_SPsol[end]->getDist());
+    SP_Start_End->setPath(generate_onepath(end, predecessors));
 
     return SP_Start_End;
 }
 
-void AvailablePaths::Dijkstra_AllPaths()  //calculate the shortest path distance between any two nodes
+void KSPBuilder::Dijkstra_AllPaths()  //calculate the shortest path distance between any two nodes
 {
     for(int i = 0; i < node_num; i++)
     {
@@ -86,9 +86,9 @@ void AvailablePaths::Dijkstra_AllPaths()  //calculate the shortest path distance
         for(int j = 0; j < node_num; j++)
         {
             if(j != i)
-                SP_AllPaths[i][j].setDist(INF);
+                SP_AllPaths[i][j]->setDist(INF);
             else //j == i
-                SP_AllPaths[i][j].setDist(0);
+                SP_AllPaths[i][j]->setDist(0);
         }
         
         Dijsktra_body(SP_AllPaths[i], predecessors, init_distmat);
@@ -96,7 +96,7 @@ void AvailablePaths::Dijkstra_AllPaths()  //calculate the shortest path distance
         //SP_from_i = generate_paths_tree(predecessors);
         for(int z = 0; z < node_num; z++)
         {
-            SP_AllPaths[i][z].setPath(generate_onepath(z, predecessors));
+            SP_AllPaths[i][z]->setPath(generate_onepath(z, predecessors));
             // //to eliminate the path containing the subtours with the depot
             // vector<int> temp_path = SP_AllPaths[i][z].getPath();
             // if(find(temp_path.begin()+1, temp_path.end()-1, 0) != temp_path.end()-1)
@@ -108,7 +108,7 @@ void AvailablePaths::Dijkstra_AllPaths()  //calculate the shortest path distance
     }
 }
 
-vector<int> AvailablePaths::generate_onepath(int end, vector<int> pred_vecs)
+vector<int> KSPBuilder::generate_onepath(int end, vector<int> pred_vecs)
 {
     vector<int> path_track;
     if(pred_vecs[end] != -1)
@@ -128,7 +128,7 @@ vector<int> AvailablePaths::generate_onepath(int end, vector<int> pred_vecs)
 }
 
 //generate all shortest paths starting from a given node according to the predecessor vector
-vector<vector<int>> AvailablePaths::generate_paths_tree(vector<int> pred_vecs)
+vector<vector<int>> KSPBuilder::generate_paths_tree(vector<int> pred_vecs)
 {
     vector<vector<int>> SPT_pathset; //store the shortest paths starting from start node to all the other nodes
     auto paths_size = pred_vecs.size();
@@ -144,11 +144,11 @@ vector<vector<int>> AvailablePaths::generate_paths_tree(vector<int> pred_vecs)
     return SPT_pathset;
 }
 
-vector<ADijkstraSol> AvailablePaths::ModifiedYen_OnePath(int start_node, int end_node)
+vector<ADijkstraSol*> KSPBuilder::ModifiedYen_OnePath(int start_node, int end_node)
 {
-    vector<ADijkstraSol> KShortestPath_Start_End;  //A[] for Yen
-    vector<ADijkstraSol> KDeviationPath_Start_End; //B[] for Yen
-    ADijkstraSol SP1_Start_End = SP_AllPaths[start_node][end_node]; //start with the shortest path between the start node and the end node
+    vector<ADijkstraSol*> KShortestPath_Start_End;  //A[] for Yen
+    vector<ADijkstraSol*> KDeviationPath_Start_End; //B[] for Yen
+    ADijkstraSol* SP1_Start_End = SP_AllPaths[start_node][end_node]; //start with the shortest path between the start node and the end node
     // if(SP1_Start_End.getPath().empty())
     // {
     //     return {};
@@ -158,14 +158,14 @@ vector<ADijkstraSol> AvailablePaths::ModifiedYen_OnePath(int start_node, int end
     while(KShortestPath_Start_End.size() < k_limit && !KDeviationPath_Start_End.empty())
     {
         //find the Dijsktra solution with the smallest distance in B[] and put it in A[]
-        vector<ADijkstraSol>::iterator iter = min_element(KDeviationPath_Start_End.begin(), KDeviationPath_Start_End.end()); //operator < is defined in ADijkstraSol
-        ADijkstraSol selected_KSPsol = *iter;
+        vector<ADijkstraSol*>::iterator iter = min_element(KDeviationPath_Start_End.begin(), KDeviationPath_Start_End.end()); //operator < is defined in ADijkstraSol
+        ADijkstraSol* selected_KSPsol = *iter;
         KShortestPath_Start_End.push_back(selected_KSPsol);
         KDeviationPath_Start_End.erase(iter);
 
         int k = KShortestPath_Start_End.size();
         //generate the current SP by modifying the last SP
-        vector<int> last_SP = KShortestPath_Start_End[k-1].getPath();
+        vector<int> last_SP = KShortestPath_Start_End[k-1]->getPath();
         for(int i = 0; i < last_SP.size()-1; i++) //for every deviation node in the shortest path except the end_node
         {
             //find the disconnected path segment in the current Dijsktra solution
@@ -189,7 +189,7 @@ vector<ADijkstraSol> AvailablePaths::ModifiedYen_OnePath(int start_node, int end
             for(int j = 0; j < k-1; j++) //A[]; k = KShortestPath_Start_End.size();
             {
                 //for each path in A[] other than the current path
-                vector<int> previous_SP = KShortestPath_Start_End[j].getPath();
+                vector<int> previous_SP = KShortestPath_Start_End[j]->getPath();
                 auto iter = search(previous_SP.begin(), previous_SP.end(), old_path.begin(), old_path.end());
                 if(iter != previous_SP.end()) //you can find the fixed part in other solutions in A[]
                 {
@@ -201,8 +201,8 @@ vector<ADijkstraSol> AvailablePaths::ModifiedYen_OnePath(int start_node, int end
                 }
             }
             //use Dijsktra to find a shortest path between start_seg and end_node based on the modified distance matrix
-            ADijkstraSol SPk_Start_End = Dijkstra_OnePath(start_seg, end_node, copy_distmat);
-            vector<int> new_path = SPk_Start_End.getPath();
+            ADijkstraSol* SPk_Start_End = Dijkstra_OnePath(start_seg, end_node, copy_distmat);
+            vector<int> new_path = SPk_Start_End->getPath();
             //check 1: whether a new path can be generated
             if(new_path.empty()) //if cannot generate the new path because of node disconnectivity, do the next iteration (i+=1)
             {
@@ -229,14 +229,14 @@ vector<ADijkstraSol> AvailablePaths::ModifiedYen_OnePath(int start_node, int end
             // }
             if(!subtour) //if no subtour
             {
-                ADijkstraSol tempSP_Start_End; 
+                ADijkstraSol* tempSP_Start_End; 
                 //path reconnection
                 old_path.insert(old_path.end(), new_path.begin()+1, new_path.end()); //bug: new_path is empty because of unconnected nodes
-                tempSP_Start_End.setPath(old_path);
+                tempSP_Start_End->setPath(old_path);
                 //calculate distance
-                tempSP_Start_End.setDist(old_dist + SPk_Start_End.getDist());
+                tempSP_Start_End->setDist(old_dist + SPk_Start_End->getDist());
                 //evaluate distance - whether falls into coupling range
-                if(tempSP_Start_End.getDist() > SP1_Start_End.getDist()*10*1.0/9)
+                if(tempSP_Start_End->getDist() > SP1_Start_End->getDist()*10*1.0/9)
                 {
                     continue; //jump out the current "for" cycle -> visit the next deviation node
                 }
@@ -254,9 +254,9 @@ vector<ADijkstraSol> AvailablePaths::ModifiedYen_OnePath(int start_node, int end
     return KShortestPath_Start_End;
 }
 
-void AvailablePaths::ModifiedYen_AllPaths()
+void KSPBuilder::ModifiedYen_AllPaths()
 {
-    ADijkstraSol empty_DijkstraSol; //defaulted: dist = 0; path = {}
+    ADijkstraSol* empty_DijkstraSol; //defaulted: dist = 0; path = {}
     for(int i = 0; i < node_num; i++) //start_node
     {
         KSP_AllPaths[i].resize(node_num);
@@ -271,12 +271,12 @@ void AvailablePaths::ModifiedYen_AllPaths()
     }
 }
 
-vector<vector<ADijkstraSol>> AvailablePaths::getAllShortestPaths()
+vector<vector<ADijkstraSol*>> KSPBuilder::getAllShortestPaths()
 {
     return SP_AllPaths;
 }
 
-vector<vector<double>> AvailablePaths::getAllShortestPathDistance()
+vector<vector<double>> KSPBuilder::getAllShortestPathDistance()
 {
     vector<vector<double>> SPdist_allpaths(node_num);
     for(int i = 0; i < node_num; i++)
@@ -284,33 +284,33 @@ vector<vector<double>> AvailablePaths::getAllShortestPathDistance()
         SPdist_allpaths[i].resize(node_num);
         for(int j = 0; j < node_num; j++)
         {
-            SPdist_allpaths[i][j] = SP_AllPaths[i][j].getDist();
+            SPdist_allpaths[i][j] = SP_AllPaths[i][j]->getDist();
         }
     }
     return SPdist_allpaths;
 }
 
-ADijkstraSol AvailablePaths::getOneShortestPath(int start_id, int end_id)
+ADijkstraSol* KSPBuilder::getOneShortestPath(int start_id, int end_id)
 {
     return SP_AllPaths[start_id][end_id];
 }
 
-double AvailablePaths::getOneShortestPathDistance(int start_id, int end_id)
+double KSPBuilder::getOneShortestPathDistance(int start_id, int end_id)
 {
-    return SP_AllPaths[start_id][end_id].getDist();
+    return SP_AllPaths[start_id][end_id]->getDist();
 }
 
-vector<vector<vector<ADijkstraSol>>> AvailablePaths::getAllAvailablePathSet()
+vector<vector<vector<ADijkstraSol*>>> KSPBuilder::getAllAvailablePathSet()
 {
     return KSP_AllPaths;
 }
 
-vector<ADijkstraSol> AvailablePaths::getOneAvailablePathSet(int start_id, int end_id)
+vector<ADijkstraSol*> KSPBuilder::getOneAvailablePathSet(int start_id, int end_id)
 {
     return KSP_AllPaths[start_id][end_id];
 }
 
-int AvailablePaths::get_altsize_onepath(int start_id, int end_id)
+int KSPBuilder::get_altsize_onepath(int start_id, int end_id)
 {
     return KSP_AllPaths[start_id][end_id].size();
 }

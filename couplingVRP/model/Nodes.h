@@ -6,7 +6,7 @@ using namespace std;
 
 class RawInstance;
 class ADijkstraSol;
-class AvailablePaths;
+class KSPBuilder;
 
 /// @brief the class is to define the features of all nodes and the methods to set, modify and get the nodes information
 class Nodes
@@ -64,7 +64,7 @@ class Nodes
         vector<vector<int>> SP_timemat;  //shortest path travel time matrix between any two nodes
         
         //! the set of all valid available path sets between any two nodes
-        vector<vector<vector<ADijkstraSol>>> avail_path_set;
+        vector<vector<vector<ADijkstraSol*>>> avail_path_set;
 
         //! the service time window for each node; for depot and intersections, the time windows are the travel time windows
         vector<vector<int>> service_tw;
@@ -149,10 +149,10 @@ class Nodes
         vector<vector<int>> getSPtime() {return SP_timemat;};
 
         //! a simple getter
-        vector<ADijkstraSol> getAvailPathSet(int nodeid1, int nodeid2) {return avail_path_set[nodeid1][nodeid2];};
+        vector<ADijkstraSol*> getAvailPathSet(int nodeid1, int nodeid2) {return avail_path_set[nodeid1][nodeid2];};
 
         //! a simple getter
-        ADijkstraSol getOnePath(int nodeid1, int nodeid2, int pathid);
+        ADijkstraSol* getOnePath(int nodeid1, int nodeid2, int pathid);
 
         //! a simple getter
         vector<int> getNeighbour(int nodeid) {return neighbours[nodeid];};

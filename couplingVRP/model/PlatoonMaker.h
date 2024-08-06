@@ -90,19 +90,19 @@ class PlatoonMaker
         //! the main body of BronKerbosch algorithm to find all maximal cliques based on a pairwise feasibility graph
         void BronKerbosch(vector<int> Rset, vector<int> Pset, vector<int> Xset, vector<vector<bool>>& pair_feas_graph, vector<vector<int>>& maximal_cliques_set);
         
-        //! transform the cliques with ID set to cliques with graph nodes
+        //! transform the cliques of ID set to cliques of graph nodes
         vector<pair<int, int>> transformIDsetToNodeset(vector<int>& clique_idset, vector<pair<int, int>>& graph_nodes);
         
-        //! find all maximal cliques with ID set with the BronKerbosch algorithm 
+        //! find all maximal cliques of ID set with the BronKerbosch algorithm 
         vector<vector<int>> findMaximalCliquesIDset(vector<pair<int, int>>& graph_nodes, vector<vector<bool>>& pair_feas_graph);
         
-        //! find the maximum clique with node set based on the BronKerbosch algorithm
+        //! find the maximum clique of node set based on the BronKerbosch algorithm
         vector<APlatoon*> findMaximalCliquesNodeset(vector<pair<int, int>>& graph_nodes, vector<vector<bool>>& pair_feas_graph);
         
-        //! find the maximum clique with ID set based on all the maximal cliques for a given arc
+        //! find the clique with the maximum size of ID set based on all the maximal cliques for a given arc
         vector<int> findMaxCliqueSizeIDset(vector<vector<int>> all_maximal_cliques_idset_one_arc);
 
-        //! find the maximum clique with node set based on all the maximal cliques for a given arc
+        //! find the clique with the maximum energy saving of node set based on all the maximal cliques for a given arc
         APlatoon* findMaxCliqueSavingNodeset(vector<APlatoon*> all_maximal_cliques);
         
         //! calculate the overlapping departure time windows for one platoon on a given arc

@@ -8,8 +8,8 @@
 #include <math.h>
 #include <numeric>
 #include <functional>
-#include "config.h"
-#include "utility.h"
+#include "couplingVRP/model/config.h"
+#include "couplingVRP/model/utility.h"
 
 using namespace std;
 

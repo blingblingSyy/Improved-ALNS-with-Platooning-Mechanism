@@ -7,7 +7,7 @@
 #include "couplingVRP/model/Nodes.h"
 #include "couplingVRP/model/RawInstance.h"
 #include "couplingVRP/model/ADijkstraSol.h"
-#include "couplingVRP/model/AvailablePaths.h"
+#include "couplingVRP/model/KSPBuilder.h"
 #include "couplingVRP/model/utility.h"
 #include "couplingVRP/model/config.h"
 
@@ -66,7 +66,7 @@ void Nodes::buildNodesStruct(int veh_speed)
 
     neighbours = find_adjacent_nodes(modified_distmat, nodenum);
     service_time = (reset_sertime) ? set_servetime(nodetype) : rawInstance->extract_sertime();
-    AvailablePaths altpathsets_obj(modified_distmat, nodenum, AVAIL_PATHSET_SIZE_K);
+    KSPBuilder altpathsets_obj(modified_distmat, nodenum, AVAIL_PATHSET_SIZE_K);
     SP_distmat = altpathsets_obj.getAllShortestPathDistance();
     avail_path_set = altpathsets_obj.getAllAvailablePathSet();
     travel_tw = cal_tvltw(SP_distmat[0], rawInstance->getPlanHorizon(), veh_speed);
@@ -328,7 +328,7 @@ vector<vector<int>> Nodes::cal_init_tvltime(vector<vector<double>> init_dist, in
     return travel_time;
 }
 
-ADijkstraSol Nodes::getOnePath(int nodeid1, int nodeid2, int pathid)
+ADijkstraSol* Nodes::getOnePath(int nodeid1, int nodeid2, int pathid)
 {
     if(pathid < avail_path_set[nodeid1][nodeid2].size())
     {
@@ -336,7 +336,7 @@ ADijkstraSol Nodes::getOnePath(int nodeid1, int nodeid2, int pathid)
     }
     else
     {
-        ADijkstraSol emptyDijkstraSol;
+        ADijkstraSol* emptyDijkstraSol;
         return emptyDijkstraSol;
     }
 }
