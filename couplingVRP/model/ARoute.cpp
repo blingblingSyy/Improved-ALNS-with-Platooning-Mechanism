@@ -11,6 +11,7 @@
 #include "couplingVRP/model/config.h"
 #include "couplingVRP/model/TimeWindowUpdater.h"
 #include "couplingVRP/model/ADijkstraSol.h"
+#define NDEBUG;
 using namespace std;
 
 ARoute::ARoute(Nodes& nodeset, Vehicles& vehset)
@@ -18,7 +19,6 @@ ARoute::ARoute(Nodes& nodeset, Vehicles& vehset)
     this->nodeset = &nodeset;
     this->vehset = &vehset;
     initEmptyRoute();
-
 }
 
 ARoute::ARoute(ARoute& route)
@@ -415,7 +415,8 @@ vector<int> ARoute::setRouteMileageByModifyUsedPath(int modified_arcpos, int use
 bool ARoute::isEmpty()
 {
     vector<int> initroute = {0,0};
-    return (vehid == -1) && (compact_route == initroute);
+    if(vehid == -1) return true;
+    return (compact_route == initroute);
 }
 
 void ARoute::resetRoute(int input_vehid, vector<int> input_compact_route)
@@ -514,7 +515,7 @@ void ARoute::evaluateRouteByRemoveNode(int remove_pos)
     if(TimeFeas && LoadFeas && DistFeas&& LinkFeas)
     {
         nodeRemovalCosts = route_mileage1[route_mileage1.size()-1] - this->route_mileage[route_mileage.size()-1];
-    } //the nodeRemovalCosts is negative
+    } //the nodeRemovalCosts is negative: after removal costs - before removal costs
     else
     {
         nodeRemovalCosts = INF;
@@ -650,6 +651,7 @@ pair<double, int> ARoute::calCheapestInsertionCosts(int insert_nodeid)
     }
     auto min_pos = min_element(all_insertion_costs.begin(), all_insertion_costs.end());
     double min_cost = *min_pos;
+    nodeInsertionCosts = min_cost; //! update the nodeInsertionCosts to be the cheapest insertion costs of the given node
     int insert_pos = min_pos - all_insertion_costs.begin() + 1; //1 is for the starting depot
     cost_pos = make_pair(min_cost, insert_pos);
     return cost_pos;

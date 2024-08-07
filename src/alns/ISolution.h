@@ -42,7 +42,7 @@ public:
 	virtual double getObjectiveValue()=0;
 	//! \return a penalized version of the objective value if the solution
 	//! is infeasible.
-	virtual double getPenalizedObjectiveValue()=0;
+	virtual double getPenalizedObjectiveValue(bool modified)=0;
 	//! A getter for the feasibility of the current solution.
 	//! \return true if the solution is feasible, false otherwise.
 	virtual bool isFeasible()=0;

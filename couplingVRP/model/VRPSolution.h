@@ -17,20 +17,23 @@ public:
 	VRPSolution(Nodes& nodeset, Vehicles& vehset);
 
 	//! Destructor.
-	virtual ~VRPSolution() {};
+	virtual ~VRPSolution();
+
+    //! whether the solution is empty or not
+    bool isSolEmpty();
 
     //! build a new route with randomly selected node from the set of uninserted customers
-    void buildNewRoute();
+    ARoute* buildNewRoute();
 
     //! build an initial solution from scratch
     void buildInitialSol();
 
 	//! A getter for the value of the objective function.
-	virtual double getObjectiveValue();
+	virtual double getObjectiveValue() {return totalObjValueAfterPlatooning;};
 
 	//! \return a penalized version of the objective value if the solution is infeasible. 
     //! But in this algorithm, all solutions must be feasible. Therefore, the penalized objective value is the same as the objective value.
-	virtual double getPenalizedObjectiveValue();
+	virtual double getPenalizedObjectiveValue(bool modified = false);
 
 	//! A getter for the feasibility of the current solution.
 	//! \return true if the solution is feasible, false otherwise.
@@ -46,9 +49,6 @@ public:
 	//! just implement a method returning 0.
 	virtual int distance(ISolution&);
 
-    //! recompute the costs for a new solution
-	void recomputeCost();
-    
     //! insert a node into one route at a position
 	void insertNode(int insert_pos, int insert_nodeid, int routeid);
 
@@ -88,6 +88,9 @@ public:
     //! calculate the objective value after platooning
     double calTotalObjectiveValue();
 
+    //! recompute the costs for a new solution
+	void recomputeCost();
+
 	//! This method create a copy of the solution.
 	virtual ISolution* getCopy();
 
@@ -95,32 +98,53 @@ public:
 	virtual long long getHash();
 
 	//! a simple getter
-	std::vector<int>& getNonInserted(){return nonInserted;};
+	vector<int>& getNonInsertedNodes() {return nonInsertedNodes;};
+
+    //! a simple getter
+    vector<int>& getNonUsedVehs() {return nonUsedVehs;};
     
     //! a simple getter
     int getRoutesNum() {return sol_config.size();};
+
+    //! a simple getter
+    int getPlatoonNum() {return platoons_config.size();};
 
     //! a simmple getter to get a route
     ARoute* getOneRoute(int rid) {return sol_config[rid];};
 
     //! a simple getter
-    vector<ARoute*> getAllRoutes() {return sol_config;};
+    vector<ARoute*>& getAllRoutes() {return sol_config;};
 
     //! a simple gettere
-    vector<APlatoon*> getAllPlatoons() {return platoons_config;};
+    vector<APlatoon*>& getAllPlatoons() {return platoons_config;};
+
+    //! the cpu time before making platoons
+    double getCpuBeforePlatooning() {return cpuBeforePlatooning;};
+
+    //! the cpu time after making platoons
+    double getCpuAfterPlatooning() {return cpuAfterPlatooning;};
 
 private:
+    //! the pointer to the set of nodes
+    Nodes* nodeset;
+
+    //! the pointer to the set of vehicles
+    Vehicles* vehset;
+
+    //! the customers that has not been inserted
+    vector<int> nonInsertedNodes;
+
+    //! the vehicles that has not been used
+    vector<int> nonUsedVehs;
+
     //! the route configuration of the solution
     vector<ARoute*> sol_config;
-
-    //! the number of routes involved
-	int routesNum;
 
     //! the configuration of all platoons
     vector<APlatoon*> platoons_config;
 
-    //! the number of platoons invovled
-    int platoonsNum;
+    //! the total energy saving due to platoons
+    double totalEnergySaving;
 
     //! the total distance before making platoons
     double totalDistCostsBeforePlatooning;
@@ -136,16 +160,12 @@ private:
 
     //! the total objective value after platooning
     double totalObjValueAfterPlatooning;
+    
+    //! the cpu time spent before platooning
+    double cpuBeforePlatooning;
 
-    //! the customers that has not been inserted
-    vector<int> nonInserted;
-
-    //! the cpu time before making platoons
-    double getCpuBeforePlatooning;
-
-    //! the cpu time after making platoons
-    double getCpuAfterPlatooning;
-
+    //! the cpu time spent after platooning
+    double cpuAfterPlatooning;
 };
 
 #endif /* TSPSOLUTION_H_ */

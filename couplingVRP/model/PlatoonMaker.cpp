@@ -507,13 +507,18 @@ int PlatoonMaker::getArcShowTimes(vector<int> input_arc)
     return (*iter_config).pairwise_feas_graph_nodeset.size();
 }
 
-//get the total length of the solution -> including the total number of vehicles and total number of positions within each vehicle route
-double PlatoonMaker::calSolTotalEnergyDist()
+double PlatoonMaker::calSolTotalEnergySaving()
 {
     double total_energy_saving = 0;
     for(int i = 0; i < all_valid_platoons.size(); i++)
     {
         total_energy_saving += all_valid_platoons[i]->getEnergySaving();
     }
-    return cur_sol->calTotalDist() - total_energy_saving;
+    return total_energy_saving;
+}
+
+//get the total length of the solution -> including the total number of vehicles and total number of positions within each vehicle route
+double PlatoonMaker::calSolTotalEnergyDist()
+{
+    return cur_sol->calTotalDist() - calSolTotalEnergyDist();
 }

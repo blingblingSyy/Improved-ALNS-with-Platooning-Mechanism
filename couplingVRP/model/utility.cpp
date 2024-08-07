@@ -18,14 +18,14 @@ RandomNumber::RandomNumber()
     srand((unsigned)time(NULL));
 }
 
-int RandomNumber::get_rint(int begin, int end)
+int RandomNumber::get_rint(int begin, int end) //[begin, end]
 {
     return rand() % (end - begin + 1) + begin;
 }
 
-float RandomNumber::get_rflt(int begin, int end)
+float RandomNumber::get_rflt(int begin, int end) //[begin, end]
 {
-    return begin + float(rand()) / float(RAND_MAX) * (end - begin);
+    return begin + float(rand()) / float(RAND_MAX) * (end - begin); //[begin, end]
 }
 
 double calAverage(vector<int> vec)

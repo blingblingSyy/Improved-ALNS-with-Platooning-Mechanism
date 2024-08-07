@@ -24,7 +24,6 @@ class ARoute
             NoChange
         };
 
-    public:
         //! constructor
         ARoute(Nodes& nodeset, Vehicles& vehset);
 
@@ -42,6 +41,9 @@ class ARoute
 
         //! set the operation kind being used of the route
         void setRouteOperator(RouteOperationKind operation) {routeOperator = operation;};
+
+        //! initialie an empty route
+        void initEmptyRoute();
 
         //! check whether the route is empty
         bool isEmpty();
@@ -223,9 +225,6 @@ class ARoute
 
         //! find the expanded path between two adjacent served nodes in the compact route 
         inline vector<int> findExtendPath(int node1, int node2, int used_path_in_between);
-
-        //! initialie an empty route
-        void initEmptyRoute();
 
         //! initialize the used paths in the compact route
         void initUsedPaths();

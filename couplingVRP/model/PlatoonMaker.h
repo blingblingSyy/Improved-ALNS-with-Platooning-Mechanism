@@ -163,6 +163,10 @@ class PlatoonMaker
 
         //! calculate the total energy-related distance costs for the solution
         double calSolTotalEnergyDist(); //get the total length of the solution -> including the total number of vehicles and total number of positions within each vehicle route
+
+        //! calculate the total energy-saving for the solution
+        double calSolTotalEnergySaving(); 
+
 };
 
 #endif
