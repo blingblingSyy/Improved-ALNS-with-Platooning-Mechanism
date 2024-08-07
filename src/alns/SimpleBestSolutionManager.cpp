@@ -1,43 +1,17 @@
-/* ALNS_Framework - a framework to develop ALNS based solvers
- *
- * Copyright (C) 2012 Renaud Masson
- *
- * This library is free software; you can redistribute it and/or
- * modify it either under the terms of the GNU Lesser General Public
- * License version 3 as published by the Free Software Foundation
- * (the "LGPL"). If you do not alter this notice, a recipient may use
- * your version of this file under the LGPL.
- *
- * You should have received a copy of the LGPL along with this library
- * in the file COPYING-LGPL-3; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Suite 500, Boston, MA 02110-1335, USA
- *
- * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY
- * OF ANY KIND, either express or implied. See the LGPL for
- * the specific language governing rights and limitations.
- *
- * The Original Code is the ALNS_Framework library.
- *
- *
- * Contributor(s):
- *	Renaud Masson
- */
-
-#include "SimpleBestSolutionManager.h"
 #include <list>
-#include "ISolution.h"
-#include "ALNS_Iteration_Status.h"
-#include "ALNS_Parameters.h"
-
-
-
+#include "src/alns/SimpleBestSolutionManager.h"
+#include "src/alns/ISolution.h"
+#include "src/alns/ALNS_Iteration_Status.h"
+#include "src/alns/ALNS_Parameters.h"
 using namespace std;
 
-SimpleBestSolutionManager::SimpleBestSolutionManager(ALNS_Parameters& param) {
+SimpleBestSolutionManager::SimpleBestSolutionManager(ALNS_Parameters& param)
+{
 	parameters = &param;
 }
 
-SimpleBestSolutionManager::~SimpleBestSolutionManager() {
+SimpleBestSolutionManager::~SimpleBestSolutionManager()
+{
 	for(list<ISolution*>::iterator it = bestSols.begin(); it != bestSols.end(); it++)
 	{
 		delete (*it);
@@ -46,36 +20,38 @@ SimpleBestSolutionManager::~SimpleBestSolutionManager() {
 
 bool SimpleBestSolutionManager::isNewBestSolution(ISolution& sol)
 {
-	for(list<ISolution*>::iterator it = bestSols.begin(); it != bestSols.end(); it++)
+	for(list<ISolution*>::iterator it = bestSols.begin(); it != bestSols.end(); it++) //it++
 	{
 		ISolution& currentSol = *(*it);
-		if(currentSol<sol)
+		if(currentSol < sol) //! not better
 		{
 			return false;
 		}
-		else if(sol<currentSol)
+		else if(sol < currentSol) //! the input sol is better than the current sol
 		{
 			delete *it;
-			it = bestSols.erase(it);
+			it = bestSols.erase(it); 
 			if(it == bestSols.end())
 			{
-				break;
+				break; //! jump out of the for cycle, and add the input sol to the list of bestSols
 			}
+			continue; //not execute it++
 		}
-		else if(currentSol.getHash() == sol.getHash())
+		else if(currentSol.getHash() == sol.getHash()) //! not better(==), not new
 		{
 			return false;
-		}
+		} //! if not the same, add the input sol to the list of bestSols
 	}
 	ISolution* copy = sol.getCopy();
-	bestSols.push_back(copy);
+	bestSols.push_back(copy); //! always put the better solution at the back of the list
 	return true;
 }
 
 ISolution* SimpleBestSolutionManager::reloadBestSolution(ISolution* currSol, ALNS_Iteration_Status& status)
 {
+	//! if the solution is not improved for a period of time and reach the reload frequency, then reload the best solution as the current solution
 	if(status.getNbIterationWithoutImprovementSinceLastReload() > 0 &&
-	   ((status.getNbIterationWithoutImprovementSinceLastReload() % parameters->getReloadFrequency()) == 0))	//一段时间solution没有improve，且到达了reload的频率，就reload
+	   ((status.getNbIterationWithoutImprovementSinceLastReload() % parameters->getReloadFrequency()) == 0))
 	{
 		status.setNbIterationWithoutImprovementSinceLastReload(0);
 		delete currSol;

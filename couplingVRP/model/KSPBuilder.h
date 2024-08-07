@@ -53,8 +53,11 @@ class KSPBuilder
         void ModifiedYen_AllPaths(); 
 
     public:
+        //! constructor
         KSPBuilder(vector<vector<double>> distmat, int nodenum, int ksp_limit = AVAIL_PATHSET_SIZE_K);
-        ~KSPBuilder() {};
+        
+        //! destructor
+        ~KSPBuilder();
         
         //! a simple getter of all shortest path solution
         vector<vector<ADijkstraSol*>> getAllShortestPaths();

@@ -43,7 +43,7 @@ class APlatoon
         APlatoon() = default;
 
         //! destructor
-        ~APlatoon() {};
+        ~APlatoon() {delete nodeset;};
         
         //! a == comparator
         virtual bool operator ==(const APlatoon& other) const;

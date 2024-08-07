@@ -34,6 +34,16 @@ VRPSolution::~VRPSolution()
 {
     nonInsertedNodes.clear();
     nonUsedVehs.clear();
+    delete nodeset;
+    delete vehset;
+    for(int i = 0; i < getRoutesNum(); i++)
+    {
+        delete sol_config[i];
+    }
+    for(int i = 0; i < getPlatoonNum(); i++)
+    {
+        delete sol_config[i];
+    }
 }
 
 ARoute* VRPSolution::buildNewRoute()

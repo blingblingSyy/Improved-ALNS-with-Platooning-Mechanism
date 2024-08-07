@@ -122,7 +122,7 @@ class Nodes
         Nodes(RawInstance& inputInstance, bool reset_demands = false, bool reset_sertime = false, bool reset_sertw = false, bool add_intersects = true, bool shrink_pasdmd = true, bool modify_connectivity = true, int veh_speed = 1);
         
         //! destructor
-        ~Nodes() {};
+        ~Nodes();
 
         //! a simple getter
         int getNodeNum() {return nodenum;}; 

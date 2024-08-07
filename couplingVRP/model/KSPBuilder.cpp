@@ -22,6 +22,27 @@ KSPBuilder::KSPBuilder(vector<vector<double>> distmat, int nodenum, int ksp_limi
     ModifiedYen_AllPaths(); //generate KSP_AllPaths
 }
 
+KSPBuilder::~KSPBuilder()
+{
+    for(int i = 0; i < SP_AllPaths.size(); i++)
+    {
+        for(int j = 0; j < SP_AllPaths[i].size(); j++)
+        {
+            delete SP_AllPaths[i][j];
+        }
+    }
+    for(int i = 0; i < KSP_AllPaths.size(); i++)
+    {
+        for(int j = 0; j < KSP_AllPaths[i].size(); j++)
+        {
+            for(int z = 0; z < KSP_AllPaths[i][j].size(); z++)
+            {
+                delete KSP_AllPaths[i][j][z];
+            }
+        }
+    }
+}
+
 void KSPBuilder::Dijsktra_body(vector<ADijkstraSol*> &SPset_fromstart, vector<int> &pred_fromstart, vector<vector<double>> input_distmat)
 {
     //unvisited node

@@ -33,6 +33,16 @@ PlatoonMaker::PlatoonMaker(VRPSolution& sol, Nodes& nodes)
     pivotArc_all_routes.resize(routes_num, -1);
 }
 
+PlatoonMaker::~PlatoonMaker()
+{
+    delete cur_sol;
+    delete nodeset;
+    for(int i = 0; i < all_valid_platoons.size(); i++)
+    {
+        delete all_valid_platoons[i];
+    }
+}
+
 vector<vector<int>> PlatoonMaker::buildArcBasedRoute(vector<int> input_extended_route)
 {
     vector<vector<int>> arcs_based_route;

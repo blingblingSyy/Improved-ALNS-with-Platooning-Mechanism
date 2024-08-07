@@ -34,7 +34,7 @@ class ARoute
         ARoute() = default;
 
         //! destructor
-        ~ARoute() {};
+        ~ARoute();
 
         //! set the vehicle index of a route
         void setVehIdType(int input_vehid);

@@ -132,7 +132,7 @@ class PlatoonMaker
         PlatoonMaker(VRPSolution& sol, Nodes& nodes);
 
         //! destructor
-        ~PlatoonMaker() {};
+        ~PlatoonMaker();
 
         //! set the final arrival and departure time for all routes in the solution
         void setArrDepTimeAllRoutes(); //set the arrival time of all nodes within all routes in the solution -> &cur_sol.sol_config[r]

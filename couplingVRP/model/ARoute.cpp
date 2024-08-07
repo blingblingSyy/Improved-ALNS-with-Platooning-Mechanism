@@ -37,6 +37,12 @@ ARoute::ARoute(ARoute& route)
     this->route_mileage = route.route_mileage;
 }
 
+ARoute::~ARoute()
+{
+    delete nodeset;
+    delete vehset;
+}
+
 void ARoute::setVehIdType(int input_vehid)
 {
     vehid = input_vehid;

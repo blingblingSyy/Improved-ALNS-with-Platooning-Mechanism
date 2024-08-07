@@ -24,6 +24,21 @@ Nodes::Nodes(RawInstance& inputInstance, bool reset_demands = false, bool reset_
     buildNodesStruct(veh_speed);
 }
 
+Nodes::~Nodes()
+{
+    delete rawInstance;
+    for(int i = 0; i < avail_path_set.size(); i++)
+    {
+        for(int j = 0; j < avail_path_set[i].size(); j++)
+        {
+            for(int z = 0; z < avail_path_set[i][j].size(); z++)
+            {
+                delete avail_path_set[i][j][z];
+            }
+        }
+    }
+}
+
 void Nodes::buildNodesStruct(int veh_speed)
 {
     nodetype = set_nodetype(nodenum, add_intersects, PAS_REQ_PROP); //{2, 2, 2, 0, 1, 2, 0} for test1.txt

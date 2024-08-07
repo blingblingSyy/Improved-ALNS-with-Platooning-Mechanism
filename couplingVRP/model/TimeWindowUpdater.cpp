@@ -29,6 +29,7 @@ TimeWindowUpdater::~TimeWindowUpdater()
 {
     clear_route_tw();
     clear_route_time();
+    delete nodeset;
 }
 
 void TimeWindowUpdater::initTimeElements()
