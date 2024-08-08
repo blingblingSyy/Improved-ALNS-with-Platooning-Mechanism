@@ -2,6 +2,7 @@
 #define NODES_H_
 
 #include <vector>
+#include "couplingVRP/model/config.h"
 using namespace std;
 
 class RawInstance;
@@ -153,6 +154,12 @@ class Nodes
 
         //! a simple getter
         ADijkstraSol* getOnePath(int nodeid1, int nodeid2, int pathid);
+
+        //! a simple getter
+        vector<vector<int>> getAllAvailPathSize();
+
+        //! a simple getter
+        int getMaxAvailPathSize();
 
         //! a simple getter
         vector<int> getNeighbour(int nodeid) {return neighbours[nodeid];};

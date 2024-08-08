@@ -1,146 +1,124 @@
-/* ALNS_Framework - a framework to develop ALNS based solvers
- *
- * Copyright (C) 2012 Renaud Masson
- *
- * This library is free software; you can redistribute it and/or
- * modify it either under the terms of the GNU Lesser General Public
- * License version 3 as published by the Free Software Foundation
- * (the "LGPL"). If you do not alter this notice, a recipient may use
- * your version of this file under the LGPL.
- *
- * You should have received a copy of the LGPL along with this library
- * in the file COPYING-LGPL-3; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Suite 500, Boston, MA 02110-1335, USA
- *
- * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY
- * OF ANY KIND, either express or implied. See the LGPL for
- * the specific language governing rights and limitations.
- *
- * The Original Code is the ALNS_Framework library.
- *
- *
- * Contributor(s):
- *	Renaud Masson
- */
-
 #ifndef AOPERATOR_H_
 #define AOPERATOR_H_
 
 #include <iostream>
+using namespace std;
 
-/*!
- * \class AOperator.
- * \brief This abstract class represent an operator, Destroy and Repair Operators inherit
- * from this class.
- *
- *
- */
-
+/// @brief this abstract class represetns an operator, Node Destroy & Node Repair & Path Destroy & Path Repair Operators inherit from this class.
 class AOperator
 {
-private:
-	//! Total number of calls during the process.
-	size_t totalNumberOfCalls;
+	private:
+		//! Total number of calls during the process.
+		size_t totalNumberOfCalls;
 
-	//! Number of calls since the last evaluation.
-	size_t nbCallsSinceLastEval;
+		//! Number of calls since the last evaluation.
+		size_t nbCallsSinceLastEval;
 
-	//! score of the operator.
-	double score;
+		//! score of the operator.
+		double score;
 
-	//! weight of the operator.
-	double weight;
+		//! weight of the operator.
+		double weight;
 
-	//! designation of the operator.
-	std::string operatorName;
+		//! designation of the operator.
+		string operatorName;
 
-protected:
-	//! Indicate if the operator is used in noise mode or not.
-	bool noise;
-public:
+	protected:
+		//! Indicate if the operator is used in noise mode or not.
+		bool noise;
 
-	//! Constructor.
-	AOperator(std::string name){
-		operatorName = name;
-		init();
-	}
+		//! indicate if the operator is empty or not.
+		//! if empty, the operator does nothing to the solution
+		bool empty;
 
-	//! Destructor.
-	virtual ~AOperator(){};
+	public:
 
-	//! Initialize the values of the numbers of calls.
-	void init()
-	{
-		totalNumberOfCalls = 0;
-		nbCallsSinceLastEval = 0;
-		score = 0;
-		weight = 1;
-	}
+		//! Constructor.
+		AOperator(string name)
+		{
+			operatorName = name;
+			init();
+		}
 
-	//! reset the number of calls since last eval.
-	void resetNumberOfCalls()
-	{
-		nbCallsSinceLastEval = 0;
-	}
+		//! Destructor.
+		virtual ~AOperator(){};
 
-	//! Simple getter.
-	//! \return the total number of calls to the operator since
-	//! the beginning of the optimization process.
-	size_t getTotalNumberOfCalls(){return totalNumberOfCalls;};
+		//! Initialize the values of the numbers of calls.
+		void init()
+		{
+			totalNumberOfCalls = 0;
+			nbCallsSinceLastEval = 0;
+			score = 0;
+			weight = 1;
+		}
 
-	//! Simple getter.
-	//! \return the number of calls to this operator since the last
-	//! evaluation.
-	size_t getNumberOfCallsSinceLastEvaluation(){return nbCallsSinceLastEval;};
+		//! reset the number of calls since last eval.
+		void resetNumberOfCalls()
+		{
+			nbCallsSinceLastEval = 0;
+		}
 
-	void increaseNumberOfCalls()
-	{
-		totalNumberOfCalls++;
-		nbCallsSinceLastEval++;
-	}
+		//! Simple getter.
+		//! \return the total number of calls to the operator since the beginning of the optimization process.
+		size_t getTotalNumberOfCalls(){return totalNumberOfCalls;};
 
-	//! Simple getter.
-	double getScore() const
-    {
-        return score;
-    }
+		//! Simple getter.
+		//! \return the number of calls to this operator since the last evaluation.
+		size_t getNumberOfCallsSinceLastEvaluation(){return nbCallsSinceLastEval;};
 
-	//! Simple getter.
-    double getWeight() const
-    {
-        return weight;
-    }
+		//! Incrase the number of calls for the operator every time the operator is called
+		void increaseNumberOfCalls()
+		{
+			totalNumberOfCalls++;
+			nbCallsSinceLastEval++;
+		}
 
-    //! resetter.
-    void resetScore()
-    {
-        this->score = 0;
-    }
+		//! Simple getter.
+		double getScore() const
+		{
+			return score;
+		}
 
-    //! Simple setter.
-	void setScore(double s)
-	{
-		this->score = s;
-	}
+		//! Simple getter.
+		double getWeight() const
+		{
+			return weight;
+		}
 
-    //! Simple setter.
-    void setWeight(double weight)
-    {
-        this->weight = weight;
-    }
+		//! resetter.
+		void resetScore()
+		{
+			this->score = 0;
+		}
 
-    //! Simple getter.
-    std::string getName(){return operatorName;};
+		//! Simple setter.
+		void setScore(double s)
+		{
+			this->score = s;
+		}
 
-    //! Set noise to true.
-    void setNoise(){noise=true;};
+		//! Simple setter.
+		void setWeight(double weight)
+		{
+			this->weight = weight;
+		}
 
-    //! Set noise to false.
-    void unsetNoise(){noise=false;};
+		//! Simple getter.
+		string getName(){return operatorName;};
 
+		//! Set noise to true.
+		void setNoise(){noise=true;};
 
+		//! Set noise to false.
+		void unsetNoise(){noise=false;};
 
+		//! evaluate whether the operator is empty or not.
+		//! \return empty
+		bool isEmpty() {return empty;};
+
+		//! set opertor to be empty
+		void setEmpty() {empty = true;};
 };
 
 
-#endif /* AOPERATOR_H_ */
+#endif

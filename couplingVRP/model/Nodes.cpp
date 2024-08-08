@@ -355,3 +355,32 @@ ADijkstraSol* Nodes::getOnePath(int nodeid1, int nodeid2, int pathid)
         return emptyDijkstraSol;
     }
 }
+
+
+vector<vector<int>> Nodes::getAllAvailPathSize()
+{
+    vector<vector<int>> all_path_size(avail_path_set.size());
+    for(int i = 0; i < avail_path_set.size(); i++)
+    {
+        all_path_size[i].resize(avail_path_set[i].size());
+        for(int j = 0; j < avail_path_set[i].size(); j++)
+        {
+            all_path_size[i][j] = avail_path_set[i][j].size();
+        }
+    }
+    return all_path_size;
+}
+
+
+int Nodes::getMaxAvailPathSize()
+{
+    vector<vector<int>> all_path_size = getAllAvailPathSize();
+    vector<int> onedim_maxsize;
+    for(int i = 0; i < all_path_size.size(); i++)
+    {
+        auto it = max_element(all_path_size[i].begin(), all_path_size[i].end());
+        onedim_maxsize.push_back(*it);
+    }
+    auto it = max_element(onedim_maxsize.begin(), onedim_maxsize.end());
+    return *it;
+}

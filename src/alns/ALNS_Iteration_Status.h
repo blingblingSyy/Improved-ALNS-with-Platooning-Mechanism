@@ -31,8 +31,10 @@ class ALNS_Iteration_Status
 			newBestSolution = UNKNOWN;
 			localSearchUsed = UNKNOWN;
 			improveByLocalSearch = UNKNOWN;
-			alreadyDestroyed = UNKNOWN;
-			alreadyRepaired = UNKNOWN;
+			alreadyNodeDestroyed = UNKNOWN;
+			alreadyNodeRepaired = UNKNOWN;
+			alreadyPathDestroyed = UNKNOWN;
+			alreadyPathRepaired = UNKNOWN;
 		}
 
 		//! Destructor.
@@ -47,8 +49,10 @@ class ALNS_Iteration_Status
 			setNewBestSolution(UNKNOWN);
 			setLocalSearchUsed(UNKNOWN);
 			setImproveByLocalSearch(UNKNOWN);
-			setAlreadyDestroyed(UNKNOWN);
-			setAlreadyRepaired(UNKNOWN);
+			setAlreadyNodeDestroyed(UNKNOWN);
+			setAlreadyNodeRepaired(UNKNOWN);
+			setAlreadyPathDestroyed(UNKNOWN);
+			setAlreadyPathRepaired(UNKNOWN);
 		}
 
 		//! Simple getter.
@@ -181,21 +185,38 @@ class ALNS_Iteration_Status
 			nbIterationWithoutImprovementSinceLastReload = nb;
 		}
 
-		State getAlreadyDestroyed() const {
-			return alreadyDestroyed;
+		State getAlreadyNodeDestroyed() const {
+			return alreadyNodeDestroyed;
 		}
 
-		void setAlreadyDestroyed(State alreadyDestroyed) {
-			this->alreadyDestroyed = alreadyDestroyed;
+		void setAlreadyNodeDestroyed(State alreadyNodeDestroyed) {
+			this->alreadyNodeDestroyed = alreadyNodeDestroyed;
 		}
 
-		State getAlreadyRepaired() const {
-			return alreadyRepaired;
+		State getAlreadyNodeRepaired() const {
+			return alreadyNodeRepaired;
 		}
 
-		void setAlreadyRepaired(State alreadyRepaired) {
-			this->alreadyRepaired = alreadyRepaired;
+		void setAlreadyNodeRepaired(State alreadyNodeRepaired) {
+			this->alreadyNodeRepaired = alreadyNodeRepaired;
 		}
+
+		State getAlreadyPathDestroyed() const {
+			return alreadyPathDestroyed;
+		}
+
+		void setAlreadyPathDestroyed(State alreadyPathDestroyed) {
+			this->alreadyPathDestroyed = alreadyPathDestroyed;
+		}
+
+		State getAlreadyPathRepaired() const {
+			return alreadyPathRepaired;
+		}
+
+		void setAlreadyPathRepaired(State alreadyPathRepaired) {
+			this->alreadyPathRepaired = alreadyPathRepaired;
+		}
+
 
 	private:
 
@@ -235,12 +256,17 @@ class ALNS_Iteration_Status
 		//! Indicate if solution has been improved by local search.
 		State improveByLocalSearch;
 
-		//! Indicate if the solution has already been repaired.
-		State alreadyRepaired;
+		//! Indicate if the solution has already been repaired by node-related operations.
+		State alreadyNodeRepaired;
 
-		//! Indicate if the new solution has already been destroyed.
-		State alreadyDestroyed;
+		//! Indicate if the new solution has already been destroyed by node-related operations.
+		State alreadyNodeDestroyed;
 
+		//! Indicate if the solution has already been repaired by path-related operations.
+		State alreadyPathRepaired;
+
+		//! Indicate if the new solution has already been destroyed by path-related operations.
+		State alreadyPathDestroyed;
 	};
 
 #endif
