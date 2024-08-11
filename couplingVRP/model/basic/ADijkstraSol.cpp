@@ -1,4 +1,4 @@
-#include "couplingVRP/model/ADijkstraSol.h"
+#include "couplingVRP/model/basic/ADijkstraSol.h"
 
 bool ADijkstraSol::operator==(const ADijkstraSol &other) const
 {

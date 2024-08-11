@@ -6,8 +6,8 @@
 #include <string>  
 #include <algorithm>  
 #include <fstream>
-#include "couplingVRP/model/ResultWriter.h"
-#include "couplingVRP/model/config.h"
+#include "couplingVRP/model/establish/ResultWriter.h"
+#include "couplingVRP/model/basic/config.h"
 using namespace std;  
 
 

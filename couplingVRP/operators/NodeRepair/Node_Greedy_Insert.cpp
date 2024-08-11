@@ -1,6 +1,6 @@
 #include "couplingVRP/operators/NodeRepair/Node_Greedy_Insert.h"
-#include "couplingVRP/model/VRPSolution.h"
-#include "couplingVRP/model/ARoute.h"
+#include "couplingVRP/model/establish/VRPSolution.h"
+#include "couplingVRP/model/establish/ARoute.h"
 #include "src/ALNS_inc.h"
 #include "utility.h"
 #include <vector>

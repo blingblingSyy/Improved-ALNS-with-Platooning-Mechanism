@@ -5,7 +5,7 @@
 #include <tuple>
 #include <set>
 #include "src/improvedALNS/ISolution.h"
-#include "couplingVRP/model/Nodes.h"
+#include "couplingVRP/model/basic/Nodes.h"
 using namespace std;
 
 class ARoute;

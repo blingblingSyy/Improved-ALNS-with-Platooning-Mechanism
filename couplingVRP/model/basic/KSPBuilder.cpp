@@ -5,9 +5,9 @@
 #include <cstdlib>  
 #include <string>  
 #include <algorithm>  
-#include "couplingVRP/model/KSPBuilder.h"
-#include "couplingVRP/model/ADijkstraSol.h"
-#include "couplingVRP/model/config.h"
+#include "couplingVRP/model/basic/KSPBuilder.h"
+#include "couplingVRP/model/basic/ADijkstraSol.h"
+#include "couplingVRP/model/basic/config.h"
 using namespace std;  
 
 KSPBuilder::KSPBuilder(vector<vector<double>> distmat, int nodenum, int ksp_limit)

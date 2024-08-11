@@ -4,9 +4,9 @@
 #include <cstdlib>  
 #include <algorithm>  
 #include <cassert>
-#include "couplingVRP/model/Vehicles.h"
-#include "couplingVRP/model/RawInstance.h"
-#include "couplingVRP/model/config.h"
+#include "couplingVRP/model/basic/Vehicles.h"
+#include "couplingVRP/model/basic/RawInstance.h"
+#include "couplingVRP/model/basic/config.h"
 
 Vehicles::Vehicles(RawInstance& inputInstance)
 {

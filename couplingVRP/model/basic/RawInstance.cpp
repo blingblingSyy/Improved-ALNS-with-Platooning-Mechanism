@@ -8,7 +8,7 @@
 #include <algorithm>  
 #include <fstream>
 #include <cassert>
-#include "couplingVRP/model/RawInstance.h"
+#include "couplingVRP/model/basic/RawInstance.h"
 
 using namespace std;  
 

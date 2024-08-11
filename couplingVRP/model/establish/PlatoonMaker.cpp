@@ -9,13 +9,13 @@
 #include <tuple>
 #include <numeric>
 #include <assert.h>
-#include "couplingVRP/model/VRPSolution.h"
-#include "couplingVRP/model/APlatoon.h"
-#include "couplingVRP/model/ARoute.h"
-#include "couplingVRP/model/Nodes.h"
-#include "couplingVRP/model/TimeWindowUpdater.h"
-#include "couplingVRP/model/PlatoonMaker.h"
-#include "couplingVRP/model/config.h"
+#include "couplingVRP/model/establish/VRPSolution.h"
+#include "couplingVRP/model/establish/APlatoon.h"
+#include "couplingVRP/model/establish/ARoute.h"
+#include "couplingVRP/model/basic/Nodes.h"
+#include "couplingVRP/model/establish/TimeWindowUpdater.h"
+#include "couplingVRP/model/establish/PlatoonMaker.h"
+#include "couplingVRP/model/basic/config.h"
 #include "utility.h"
 using namespace std;  
 

@@ -4,12 +4,12 @@
 #include <cstdlib>  
 #include <algorithm>  
 #include <cassert>
-#include "couplingVRP/model/Nodes.h"
-#include "couplingVRP/model/RawInstance.h"
-#include "couplingVRP/model/ADijkstraSol.h"
-#include "couplingVRP/model/KSPBuilder.h"
+#include "couplingVRP/model/basic/Nodes.h"
+#include "couplingVRP/model/basic/RawInstance.h"
+#include "couplingVRP/model/basic/ADijkstraSol.h"
+#include "couplingVRP/model/basic/KSPBuilder.h"
 #include "utility.h"
-#include "couplingVRP/model/config.h"
+#include "couplingVRP/model/basic/config.h"
 
 Nodes::Nodes(RawInstance& inputInstance, bool reset_demands = false, bool reset_sertime = false, bool reset_sertw = false, bool add_intersects, bool shrink_pasdmd, bool modify_connectivity, int veh_speed)
 {

@@ -6,15 +6,15 @@
 #include <cassert>
 #include <tuple>
 #include <numeric>
-#include "couplingVRP/model/VRPSolution.h"
-#include "couplingVRP/model/Nodes.h"
-#include "couplingVRP/model/Vehicles.h"
-#include "couplingVRP/model/ARoute.h"
-#include "couplingVRP/model/TimeWindowUpdater.h"
-#include "couplingVRP/model/APlatoon.h"
-#include "couplingVRP/model/PlatoonMaker.h"
+#include "couplingVRP/model/establish/VRPSolution.h"
+#include "couplingVRP/model/basic/Nodes.h"
+#include "couplingVRP/model/basic/Vehicles.h"
+#include "couplingVRP/model/establish/ARoute.h"
+#include "couplingVRP/model/establish/TimeWindowUpdater.h"
+#include "couplingVRP/model/establish/APlatoon.h"
+#include "couplingVRP/model/establish/PlatoonMaker.h"
 #include "utility.h"
-#include "couplingVRP/model/config.h"
+#include "couplingVRP/model/basic/config.h"
 #include "src/improvedALNS/ISolution.h"
 
 VRPSolution::VRPSolution(Nodes& nodeset, Vehicles& vehset)

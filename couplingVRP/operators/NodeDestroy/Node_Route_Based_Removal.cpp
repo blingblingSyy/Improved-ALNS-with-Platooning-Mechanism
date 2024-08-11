@@ -1,5 +1,5 @@
 #include "couplingVRP/operators/NodeDestroy/Node_Route_Based_Removal.h"
-#include "couplingVRP/model/VRPSolution.h"
+#include "couplingVRP/model/establish/VRPSolution.h"
 #include "src/ALNS_inc.h"
 #include "utility.h"
 #include <vector>

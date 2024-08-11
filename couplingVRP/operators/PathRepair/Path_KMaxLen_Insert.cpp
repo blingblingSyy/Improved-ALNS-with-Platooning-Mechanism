@@ -1,8 +1,8 @@
 #include "couplingVRP/operators/PathRepair/Path_KMaxLen_Insert.h"
-#include "couplingVRP/model/VRPSolution.h"
-#include "couplingVRP/model/ARoute.h"
-#include "couplingVRP/model/Nodes.h"
-#include "couplingVRP/model/ADijkstraSol.h"
+#include "couplingVRP/model/establish/VRPSolution.h"
+#include "couplingVRP/model/establish/ARoute.h"
+#include "couplingVRP/model/basic/Nodes.h"
+#include "couplingVRP/model/basic/ADijkstraSol.h"
 #include "src/ALNS_inc.h"
 #include "utility.h"
 #include <vector>

@@ -4,7 +4,7 @@
 #define _AVAILABLEPATHS_H_
 
 #include <vector>
-#include "couplingVRP/model/config.h"
+#include "couplingVRP/model/basic/config.h"
 using namespace std;
 
 class ADijkstraSol;

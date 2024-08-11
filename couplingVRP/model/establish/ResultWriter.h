@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include "couplingVRP/model/config.h"
+#include "couplingVRP/model/basic/config.h"
 using namespace std;
 
 /// @brief a class to write the solution results to files

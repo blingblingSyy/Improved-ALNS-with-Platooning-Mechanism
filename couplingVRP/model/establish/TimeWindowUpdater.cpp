@@ -6,9 +6,9 @@
 #include <string>  
 #include <algorithm>  
 #include <assert.h>
-#include "couplingVRP/model/TimeWindowUpdater.h"
-#include "couplingVRP/model/Nodes.h"
-#include "couplingVRP/model/config.h"
+#include "couplingVRP/model/establish/TimeWindowUpdater.h"
+#include "couplingVRP/model/basic/Nodes.h"
+#include "couplingVRP/model/basic/config.h"
 #include "utility.h"
 using namespace std;
 

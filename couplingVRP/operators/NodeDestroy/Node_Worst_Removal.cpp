@@ -1,7 +1,7 @@
 #include "couplingVRP/operators/NodeDestroy/Node_Worst_Removal.h"
-#include "couplingVRP/model/VRPSolution.h"
-#include "couplingVRP/model/ARoute.h"
-#include "couplingVRP/model/config.h"
+#include "couplingVRP/model/establish/VRPSolution.h"
+#include "couplingVRP/model/establish/ARoute.h"
+#include "couplingVRP/model/basic/config.h"
 #include "src/ALNS_inc.h"
 #include "utility.h"
 #include <vector>

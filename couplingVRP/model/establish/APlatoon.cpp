@@ -6,8 +6,8 @@
 #include <string>  
 #include <algorithm>  
 #include <assert.h>
-#include "couplingVRP/model/APlatoon.h"
-#include "couplingVRP/model/Nodes.h"
+#include "couplingVRP/model/establish/APlatoon.h"
+#include "couplingVRP/model/basic/Nodes.h"
 using namespace std;
 
 APlatoon::APlatoon(Nodes& nodeset)

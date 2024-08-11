@@ -2,7 +2,7 @@
 #define NODES_H_
 
 #include <vector>
-#include "couplingVRP/model/config.h"
+#include "couplingVRP/model/basic/config.h"
 using namespace std;
 
 class RawInstance;
