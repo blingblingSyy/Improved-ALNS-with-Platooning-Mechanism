@@ -115,6 +115,9 @@ class ARoute
         vector<int> getCompactRoute() {return compact_route;};
 
         //! a simple getter
+        int getUsedPathsAtArc(int arcpos) {return used_paths_in_compact_route[arcpos];};
+
+        //! a simple getter
         vector<int> getExtendedRoute() {return extended_route;};
 
         //! a simple getter

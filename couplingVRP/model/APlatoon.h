@@ -58,7 +58,7 @@ class APlatoon
         vector<int> getArc() {return arc;};
 
         //! a simple getter
-        vector<pair<int, int>> getPlatoonConfig() {return config;};
+        vector<pair<int, int>>& getPlatoonConfig() {return config;};
 
         //! a simple getter
         vector<int> getOverlapDTW() {return overlap_deptw;};
@@ -86,6 +86,9 @@ class APlatoon
 
         //! a simple setter to expand the platoon
         void addOneConfig(pair<int, int> inputVehiclePos) {config.push_back(inputVehiclePos);};
+
+        //! a simple setter to reduce the platoon
+        void removeOneVeh(int vehid);
 
         //! a simple setter of the overlapping departure time windows
         void setOverlapDTW(vector<int> input_overlaptw) {overlap_deptw = input_overlaptw;};

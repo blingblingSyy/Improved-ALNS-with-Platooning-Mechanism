@@ -8,7 +8,7 @@
 #include "couplingVRP/model/RawInstance.h"
 #include "couplingVRP/model/ADijkstraSol.h"
 #include "couplingVRP/model/KSPBuilder.h"
-#include "couplingVRP/model/utility.h"
+#include "utility.h"
 #include "couplingVRP/model/config.h"
 
 Nodes::Nodes(RawInstance& inputInstance, bool reset_demands = false, bool reset_sertime = false, bool reset_sertw = false, bool add_intersects, bool shrink_pasdmd, bool modify_connectivity, int veh_speed)
@@ -22,6 +22,8 @@ Nodes::Nodes(RawInstance& inputInstance, bool reset_demands = false, bool reset_
     this->modify_connectivity = modify_connectivity;
     nodenum = rawInstance->getRowNum()-1;
     buildNodesStruct(veh_speed);
+    calMaxMinSPDist();
+    calMaxMinDmd();
 }
 
 Nodes::~Nodes()
@@ -371,16 +373,26 @@ vector<vector<int>> Nodes::getAllAvailPathSize()
     return all_path_size;
 }
 
-
-int Nodes::getMaxAvailPathSize()
+void Nodes::calMaxMinSPDist()
 {
-    vector<vector<int>> all_path_size = getAllAvailPathSize();
-    vector<int> onedim_maxsize;
-    for(int i = 0; i < all_path_size.size(); i++)
+    vector<double> spDistVec;
+    for(int i = 0; i < nodenum-1; i++)
     {
-        auto it = max_element(all_path_size[i].begin(), all_path_size[i].end());
-        onedim_maxsize.push_back(*it);
+        for(int j = i+1; j < nodenum; j++)
+        {
+            spDistVec.push_back(SP_distmat[i][j]);
+        }
     }
-    auto it = max_element(onedim_maxsize.begin(), onedim_maxsize.end());
-    return *it;
+    auto maxit = max_element(spDistVec.begin(), spDistVec.end());
+    auto minit = min_element(spDistVec.begin(), spDistVec.end());
+    maxSPdist = *maxit;
+    minSPdist = *minit;
+}
+
+void Nodes::calMaxMinDmd()
+{
+    auto maxit = max_element(demands.begin(), demands.end());
+    auto minit = min_element(demands.begin(), demands.end());
+    maxDmd = *maxit;
+    minDmd = *minit;
 }

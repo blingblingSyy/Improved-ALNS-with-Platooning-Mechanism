@@ -499,6 +499,8 @@ void ARoute::setRouteByInsertNode(int insert_pos, int insert_nodeid)
     twupdater.calRouteExpectedTW();
     this->expected_arrtw = twupdater.getRouteArrTW();
     this->expected_deptw = twupdater.getRouteDepTW();
+    this->actual_arrtime.clear();
+    this->actual_deptime.clear();
 }
 
 void ARoute::evaluateRouteByRemoveNode(int remove_pos)
@@ -514,8 +516,8 @@ void ARoute::evaluateRouteByRemoveNode(int remove_pos)
     TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
     twupdater.calRouteExpectedTW();
     bool TimeFeas = twupdater.isRouteTimeFeas();
-    bool LoadFeas = isLoadFeas(route_load1);
-    bool DistFeas = isDistFeas(route_mileage1[route_mileage1.size()-1]);
+    bool LoadFeas = true; // isLoadFeas(route_load1);
+    bool DistFeas = true; // isDistFeas(route_mileage1[route_mileage1.size()-1]);
     bool LinkFeas = isLinkFeas(remove_pos-1, compact_route1);
 
     if(TimeFeas && LoadFeas && DistFeas&& LinkFeas)
@@ -542,6 +544,8 @@ void ARoute::setRouteByRemoveNode(int remove_pos)
     twupdater.calRouteExpectedTW();
     this->expected_arrtw = twupdater.getRouteArrTW();
     this->expected_deptw = twupdater.getRouteDepTW();
+    this->actual_arrtime.clear();
+    this->actual_deptime.clear();
 }
 
 void ARoute::evaluateRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
@@ -581,6 +585,8 @@ void ARoute::setRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
     twupdater.calRouteExpectedTW();
     this->expected_arrtw = twupdater.getRouteArrTW();
     this->expected_deptw = twupdater.getRouteDepTW();
+    this->actual_arrtime.clear();
+    this->actual_deptime.clear();
 }
 
 bool ARoute::isTimeFeas(vector<int> extended_route1, vector<int> node_labels1)

@@ -9,7 +9,7 @@
 #include "couplingVRP/model/TimeWindowUpdater.h"
 #include "couplingVRP/model/Nodes.h"
 #include "couplingVRP/model/config.h"
-#include "couplingVRP/model/utility.h"
+#include "utility.h"
 using namespace std;
 
 TimeWindowUpdater::TimeWindowUpdater(vector<int> extended_route, vector<int> node_labels, int WaitTimePerNode, int WaitMaxRoute, Nodes& nodes)

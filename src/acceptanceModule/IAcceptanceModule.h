@@ -27,9 +27,9 @@
 #define IACCEPTANCEMODULE_H_
 
 #include <iostream>
-#include "../alns/ISolution.h"
-#include "../alns/ALNS_Iteration_Status.h"
-#include "../alns/IBestSolutionManager.h"
+#include "src/improvedALNS/ISolution.h"
+#include "src/improvedALNS/ALNS_Iteration_Status.h"
+#include "src/improvedALNS/IBestSolutionManager.h"
 
 /*!
  * \class IAcceptanceModule.

@@ -16,7 +16,7 @@
 #include "couplingVRP/model/TimeWindowUpdater.h"
 #include "couplingVRP/model/PlatoonMaker.h"
 #include "couplingVRP/model/config.h"
-#include "couplingVRP/model/utility.h"
+#include "utility.h"
 using namespace std;  
 
 PlatoonMaker::PlatoonMaker(VRPSolution& sol, Nodes& nodes)
@@ -415,9 +415,10 @@ vector<APlatoon*> PlatoonMaker::findAllPlatoons(vector<pair<int, int>>& graph_no
         vector<int> updated_max_platoon_tw = shrinkOverlapDeptwOnePlatoon(maximum_clique, maximum_platoon_tw);
         all_platoons.push_back(maximum_clique);
         //！ update time windows with the maximum platoon
-        updateArrDeptwAllCouplingRoutes(maximum_clique->getPlatoonConfig(), updated_max_platoon_tw, cur_sol->getAllRoutes());
+        vector<pair<int, int>> maxclique_config = maximum_clique->getPlatoonConfig();
+        updateArrDeptwAllCouplingRoutes(maxclique_config, updated_max_platoon_tw, cur_sol->getAllRoutes());
         //！ remove all the nodes corresponding to the nodes in the maximum clique
-        process_intersections(graph_nodes, maximum_clique->getPlatoonConfig());
+        process_intersections(graph_nodes, maxclique_config);
         //！ remove all the links adjacent to the nodes in the maximum clique
         if(!graph_nodes.empty())
         {

@@ -75,3 +75,9 @@ double APlatoon::calEnergySaving()
     energy_saving = 0.1*(plen-1)*arclen;
     return energy_saving;
 }
+
+void APlatoon::removeOneVeh(int vehid)
+{
+    auto it = find_if(config.begin(), config.end(), [&](pair<int, int> vehpos) -> bool {return vehpos.first == vehid;});
+    if(it != config.end()) config.erase(it);
+}

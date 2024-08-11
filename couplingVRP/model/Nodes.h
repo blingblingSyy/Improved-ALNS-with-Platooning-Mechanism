@@ -118,6 +118,18 @@ class Nodes
         //! build the complete information of all nodes
         void buildNodesStruct(int veh_speed);
 
+        //! max SP dist
+        double maxSPdist;
+
+        //! min SP dist
+        double minSPdist;
+
+        //! max demands
+        int maxDmd;
+
+        //! min demands
+        int minDmd;
+
     public:
         //! constructor
         Nodes(RawInstance& inputInstance, bool reset_demands = false, bool reset_sertime = false, bool reset_sertw = false, bool add_intersects = true, bool shrink_pasdmd = true, bool modify_connectivity = true, int veh_speed = 1);
@@ -127,6 +139,9 @@ class Nodes
 
         //! a simple getter
         int getNodeNum() {return nodenum;}; 
+
+        //! a simple getter
+        int getCusNum() {return nodenum-1;}
 
         //! a simple getter
         int getNodeType(int nodeid) {return nodetype[nodeid];};
@@ -159,9 +174,6 @@ class Nodes
         vector<vector<int>> getAllAvailPathSize();
 
         //! a simple getter
-        int getMaxAvailPathSize();
-
-        //! a simple getter
         vector<int> getNeighbour(int nodeid) {return neighbours[nodeid];};
 
         //! a simple getter
@@ -175,6 +187,24 @@ class Nodes
 
         //! a simple getter
         double getServiceRate(int nodeid) {return service_rate[nodeid];};
+
+        //! calculate the max and min shortest path distance 
+        void calMaxMinSPDist();
+
+        //! calculate the max and min sdemands
+        void calMaxMinDmd();
+
+        //! a simple getter
+        double getMaxSPDist() {return maxSPdist;};
+
+        //! a simple getter
+        double getMinSPDist() {return minSPdist;};
+
+        //! a simple getter
+        int getMaxDmd() {return maxDmd;};
+
+        //! a simple getter
+        int getMinDmd() {return minDmd;};
 };
 
 
