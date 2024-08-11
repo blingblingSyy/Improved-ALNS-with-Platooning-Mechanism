@@ -2,7 +2,7 @@
 #include <numeric>
 #include "src/ALNS_inc.h"
 #include "utility.h"
-#include "couplingVRP/operators/NodeDestroy/Node_Shaw_Removal.h"
+#include "couplingVRP/operators/nodeDestroy/Node_Shaw_Removal.h"
 #include "couplingVRP/model/establish/VRPSolution.h"
 #include "couplingVRP/model/establish/ARoute.h"
 #include "couplingVRP/model/basic/Nodes.h"

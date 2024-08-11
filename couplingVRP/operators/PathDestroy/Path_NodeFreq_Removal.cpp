@@ -1,4 +1,4 @@
-#include "couplingVRP/operators/PathDestroy/Path_NodeFreq_Removal.h"
+#include "couplingVRP/operators/pathDestroy/Path_NodeFreq_Removal.h"
 #include "couplingVRP/model/establish/VRPSolution.h"
 #include "couplingVRP/model/establish/ARoute.h"
 #include "couplingVRP/model/basic/Nodes.h"
