@@ -10,10 +10,7 @@ class ISolution;
 class ANodeRepairOperator : public AOperator 
 {
 	public:
-		ANodeRepairOperator(std::string s) : AOperator(s)
-		{
-			
-		}
+		ANodeRepairOperator(std::string s) : AOperator(s) {};
 
 		virtual ~ANodeRepairOperator(){};
 

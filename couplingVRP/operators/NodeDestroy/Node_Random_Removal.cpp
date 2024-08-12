@@ -10,8 +10,8 @@ using namespace std;
 Node_Random_Removal::Node_Random_Removal(string s, double maxNodeDestroyRate, int cusnum) : ANodeDestroyOperator(s, maxNodeDestroyRate, cusnum)
 {
     empty = false;
-    hasSelectedCurOp = true;
-    toSelectNextOp = true;
+    hasSelectedCur = true;
+    toSelectNext = true;
 }
 
 Node_Random_Removal::~Node_Random_Removal()
@@ -40,9 +40,9 @@ void Node_Random_Removal::destroySolNode(ISolution& sol)
         //! after insertion, the solution must be feasible.
         vrpsol.removeNode(destroyed_nodeset[k].second, destroyed_nodeset[k].first);
     }
-    if(orig_noninserted - vrpsol.getNonInsertedNodes().size() == 0) //! no nodes are actually removed
-    {
-        setEmpty(true);
-        setToSelectNext(false);
-    }
+    // if(orig_noninserted - vrpsol.getNonInsertedNodes().size() == 0) //! no nodes are actually removed
+    // {
+    //     setEmpty(true);
+    //     setToSelectNext(false);
+    // }
 }

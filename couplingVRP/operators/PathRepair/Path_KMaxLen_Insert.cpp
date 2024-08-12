@@ -14,8 +14,8 @@ using namespace std;
 Path_KMaxLen_Insert::Path_KMaxLen_Insert(string s, Nodes& nodes, double rand_klen) : nodeset(nodes), APathRepairOperator(s)
 {
     empty = false;
-    hasSelectedCurOp = true;
-    toSelectNextOp = true;
+    hasSelectedCur = true;
+    toSelectNext = true;
     this->randK = rand_klen;
 }
 

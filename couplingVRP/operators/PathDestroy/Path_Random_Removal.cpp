@@ -13,8 +13,8 @@ using namespace std;
 Path_Random_Removal::Path_Random_Removal(string s, ALNS_Parameters& alns_param, Nodes& nodes) : APathDestroyOperator(s, alns_param, nodes.getAllAvailPathSize())
 {
     empty = false;
-    hasSelectedCurOp = true;
-    toSelectNextOp = true;
+    hasSelectedCur = true;
+    toSelectNext = true;
 }
 
 Path_Random_Removal::~Path_Random_Removal()
@@ -49,9 +49,9 @@ void Path_Random_Removal::destroySolPath(ISolution& sol)
         i++;
     }
 
-    if(destroyed_arc_config.size() == 0) 
-    {
-        setEmpty(true);
-        setToSelectNext(false);
-    }
+    // if(destroyed_arc_config.size() == 0) 
+    // {
+    //     setEmpty(true);
+    //     setToSelectNext(false);
+    // }
 }

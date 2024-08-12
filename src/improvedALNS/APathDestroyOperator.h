@@ -25,8 +25,8 @@ class APathDestroyOperator : public AOperator
 		//! The generated destroy size used.
 		int pathDestroySize;
 
-		//! the size of available path set between pairs of nodes
-		vector<vector<int>>& availPathSetCardi;
+		// //! the size of available path set between pairs of nodes
+		// vector<vector<int>>* availPathSetCardi;
 
 		//! The tabu list for each path
 		//! This tabu list will be updated every time a Path Destory Operator is called
@@ -48,6 +48,9 @@ class APathDestroyOperator : public AOperator
 		//! \param s the name of the destroy operator.
 		APathDestroyOperator(string s, ALNS_Parameters& alns_param, vector<vector<int>> availPathSetCardi);
 
+		//! a simple constructor
+		APathDestroyOperator(string s) : AOperator(s) {};
+		
 		//! Destructor.
 		virtual ~APathDestroyOperator() {};
 

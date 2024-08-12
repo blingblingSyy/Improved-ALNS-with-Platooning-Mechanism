@@ -10,11 +10,11 @@
 #include <set>
 using namespace std;
 
-Path_Cardinality_Removal::Path_Cardinality_Removal(string s, ALNS_Parameters& alns_param, Nodes& nodes) : APathDestroyOperator(s, alns_param, nodes.getAllAvailPathSize())
+Path_Cardinality_Removal::Path_Cardinality_Removal(string s, ALNS_Parameters& alns_param, Nodes& nodes) : nodeset(nodes), APathDestroyOperator(s, alns_param, nodeset.getAllAvailPathSize())
 {
     empty = false;
-    hasSelectedCurOp = true;
-    toSelectNextOp = true;
+    hasSelectedCur = true;
+    toSelectNext = true;
 }
 
 Path_Cardinality_Removal::~Path_Cardinality_Removal()
@@ -34,7 +34,7 @@ void Path_Cardinality_Removal::destroySolPath(ISolution& sol)
     vector<int> destroyable_arc_card;
     for(int i = 0; i < all_destroyable_arcconfig.size(); i++)
     {
-        destroyable_arc_card.push_back(availPathSetCardi[all_destroyable_arcconfig[i][0]][all_destroyable_arcconfig[i][1]]);
+        destroyable_arc_card.push_back(nodeset.getAllAvailPathSize()[all_destroyable_arcconfig[i][0]][all_destroyable_arcconfig[i][1]]);
     }
     vector<int> indices(destroyable_arc_card.size());
     iota(indices.begin(), indices.end(), 0);
@@ -57,9 +57,9 @@ void Path_Cardinality_Removal::destroySolPath(ISolution& sol)
         i++;
     }
 
-    if(destroyed_arc_config.size() == 0) 
-    {
-        setEmpty(true);
-        setToSelectNext(false);
-    }
+    // if(destroyed_arc_config.size() == 0) 
+    // {
+    //     setEmpty(true);
+    //     setToSelectNext(false);
+    // }
 }

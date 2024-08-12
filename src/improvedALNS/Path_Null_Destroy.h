@@ -8,11 +8,11 @@ class Path_Null_Destroy: public APathDestroyOperator
 {
 public:
 	//!  constructor
-	Path_Null_Destroy(string s, ALNS_Parameters& alns_param, vector<vector<int>>& emptyvec): APathDestroyOperator(s, alns_param, emptyvec)
+	Path_Null_Destroy(string s): APathDestroyOperator(s)
 	{
 		empty = true;
-		hasSelectedCurOp = true;
-		toSelectNextOp = false;
+		hasSelectedCur = true;
+		toSelectNext = false;
 	}
 
 	//! destructor

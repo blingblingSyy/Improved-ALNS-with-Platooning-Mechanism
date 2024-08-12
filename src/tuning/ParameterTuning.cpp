@@ -195,7 +195,7 @@ void ParameterTuning::writeBestParameters(std::string path)
 		os << setw(4) << "<StoppingCriterion>ALL</StoppingCriterion>" << endl;
 		break;
 	}
-	if(bestAlnsParams->getNoise())
+	if(bestAlnsParams->getGlobalNoise())
 	{
 		os << setw(4) << "<Noise>true</Noise>" << endl;
 	}

@@ -38,6 +38,9 @@ class ANodeDestroyOperator : public AOperator
 		//! \param s the name of the destroy operator.
 		ANodeDestroyOperator(string s, double maxNodeDestroyRate, int cusnum);
 
+		//! Another constructor
+		ANodeDestroyOperator(string s) : AOperator(s) {};
+
 		//! Destructor.
 		virtual ~ANodeDestroyOperator(){};
 

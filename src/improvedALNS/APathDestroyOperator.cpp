@@ -5,10 +5,11 @@
 #include "utility.h"
 using namespace std;
 
-APathDestroyOperator::APathDestroyOperator(string s, ALNS_Parameters& alns_param, vector<vector<int>> availPathSetCardi) : availPathSetCardi(availPathSetCardi), AOperator(s)
+APathDestroyOperator::APathDestroyOperator(string s, ALNS_Parameters& alns_param, vector<vector<int>> availPathSetCardi) : AOperator(s)
 {
 	minimunDestroy = 1;
 	maximumDestroy = 0; 
+	// this->availPathSetCardi = &availPathSetCardi;
 	pathTabu.resize(availPathSetCardi.size());
 	for(int i = 0; i < availPathSetCardi.size(); i++)
 	{

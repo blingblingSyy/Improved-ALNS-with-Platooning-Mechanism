@@ -8,11 +8,11 @@ class Node_Null_Destroy: public ANodeDestroyOperator
 {
 public:
     //! constructor
-	Node_Null_Destroy(string s) : ANodeDestroyOperator(s, 1, 1)
+	Node_Null_Destroy(string s) : ANodeDestroyOperator(s)
     {
         empty = true;
-        hasSelectedCurOp = true;
-        toSelectNextOp = false;
+        hasSelectedCur = true;
+        toSelectNext = false;
     }
 
     //! destructor

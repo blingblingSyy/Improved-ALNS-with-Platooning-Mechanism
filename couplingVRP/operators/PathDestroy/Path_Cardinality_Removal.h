@@ -19,6 +19,10 @@ class Path_Cardinality_Removal: public APathDestroyOperator
 
         //! destroy operator: do nothing to the solution because the operator is emtpy
         void destroySolPath(ISolution& sol);
+        
+    private:
+        //! reference to the set of nodes
+        Nodes& nodeset;
 
 };
 

@@ -12,8 +12,8 @@ using namespace std;
 Node_Worst_Removal::Node_Worst_Removal(string s, ALNS_Parameters& alns_param, int cusnum) : ANodeDestroyOperator(s, alns_param.getNodeDestroyRate(), cusnum)
 {
     empty = false;
-    hasSelectedCurOp = true;
-    toSelectNextOp = true;
+    hasSelectedCur = true;
+    toSelectNext = true;
     this->randWorst = alns_param.getRandWorstParam();
 }
 
@@ -42,11 +42,11 @@ void Node_Worst_Removal::destroySolNode(ISolution& sol)
     {
         vrpsol.removeNode(destroyed_nodeset[k].second, destroyed_nodeset[k].first);
     }
-    if(orig_noninserted - vrpsol.getNonInsertedNodes().size() == 0) //! no nodes are actually removed
-    {
-        setEmpty(true);
-        setToSelectNext(false);
-    }
+    // if(orig_noninserted - vrpsol.getNonInsertedNodes().size() == 0) //! no nodes are actually removed
+    // {
+    //     setEmpty(true);
+    //     setToSelectNext(false);
+    // }
 }
 
 /* new version */

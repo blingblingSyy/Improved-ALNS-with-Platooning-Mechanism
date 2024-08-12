@@ -12,8 +12,8 @@ Node_Shaw_Removal::Node_Shaw_Removal(string s, Nodes& nodes, ALNS_Parameters& al
                     nodeset(nodes), ANodeDestroyOperator(s, alns_param.getNodeDestroyRate(), nodeset.getCusNum())
 {
     empty = false;
-    hasSelectedCurOp = true;
-    toSelectNextOp = true;
+    hasSelectedCur = true;
+    toSelectNext = true;
     this->param1 = alns_param.getShawRate1();
     this->param2 = alns_param.getShawRate2();
     this->param3 = alns_param.getShawRate3();
@@ -61,11 +61,11 @@ void Node_Shaw_Removal::destroySolNode(ISolution& sol)
     {
         vrpsol.removeNode(destroyed_nodeset[k].second, destroyed_nodeset[k].first);
     }
-    if(orig_noninserted - vrpsol.getNonInsertedNodes().size() == 0) //! no nodes are actually removed
-    {
-        setEmpty(true);
-        setToSelectNext(false);
-    }
+    // if(orig_noninserted - vrpsol.getNonInsertedNodes().size() == 0) //! no nodes are actually removed
+    // {
+    //     setEmpty(true);
+    //     setToSelectNext(false);
+    // }
 }
 
 double Node_Shaw_Removal::calRelatedness(VRPSolution& vrpsol, pair<int, int> rid_arcpos1, pair<int, int> rid_arcpos2)

@@ -205,9 +205,9 @@ class ALNS_Parameters
         }
 
         //! Simple getter.
-        bool getNoise() const
+        bool getGlobalNoise() const
         {
-            return noise;
+            return globalNoise;
         }
 
         //! Simple getter.
@@ -301,10 +301,10 @@ class ALNS_Parameters
         }
 
         //! Simple setter.
-        void setNoise(bool noise)
+        void setGlobalNoise(bool noise)
         {
             assert(!lock);
-            this->noise = noise;
+            this->globalNoise = noise;
         }
 
         //! Simple setter.
@@ -420,8 +420,8 @@ class ALNS_Parameters
         //! Which stopping criterion should be used.
         StoppingCriteria stopCrit;
 
-        //! Indicate if noise should be used.
-        bool noise;
+        //! Indicate if noise should be used for the whole algorithm.
+        bool globalNoise;
 
         //! Indicate after how many iterations should the scores of
         //! the operators be recomputed.

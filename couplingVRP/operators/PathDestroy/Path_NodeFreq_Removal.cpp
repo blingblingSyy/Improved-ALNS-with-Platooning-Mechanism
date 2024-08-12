@@ -14,8 +14,8 @@ using namespace std;
 Path_NodeFreq_Removal::Path_NodeFreq_Removal(string s, ALNS_Parameters& alns_param, Nodes& nodes) : nodeset(nodes), APathDestroyOperator(s, alns_param, nodeset.getAllAvailPathSize())
 {
     empty = false;
-    hasSelectedCurOp = true;
-    toSelectNextOp = true;
+    hasSelectedCur = true;
+    toSelectNext = true;
 }
 
 Path_NodeFreq_Removal::~Path_NodeFreq_Removal()
@@ -60,11 +60,11 @@ void Path_NodeFreq_Removal::destroySolPath(ISolution& sol)
         i++;
     }
 
-    if(destroyed_arc_config.size() == 0) 
-    {
-        setEmpty(true);
-        setToSelectNext(false);
-    }
+    // if(destroyed_arc_config.size() == 0) 
+    // {
+    //     setEmpty(true);
+    //     setToSelectNext(false);
+    // }
 }
 
 double Path_NodeFreq_Removal::calPathAvgNodeFreq(VRPSolution& vrpsol, vector<int> path)

@@ -9,8 +9,8 @@ using namespace std;
 Node_RouteBased_Removal::Node_RouteBased_Removal(string s) : ANodeDestroyOperator(s, 1, 1)
 {
     empty = false;
-    hasSelectedCurOp = true;
-    toSelectNextOp = true;
+    hasSelectedCur = true;
+    toSelectNext = true;
 }
 
 Node_RouteBased_Removal::~Node_RouteBased_Removal()

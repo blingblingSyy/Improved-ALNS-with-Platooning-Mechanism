@@ -10,8 +10,8 @@ using namespace std;
 Node_Random_Insert::Node_Random_Insert(string s) : ANodeRepairOperator(s)
 {
     empty = false;
-    hasSelectedCurOp = true;
-    toSelectNextOp = true;
+    hasSelectedCur = true;
+    toSelectNext = true;
 }
 
 Node_Random_Insert::~Node_Random_Insert()

@@ -11,10 +11,7 @@ class ISolution;
 class APathRepairOperator : public AOperator
 {
 	public:
-		APathRepairOperator(string s) : AOperator(s)
-		{
-
-		}
+		APathRepairOperator(string s) : AOperator(s) {};
 
 		virtual ~APathRepairOperator(){};
 
