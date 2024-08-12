@@ -42,7 +42,7 @@ ALNS_Parameters::ALNS_Parameters()
 
 	stopCrit = ALL;
 
-	noise = false;
+	globalNoise = false;
 
 	timeSegmentsIt = 100;
 
@@ -153,11 +153,11 @@ void ALNS_Parameters::loadXMLParameters(std::string path)
 					str >> temp;
 					if(temp=="true")
 					{
-						noise = true;
+						globalNoise = true;
 					}
 					else
 					{
-						noise = false;
+						globalNoise = false;
 					}
 				}
 				TiXmlElement* timeSeg = paramALNS->FirstChildElement( "TimeSegmentIt" );
@@ -376,11 +376,11 @@ void ALNS_Parameters::loadParameters(string path)
 				str >> temp;
 				if(temp == "true")
 				{
-					noise = true;
+					globalNoise = true;
 				}
 				else
 				{
-					noise = false;
+					globalNoise = false;
 				}
 			}
 			else if(id == "timeSegmentIt")
@@ -500,7 +500,7 @@ ALNS_Parameters::ALNS_Parameters(ALNS_Parameters& p)
 
 	stopCrit = p.stopCrit;
 
-	noise = p.noise;
+	globalNoise = p.globalNoise;
 
 	timeSegmentsIt = p.timeSegmentsIt;
 
