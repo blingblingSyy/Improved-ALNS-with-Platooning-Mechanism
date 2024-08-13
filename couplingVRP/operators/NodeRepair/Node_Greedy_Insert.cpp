@@ -10,7 +10,7 @@ using namespace std;
 Node_Greedy_Insert::Node_Greedy_Insert(string s) : ANodeRepairOperator(s)
 {
     empty = false;
-    hasSelectedCur = true;
+    // hasSelectedCur = true;
     toSelectNext = true;
 }
 

@@ -14,7 +14,7 @@ using namespace std;
 Path_NodeFreq_Removal::Path_NodeFreq_Removal(string s, ALNS_Parameters& alns_param, Nodes& nodes) : nodeset(nodes), APathDestroyOperator(s, alns_param, nodeset.getAllAvailPathSize())
 {
     empty = false;
-    hasSelectedCur = true;
+    // hasSelectedCur = true;
     toSelectNext = true;
 }
 

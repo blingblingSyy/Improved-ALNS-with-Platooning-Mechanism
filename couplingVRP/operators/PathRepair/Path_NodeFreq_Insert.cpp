@@ -14,7 +14,7 @@ using namespace std;
 Path_NodeFreq_Insert::Path_NodeFreq_Insert(string s, Nodes& nodes, double rand_nFreq) : nodeset(nodes), APathRepairOperator(s)
 {
     empty = false;
-    hasSelectedCur = true;
+    // hasSelectedCur = true;
     toSelectNext = true;
     this->randF = rand_nFreq;
 }

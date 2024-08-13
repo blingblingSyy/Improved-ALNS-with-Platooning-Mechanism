@@ -13,7 +13,7 @@ using namespace std;
 Path_Random_Removal::Path_Random_Removal(string s, ALNS_Parameters& alns_param, Nodes& nodes) : APathDestroyOperator(s, alns_param, nodes.getAllAvailPathSize())
 {
     empty = false;
-    hasSelectedCur = true;
+    // hasSelectedCur = true;
     toSelectNext = true;
 }
 

@@ -12,7 +12,7 @@ using namespace std;
 Node_Worst_Removal::Node_Worst_Removal(string s, ALNS_Parameters& alns_param, int cusnum) : ANodeDestroyOperator(s, alns_param.getNodeDestroyRate(), cusnum)
 {
     empty = false;
-    hasSelectedCur = true;
+    // hasSelectedCur = true;
     toSelectNext = true;
     this->randWorst = alns_param.getRandWorstParam();
 }

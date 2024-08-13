@@ -11,7 +11,7 @@ using namespace std;
 Node_Regret_Insert::Node_Regret_Insert(string s, int regret_k) : ANodeRepairOperator(s)
 {
     empty = false;
-    hasSelectedCur = true;
+    // hasSelectedCur = true;
     toSelectNext = true;
     this->K = regret_k;
 }

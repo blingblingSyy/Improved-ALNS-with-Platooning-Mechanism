@@ -13,7 +13,7 @@ using namespace std;
 Path_Random_Insert::Path_Random_Insert(string s, Nodes& nodes) : nodeset(nodes), APathRepairOperator(s)
 {
     empty = false;
-    hasSelectedCur = true;
+    // hasSelectedCur = true;
     toSelectNext = true;
 }
 

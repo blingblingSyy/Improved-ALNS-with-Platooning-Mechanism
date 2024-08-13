@@ -11,7 +11,7 @@ class Node_Null_Repair: public ANodeRepairOperator
         Node_Null_Repair(string s) : ANodeRepairOperator(s)
         {
             empty = true;
-            hasSelectedCur = true;
+            // hasSelectedCur = true;
             toSelectNext = false;
         }
 

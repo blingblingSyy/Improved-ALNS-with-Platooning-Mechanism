@@ -10,7 +10,7 @@ using namespace std;
 Node_Random_Removal::Node_Random_Removal(string s, double maxNodeDestroyRate, int cusnum) : ANodeDestroyOperator(s, maxNodeDestroyRate, cusnum)
 {
     empty = false;
-    hasSelectedCur = true;
+    // hasSelectedCur = true;
     toSelectNext = true;
 }
 

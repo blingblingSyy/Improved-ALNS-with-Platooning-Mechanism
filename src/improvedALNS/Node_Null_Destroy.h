@@ -11,7 +11,7 @@ public:
 	Node_Null_Destroy(string s) : ANodeDestroyOperator(s)
     {
         empty = true;
-        hasSelectedCur = true;
+        // hasSelectedCur = true;
         toSelectNext = false;
     }
 

@@ -12,7 +12,7 @@ Node_Shaw_Removal::Node_Shaw_Removal(string s, Nodes& nodes, ALNS_Parameters& al
                     nodeset(nodes), ANodeDestroyOperator(s, alns_param.getNodeDestroyRate(), nodeset.getCusNum())
 {
     empty = false;
-    hasSelectedCur = true;
+    // hasSelectedCur = true;
     toSelectNext = true;
     this->param1 = alns_param.getShawRate1();
     this->param2 = alns_param.getShawRate2();

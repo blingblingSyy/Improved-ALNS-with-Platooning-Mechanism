@@ -11,7 +11,7 @@ public:
 	Path_Null_Repair(string s): APathRepairOperator(s)
 	{
 		empty = true;
-		hasSelectedCur = true;
+		// hasSelectedCur = true;
 		toSelectNext = false;
 	}
 

@@ -227,9 +227,10 @@ ANodeDestroyOperator& StrategyManager::selectNodeDestroyOperator()
 {
 	if(curSt == NodeFirst)
 	{
-		vector<AOperator*> updatedNodeDestroyOperators = nodeDestroyOperators;
+		// vector<AOperator*> updatedNodeDestroyOperators = nodeDestroyOperators;
+		// updatedNodeDestroyOperators.erase(remove(updatedNodeDestroyOperators.begin(), updatedNodeDestroyOperators.end(), nodeNullDestroy));
+		vector<AOperator*> updatedNodeDestroyOperators(nodeDestroyOperators.begin()+1, nodeDestroyOperators.end());
 		double newSumWeights = sumWeightsNodeDestroy - nodeNullDestroy->getWeight();
-		updatedNodeDestroyOperators.erase(remove(updatedNodeDestroyOperators.begin(), updatedNodeDestroyOperators.end(), nodeNullDestroy));
 		return dynamic_cast<ANodeDestroyOperator&>(selectOpt(updatedNodeDestroyOperators, newSumWeights));
 	}
 	else //! curSt == PathFirst
@@ -254,9 +255,10 @@ APathDestroyOperator& StrategyManager::selectPathDestroyOperator()
 {
 	if(curSt == PathFirst)
 	{
-		vector<AOperator*> updatedPathDestroyOperators = pathDestroyOperators;
+		// vector<AOperator*> updatedPathDestroyOperators = pathDestroyOperators;
+		// updatedPathDestroyOperators.erase(remove(updatedPathDestroyOperators.begin(), updatedPathDestroyOperators.end(), pathNullDestroy));
+		vector<AOperator*> updatedPathDestroyOperators(pathDestroyOperators.begin()+1, pathDestroyOperators.end());
 		double newSumWeights = sumWeightsPathDestroy - pathNullDestroy->getWeight();
-		updatedPathDestroyOperators.erase(remove(updatedPathDestroyOperators.begin(), updatedPathDestroyOperators.end(), pathNullDestroy));
 		return dynamic_cast<APathDestroyOperator&>(selectOpt(updatedPathDestroyOperators, newSumWeights));
 	}
 	else //! curSt == NodeFirst
