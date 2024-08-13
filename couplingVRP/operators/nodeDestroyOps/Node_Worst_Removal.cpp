@@ -1,4 +1,4 @@
-#include "couplingVRP/operators/nodeDestroy/Node_Worst_Removal.h"
+#include "couplingVRP/operators/nodeDestroyOps/Node_Worst_Removal.h"
 #include "couplingVRP/model/establish/VRPSolution.h"
 #include "couplingVRP/model/establish/ARoute.h"
 #include "couplingVRP/model/basic/config.h"
