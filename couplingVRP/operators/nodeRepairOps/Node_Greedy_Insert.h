@@ -6,8 +6,9 @@ using namespace std;
 
 class ISolution;
 class ANodeRepairperator;
+class IUpdatable;
 
-class Node_Greedy_Insert: public ANodeRepairOperator
+class Node_Greedy_Insert: public ANodeRepairOperator, public IUpdatable
 {
     public:
         //! constructor
@@ -18,6 +19,10 @@ class Node_Greedy_Insert: public ANodeRepairOperator
 
         //! destroy operator
         void repairSolNode(ISolution& sol);
+
+    private:
+        //! update the forbidden destroyed node positions
+        void update(ISolution& sol, ALNS_Iteration_Status& status);
 };
 
 #endif

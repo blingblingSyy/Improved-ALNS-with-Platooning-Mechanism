@@ -49,6 +49,7 @@ class ALNS_Iteration_Status
 			setNewBestSolution(UNKNOWN);
 			setLocalSearchUsed(UNKNOWN);
 			setImproveByLocalSearch(UNKNOWN);
+			setAlreadyStrategySelected(UNKNOWN);
 			setAlreadyNodeDestroyed(UNKNOWN);
 			setAlreadyNodeRepaired(UNKNOWN);
 			setAlreadyPathDestroyed(UNKNOWN);
@@ -217,6 +218,10 @@ class ALNS_Iteration_Status
 			this->alreadyPathRepaired = alreadyPathRepaired;
 		}
 
+		void setAlreadyStrategySelected(State alreadyStrategySelected) {
+			this->alreadyStrategySelected = alreadyStrategySelected;
+		}
+
 
 	private:
 
@@ -267,6 +272,9 @@ class ALNS_Iteration_Status
 
 		//! Indicate if the new solution has already been destroyed by path-related operations.
 		State alreadyPathDestroyed;
+
+		//! Indicate if the node first strategy or path first strategy has been selected
+		State alreadyStrategySelected;
 	};
 
 #endif

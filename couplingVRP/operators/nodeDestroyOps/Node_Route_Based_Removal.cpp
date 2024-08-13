@@ -6,11 +6,12 @@
 #include <tuple>
 using namespace std;
 
-Node_RouteBased_Removal::Node_RouteBased_Removal(string s) : ANodeDestroyOperator(s, 1, 1)
+Node_RouteBased_Removal::Node_RouteBased_Removal(string s) : ANodeDestroyOperator(s)
 {
     empty = false;
     // hasSelectedCur = true;
     toSelectNext = true;
+    needUpdate = false;
 }
 
 Node_RouteBased_Removal::~Node_RouteBased_Removal()

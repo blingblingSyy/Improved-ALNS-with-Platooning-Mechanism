@@ -42,7 +42,7 @@ void Path_Random_Removal::destroySolPath(ISolution& sol)
         {
             vrpsol.getDestroyedArcsPos().push_back(selected_arcpos);
             destroyed_arc_config.insert({selected_arcconfig[0], selected_arcconfig[1]});
-            pathTabu[selected_arcconfig[0]][selected_arcconfig[1]] = tabu_tenure;
+            pathTabu[selected_arcconfig[0]][selected_arcconfig[1]] = tabu_tenure + 1;
         }
         all_destroyable_arcpos.erase(all_destroyable_arcpos.begin()+p);
         all_destroyable_arcconfig.erase(all_destroyable_arcconfig.begin()+p);

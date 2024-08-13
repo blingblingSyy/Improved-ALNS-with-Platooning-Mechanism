@@ -14,6 +14,7 @@ Node_Shaw_Removal::Node_Shaw_Removal(string s, Nodes& nodes, ALNS_Parameters& al
     empty = false;
     // hasSelectedCur = true;
     toSelectNext = true;
+    needUpdate = true;
     this->param1 = alns_param.getShawRate1();
     this->param2 = alns_param.getShawRate2();
     this->param3 = alns_param.getShawRate3();
@@ -66,6 +67,7 @@ void Node_Shaw_Removal::destroySolNode(ISolution& sol)
     //     setEmpty(true);
     //     setToSelectNext(false);
     // }
+    destroyed_arcpos = vrpsol.getDestroyedArcsPos();
 }
 
 double Node_Shaw_Removal::calRelatedness(VRPSolution& vrpsol, pair<int, int> rid_arcpos1, pair<int, int> rid_arcpos2)
@@ -99,4 +101,21 @@ void Node_Shaw_Removal::normalize(double& dist, int& dmd_diff, int& arrtime_diff
     dist = dist / nodeset.getMaxSPDist();
     dmd_diff = double(dmd_diff) / (nodeset.getMaxDmd() - nodeset.getMinDmd());
     arrtime_diff = double(arrtime_diff) / calMaxTimeDiff(vrpsol);
+}
+
+void Node_Shaw_Removal::update(ISolution& sol, ALNS_Iteration_Status& status)
+{
+    if(hasSelectedCur && needUpdate)
+    {
+        forbidden_destroyed_nodepos.clear();
+        VRPSolution& vrpsol = dynamic_cast<VRPSolution&>(sol);
+        vector<tuple<int, int, int>> destroyed_arcpos = vrpsol.getDestroyedArcsPos();
+        for(int i = 0; i < destroyed_arcpos.size(); i++)
+        {
+            pair<int, int> forbidden_pos1 = make_pair(get<2>(destroyed_arcpos[i]), get<0>(destroyed_arcpos[i]));
+            pair<int, int> forbidden_pos2 = make_pair(get<2>(destroyed_arcpos[i])+1, get<0>(destroyed_arcpos[i]));
+            forbidden_destroyed_nodepos.insert(forbidden_pos1);
+            forbidden_destroyed_nodepos.insert(forbidden_pos2);
+        }        
+    }
 }

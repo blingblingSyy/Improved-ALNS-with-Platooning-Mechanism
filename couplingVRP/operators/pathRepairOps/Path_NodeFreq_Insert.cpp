@@ -55,8 +55,9 @@ void Path_NodeFreq_Insert::repairSolPath(ISolution& sol)
             new_usedpath = int(pow(r1.get_rint(0,1), randF)*(indices.size()-1));
         }
         vrpsol.repairPath(get<0>(*pos_it), new_usedpath, get<2>(*pos_it));
-        vrpsol.getDestroyedArcsPos().erase(pos_it);
+        pos_it = vrpsol.getDestroyedArcsPos().erase(pos_it);
     }
+    vrpsol.getDestroyedArcsPos().clear();
 }
 
 double Path_NodeFreq_Insert::calPathAvgNodeFreq(VRPSolution& vrpsol, vector<int> path)

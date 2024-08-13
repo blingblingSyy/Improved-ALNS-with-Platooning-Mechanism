@@ -143,7 +143,7 @@ class VRPSolution: public ISolution
         //! a simple getter
         vector<int>& getNonUsedVehs() {return nonUsedVehs;};
 
-        //! a simple getter
+        //! a simple getter: {{destroyed_arcpos, destroyed_pathid, routeid}, ...}
         vector<tuple<int, int, int>>& getDestroyedArcsPos() {return destroyedArcs;};
         
         //! a simple getter

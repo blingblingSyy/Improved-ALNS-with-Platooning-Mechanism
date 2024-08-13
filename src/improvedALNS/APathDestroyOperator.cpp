@@ -23,6 +23,7 @@ APathDestroyOperator::APathDestroyOperator(string s, ALNS_Parameters& alns_param
 	} //! now the maximumDestroy is equal to the number of paths that are not permanantly forbidden.
 	maximumDestroy *= alns_param.getPathDestroyRate();
 	this->tabu_tenure = alns_param.getTabuTenure();
+	destroyed_arc_config.clear();
 }
 
 void APathDestroyOperator::calPathDestroySize(int destroyable_pathnum)
@@ -31,19 +32,35 @@ void APathDestroyOperator::calPathDestroySize(int destroyable_pathnum)
 	pathDestroySize = r.get_rint(min(minimunDestroy, destroyable_pathnum), min(destroyable_pathnum, maximumDestroy));
 }
 
+/*old version*/
+// void APathDestroyOperator::update(ISolution&sol, ALNS_Iteration_Status& status)
+// {
+// 	for(int i = 0; i < pathTabu.size(); i++)
+// 	{
+// 		for(int j = 0; j < pathTabu[i].size(); j++)
+// 		{
+// 			if(pathTabu[i][j] > 0)
+// 			{
+// 				if(destroyed_arc_config.find({i,j}) == destroyed_arc_config.end())
+// 				{
+// 					pathTabu[i][j] -= 1;
+// 				}
+// 			}
+// 		}
+// 	}		
+// }
+
+/*new version*/
 void APathDestroyOperator::update(ISolution&sol, ALNS_Iteration_Status& status)
 {
-    for(int i = 0; i < pathTabu.size(); i++)
-    {
-        for(int j = 0; j < pathTabu[i].size(); j++)
-        {
-            if(pathTabu[i][j] > 0)
-            {
-                if(destroyed_arc_config.find({i,j}) == destroyed_arc_config.end())
-                {
-                    pathTabu[i][j] -= 1;
-                }
-            }
-        }
-    }
+	for(int i = 0; i < pathTabu.size(); i++)
+	{
+		for(int j = 0; j < pathTabu[i].size(); j++)
+		{
+			if(pathTabu[i][j] > 0)
+			{
+				pathTabu[i][j] -= 1;
+			}
+		}
+	}		
 }

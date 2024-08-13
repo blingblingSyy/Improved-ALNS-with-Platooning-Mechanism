@@ -6,6 +6,7 @@ using namespace std;
 
 class ISolution;
 class ANodeDestroyOperator;
+class ALNS_Iteration_Status;
 
 class Node_Random_Removal: public ANodeDestroyOperator
 {
@@ -18,6 +19,7 @@ class Node_Random_Removal: public ANodeDestroyOperator
 
         //! destroy operator
         void destroySolNode(ISolution& sol);
+
 };
 
 #endif /* TSP_RANDOM_REMOVAL_H_ */

@@ -32,7 +32,7 @@ class AStrategy
 		AStrategy(string name)
 		{
 			Name = name;
-			hasSelectedCur = true;
+			hasSelectedCur = false;
 			init();
 		}
 

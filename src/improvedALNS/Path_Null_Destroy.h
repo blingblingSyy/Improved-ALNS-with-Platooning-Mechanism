@@ -20,6 +20,9 @@ public:
 
 	//! destroy operator: do nothing to the solution because the operator is emtpy
 	void destroySolPath(ISolution& sol) {};
+
+	//! the update procedure of this object does nothing
+	void update(ISolution& sol, ALNS_Iteration_Status& status) {};
 };
 
 #endif

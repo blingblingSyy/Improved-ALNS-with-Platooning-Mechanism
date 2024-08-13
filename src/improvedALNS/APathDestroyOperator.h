@@ -4,16 +4,18 @@
 #include <vector>
 #include <set>
 #include "src/improvedALNS/AOperator.h"
+#include "src/improvedALNS/IUpdatable.h"
 using namespace std;
 
 class ISolution;
 class ALNS_Parameters;
 class Nodes;
 class ALNS_Iteration_Status;
+class IUpdatable;
 
 /// @brief this class is used to represent Path Destory Operators.
 /// Any path destroy operator should inherit from this class and implement the destorySolPath function.
-class APathDestroyOperator : public AOperator
+class APathDestroyOperator : public AOperator, public IUpdatable
 {
 	protected:
 		//! The minimum destroy size (num of path) used.

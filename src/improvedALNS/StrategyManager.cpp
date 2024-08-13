@@ -214,11 +214,13 @@ void StrategyManager::selectStrategy()
 	if(cumulSum >= randomWeightPos)
 	{
 		nodeFirstStrategy->increaseNumberOfCalls();
+		nodeFirstStrategy->setHasSelectedCur(true);
 		setCurStrategy(NodeFirst);
 	}
 	else
 	{
 		pathFirstStrategy->increaseNumberOfCalls();
+		pathFirstStrategy->setHasSelectedCur(true);
 		setCurStrategy(PathFirst);
 	}
 }

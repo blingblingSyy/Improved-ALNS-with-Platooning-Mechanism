@@ -9,11 +9,12 @@
 #include <numeric>
 using namespace std;
 
-Node_Worst_Removal::Node_Worst_Removal(string s, ALNS_Parameters& alns_param, int cusnum) : ANodeDestroyOperator(s, alns_param.getNodeDestroyRate(), cusnum)
+Node_Worst_Removal::Node_Worst_Removal(string s, ALNS_Parameters& alns_param, int cusnum, vector<tuple<int, int, int>> destroyed_arcpos) : ANodeDestroyOperator(s, alns_param.getNodeDestroyRate(), cusnum)
 {
     empty = false;
     // hasSelectedCur = true;
     toSelectNext = true;
+    needUpdate = true;
     this->randWorst = alns_param.getRandWorstParam();
 }
 
@@ -50,7 +51,7 @@ void Node_Worst_Removal::destroySolNode(ISolution& sol)
 }
 
 /* new version */
-double calRemovalCost(VRPSolution& vrpsol, pair<int, int> removed_node)
+double Node_Worst_Removal::calRemovalCost(VRPSolution& vrpsol, pair<int, int> removed_node)
 {
     // vrpsol.recomputeCost();
     double orig_cost = vrpsol.getPenalizedObjectiveValue(true);
@@ -88,3 +89,20 @@ double calRemovalCost(VRPSolution& vrpsol, pair<int, int> removed_node)
 //         return -1;
 //     }
 // }
+
+void Node_Worst_Removal::update(ISolution& sol, ALNS_Iteration_Status& status)
+{
+    if(hasSelectedCur && needUpdate)
+    {
+        forbidden_destroyed_nodepos.clear();
+        VRPSolution& vrpsol = dynamic_cast<VRPSolution&>(sol);
+        vector<tuple<int, int, int>> destroyed_arcpos = vrpsol.getDestroyedArcsPos();
+        for(int i = 0; i < destroyed_arcpos.size(); i++)
+        {
+            pair<int, int> forbidden_pos1 = make_pair(get<2>(destroyed_arcpos[i]), get<0>(destroyed_arcpos[i]));
+            pair<int, int> forbidden_pos2 = make_pair(get<2>(destroyed_arcpos[i])+1, get<0>(destroyed_arcpos[i]));
+            forbidden_destroyed_nodepos.insert(forbidden_pos1);
+            forbidden_destroyed_nodepos.insert(forbidden_pos2);
+        }        
+    }
+}

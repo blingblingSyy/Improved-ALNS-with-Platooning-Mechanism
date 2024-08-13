@@ -98,6 +98,9 @@ class TimeWindowUpdater
         //! constructor
         TimeWindowUpdater(vector<int> extended_route, vector<int> node_labels, int WaitTimePerNode, int WaitMaxRoute, Nodes& nodes);
         
+        //! a default constructor
+        TimeWindowUpdater() = default;
+        
         //! destructor
         ~TimeWindowUpdater();
 

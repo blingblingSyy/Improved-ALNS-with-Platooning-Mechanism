@@ -13,6 +13,7 @@ Node_Regret_Insert::Node_Regret_Insert(string s, int regret_k) : ANodeRepairOper
     empty = false;
     // hasSelectedCur = true;
     toSelectNext = true;
+    needUpdate = true;
     this->K = regret_k;
 }
 
@@ -54,5 +55,20 @@ void Node_Regret_Insert::repairSolNode(ISolution& sol)
             vrpsol.setSolCurOperation(VRPSolution::InsertOneNode);
         }
         all_non_inserted.erase(all_non_inserted.begin());
+    }
+}
+
+void Node_Regret_Insert::update(ISolution& sol, ALNS_Iteration_Status& status)
+{
+    if(hasSelectedCur && needUpdate)
+    {
+        forbidden_repaired_nodepos.clear();
+        VRPSolution& vrpsol = dynamic_cast<VRPSolution&>(sol);
+        vector<tuple<int, int, int>> destroyed_arcpos = vrpsol.getDestroyedArcsPos();
+        for(int i = 0; i < destroyed_arcpos.size(); i++)
+        {
+            pair<int, int> forbidden_pos = make_pair(get<2>(destroyed_arcpos[i])+1, get<0>(destroyed_arcpos[i]));
+            forbidden_repaired_nodepos.insert(forbidden_pos);
+        }        
     }
 }

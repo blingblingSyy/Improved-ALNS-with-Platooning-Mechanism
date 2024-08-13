@@ -73,7 +73,7 @@ class ARoute
         void setRouteByModifyUsedPath(int modified_arcpos, int used_path_id); //the arcpos is the position of the start node of the arc
     	
         //! check the time feasibility of the route
-        bool isTimeFeas(vector<int> extended_route1, vector<int> node_labels1);
+        bool isTimeFeas();
 
         //! check the load feasibility of the route
         bool isLoadFeas(vector<int> input_load_vec);

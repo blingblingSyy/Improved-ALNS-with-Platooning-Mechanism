@@ -7,8 +7,9 @@ using namespace std;
 class ISolution;
 class APathDestroyOperator;
 class Nodes;
- 
-class Path_AvgLenDiff_Removal: public APathDestroyOperator
+class IUpdatable;
+
+class Path_AvgLenDiff_Removal: public APathDestroyOperator, public IUpdatable
 {
     public:
         //!  constructor

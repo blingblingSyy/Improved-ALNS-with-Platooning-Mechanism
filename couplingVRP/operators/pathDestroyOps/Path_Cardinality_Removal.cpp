@@ -49,7 +49,7 @@ void Path_Cardinality_Removal::destroySolPath(ISolution& sol)
         {
             vrpsol.getDestroyedArcsPos().push_back(selected_arcpos);
             destroyed_arc_config.insert({selected_arcconfig[0], selected_arcconfig[1]});
-            pathTabu[selected_arcconfig[0]][selected_arcconfig[1]] = tabu_tenure;
+            pathTabu[selected_arcconfig[0]][selected_arcconfig[1]] = tabu_tenure + 1;
         }
         all_destroyable_arcpos.erase(all_destroyable_arcpos.begin()+indices[0]);
         all_destroyable_arcconfig.erase(all_destroyable_arcconfig.begin()+indices[0]);

@@ -40,4 +40,5 @@ void Path_Random_Insert::repairSolPath(ISolution& sol)
         vrpsol.repairPath(get<0>(*pos_it), rand_usedpath_id, get<2>(*pos_it));
         pos_it = vrpsol.getDestroyedArcsPos().erase(pos_it);
     }
+    vrpsol.getDestroyedArcsPos().clear();
 }

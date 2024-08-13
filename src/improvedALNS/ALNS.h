@@ -1,29 +1,3 @@
-/* ALNS_Framework - a framework to develop ALNS based solvers
- *
- * Copyright (C) 2012 Renaud Masson
- *
- * This library is free software; you can redistribute it and/or
- * modify it either under the terms of the GNU Lesser General Public
- * License version 3 as published by the Free Software Foundation
- * (the "LGPL"). If you do not alter this notice, a recipient may use
- * your version of this file under the LGPL.
- *
- * You should have received a copy of the LGPL along with this library
- * in the file COPYING-LGPL-3; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Suite 500, Boston, MA 02110-1335, USA
- *
- * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY
- * OF ANY KIND, either express or implied. See the LGPL for
- * the specific language governing rights and limitations.
- *
- * The Original Code is the ALNS_Framework library.
- *
- *
- * Contributor(s):
- *	Renaud Masson
- */
-
-
 #ifndef ALNS_H_
 #define ALNS_H_
 
@@ -34,30 +8,32 @@
 #include <vector>
 #include "../statistics/Statistics.h"
 #include "src/improvedALNS/ALNS_Iteration_Status.h"
+using namespace std;
 
 class IAcceptanceModule;
 class ISolution;
 class IUpdatable;
-class ALNS_Parameters;
-class AOperatorManager;
-class ARepairOperator;
-class ADestroyOperator;
 class Statistics;
 class IBestSolutionManager;
 class ILocalSearchManager;
+class AStrategy;
+class AOperator;
+class AStrategyManager;
+class ALNS_Parameters;
+class ALNS_Iteration_Status;
+class ANodeDestroyOperator;
+class ANodeRepairOperator;
+class APathDestroyOperator;
+class APathRepairOperator;
 
 /*!
  * \class ALNS.
  * \brief This class contains the ALNS logic.
  *
- *
- * This class contains the logic of the ALNS (Adaptive Large Neighborhood Search).
- * The general idea of the ALNS is to iteratively destroy then repair a solution
+ * This class contains the logic of the improved ALNS (Improved Adaptive Large Neighborhood Search).
+ * The general idea of the ALNS is to iteratively destroy then repair a solution on nodes or paths
  * to improve its quality. Non improving solution may be accepted as the new current
  * solution according to some acceptance criteria.
- * If you are interested about the general functionning of this method please refer to:
- * S. Ropke & D. Pisinger. An Adaptive Large Neighborhood Search Heuristic for Pickup
- * and Delivery Problem with Time Windows. Transportation Science, 40 (2006) 455-472.
  */
 
 class ALNS {
@@ -73,7 +49,7 @@ private:
 	ALNS_Parameters* param;
 
 	//! Manager of the operators.
-	AOperatorManager* opManager;
+	AStrategyManager* stManager;
 
 	//! Manager of the best solutions.
 	IBestSolutionManager* bestSolManager;
@@ -96,8 +72,7 @@ private:
 	//! The number of iterations without acceptation of a transition.
 	size_t nbIterationsWithoutTransition;
 
-	//! The number of iterations since the last call to a local search
-	//! operator.
+	//! The number of iterations since the last call to a local search operator.
 	size_t nbIterationsWithoutLocalSearch;
 
 	//! The time the optimization process started.
@@ -107,7 +82,7 @@ private:
 	double lowerBound;
 
 	//! A set containing the hash keys of the encountred solutions.
-	std::set<long long> knownKeys;
+	set<long long> knownKeys;
 
 	//! An object to compute some statistics about the solving process.
 	Statistics stats;
@@ -116,9 +91,10 @@ private:
 	ALNS_Iteration_Status status;
 
 	//! A list of object that we need to update at the end of each iteration.
-	std::vector<IUpdatable*> updatableStructures;
+	vector<IUpdatable*> updatableStructures;
 
-	std::string name;
+	//! the name of the input instance
+	string name;
 
 public:
 	//! Constructor.
@@ -127,12 +103,12 @@ public:
 	//! \param acceptanceCrit the module that determine whether or not a new solution
 	//! is accepted as the current solution.
 	//! \param parameters the set of parameters to be use by the ALNS.
-	//! \param opMan an operator manager.
+	//! \param stMan an strategy manager.
 	ALNS(std::string instanceName,
 		ISolution& initialSolution,
 		IAcceptanceModule& acceptanceCrit,
 		 ALNS_Parameters& parameters,
-		 AOperatorManager& opMan,
+		 AStrategyManager& stMan,
 		 IBestSolutionManager& solMan,
 		 ILocalSearchManager& lsMan);
 
@@ -150,8 +126,7 @@ public:
 	//! \return true if the solution was unknown, false otherwise.
 	bool checkAgainstKnownSolution(ISolution& sol);
 
-	//! This method perform one iteration of the ALNS solving
-	//! process.
+	//! This method perform one iteration of the ALNS solving process.
 	void performOneIteration();
 
 	//! This method check whether or not the stopping criteria is met.
@@ -181,4 +156,4 @@ public:
 	void end();
 };
 
-#endif /* ALNS_H_ */
+#endif

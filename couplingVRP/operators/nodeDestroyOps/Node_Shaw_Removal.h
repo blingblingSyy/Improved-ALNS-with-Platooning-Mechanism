@@ -12,7 +12,7 @@ class VRPSolution;
 class Nodes;
 class ALNS_Parameters;
 
-class Node_Shaw_Removal: public ANodeDestroyOperator
+class Node_Shaw_Removal: public ANodeDestroyOperator, public IUpdatable
 {
     public:
         //! constructor

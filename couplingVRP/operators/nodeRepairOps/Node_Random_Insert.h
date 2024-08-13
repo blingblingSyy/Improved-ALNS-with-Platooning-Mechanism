@@ -18,6 +18,10 @@ class Node_Random_Insert: public ANodeRepairOperator
 
         //! destroy operator
         void repairSolNode(ISolution& sol);
+        
+    private:
+        //! update the forbidden destroyed node positions
+        void update(ISolution& sol, ALNS_Iteration_Status& status);
 };
 
 #endif

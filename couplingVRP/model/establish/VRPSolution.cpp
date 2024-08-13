@@ -30,6 +30,7 @@ VRPSolution::VRPSolution(Nodes& nodeset, Vehicles& vehset)
         nonUsedVehs.push_back(v); //{0,1,2,3,4,5}
     }
     findDestroyablePaths(); //set destroyableArcPos
+    getDestroyedArcsPos().clear();
 }
 
 VRPSolution::~VRPSolution()
@@ -187,7 +188,7 @@ bool VRPSolution::operator<(ISolution& s)
 {
 	if((isFeasible() && s.isFeasible()) || (!isFeasible() && !s.isFeasible()))
 	{
-		return static_cast<long long>(1000*getObjectiveValue()) < static_cast<long long>(1000*s.getObjectiveValue());
+		return static_cast<long long>(1000*getPenalizedObjectiveValue()) < static_cast<long long>(1000*s.getPenalizedObjectiveValue(false));
 	}
 	else
 	{

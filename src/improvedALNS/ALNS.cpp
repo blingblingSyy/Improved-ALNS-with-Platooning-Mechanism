@@ -1,27 +1,3 @@
-/* ALNS_Framework - a framework to develop ALNS based solvers
- *
- * Copyright (C) 2012 Renaud Masson
- *
- * This library is free software; you can redistribute it and/or
- * modify it either under the terms of the GNU Lesser General Public
- * License version 3 as published by the Free Software Foundation
- * (the "LGPL"). If you do not alter this notice, a recipient may use
- * your version of this file under the LGPL.
- *
- * You should have received a copy of the LGPL along with this library
- * in the file COPYING-LGPL-3; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Suite 500, Boston, MA 02110-1335, USA
- *
- * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY
- * OF ANY KIND, either express or implied. See the LGPL for
- * the specific language governing rights and limitations.
- *
- * The Original Code is the ALNS_Framework library.
- *
- *
- * Contributor(s):
- *	Renaud Masson
- */
 #include <assert.h>
 #include <float.h>
 #include <iostream>
@@ -29,18 +5,25 @@
 #include <set>
 #include <time.h>
 #include "src/improvedALNS/ALNS.h"
-#include "ALNS_Parameters.h"
+#include "src/improvedALNS/ALNS_Parameters.h"
 #include "src/improvedALNS/ALNS_Iteration_Status.h"
-#include "ISolution.h"
-#include "AOperatorManager.h"
+#include "src/improvedALNS/AStrategy.h"
+#include "src/improvedALNS/AOperator.h"
 #include "src/improvedALNS/ANodeRepairOperator.h"
+#include "src/improvedALNS/APathRepairOperator.h"
 #include "src/improvedALNS/ANodeDestroyOperator.h"
-#include "AOperator.h"
-#include "src/improvedALNS/IUpdatable.h"
+#include "src/improvedALNS/APathDestroyOperator.h"
+#include "src/improvedALNS/Node_Null_Destroy.h"
+#include "src/improvedALNS/Node_Null_Repair.h"
+#include "src/improvedALNS/Path_Null_Destroy.h"
+#include "src/improvedALNS/Path_Null_Repair.h"
+#include "src/improvedALNS/AStrategyManager.h"
+#include "src/improvedALNS/ISolution.h"
 #include "src/improvedALNS/IBestSolutionManager.h"
-#include "../localsearch/ILocalSearchManager.h"
-#include "../acceptanceModule/IAcceptanceModule.h"
-#include "../statistics/Statistics.h"
+#include "src/improvedALNS/IUpdatable.h"
+#include "src/localsearch/ILocalSearchManager.h"
+#include "src/acceptanceModule/IAcceptanceModule.h"
+#include "src/statistics/Statistics.h"
 
 using namespace std;
 
@@ -49,7 +32,7 @@ ALNS::ALNS(string instanceName,
 		 ISolution& initialSolution,
 		 IAcceptanceModule& acceptanceCrit,
 		 ALNS_Parameters& parameters,
-		 AOperatorManager& opMan,
+		 AStrategyManager& stMan,
 		 IBestSolutionManager& bestSolMan,
 		 ILocalSearchManager& lsMan)
 {
@@ -61,13 +44,13 @@ ALNS::ALNS(string instanceName,
 	nbIterationsWC = 0;
 	nbIterations = 0;
 	nbIterationsWithoutImprovement = 0;
-	opManager = &opMan;
+	stManager = &stMan;
 	bestSolManager = &bestSolMan;
 	lsManager = &lsMan;
 
-	opManager->setStatistics(&stats);
+	stManager->setStatistics(&stats);
 
-	// We add the initial solution in the best solution manager.
+	// add the initial solution in the best solution manager.
 	bestSolManager->isNewBestSolution(initialSolution);
 
 	nbIterationsWithoutImprovementCurrent = 0;
@@ -76,7 +59,6 @@ ALNS::ALNS(string instanceName,
 
 	nbIterationsWithoutLocalSearch = 0;
 
-
 }
 
 ALNS::~ALNS()
@@ -84,21 +66,21 @@ ALNS::~ALNS()
 	delete currentSolution;
 }
 
-//开始ALNS算法的迭代过程。这是将下面的模块组装起来，然后跑算法求解的过程了。
+//! start the iterations of the Improved ALNS
 bool ALNS::solve()
 {
 	startingTime = clock();
 	param->setLock();
 	acceptanceCriterion->startSignal();
-	opManager->startSignal();
+	stManager->startSignal();
 	stats.setStart();
-	//如果没有遇到终止条件，那么将一次次迭代下去。
+	//! if not meeting the stopping criterion, will keep doing the iterations
 	while(!isStoppingCriterionMet())
 	{
 		performOneIteration();
 	}
-	//获取运行结果，返回解是否可行。
-	string pathGlob = param->getStatsGlobPath();
+	//! get the results of the solution, and return whether the solution is feasible or not
+	string pathGlob = param->getStatsGlobPath(); //! store the 
 	pathGlob += name;
 	pathGlob += ".txt";
 	string pathOp = param->getStatsOpPath();
@@ -108,69 +90,99 @@ bool ALNS::solve()
 	return (*(bestSolManager->begin()))->isFeasible();
 }
 
-//该方法执行一次迭代操作。也是整个流程比较核心的部分。大概过程是：
-//1）先进行destroy操作和进行repair操作，然后判断新解质量。
-//2）而后看情况要不要使用LocalSearch进行搜索，再用接受准则看是否要接受新解。
-//3）最后更新destroy操作和repair操作的成绩。再做一些状态量的处理等。
+//! this method performs one iteration of the algorithm.
+//! first select the node first strategy or the path first strategy.
+//! according to the selected strategy, select the operators and decide the sequence of using these operators.
+//! evaluate the quality of the new temporary solution.
+//! decide whether to use local search operators to improve the solution.
+//! decide wether to accept the new solution by the acceptance criteria.
+//! update the scores of the strategies, operators and ALNS iteration status.
 void ALNS::performOneIteration()
 {
-	//重新初始化一些状态量。
+	//! initialize some status of the ALNS iteration
 	status.partialReinit();
-
-	//选择Repair和Destroy方法
-	ARepairOperator& repair = opManager->selectRepairOperator();
-	ADestroyOperator& destroy = opManager->selectDestroyOperator();
 	
+	//! select the strategy and corresponding operators
+	stManager->selectStrategy();
+	ANodeDestroyOperator& nodeDes = stManager->selectNodeDestroyOperator();
+	ANodeRepairOperator& nodeRep = stManager->selectNodeRepairOperator(nodeDes.isEmpty());
+	APathDestroyOperator& pathDes = stManager->selectPathDestroyOperator();
+	APathRepairOperator& pathRep = stManager->selectPathRepairOperator(pathDes.isEmpty());
+
 	ISolution* newSolution = currentSolution->getCopy();
 	
-	//输出迭代次数等信息。 param->getLogFrequency()获取的是logFrequency变量的值，logFrequency变量表示的意思是每隔多少次输出一下相关信息。
+	//! output the number of iterations and solution results
+	//! param->getLogFrequence() obtains the value of logFrequence, which represents how often the information is output.
 	if(nbIterations % param->getLogFrequency() == 0)
 	{
 		cout << "[ALNS] it. " << nbIterations << " best sol: " << (*(bestSolManager->begin()))->getObjectiveValue() << " nb known solutions: " << knownKeys.size() << endl;
 	}
-	
-	//destroy操作
-	destroy.destroySolution(*newSolution);
-	//更新状态
-	status.setAlreadyDestroyed(ALNS_Iteration_Status::TRUE);
-	status.setAlreadyRepaired(ALNS_Iteration_Status::FALSE);	//未进行repair操作
-	//表示newSolution还是status的信息对解进行更新。这里只提供接口，后面应用的时候要具体重写。
-	for(vector<IUpdatable*>::iterator it = updatableStructures.begin(); it != updatableStructures.end(); it++)
-	{
-		(*it)->update(*newSolution,status);
-	}
-	//进行repair操作
-	repair.repairSolution(*newSolution);
-	status.setAlreadyRepaired(ALNS_Iteration_Status::TRUE);
 
-	//更新迭代次数
+	//! create new solution with the selected strategy and the operators
+	if(stManager->getCurStrategy() == AStrategyManager::NodeFirst)
+	{
+		nodeDes.destroySolNode(*newSolution);
+		status.setAlreadyNodeDestroyed(ALNS_Iteration_Status::TRUE);
+		nodeDes.setHasSelectedCur(true);
+		nodeRep.repairSolNode(*newSolution);
+		status.setAlreadyNodeRepaired(ALNS_Iteration_Status::TRUE);
+		pathDes.destroySolPath(*newSolution);
+		status.setAlreadyPathDestroyed(ALNS_Iteration_Status::TRUE);
+	    //! update the updatable operators
+	    for(vector<IUpdatable*>::iterator it = updatableStructures.begin(); it != updatableStructures.end(); it++)
+	    {
+		    (*it)->update(*newSolution,status);
+	    }
+		pathRep.repairSolPath(*newSolution);
+		status.setAlreadyPathRepaired(ALNS_Iteration_Status::TRUE);
+	}
+	else if(stManager->getCurStrategy() == AStrategyManager::PathFirst)
+	{
+		pathDes.destroySolPath(*newSolution);
+		status.setAlreadyPathDestroyed(ALNS_Iteration_Status::TRUE);
+	    //! update the updatable operators
+	    for(vector<IUpdatable*>::iterator it = updatableStructures.begin(); it != updatableStructures.end(); it++)
+	    {
+		    (*it)->update(*newSolution,status);
+	    }
+		pathRep.repairSolPath(*newSolution);
+		status.setAlreadyPathRepaired(ALNS_Iteration_Status::TRUE);
+		nodeDes.destroySolNode(*newSolution);
+		status.setAlreadyNodeDestroyed(ALNS_Iteration_Status::TRUE);
+		nodeRep.repairSolNode(*newSolution);
+		status.setAlreadyNodeRepaired(ALNS_Iteration_Status::TRUE);
+	}
+
+	//! update the number of iterations
 	nbIterations++;
 	status.setIterationId(nbIterations);
 	nbIterationsWC++;
 
 	double newCost = newSolution->getObjectiveValue();
-	//判断新生产的解是不是新的最优解
+
+	//! check whether the new solution is the new best solution
 	isNewBest(newSolution);
-	//判断新生成的解之前有没有出现过
+	//! check whether the new solution has appeared before
 	checkAgainstKnownSolution(*newSolution);
-	//判断新生成的解和当前解谁更优
-	bool betterThanCurrent = (*newSolution)<(*currentSolution);
-	//如果新生成的解更优
+	//! check whether the new solution is better than the current solution
+	bool betterThanCurrent = (*newSolution) < (*currentSolution);
+	//! if the new solution is better than the current solution
 	if(betterThanCurrent)
 	{
-		nbIterationsWithoutImprovementCurrent = 0; //清0
+		nbIterationsWithoutImprovementCurrent = 0; //! clear
 		status.setImproveCurrentSolution(ALNS_Iteration_Status::TRUE);
 	}
-	//否则
+	//! not better
 	else
 	{
 		nbIterationsWithoutImprovementCurrent++;
-		status.setImproveCurrentSolution(ALNS_Iteration_Status::FALSE);	//解没有得到提高
+		status.setImproveCurrentSolution(ALNS_Iteration_Status::FALSE);	//! the solution is not improved
 	}
-	//更新状态
+	//! update the number of iterations without improving the current solution
 	status.setNbIterationWithoutImprovementCurrent(nbIterationsWithoutImprovementCurrent);
 
-	//param->getPerformLocalSearch()指出要不要用LocalSearch，然后再用LocalSearch对新生成的解进行搜索。
+	//! param->getPerformLocalSearch(): whether to use LocalSearch
+	//! lsManager->useLocalSearch(*newSolution, status)
 	//lsManager->useLocalSearch(*newSolution,status)将返回true如果经过LocalSearch之后的解有改进的话。
 	if(param->getPerformLocalSearch() && lsManager->useLocalSearch(*newSolution,status))
 	{
@@ -205,7 +217,7 @@ void ALNS::performOneIteration()
 	}
 
 	//对destroy,repair方法进行成绩更新。
-	opManager->updateScores(destroy,repair,status);
+	stManager->updateScores(destroy,repair,status);
 
 	//记录本次迭代过程的一些信息。
 	stats.addEntry(static_cast<double>(clock()-startingTime)/CLOCKS_PER_SEC,nbIterations,destroy.getName(),repair.getName(),newCost,currentSolution->getObjectiveValue(),(*(bestSolManager->begin()))->getObjectiveValue(),knownKeys.size());
@@ -213,7 +225,7 @@ void ALNS::performOneIteration()
 	//更新destroy,repair方法的权重。是在进行了一定迭代次数以后才更新的，具体次数由param->getTimeSegmentsIt()获得。
 	if(nbIterationsWC % param->getTimeSegmentsIt() == 0)
 	{
-		opManager->recomputeWeights();
+		stManager->recomputeWeights();
 		nbIterationsWC = 0;
 	}
 	//接口，在求解的过程中某些内容需要更新。
@@ -349,8 +361,8 @@ bool ALNS::isStoppingCriterionMet()
 
 void ALNS::end()
 {
-	opManager->end();
-	delete opManager;
+	stManager->end();
+	delete stManager;
 	delete acceptanceCriterion;
 	delete lsManager;
 	delete bestSolManager;

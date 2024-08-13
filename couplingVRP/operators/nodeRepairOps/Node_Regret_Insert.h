@@ -22,6 +22,9 @@ class Node_Regret_Insert: public ANodeRepairOperator
     private:
         //! the step size for regret heuristic
         int K;
+
+        //! update the forbidden destroyed node positions
+        void update(ISolution& sol, ALNS_Iteration_Status& status);
 };
 
 #endif

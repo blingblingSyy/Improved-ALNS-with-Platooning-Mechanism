@@ -559,7 +559,7 @@ void ARoute::evaluateRouteByModifyUsedPath(int modified_arcpos, int used_path_id
     TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
     twupdater.calRouteExpectedTW();
     bool TimeFeas = twupdater.isRouteTimeFeas();
-    bool LoadFeas = isLoadFeas(route_load);
+    bool LoadFeas = true; // isLoadFeas(route_load);
     bool DistFeas = isDistFeas(route_mileage1[route_mileage1.size()-1]);
     bool LinkFeas = isLinkFeas(modified_arcpos, compact_route);
 
@@ -589,10 +589,13 @@ void ARoute::setRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
     this->actual_deptime.clear();
 }
 
-bool ARoute::isTimeFeas(vector<int> extended_route1, vector<int> node_labels1)
+bool ARoute::isTimeFeas()
 {
-    TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
-    twupdater.calRouteExpectedTW();
+    // TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
+    // twupdater.calRouteExpectedTW();
+    TimeWindowUpdater twupdater;
+    twupdater.setRouteArrTW(expected_arrtw);
+    twupdater.setRouteDepTW(expected_deptw);
     return twupdater.isRouteTimeFeas();
 }
 
@@ -621,7 +624,7 @@ bool ARoute::isLinkFeas(int arcpos, vector<int> compactRoute)
 
 bool ARoute::isRouteFeas()
 {
-    bool timefeas = isTimeFeas(extended_route, node_labels);
+    bool timefeas = isTimeFeas();
     bool loadfeas = isLoadFeas(route_load);
     bool distfeas = isDistFeas(route_mileage[route_mileage.size()-1]);
     bool linkfeas = true;
