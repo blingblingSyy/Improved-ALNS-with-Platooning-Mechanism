@@ -18,16 +18,13 @@ void ANodeDestroyOperator::calNodeDestroySize(int served_num)
 }
 
 /* new version */
-void ANodeDestroyOperator::update(ISolution& sol, ALNS_Iteration_Status& status)
+void ANodeDestroyOperator::findForbiddenDesNodePos(ISolution& sol, ALNS_Iteration_Status& status)
 {
-	if(needUpdate)
+	for(int i = 0; i < destroyed_arcpos.size(); i++)
 	{
-		for(int i = 0; i < destroyed_arcpos.size(); i++)
-		{
-			pair<int, int> forbidden_pos1 = make_pair(get<2>(destroyed_arcpos[i]), get<0>(destroyed_arcpos[i]));
-			pair<int, int> forbidden_pos2 = make_pair(get<2>(destroyed_arcpos[i])+1, get<0>(destroyed_arcpos[i]));
-			forbidden_destroyed_nodepos.insert(forbidden_pos1);
-			forbidden_destroyed_nodepos.insert(forbidden_pos2);
-		}
+		pair<int, int> forbidden_pos1 = make_pair(get<2>(destroyed_arcpos[i]), get<0>(destroyed_arcpos[i]));
+		pair<int, int> forbidden_pos2 = make_pair(get<2>(destroyed_arcpos[i])+1, get<0>(destroyed_arcpos[i]));
+		forbidden_destroyed_nodepos.insert(forbidden_pos1);
+		forbidden_destroyed_nodepos.insert(forbidden_pos2);
 	}
 }

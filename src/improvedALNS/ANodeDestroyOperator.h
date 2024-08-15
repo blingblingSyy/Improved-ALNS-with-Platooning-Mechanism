@@ -16,7 +16,7 @@ class IUpdatable;
 
 /// @brief this is an abstract class used to represetnt Node Destory Operators.
 /// Any Node Destroy operator should inherit from this class and implement the destroySolNode Function
-class ANodeDestroyOperator : public AOperator, public IUpdatable
+class ANodeDestroyOperator : public AOperator
 {
 	protected:
 		//! The minimum destroy size used.
@@ -36,15 +36,12 @@ class ANodeDestroyOperator : public AOperator, public IUpdatable
 
 		//! the set of node positions that cannot be destroyed
 		set<pair<int, int>> forbidden_destroyed_nodepos;
+		
+		// //! check whether the operator needs update or not
+		// bool needUpdate;
 
-		//! the set of already destroyed arcs
-		vector<tuple<int, int, int>> destroyed_arcpos;
-
-		//! check whether the operator needs update or not
-		bool needUpdate;
-
-        //! update the forbidden destroyed node positions
-        void update(ISolution& sol, ALNS_Iteration_Status& status);
+        //! find the forbidden destroyed node positions by the set of already destroyed arcs
+        void findForbiddenDesNodePos(vector<tuple<int, int, int>> destroyed_arcpos);
 
 	public:
 		//! Constructor.

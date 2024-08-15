@@ -32,7 +32,7 @@ class APathDestroyOperator : public AOperator, public IUpdatable
 
 		//! The tabu list for each path
 		//! This tabu list will be updated every time a Path Destory Operator is called
-		vector<vector<int>> pathTabu;
+		vector<vector<int>> pathTabu;  //! modify -> move to VRPSolution or PathTabu (input into the class)
 
 		//! tabu tenure
 		int tabu_tenure;
