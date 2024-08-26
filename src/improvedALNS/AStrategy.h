@@ -37,7 +37,7 @@ class AStrategy
 		}
 
 		//! Destructor.
-		virtual ~AStrategy() {};
+		virtual ~AStrategy() noexcept(false) {};
 
 		//! Initialize the values of the numbers of calls.
 		void init()

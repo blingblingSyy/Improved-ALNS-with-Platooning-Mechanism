@@ -214,7 +214,7 @@ class VRPSolution: public ISolution
         
         //! the set of configuration of arcs that can be destroyed
         //! as each served node only appears in the solution once, the destroyableArcConfig is in the same order as the destroyableArcPos
-        vector<vector<int>> destroyableArcConifg; //! {{destroyed_arcpos, destroyed_pathid, routeid}, ...}
+        vector<vector<int>> destroyableArcConifg; //! {{i,j}, ...}
 
         //! the selected paths to be modified later
         vector<tuple<int, int, int>> destroyedArcs; //{{destroyed_arcpos, destroyed_pathid, routeid}, ...};

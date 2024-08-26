@@ -52,7 +52,7 @@ void KSPBuilder::Dijsktra_body(vector<ADijkstraSol*> &SPset_fromstart, vector<in
         unvisited_nodes[i] = i;
     }
     
-    auto compare = [&](int s, int r) {return SPset_fromstart[s]->getDist() < SPset_fromstart[r]->getDist();};
+    auto compare = [&](int s, int r) {return SPset_fromstart[s]->getDist() < SPset_fromstart[r]->getDist();}; //! initial distance from the starting node
 
     //the main loop
     while(!unvisited_nodes.empty())
@@ -60,6 +60,7 @@ void KSPBuilder::Dijsktra_body(vector<ADijkstraSol*> &SPset_fromstart, vector<in
         vector<int>::iterator iter = min_element(unvisited_nodes.begin(), unvisited_nodes.end(), compare);
         auto min_pos = iter - unvisited_nodes.begin();
         int min_val = unvisited_nodes[min_pos];
+        // if(unvisited_nodes.size() < node_num && unvisited_nodes.size() > 1 && min_val == 0)
         unvisited_nodes.erase(iter);
 
         for(int r = 0; r < unvisited_nodes.size(); r++)
@@ -118,13 +119,13 @@ void KSPBuilder::Dijkstra_AllPaths()  //calculate the shortest path distance bet
         for(int z = 0; z < node_num; z++)
         {
             SP_AllPaths[i][z]->setPath(generate_onepath(z, predecessors));
-            // //to eliminate the path containing the subtours with the depot
-            // vector<int> temp_path = SP_AllPaths[i][z].getPath();
-            // if(find(temp_path.begin()+1, temp_path.end()-1, 0) != temp_path.end()-1)
-            // {
-            //     SP_AllPaths[i][z].setPath({});
-            //     SP_AllPaths[i][z].setDist(INF);
-            // }
+            //! to eliminate the path containing the subtours with the depot
+            vector<int> temp_path = SP_AllPaths[i][z]->getPath();
+            if(find(temp_path.begin()+1, temp_path.end()-1, 0) != temp_path.end()-1)
+            {
+                SP_AllPaths[i][z]->setPath({});
+                SP_AllPaths[i][z]->setDist(INF);
+            }
         }
     }
 }

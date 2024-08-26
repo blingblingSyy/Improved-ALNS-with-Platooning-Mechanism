@@ -1,28 +1,37 @@
 #ifndef PATH_CARDINALITY_REMOVAL_H_
 #define PATH_CARDINALITY_REMOVAL_H_
 
-#include "src/ALNS_inc.h"
+#include "couplingVRP/operators/pathDestroyOps/Path_Removal_Template.h"
 using namespace std;
 
 class ISolution;
-class APathDestroyOperator;
+class Path_Removal_Template;
 class ALNS_Parameters;
+class PathTabu;
+class Nodes;
  
-class Path_Cardinality_Removal: public APathDestroyOperator
+class Path_Cardinality_Removal: public Path_Removal_Template
 {
     public:
         //!  constructor
-        Path_Cardinality_Removal(string s, ALNS_Parameters& alns, Nodes& nodes);
+        Path_Cardinality_Removal(string s, ALNS_Parameters& alns_param, PathTabu& tabuObj, Nodes& nodes);
 
         //! destructor
-        virtual ~Path_Cardinality_Removal();
+        virtual ~Path_Cardinality_Removal() {};
 
         //! destroy operator: do nothing to the solution because the operator is emtpy
-        void destroySolPath(ISolution& sol);
+        // void destroySolPath(ISolution& sol);
         
     private:
         //! reference to the set of nodes
         Nodes& nodeset;
+
+        //! randomzing selection parameter for the path removal operator;
+        // double randCardi;
+
+        //! calculate the Cardinality for all destroyable path
+        // vector<int> calAllCardi(vector<vector<int>> all_destroyable_arcconfig);
+        vector<double> calMeasurement(VRPSolution& vrpsol, vector<tuple<int, int, int>> all_destroyable_arcpos, vector<vector<int>> all_destroyable_arcconfig);
 
 };
 

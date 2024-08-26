@@ -9,7 +9,7 @@ class IUpdatable
 {
 public:
 	IUpdatable(){};
-	virtual ~IUpdatable(){};
+	virtual ~IUpdatable() noexcept(false) {};
 	virtual void update(ISolution& sol, ALNS_Iteration_Status& status)=0;
 };
 

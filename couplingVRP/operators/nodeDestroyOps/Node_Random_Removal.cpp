@@ -12,7 +12,6 @@ Node_Random_Removal::Node_Random_Removal(string s, double maxNodeDestroyRate, in
     empty = false;
     // hasSelectedCur = true;
     toSelectNext = true;
-    needUpdate = true;
 }
 
 Node_Random_Removal::~Node_Random_Removal()

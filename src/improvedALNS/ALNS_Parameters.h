@@ -217,10 +217,10 @@ class ALNS_Parameters
         }
 
         //! a simple getter
-        double getPathDestroyRate() const
-        {
-            return pathDestroyRate;
-        }
+        // double getPathDestroySizeRate() const
+        // {
+        //     return pathDestroyRate;
+        // }
 
         //! a simple getter
         double getNodeDestroyRate() const
@@ -387,9 +387,9 @@ class ALNS_Parameters
 
         double getNodeDestroyRate() {return nodeDestroyRate;};
 
-        double getPathDestroyRate() {return pathDestroyRate;};
+        double getPathDestroySizeRate() {return pathDestroyRate;};
 
-        double getRandShawParam() {return randShaw;};
+        double getRandShawParam() {return randShawDes;};
 
         double getShawRate1() {return shawRate1;};
 
@@ -399,13 +399,19 @@ class ALNS_Parameters
 
         double getShawRate4() {return shawRate4;};
         
-        double getRandWorstParam() {return randWorst;};
+        double getRandWorstParam() {return randWorstDes;};
 
         int getTabuTenure() {return tenure;};
 
-        double getRandKLen() {return randKlen;};
+        double getRandAvgLenDes() {return randAvgLenDes;};
 
-        double getRandNfreq() {return randNfreq;};
+        double getRandCardiDes() {return randCardiDes;};
+
+        double getRandNFreqDes() {return randNfreqDes;};
+
+        double getRandKLenRep() {return randKlenRep;};
+
+        double getRandNfreqRep() {return randNfreqRep;};
 
     protected:
         //! Maximum number of iterations performed by the ALNS.
@@ -431,7 +437,7 @@ class ALNS_Parameters
         //! before reinitialization of the scores of the operators.  //what is reinitialization?
         size_t nbItBeforeReinit;
 
-        //! control the maximum path destroy size
+        //! control the size of destroyed non-tabu paths
         double pathDestroyRate;
 
         //! control the maximum node destroy size
@@ -450,19 +456,28 @@ class ALNS_Parameters
         double shawRate4;
 
         //! randomizing selection parameter for shaw removal
-        double randShaw;
+        double randShawDes;
 
         //! randomizing selection parameter for the worst removal
-        double randWorst;
+        double randWorstDes;
 
         //! tabu tenure in path destroy operators
         int tenure;
 
+        //! randomizing selection parameter for the AvgLenDiff path destroy 
+        double randAvgLenDes;
+
+        //! randomizing selection parameter for the Cardinality path destroy
+        double randCardiDes;
+
+        //! randomizing selection parameter for the NodeFreq path destroy
+        double randNfreqDes;
+
         //! randomizing selection parameter for the KMaxLen path insert
-        double randKlen;
+        double randKlenRep;
 
         //! randomizing selection parameter for the NodeFreq path insert
-        double randNfreq;
+        double randNfreqRep;
 
         //! score adjustment parameter in case the last remove-insert
         //! operation resulted in a new global best solution

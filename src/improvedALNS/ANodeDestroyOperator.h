@@ -68,7 +68,7 @@ class ANodeDestroyOperator : public AOperator
 		// void update(ISolution& sol, ALNS_Iteration_Status& status);
 
 		//! get whether the operator needs update or not
-		bool getNeedUpate() {return needUpdate;};
+		// bool getNeedUpate() {return needUpdate;};
 
 };
 

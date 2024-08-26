@@ -30,7 +30,7 @@ class AOperator : public AStrategy
 		}
 
 		//! Destructor.
-		virtual ~AOperator(){};
+		virtual ~AOperator() {};
 
 		// //! Set noise to true.
 		// void setNoise(){noise=true;};
