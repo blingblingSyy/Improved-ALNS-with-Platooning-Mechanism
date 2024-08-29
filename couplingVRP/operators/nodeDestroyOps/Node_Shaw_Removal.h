@@ -11,12 +11,13 @@ class ALNS_Iteration_Status;
 class VRPSolution;
 class Nodes;
 class ALNS_Parameters;
+class Node_Random_Removal;
 
-class Node_Shaw_Removal: public ANodeDestroyOperator, public IUpdatable
+class Node_Shaw_Removal: public Node_Random_Removal
 {
     public:
         //! constructor
-        Node_Shaw_Removal(string s, Nodes& nodes, ALNS_Parameters& alns_param);
+        Node_Shaw_Removal(string s, ALNS_Parameters& alns_param, Nodes& nodes);
 
         //! destructor
         virtual ~Node_Shaw_Removal();
@@ -36,6 +37,9 @@ class Node_Shaw_Removal: public ANodeDestroyOperator, public IUpdatable
         
         //! calculate the relatedness measure between node i and node j
         double calRelatedness(VRPSolution& vrpsol, pair<int, int> rid_arcpos1, pair<int, int> rid_arcpos2);
+
+        //! maximum time diff
+        int maxTimeDiff;
 
         //! calculate the maximum time diff
         int calMaxTimeDiff(VRPSolution& vrpsol);

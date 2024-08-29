@@ -224,7 +224,7 @@ class ARoute
         int transform_nodepos_extend_to_compact(int node_pos_extend);
 
         //! transform the position of a node in the compact route to the position in the extended route
-        int transform_nodepos_compact_to_extend(int node_pos_compact);
+        int convert_nodepos_compact_to_extend(int node_pos_compact);
 
         //! find the expanded path between two adjacent served nodes in the compact route 
         inline vector<int> findExtendPath(int node1, int node2, int used_path_in_between);

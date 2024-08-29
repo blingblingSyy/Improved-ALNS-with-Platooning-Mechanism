@@ -1,14 +1,15 @@
 #ifndef NODE_GREEDY_INSERT_H_
 #define NODE_GREEDY_INSERT_H_
 
-#include "ALNS_inc.h"
+// #include "ALNS_inc.h"
+#include "couplingVRP/operators/nodeRepairOps/Node_Random_Insert.h"
 using namespace std;
 
 class ISolution;
-class ANodeRepairperator;
+class Node_Random_Insert;
 class IUpdatable;
 
-class Node_Greedy_Insert: public ANodeRepairOperator, public IUpdatable
+class Node_Greedy_Insert: public Node_Random_Insert
 {
     public:
         //! constructor
@@ -18,11 +19,11 @@ class Node_Greedy_Insert: public ANodeRepairOperator, public IUpdatable
         virtual ~Node_Greedy_Insert();
 
         //! destroy operator
-        void repairSolNode(ISolution& sol);
+        virtual void repairSolNode(ISolution& sol);
 
-    private:
-        //! update the forbidden destroyed node positions
-        void update(ISolution& sol, ALNS_Iteration_Status& status);
+    // private:
+    //     //! update the forbidden destroyed node positions
+    //     void update(ISolution& sol, ALNS_Iteration_Status& status);
 };
 
 #endif

@@ -87,7 +87,7 @@ int ARoute::transform_nodepos_extend_to_compact(int node_pos_extend)
     return -1;
 }
 
-int ARoute::transform_nodepos_compact_to_extend(int node_pos_compact)
+int ARoute::convert_nodepos_compact_to_extend(int node_pos_compact)
 {
     for(int i = 0; i < extended_route.size(); i++)
     {
@@ -227,8 +227,8 @@ vector<int> ARoute::setUsedPathsByInsertNode(int insert_pos, int insert_nodeid)
 vector<int> ARoute::setExtendRouteByInsertNode(int insert_pos, int insert_nodeid)
 {
     vector<int> extended_route_copy;
-    int segnode1 = transform_nodepos_compact_to_extend(insert_pos-1);
-    int segnode2 = transform_nodepos_compact_to_extend(insert_pos);
+    int segnode1 = convert_nodepos_compact_to_extend(insert_pos-1);
+    int segnode2 = convert_nodepos_compact_to_extend(insert_pos);
     extended_route_copy.insert(extended_route_copy.end(), extended_route.begin(), extended_route.begin()+segnode1+1);
     vector<int> extendpath1 = findExtendPath(compact_route[insert_pos-1], insert_nodeid, 0);
     vector<int> extendpath2 = findExtendPath(insert_nodeid, compact_route[insert_pos], 0);
@@ -241,8 +241,8 @@ vector<int> ARoute::setExtendRouteByInsertNode(int insert_pos, int insert_nodeid
 vector<int> ARoute::setNodeLabelsByInsertNode(int insert_pos, int insert_nodeid)
 {
     vector<int> node_labels_copy;
-    int segnode1 = transform_nodepos_compact_to_extend(insert_pos-1);
-    int segnode2 = transform_nodepos_compact_to_extend(insert_pos);
+    int segnode1 = convert_nodepos_compact_to_extend(insert_pos-1);
+    int segnode2 = convert_nodepos_compact_to_extend(insert_pos);
     node_labels_copy.insert(node_labels_copy.end(), node_labels.begin(), node_labels.begin()+segnode1+1);
     int extendpath1_size = findExtendPath(compact_route[insert_pos-1], insert_nodeid, 0).size();
     int extendpath2_size = findExtendPath(insert_nodeid, compact_route[insert_pos], 0).size();
@@ -312,8 +312,8 @@ vector<int> ARoute::setUsedPathsByRemoveNode(int remove_pos)
 vector<int> ARoute::setExtendRouteByRemoveNode(int remove_pos)
 {
     vector<int> extended_route_copy;
-    int segnode1 = transform_nodepos_compact_to_extend(remove_pos-1);
-    int segnode2 = transform_nodepos_compact_to_extend(remove_pos+1);
+    int segnode1 = convert_nodepos_compact_to_extend(remove_pos-1);
+    int segnode2 = convert_nodepos_compact_to_extend(remove_pos+1);
     extended_route_copy.insert(extended_route_copy.end(), extended_route.begin(), extended_route.begin()+segnode1+1);
     vector<int> extendpath = findExtendPath(compact_route[remove_pos-1], compact_route[remove_pos+1], 0);
     extended_route_copy.insert(extended_route_copy.end(), extendpath.begin()+1, extendpath.end());
@@ -324,8 +324,8 @@ vector<int> ARoute::setExtendRouteByRemoveNode(int remove_pos)
 vector<int> ARoute::setNodeLabelsByRemoveNode(int remove_pos)
 {
     vector<int> node_labels_copy;
-    int segnode1 = transform_nodepos_compact_to_extend(remove_pos-1);
-    int segnode2 = transform_nodepos_compact_to_extend(remove_pos+1);
+    int segnode1 = convert_nodepos_compact_to_extend(remove_pos-1);
+    int segnode2 = convert_nodepos_compact_to_extend(remove_pos+1);
     node_labels_copy.insert(node_labels_copy.end(), node_labels.begin(), node_labels.begin()+segnode1+1);
     int extendpath_size = findExtendPath(compact_route[remove_pos-1], compact_route[remove_pos+1], 0).size();
     vector<int> nodelabels_vec(extendpath_size);
@@ -382,8 +382,8 @@ vector<int> ARoute::modifyUsedPath(int modified_arcpos, int used_path_id)
 vector<int> ARoute::setExtendRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
 {
     vector<int> extended_route_copy;
-    int segnode1 = transform_nodepos_compact_to_extend(modified_arcpos);
-    int segnode2 = transform_nodepos_compact_to_extend(modified_arcpos+1);
+    int segnode1 = convert_nodepos_compact_to_extend(modified_arcpos);
+    int segnode2 = convert_nodepos_compact_to_extend(modified_arcpos+1);
     extended_route_copy.insert(extended_route_copy.end(), extended_route.begin(), extended_route.begin()+segnode1+1);
     vector<int> extendpath = findExtendPath(compact_route[modified_arcpos], compact_route[modified_arcpos+1], used_path_id);
     extended_route_copy.insert(extended_route_copy.end(), extendpath.begin()+1, extendpath.end());
@@ -394,8 +394,8 @@ vector<int> ARoute::setExtendRouteByModifyUsedPath(int modified_arcpos, int used
 vector<int> ARoute::setNodeLabelsByModifyUsedPath(int modified_arcpos, int used_path_id)
 {
     vector<int> node_labels_copy;
-    int segnode1 = transform_nodepos_compact_to_extend(modified_arcpos);
-    int segnode2 = transform_nodepos_compact_to_extend(modified_arcpos+1);
+    int segnode1 = convert_nodepos_compact_to_extend(modified_arcpos);
+    int segnode2 = convert_nodepos_compact_to_extend(modified_arcpos+1);
     node_labels_copy.insert(node_labels_copy.end(), node_labels.begin(), node_labels.begin()+segnode1+1);
     int extendpath_size = findExtendPath(compact_route[modified_arcpos], compact_route[modified_arcpos+1], 0).size();
     vector<int> nodelabels_vec(extendpath_size);
@@ -654,7 +654,7 @@ double ARoute::calInsertionCosts(int insert_pos, int insert_nodeid)
     return cost;
 }
 
-pair<double, int> ARoute::calCheapestInsertionCosts(int insert_nodeid)
+pair<double, int> ARoute::calCheapestInsertionCosts(int insert_nodeid) //! <insert_cost, insert_pos>
 {
     pair<double, int> cost_pos;  // a pair is created to store the cheapest insertion cost and the corresponding position of the node in the route
     vector<double> all_insertion_costs;

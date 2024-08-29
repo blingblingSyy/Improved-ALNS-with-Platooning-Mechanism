@@ -1,5 +1,6 @@
 #include "couplingVRP/operators/tabuSearch/pathTabu.h"
 #include "src/improvedALNS/ALNS_Parameters.h"
+#include "couplingVRP/model/establish/VRPSolution.h"
 using namespace std;
 
 PathTabu::PathTabu(int tabuTenure, vector<vector<int>> availPathCardiSet)
@@ -37,6 +38,9 @@ PathTabu::PathTabu(int tabuTenure, vector<vector<int>> availPathCardiSet)
 /*new version*/
 void PathTabu::update(ISolution& sol, ALNS_Iteration_Status& status)
 {
+	VRPSolution& vrpsol = dynamic_cast<VRPSolution&>(sol);
+    vrpsol.getDestroyedArcsPos().clear();
+
 	for(int i = 0; i < pathTabuList.size(); i++)
 	{
 		for(int j = 0; j < pathTabuList[i].size(); j++)
@@ -46,7 +50,7 @@ void PathTabu::update(ISolution& sol, ALNS_Iteration_Status& status)
 				pathTabuList[i][j] -= 1;
 			}
 		}
-	}		
+	}
 }
 
 void PathTabu::updatePathTenure(vector<int> input_path)

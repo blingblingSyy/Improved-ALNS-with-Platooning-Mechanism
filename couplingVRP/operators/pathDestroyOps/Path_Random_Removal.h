@@ -1,17 +1,17 @@
 #ifndef PATH_RANDOM_REMOVAL_H_
 #define PATH_RANDOM_REMOVAL_H_
 
-#include "couplingVRP/operators/pathDestroyOps/Path_Removal_Template.h"
+#include "src/ALNS_inc.h"
 using namespace std;
 
 class ISolution;
-class Path_Removal_Template;
+class APathDestroyOperator;
 class ALNS_Parameters;
 class PathTabu;
 class Nodes;
 class VRPSolution;
  
-class Path_Random_Removal: public Path_Removal_Template
+class Path_Random_Removal: public APathDestroyOperator
 {
     public:
         //!  constructor
@@ -21,12 +21,17 @@ class Path_Random_Removal: public Path_Removal_Template
         virtual ~Path_Random_Removal() {};
 
         //! destroy operator: do nothing to the solution because the operator is emtpy
-        // void destroySolPath(ISolution& sol);
+        void destroySolPath(ISolution& sol);
     
     protected:
-        //! calculate measurement of a path related with its tabu status
-        // vector<int> calRandMeasure(vector<vector<int>> all_destroyable_arcconfig);
-        vector<double> calMeasurement(VRPSolution& vrpsol, vector<tuple<int, int, int>> all_destroyable_arcpos, vector<vector<int>> all_destroyable_arcconfig);
+        //! the measurement to destroy a path
+        vector<double> path_measurement;
+
+        //! randomizing selection parameters to destroy a path
+        int randSel;
+
+        //! calculate the measurement
+        virtual vector<double> calMeasurement(VRPSolution& vrpsol, vector<tuple<int, int, int>> all_destroyable_arcpos, vector<vector<int>> all_destroyable_arcconfig);
         
 };
 

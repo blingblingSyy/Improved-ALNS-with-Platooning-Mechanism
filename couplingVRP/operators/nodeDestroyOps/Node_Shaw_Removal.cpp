@@ -6,15 +6,15 @@
 #include "couplingVRP/model/establish/VRPSolution.h"
 #include "couplingVRP/model/establish/ARoute.h"
 #include "couplingVRP/model/basic/Nodes.h"
+#include "couplingVRP/operators/NodeDestroyOps/Node_Random_Removal.h"
 using namespace std;
 
-Node_Shaw_Removal::Node_Shaw_Removal(string s, Nodes& nodes, ALNS_Parameters& alns_param) : 
-                    nodeset(nodes), ANodeDestroyOperator(s, alns_param.getNodeDestroyRate(), nodeset.getCusNum())
+Node_Shaw_Removal::Node_Shaw_Removal(string s, ALNS_Parameters& alns_param, Nodes& nodes) : 
+                    nodeset(nodes), Node_Random_Removal(s, alns_param, nodeset.getCusNum())
 {
     empty = false;
     // hasSelectedCur = true;
     toSelectNext = true;
-    needUpdate = true;
     this->param1 = alns_param.getShawRate1();
     this->param2 = alns_param.getShawRate2();
     this->param3 = alns_param.getShawRate3();
@@ -30,10 +30,10 @@ Node_Shaw_Removal::~Node_Shaw_Removal()
 void Node_Shaw_Removal::destroySolNode(ISolution& sol)
 {
     VRPSolution& vrpsol = dynamic_cast<VRPSolution&>(sol);
-    int orig_noninserted = vrpsol.getNonInsertedNodes().size();
+    maxTimeDiff = calMaxTimeDiff(vrpsol);
     calNodeDestroySize(vrpsol.getTotalServedCusNum()); //! get the nodeDestroySize
     vector<pair<int, int>> all_cus_pos = vrpsol.getAllCusPos();
-    // vector<pair<int, int>> destroyed_nodeset;
+    keepRemovablePos(vrpsol, all_cus_pos); //! this will modify all_cus_pos
     RandomNumber r1;
     int select_pos = r1.get_rint(0, all_cus_pos.size()-1);
     destroyed_nodeset.push_back(all_cus_pos[select_pos]);
@@ -58,16 +58,16 @@ void Node_Shaw_Removal::destroySolNode(ISolution& sol)
         all_cus_pos.erase(all_cus_pos.begin() + indices[new_select]);
         i++;
     }
+    sort(destroyed_nodeset.begin(), destroyed_nodeset.end(), [&](pair<int, int> A, pair<int, int> B) {return A > B;});
     for(int k = 0; k < destroyed_nodeset.size(); k++)
     {
         vrpsol.removeNode(destroyed_nodeset[k].second, destroyed_nodeset[k].first);
     }
-    // if(orig_noninserted - vrpsol.getNonInsertedNodes().size() == 0) //! no nodes are actually removed
+    // if(destroyed_nodeset.empty()) //! no nodes are actually removed
     // {
     //     setEmpty(true);
     //     setToSelectNext(false);
     // }
-    destroyed_arcpos = vrpsol.getDestroyedArcsPos();
 }
 
 double Node_Shaw_Removal::calRelatedness(VRPSolution& vrpsol, pair<int, int> rid_arcpos1, pair<int, int> rid_arcpos2)
@@ -80,6 +80,13 @@ double Node_Shaw_Removal::calRelatedness(VRPSolution& vrpsol, pair<int, int> rid
     bool isSameType = nodeset.getNodeType(node1) == nodeset.getNodeType(node2);
     normalize(dist, dmd_diff, time_diff, vrpsol);
     return param1*dist + param2*dmd_diff + param3*time_diff - param4*isSameType;
+}
+
+void Node_Shaw_Removal::normalize(double& dist, int& dmd_diff, int& arrtime_diff, VRPSolution &vrpsol)
+{
+    dist = dist / nodeset.getMaxSPDist();
+    dmd_diff = double(dmd_diff) / (nodeset.getMaxDmd() - nodeset.getMinDmd());
+    arrtime_diff = double(arrtime_diff) / maxTimeDiff;
 }
 
 int Node_Shaw_Removal::calMaxTimeDiff(VRPSolution& vrpsol)
@@ -96,26 +103,66 @@ int Node_Shaw_Removal::calMaxTimeDiff(VRPSolution& vrpsol)
     return *max_it - *min_it;
 }
 
-void Node_Shaw_Removal::normalize(double& dist, int& dmd_diff, int& arrtime_diff, VRPSolution &vrpsol)
-{
-    dist = dist / nodeset.getMaxSPDist();
-    dmd_diff = double(dmd_diff) / (nodeset.getMaxDmd() - nodeset.getMinDmd());
-    arrtime_diff = double(arrtime_diff) / calMaxTimeDiff(vrpsol);
-}
 
-void Node_Shaw_Removal::update(ISolution& sol, ALNS_Iteration_Status& status)
-{
-    if(hasSelectedCur && needUpdate)
-    {
-        forbidden_destroyed_nodepos.clear();
-        VRPSolution& vrpsol = dynamic_cast<VRPSolution&>(sol);
-        vector<tuple<int, int, int>> destroyed_arcpos = vrpsol.getDestroyedArcsPos();
-        for(int i = 0; i < destroyed_arcpos.size(); i++)
-        {
-            pair<int, int> forbidden_pos1 = make_pair(get<2>(destroyed_arcpos[i]), get<0>(destroyed_arcpos[i]));
-            pair<int, int> forbidden_pos2 = make_pair(get<2>(destroyed_arcpos[i])+1, get<0>(destroyed_arcpos[i]));
-            forbidden_destroyed_nodepos.insert(forbidden_pos1);
-            forbidden_destroyed_nodepos.insert(forbidden_pos2);
-        }        
-    }
-}
+/*old version*/
+// void Node_Shaw_Removal::destroySolNode(ISolution& sol)
+// {
+//     VRPSolution& vrpsol = dynamic_cast<VRPSolution&>(sol);
+//     int orig_noninserted = vrpsol.getNonInsertedNodes().size();
+//     calNodeDestroySize(vrpsol.getTotalServedCusNum()); //! get the nodeDestroySize
+//     vector<pair<int, int>> all_cus_pos = vrpsol.getAllCusPos();
+//     // vector<pair<int, int>> destroyed_nodeset;
+//     RandomNumber r1;
+//     int select_pos = r1.get_rint(0, all_cus_pos.size()-1);
+//     destroyed_nodeset.push_back(all_cus_pos[select_pos]);
+//     all_cus_pos.erase(all_cus_pos.begin() + select_pos);
+//     int i = 1;
+//     while(i < nodeDestroySize)
+//     {
+//         RandomNumber r2;
+//         int pos = r2.get_rint(0, destroyed_nodeset.size()-1);
+//         pair<int, int> selected_request = destroyed_nodeset[pos];
+//         vector<double> relatednessVec;
+//         for(auto it = all_cus_pos.begin(); it != all_cus_pos.end(); it++)
+//         {
+//             relatednessVec.push_back(calRelatedness(vrpsol, selected_request, *it));
+//         }
+//         vector<int> indices(relatednessVec.size());
+//         iota(indices.begin(), indices.end(), 0);
+//         sort(indices.begin(), indices.end(), [&](int A, int B) -> bool {return relatednessVec[A] < relatednessVec[B];});
+//         RandomNumber r3;
+//         int new_select = int(pow(r3.get_rflt(0,1), randShaw) * (indices.size()-1));
+//         destroyed_nodeset.push_back(all_cus_pos[indices[new_select]]);
+//         all_cus_pos.erase(all_cus_pos.begin() + indices[new_select]);
+//         i++;
+//     }
+//     for(int k = 0; k < destroyed_nodeset.size(); k++)
+//     {
+//         vrpsol.removeNode(destroyed_nodeset[k].second, destroyed_nodeset[k].first);
+//     }
+//     // if(orig_noninserted - vrpsol.getNonInsertedNodes().size() == 0) //! no nodes are actually removed
+//     // {
+//     //     setEmpty(true);
+//     //     setToSelectNext(false);
+//     // }
+//     destroyed_arcpos = vrpsol.getDestroyedArcsPos();
+// }
+
+
+/*old version*/
+// void Node_Shaw_Removal::update(ISolution& sol, ALNS_Iteration_Status& status)
+// {
+//     if(hasSelectedCur && needUpdate)
+//     {
+//         forbidden_destroyed_nodepos.clear();
+//         VRPSolution& vrpsol = dynamic_cast<VRPSolution&>(sol);
+//         vector<tuple<int, int, int>> destroyed_arcpos = vrpsol.getDestroyedArcsPos();
+//         for(int i = 0; i < destroyed_arcpos.size(); i++)
+//         {
+//             pair<int, int> forbidden_pos1 = make_pair(get<2>(destroyed_arcpos[i]), get<0>(destroyed_arcpos[i]));
+//             pair<int, int> forbidden_pos2 = make_pair(get<2>(destroyed_arcpos[i])+1, get<0>(destroyed_arcpos[i]));
+//             forbidden_destroyed_nodepos.insert(forbidden_pos1);
+//             forbidden_destroyed_nodepos.insert(forbidden_pos2);
+//         }
+//     }
+// }

@@ -1,7 +1,7 @@
 #ifndef PATH_NODEFREQ_REMOVAL_H_
 #define PATH_NODEFREQ_REMOVAL_H_
 
-#include "couplingVRP/operators/pathDestroyOps/Path_Removal_Template.h"
+#include "couplingVRP/operators/pathDestroyOps/Path_Random_Removal.h"
 using namespace std;
 
 class ISolution;
@@ -11,7 +11,7 @@ class PathTabu;
 class Nodes;
 class VRPSolution;
  
-class Path_NodeFreq_Removal: public Path_Removal_Template
+class Path_NodeFreq_Removal: public Path_Random_Removal
 {
     public:
         //!  constructor

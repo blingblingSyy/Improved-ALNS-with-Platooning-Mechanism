@@ -145,6 +145,9 @@ class VRPSolution: public ISolution
 
         //! a simple getter: {{destroyed_arcpos, destroyed_pathid, routeid}, ...}
         vector<tuple<int, int, int>>& getDestroyedArcsPos() {return destroyedArcs;};
+
+        //! a simple getter: {{destroyed_arcpos, destroyed_pathid, routeid}, ...}
+        // vector<tuple<int, int, int>>& getRepairedArcsPos() {return repairedArcs;};
         
         //! a simple getter
         int getRoutesNum() {return sol_config.size();};
@@ -176,8 +179,12 @@ class VRPSolution: public ISolution
         //! a simple getter
         int getNodeShowTimes(int nodeid);
 
+        /*old version*/
         //! get positions of all customers <routeid, arcpos>
         vector<pair<int, int>> getAllCusPos();
+        /*new version*/
+        //! get positions of all customers <routeid, arcpos>
+        // vector<vector<int>> getAllCusCopy();
 
         /* old version */
         // //! calculate the maximum arrival time of all nodes in all routes
@@ -216,9 +223,12 @@ class VRPSolution: public ISolution
         //! as each served node only appears in the solution once, the destroyableArcConfig is in the same order as the destroyableArcPos
         vector<vector<int>> destroyableArcConifg; //! {{i,j}, ...}
 
-        //! the selected paths to be modified later
+        //! the selected paths to be destroyed later
         vector<tuple<int, int, int>> destroyedArcs; //{{destroyed_arcpos, destroyed_pathid, routeid}, ...};
         
+        //! the selected paths that have been repaired
+        vector<tuple<int, int, int>> repairedArcs;
+
         //! the route configuration of the solution
         vector<ARoute*> sol_config;
 

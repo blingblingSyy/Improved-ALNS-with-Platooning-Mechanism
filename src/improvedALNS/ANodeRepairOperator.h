@@ -20,15 +20,18 @@ class ANodeRepairOperator : public AOperator
 
 		virtual void repairSolNode(ISolution& sol)=0;
 
-		//! get whether the operator needs update or not
-		bool getNeedUpate() {return needUpdate;};
+		// //! get whether the operator needs update or not
+		// bool getNeedUpate() {return needUpdate;};
 		
 	protected:
-		//! the set of node positions that cannot be destroyed
-		set<pair<int, int>> forbidden_repaired_nodepos;
+		//! The set of destroyed nodes <routeid, arcpos>
+		vector<pair<int, int>> repaired_nodeset;
 
-		//! check whether the operator needs update or not
-		bool needUpdate;
+		// //! the set of node positions that cannot be destroyed
+		// set<pair<int, int>> forbidden_repaired_nodepos;
+
+		// //! check whether the operator needs update or not
+		// bool needUpdate;
 
 		// //! the set of already destroyed arcs
 		// vector<tuple<int, int, int>> destroyed_arcpos;

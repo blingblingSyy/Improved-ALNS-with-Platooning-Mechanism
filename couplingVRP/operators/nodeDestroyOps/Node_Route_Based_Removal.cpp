@@ -11,7 +11,6 @@ Node_RouteBased_Removal::Node_RouteBased_Removal(string s) : ANodeDestroyOperato
     empty = false;
     // hasSelectedCur = true;
     toSelectNext = true;
-    needUpdate = false;
 }
 
 Node_RouteBased_Removal::~Node_RouteBased_Removal()

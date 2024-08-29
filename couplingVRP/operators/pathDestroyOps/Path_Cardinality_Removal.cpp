@@ -11,8 +11,11 @@
 #include <set>
 using namespace std;
 
-Path_Cardinality_Removal::Path_Cardinality_Removal(string s, ALNS_Parameters& alns_param, PathTabu& tabuObj, Nodes& nodes) : nodeset(nodes), Path_Removal_Template(s, alns_param, tabuObj)
+Path_Cardinality_Removal::Path_Cardinality_Removal(string s, ALNS_Parameters& alns_param, PathTabu& tabuObj, Nodes& nodes) : nodeset(nodes), Path_Random_Removal(s, alns_param, tabuObj)
 {
+    empty = false;
+    // hasSelectedCur = true;
+    toSelectNext = true;
     randSel = alns_param.getRandCardiDes();
 }
 

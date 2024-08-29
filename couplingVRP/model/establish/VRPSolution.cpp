@@ -431,7 +431,7 @@ double VRPSolution::evaluateModifyPath(int modified_arcpos, int modified_pathid,
 
 vector<tuple<double, int, int>> VRPSolution::calOrderedInsertCostsAllRoutes(int insert_node_id)
 {
-    vector<tuple<double, int, int>> min_cost_all_routes;
+    vector<tuple<double, int, int>> min_cost_all_routes; //! <insert_cost, insert_pos, insert_route>
     for(int i = 0; i < getRoutesNum(); i++)
     {
         pair<double, int> cost_pos_route_i = getOneRoute(i)->calCheapestInsertionCosts(insert_node_id);
@@ -512,6 +512,7 @@ int VRPSolution::getNodeShowTimes(int nodeid)
     return count_sum;
 }
 
+/*old version*/
 vector<pair<int, int>> VRPSolution::getAllCusPos()
 {
     vector<pair<int, int>> all_cus_pos;
@@ -524,3 +525,17 @@ vector<pair<int, int>> VRPSolution::getAllCusPos()
     }
     return all_cus_pos;
 }
+
+/*new version*/
+// vector<vector<int>> VRPSolution::getAllCusCopy()
+// {
+//     vector<vector<int>> all_cus_pos(getRoutesNum());
+//     for(int i = 0; i < getRoutesNum(); i++)
+//     {
+//         for(int j = 0; j < sol_config[i]->getCompactRoute().size(); j++)
+//         {
+//             all_cus_pos[i].push_back(sol_config[i]->getCompactRoute()[j]); //! a set of compact routes
+//         }
+//     }
+//     return all_cus_pos;
+// }

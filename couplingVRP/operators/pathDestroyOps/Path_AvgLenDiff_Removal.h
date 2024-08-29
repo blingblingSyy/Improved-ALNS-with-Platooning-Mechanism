@@ -1,7 +1,7 @@
 #ifndef PATH_AVGLENDIFF_REMOVAL_H_
 #define PATH_AVGLENDIFF_REMOVAL_H_
 
-#include "couplingVRP/operators/pathDestroyOps/Path_Removal_Template.h"
+#include "couplingVRP/operators/pathDestroyOps/Path_Random_Removal.h"
 #include <tuple>
 using namespace std;
 
@@ -10,7 +10,7 @@ class Path_Removal_Template;
 class Nodes;
 class PathTabu;
 
-class Path_AvgLenDiff_Removal: public Path_Removal_Template
+class Path_AvgLenDiff_Removal: public Path_Random_Removal
 {
     public:
         //!  constructor

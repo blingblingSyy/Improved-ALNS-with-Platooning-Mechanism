@@ -15,6 +15,7 @@ Path_Random_Insert::Path_Random_Insert(string s, Nodes& nodes) : nodeset(nodes),
     empty = false;
     // hasSelectedCur = true;
     toSelectNext = true;
+    randSel = 1;
 }
 
 Path_Random_Insert::~Path_Random_Insert()
@@ -25,20 +26,45 @@ Path_Random_Insert::~Path_Random_Insert()
 void Path_Random_Insert::repairSolPath(ISolution& sol)
 {
     VRPSolution& vrpsol = dynamic_cast<VRPSolution&>(sol);
-    for(auto pos_it = vrpsol.getDestroyedArcsPos().begin(); pos_it != vrpsol.getDestroyedArcsPos().end(); )
+    // vrpsol.getRepairedArcsPos().clear();
+    for(auto pos_it = vrpsol.getDestroyedArcsPos().begin(); pos_it != vrpsol.getDestroyedArcsPos().end(); pos_it++)
     {
         auto config_it = find(vrpsol.getDestroyableArcPos().begin(), vrpsol.getDestroyableArcPos().end(), (*pos_it));
         vector<int> arc_config = vrpsol.getDestroyableArcConfig()[config_it - vrpsol.getDestroyableArcPos().begin()];
-        int card = nodeset.getAllAvailPathSize()[arc_config[0]][arc_config[1]];
-        int orig_usedpath = get<1>(*pos_it);
+        vector<int> indices = sortMeasurement(vrpsol, arc_config, get<1>(*pos_it));
         RandomNumber r1;
-        int rand_usedpath_id = r1.get_rint(0, card-1);
-        while(rand_usedpath_id == orig_usedpath)
-        {
-            rand_usedpath_id = r1.get_rint(0, card-1);
-        }
-        vrpsol.repairPath(get<0>(*pos_it), rand_usedpath_id, get<2>(*pos_it));
-        pos_it = vrpsol.getDestroyedArcsPos().erase(pos_it);
+        int new_usedpath = indices[int(pow(r1.get_rint(0,1), randSel)*(indices.size()-1))];
+        vrpsol.repairPath(get<0>(*pos_it), new_usedpath, get<2>(*pos_it));
+        // vrpsol.getRepairedArcsPos().push_back(*pos_it);
+        // pos_it = vrpsol.getDestroyedArcsPos().erase(pos_it);
     }
-    vrpsol.getDestroyedArcsPos().clear();
+    // vrpsol.getDestroyedArcsPos().clear();
 }
+
+vector<int> Path_Random_Insert::sortMeasurement(VRPSolution& vrpsol, vector<int> arc_config, int orig_usedpath)
+{
+    vector<int> indices(static_cast<int>(nodeset.getAllAvailPathSize()[arc_config[0]][arc_config[1]]));
+    iota(indices.begin(), indices.end(), 0);
+    indices.erase(remove(indices.begin(), indices.end(), orig_usedpath));   //! orig_usedpath = get<1>(*pos_it): the index for the old used path
+    return indices;
+}
+
+/*old version*/
+// void Path_Random_Insert::repairSolPath(ISolution& sol)
+// {
+//     VRPSolution& vrpsol = dynamic_cast<VRPSolution&>(sol);
+//     for(auto pos_it = vrpsol.getDestroyedArcsPos().begin(); pos_it != vrpsol.getDestroyedArcsPos().end(); )
+//     {
+//         auto config_it = find(vrpsol.getDestroyableArcPos().begin(), vrpsol.getDestroyableArcPos().end(), (*pos_it));
+//         vector<int> arc_config = vrpsol.getDestroyableArcConfig()[config_it - vrpsol.getDestroyableArcPos().begin()];
+//         int card = nodeset.getAllAvailPathSize()[arc_config[0]][arc_config[1]];
+//         vector<int> indices(card);
+//         iota(indices.begin(), indices.end(), 0);
+//         indices.erase(remove(indices.begin(), indices.end(), get<1>(*pos_it)));   //!  get<1>(*pos_it): the index for the old used path
+//         RandomNumber r1;
+//         int new_usedpath = indices[int(pow(r1.get_rint(0,1), randSel)*(indices.size()-1))];
+//         vrpsol.repairPath(get<0>(*pos_it), new_usedpath, get<2>(*pos_it));
+//         pos_it = vrpsol.getDestroyedArcsPos().erase(pos_it);
+//     }
+//     vrpsol.getDestroyedArcsPos().clear();
+// }

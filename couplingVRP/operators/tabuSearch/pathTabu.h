@@ -10,9 +10,9 @@ class ISolution;
 class ALNS_Parameters;
 class ALNS_Iteration_Status;
 class IUpdatable;
+class VRPSolution;
 
-/// @brief this class is used to represent Path Destory Operators.
-/// Any path destroy operator should inherit from this class and implement the destorySolPath function.
+/// @brief this class is used to represent Path Tabu Operator.
 class PathTabu : public IUpdatable
 {
 	protected:
