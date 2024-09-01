@@ -3,6 +3,7 @@
 #include "couplingVRP/model/establish/VRPSolution.h"
 #include "couplingVRP/model/establish/ARoute.h"
 #include "couplingVRP/model/basic/Nodes.h"
+#include "couplingVRP/operators/Operators_Parameters.h"
 #include "src/ALNS_inc.h"
 #include "utility.h"
 #include <vector>
@@ -11,7 +12,7 @@
 #include <set>
 using namespace std;
 
-Path_Random_Removal::Path_Random_Removal(string s, ALNS_Parameters& alns_param, PathTabu& tabuObj) : APathDestroyOperator(s, alns_param, tabuObj)
+Path_Random_Removal::Path_Random_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj) : APathDestroyOperator(s, ops_param.getPathDestroySizeRate(), tabuObj)
 {
     empty = false;
     // hasSelectedCur = true;

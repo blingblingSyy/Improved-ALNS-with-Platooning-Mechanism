@@ -21,7 +21,7 @@ class ALNS_Iteration_Status
 		{
 			// The constructor initialize the variables with default values.
 			iterationId = 0;
-			nbIterationWithoutImprovementSinceLastReload = 0;
+			nbIterationWithoutImprovementSinceLastReload = 0; //! reload: make the best solution as the new current solution
 			nbIterationWithoutImprovement = 0;
 			nbIterationWithoutImprovementCurrent = 0;
 			nbIterationWithoutTransition = 0;
@@ -261,16 +261,16 @@ class ALNS_Iteration_Status
 		//! Indicate if solution has been improved by local search.
 		State improveByLocalSearch;
 
-		//! Indicate if the solution has already been repaired by node-related operations.
+		//! Indicate if the solution has already been repaired by node repair operations.
 		State alreadyNodeRepaired;
 
-		//! Indicate if the new solution has already been destroyed by node-related operations.
+		//! Indicate if the new solution has already been destroyed by node destroy operations.
 		State alreadyNodeDestroyed;
 
-		//! Indicate if the solution has already been repaired by path-related operations.
+		//! Indicate if the solution has already been repaired by path repair operations.
 		State alreadyPathRepaired;
 
-		//! Indicate if the new solution has already been destroyed by path-related operations.
+		//! Indicate if the new solution has already been destroyed by path destroy operations.
 		State alreadyPathDestroyed;
 
 		//! Indicate if the node first strategy or path first strategy has been selected

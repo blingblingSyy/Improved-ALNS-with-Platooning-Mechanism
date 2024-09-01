@@ -7,12 +7,13 @@ using namespace std;
 class ISolution;
 class VRPSolution;
 class Path_Random_Insert;
+class Operators_Parameters;
  
 class Path_NodeFreq_Insert: public Path_Random_Insert
 {
     public:
         //!  constructor
-        Path_NodeFreq_Insert(string s, Nodes& nodes, double rand_nFreq);
+        Path_NodeFreq_Insert(string s, Nodes& nodes, Operators_Parameters& ops_param);
 
         //! destructor
         virtual ~Path_NodeFreq_Insert();

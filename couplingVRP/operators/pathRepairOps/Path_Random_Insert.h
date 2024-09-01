@@ -8,6 +8,7 @@ class ISolution;
 class APathRepairOperator;
 class Nodes;
 class VRPSolution;
+class Operators_Parameters;
  
 class Path_Random_Insert: public APathRepairOperator
 {

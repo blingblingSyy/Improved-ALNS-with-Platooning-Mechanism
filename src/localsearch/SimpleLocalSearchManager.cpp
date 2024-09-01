@@ -1,54 +1,31 @@
-/* ALNS_Framework - a framework to develop ALNS based solvers
- *
- * Copyright (C) 2012 Renaud Masson
- *
- * This library is free software; you can redistribute it and/or
- * modify it either under the terms of the GNU Lesser General Public
- * License version 3 as published by the Free Software Foundation
- * (the "LGPL"). If you do not alter this notice, a recipient may use
- * your version of this file under the LGPL.
- *
- * You should have received a copy of the LGPL along with this library
- * in the file COPYING-LGPL-3; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Suite 500, Boston, MA 02110-1335, USA
- *
- * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY
- * OF ANY KIND, either express or implied. See the LGPL for
- * the specific language governing rights and limitations.
- *
- * The Original Code is the ALNS_Framework library.
- *
- *
- * Contributor(s):
- *	Renaud Masson
- */
-
-#include "SimpleLocalSearchManager.h"
-#include "../alns/ALNS_Iteration_Status.h"
-#include "../alns/ALNS_Parameters.h"
-#include "../alns/ISolution.h"
-#include "ILocalSearch.h"
-
+#include "src/localsearch/SimpleLocalSearchManager.h"
+#include "src/improvedALNS/ALNS_Iteration_Status.h"
+#include "src/improvedALNS/ALNS_Parameters.h"
+#include "src/improvedALNS/ISolution.h"
+#include "src/localsearch/ILocalSearch.h"
+#include <algorithm>
+#include <vector>
+using namespace std;
 
 bool SimpleLocalSearchManager::useLocalSearch(ISolution& sol, ALNS_Iteration_Status& status)
 {
-	if(status.getNewBestSolution()!=ALNS_Iteration_Status::TRUE
-		|| status.getAcceptedAsCurrentSolution()!=ALNS_Iteration_Status::UNKNOWN)
+	if(status.getNewBestSolution() != ALNS_Iteration_Status::TRUE  //! case 1: when the new solution is not the new best solution
+		|| status.getAcceptedAsCurrentSolution() != ALNS_Iteration_Status::UNKNOWN)  //! case 2: when the new solution has been compared with the current solution
 	{
 		return false;
 	}
-	else
+	else  //! (status.getNewBestSolution() == ALNS_Iteration_Status::TRUE) && (status.getAcceptedAsCurrentSolution() == ALNS_Iteration_Status::UNKNOWN)
 	{
 		status.setLocalSearchUsed(ALNS_Iteration_Status::TRUE);
 		bool improvement;
-		do
+		do //! until the solution cannot be improved by any local search operators any more
 		{
 			improvement = false;
 			for(size_t i = 0; i < localSearchOperators.size(); i++)
 			{
-				improvement = localSearchOperators[i]->performLocalSearch(sol)||improvement;
+				improvement = localSearchOperators[i]->performLocalSearch(sol)||improvement;  //! cycle when at least one local search operator improves the solution 
 			}
-		}while(improvement);
+		} while(improvement); //! at least perform once the procedure in "do...while..."
 		if(improvement)
 		{
 			status.setImproveByLocalSearch(ALNS_Iteration_Status::TRUE);
@@ -64,19 +41,26 @@ bool SimpleLocalSearchManager::useLocalSearch(ISolution& sol, ALNS_Iteration_Sta
 
 void SimpleLocalSearchManager::addLocalSearchOperator(ILocalSearch& ls)
 {
-	//TODO find out why the set.find() == set.end() does not work.
-	bool ok = true;
-	for(size_t i=0; i< param->getForbidenLsOperators().size() && ok; i++)
-	{
-		if(param->getForbidenLsOperators()[i] == ls.getName())
-		{
-			std::cout << "NO " << ls.getName() << std::endl;
-			ok = false;
-		}
-	}
-	if(ok)
+	auto it = find(param->getForbidenLsOperators().begin(), param->getForbidenLsOperators().end(), ls.getName());
+	if(it == param->getForbidenLsOperators().end())
 	{
 		localSearchOperators.push_back(&ls);
 	}
-
+	else
+	{
+		cout << "NO " << ls.getName() << endl;
+	}
+	// bool ok = true;
+	// for(size_t i=0; i < param->getForbidenLsOperators().size() && ok; i++)
+	// {
+	// 	if(param->getForbidenLsOperators()[i] == ls.getName())
+	// 	{
+	// 		std::cout << "NO " << ls.getName() << std::endl;
+	// 		ok = false;
+	// 	}
+	// }
+	// if(ok)
+	// {
+	// 	localSearchOperators.push_back(&ls);
+	// }
 }

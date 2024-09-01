@@ -8,14 +8,14 @@ using namespace std;
 
 class ISolution;
 class VRPSolution;
-class ALNS_Parameters;
+class Operators_Parameters;
 class Node_Random_Removal;
 
 class Node_Worst_Removal: public Node_Random_Removal
 {
     public:
         //! constructor
-        Node_Worst_Removal(string s, ALNS_Parameters& alns_param, int cusnum);
+        Node_Worst_Removal(string s, Operators_Parameters& ops_param, int cusnum);
 
         //! destructor
         ~Node_Worst_Removal();

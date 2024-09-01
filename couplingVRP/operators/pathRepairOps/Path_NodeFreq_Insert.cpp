@@ -3,6 +3,7 @@
 #include "couplingVRP/model/establish/ARoute.h"
 #include "couplingVRP/model/basic/Nodes.h"
 #include "couplingVRP/model/basic/ADijkstraSol.h"
+#include "couplingVRP/operators/Operators_Parameters.h"
 #include "src/ALNS_inc.h"
 #include "utility.h"
 #include <vector>
@@ -11,12 +12,12 @@
 #include <set>
 using namespace std;
 
-Path_NodeFreq_Insert::Path_NodeFreq_Insert(string s, Nodes& nodes, double rand_nFreq) : Path_Random_Insert(s, nodes)
+Path_NodeFreq_Insert::Path_NodeFreq_Insert(string s, Nodes& nodes, Operators_Parameters& ops_param) : Path_Random_Insert(s, nodes)
 {
     empty = false;
     // hasSelectedCur = true;
     toSelectNext = true;
-    this->randF = rand_nFreq;
+    this->randF = ops_param.getRandNfreqRep();
 }
 
 Path_NodeFreq_Insert::~Path_NodeFreq_Insert()

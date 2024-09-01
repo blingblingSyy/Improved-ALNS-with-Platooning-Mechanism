@@ -1,44 +1,23 @@
-/* ALNS_Framework - a framework to develop ALNS based solvers
- *
- * Copyright (C) 2012 Renaud Masson
- *
- * This library is free software; you can redistribute it and/or
- * modify it either under the terms of the GNU Lesser General Public
- * License version 3 as published by the Free Software Foundation
- * (the "LGPL"). If you do not alter this notice, a recipient may use
- * your version of this file under the LGPL.
- *
- * You should have received a copy of the LGPL along with this library
- * in the file COPYING-LGPL-3; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Suite 500, Boston, MA 02110-1335, USA
- *
- * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY
- * OF ANY KIND, either express or implied. See the LGPL for
- * the specific language governing rights and limitations.
- *
- * The Original Code is the ALNS_Framework library.
- *
- *
- * Contributor(s):
- *	Renaud Masson
- */
-
-#include "ALNS_Parameters.h"
+#include "src/improvedALNS/ALNS_Parameters.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include "../lib/tinyxml/tinyxml.h"
+#include "src/lib/tinyxml/tinyxml.h"
 
 using namespace std;
 
 ALNS_Parameters::ALNS_Parameters()
 {
 	// The variables are initialized with default values.
-	maxNbIterations = 20000;
+	maxNbIterations = 10000;
+
+	lookBackIterations = 1000;
+
+	objImpThreshold = 0.001;
 
 	maxRunningTime = 10;
 
-	maxNbIterationsNoImp = 100000;
+	maxNbIterationsNoImp = 1000;
 
 	stopCrit = ALL;
 
@@ -46,36 +25,33 @@ ALNS_Parameters::ALNS_Parameters()
 
 	timeSegmentsIt = 100;
 
-	nbItBeforeReinit = 1000;
+	// nbItBeforeReinit = 1000;
 
-	sigma1 = 33;
+	sigma1 = 9;
 
-	sigma2 = 20;
+	sigma2 = 7;
 
-	sigma3 = 15;
+	sigma3 = 2;
 
-	rho = 0.1;
+	rho = 0.8;
 
 	minimumWeight = 0.1;
 
-	maximumWeight = 5;
-
-	acKind = SA;
-
-	acPath = "";
-
-	logFrequency = 100;
-
-	performLocalSearch = true;
+	maximumWeight = 10;
 
 	probabilityOfNoise = 0;
 
-	reloadFrequency = 10000;
+	acKind = SA;
+
+	// acPath = "";
+
+	logFrequency = 1;
+
+	performLocalSearch = true;
+
+	reloadFrequency = 1000;
 
 	lock = false;
-
-	minDestroyPerc = 1;
-	maxDestroyPerc = 60;
 }
 
 ALNS_Parameters::~ALNS_Parameters()
@@ -101,6 +77,27 @@ void ALNS_Parameters::loadXMLParameters(std::string path)
 					stringstream str;
 					str << maxNbIt->GetText();
 					str >> this->maxNbIterations;
+				}
+				TiXmlElement* minNbIt = paramALNS->FirstChildElement( "MinNbIterations" );
+				if(minNbIt)
+				{
+					stringstream str;
+					str << minNbIt->GetText();
+					str >> this->minNbIterations;
+				}
+				TiXmlElement* lookbackIters = paramALNS->FirstChildElement( "LookBackIterations" );
+				if(lookbackIters)
+				{
+					stringstream str;
+					str << lookbackIters->GetText();
+					str >> this->lookBackIterations;
+				}
+				TiXmlElement* threshold = paramALNS->FirstChildElement( "ObjImpThreshold" );
+				if(threshold)
+				{
+					stringstream str;
+					str << threshold->GetText();
+					str >> this->objImpThreshold;
 				}
 				TiXmlElement* maxRt = paramALNS->FirstChildElement( "MaxRunTime" );
 				if(maxRt)
@@ -167,13 +164,13 @@ void ALNS_Parameters::loadXMLParameters(std::string path)
 					str << timeSeg->GetText();
 					str >> this->timeSegmentsIt;
 				}
-				TiXmlElement* nbItBefRe = paramALNS->FirstChildElement( "NbItBeforeReinit" );
-				if(nbItBefRe)
-				{
-					stringstream str;
-					str << nbItBefRe->GetText();
-					str >> this->nbItBeforeReinit;
-				}
+				// TiXmlElement* nbItBefRe = paramALNS->FirstChildElement( "NbItBeforeReinit" );
+				// if(nbItBefRe)
+				// {
+				// 	stringstream str;
+				// 	str << nbItBefRe->GetText();
+				// 	str >> this->nbItBeforeReinit;
+				// }
 				TiXmlElement* sig1 = paramALNS->FirstChildElement( "Sigma1" );
 				if(sig1)
 				{
@@ -263,20 +260,6 @@ void ALNS_Parameters::loadXMLParameters(std::string path)
 					str << logFreq->GetText();
 					str >> this->logFrequency;
 				}
-				TiXmlElement* minDestP = paramALNS->FirstChildElement( "MinDestroyPerc" );
-				if(minDestP)
-				{
-					stringstream str;
-					str << minDestP->GetText();
-					str >> this->minDestroyPerc;
-				}
-				TiXmlElement* maxDestP = paramALNS->FirstChildElement( "MaxDestroyPerc" );
-				if(maxDestP)
-				{
-					stringstream str;
-					str << maxDestP->GetText();
-					str >> this->maxDestroyPerc;
-				}
 				TiXmlElement* forbOp = paramALNS->FirstChildElement( "ForbiddenOperators" );
 				if(forbOp)
 				{
@@ -332,10 +315,22 @@ void ALNS_Parameters::loadParameters(string path)
 			string id;
 			string eq;
 			str >> id;
-			str >> eq;
+			str >> eq;    //! for the title line
 			if(id == "maxNbIterations")
 			{
 				str >> maxNbIterations;
+			}
+			if(id == "minNbIterations")
+			{
+				str >> minNbIterations;
+			}
+			else if(id == "lookBackIterations")
+			{
+				str >> lookBackIterations;
+			}
+			else if(id == "objImpThreshold")
+			{
+				str >> objImpThreshold;
 			}
 			else if(id == "maxRunningTime")
 			{
@@ -387,10 +382,10 @@ void ALNS_Parameters::loadParameters(string path)
 			{
 				str >> timeSegmentsIt;
 			}
-			else if(id == "nbItBeforeReinit")
-			{
-				str >> nbItBeforeReinit;
-			}
+			// else if(id == "nbItBeforeReinit")
+			// {
+			// 	str >> nbItBeforeReinit;
+			// }
 			else if(id == "sigma1")
 			{
 				str >> sigma1;
@@ -431,15 +426,19 @@ void ALNS_Parameters::loadParameters(string path)
 				{
 					acKind = SA;
 				}
+				else if(temp == "DM")
+				{
+					acKind = DM;
+				}
 				else
 				{
 					assert(false);
 				}
 			}
-			else if(id == "acPath")
-			{
-				str >> acPath;
-			}
+			// else if(id == "acPath")
+			// {
+			// 	str >> acPath;
+			// }
 			else if(id == "statsGlobPath")
 			{
 				str >> statsGlobPath;
@@ -494,6 +493,12 @@ ALNS_Parameters::ALNS_Parameters(ALNS_Parameters& p)
 {
 	maxNbIterations = p.maxNbIterations;
 
+	minNbIterations = p.minNbIterations;
+
+	lookBackIterations = p.lookBackIterations;
+
+	objImpThreshold = p.objImpThreshold;
+
 	maxRunningTime = p.maxRunningTime;
 
 	maxNbIterationsNoImp = p.maxNbIterationsNoImp;
@@ -504,7 +509,7 @@ ALNS_Parameters::ALNS_Parameters(ALNS_Parameters& p)
 
 	timeSegmentsIt = p.timeSegmentsIt;
 
-	nbItBeforeReinit = p.nbItBeforeReinit;
+	// nbItBeforeReinit = p.nbItBeforeReinit;
 
 	sigma1 = p.sigma1;
 
@@ -520,7 +525,7 @@ ALNS_Parameters::ALNS_Parameters(ALNS_Parameters& p)
 
 	acKind = p.acKind;
 
-	acPath = p.acPath;
+	// acPath = p.acPath;
 
 	logFrequency = p.logFrequency;
 
@@ -530,9 +535,13 @@ ALNS_Parameters::ALNS_Parameters(ALNS_Parameters& p)
 
 	performLocalSearch = p.performLocalSearch;
 
-	minDestroyPerc = p.minDestroyPerc;
+	// statsGlobPath = p.statsGlobPath;
 
-	maxDestroyPerc = p.maxDestroyPerc;
+	// statsOpPath = p.statsOpPath;
+
+	// forbidenOperators = p.forbidenOperators;
+
+	// forbidenLsOperators = p.forbidenLsOperators;
 
 	lock = false;
 }

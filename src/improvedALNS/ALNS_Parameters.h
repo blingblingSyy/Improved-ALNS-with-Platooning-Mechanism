@@ -17,7 +17,8 @@ class ALNS_Parameters
         //! MAX_RT: the maximum run time.
         //! MAX_IT_NO_IMP: the maximum number of iterations without improvement.
         //! ALL: a mix of the MAX_IT, MAX_RT and MAX_IT_NO_IMP.
-        enum StoppingCriteria {
+        enum StoppingCriteria
+        {
             MAX_IT,
             MAX_RT,
             MAX_IT_NO_IMP,
@@ -25,8 +26,10 @@ class ALNS_Parameters
         };
 
         //! An enumeration listing a set of packaged AcceptanceModule Implementation.
-        enum AcceptanceCriterioKind {
-            SA
+        enum AcceptanceCriterioKind
+        {
+            SA,
+            DM
         };
 
 
@@ -44,12 +47,13 @@ class ALNS_Parameters
 
         //! Load the parameters of a file.
         //! \param path the path to the file containing the parameters.
-        void loadParameters(std::string path);
+        void loadParameters(string path);
 
         //! Load the parameters of a xml file.
         //! \param path the path to the xml file containing the parameters.
-        void loadXMLParameters(std::string path);
+        void loadXMLParameters(string path);
 
+        //! Simple getter.
         size_t getReloadFrequency() const
         {
             return reloadFrequency;
@@ -62,27 +66,28 @@ class ALNS_Parameters
         }
 
         //! Simple getter.
-        std::vector<std::string> getForbidenLsOperators() const
+        vector<string> getForbidenLsOperators() const
         {
             return forbidenLsOperators;
         }
 
-        void addForbiddenLsOperator(std::string lsOp)
+        void addForbiddenLsOperator(string lsOp)  //! Ls: local search
         {
             forbidenLsOperators.push_back(lsOp);
         }
 
         //! Simple getter.
-        std::vector<std::string> getForbidenOperators() const
+        vector<string> getForbidenOperators() const
         {
             return forbidenOperators;
         }
 
-        void addForbiddenOperator(std::string op)
+        void addForbiddenOperator(string op)
         {
             forbidenOperators.push_back(op);
         }
 
+        //! Simple getter.
         bool getPerformLocalSearch() const
         {
             return performLocalSearch;
@@ -94,12 +99,11 @@ class ALNS_Parameters
             this->performLocalSearch = performLocalSearch;
         }
 
+        //! Simple getter.
         int getLogFrequency() const
         {
             return logFrequency;
         }
-
-
 
         void setLogFrequency(int logFrequency)
         {
@@ -107,14 +111,14 @@ class ALNS_Parameters
             this->logFrequency = logFrequency;
         }
 
-
-
-        std::string getStatsGlobPath() const
+        //! Simple getter.
+        string getStatsGlobPath() const  //! record the changes of solutions for each iteration
         {
             return statsGlobPath;
         }
 
-        std::string getStatsOpPath() const
+        //! Simple getter.
+        string getStatsOpPath() const  //! record the weights of operations for each iteration
         {
             return statsOpPath;
         }
@@ -136,10 +140,10 @@ class ALNS_Parameters
         }
 
         //! Simple getter.
-        std::string getAcPath() const
-        {
-            return acPath;
-        }
+        // string getAcPath() const
+        // {
+        //     return acPath;
+        // }
 
         //! Simple getter.
         void setAcKind(AcceptanceCriterioKind acKind)
@@ -149,11 +153,11 @@ class ALNS_Parameters
         }
 
         //! Simple getter.
-        void setAcPath(std::string acPath)
-        {
-            assert(!lock);
-            this->acPath = acPath;
-        }
+        // void setAcPath(string acPath)
+        // {
+        //     assert(!lock);
+        //     this->acPath = acPath;
+        // }
 
         //! Simple getter.
         double getProbabilityOfNoise() const
@@ -174,95 +178,30 @@ class ALNS_Parameters
             return maxNbIterations;
         }
 
-        //! Simple getter.
-        size_t getMaxNbIterationsNoImp() const
-        {
-            return maxNbIterationsNoImp;
-        }
-
-        //! Simple getter.
-        double getMaxRunningTime() const
-        {
-            return maxRunningTime;
-        }
-
-        //! Simple getter.
-        double getMaximumWeight() const
-        {
-            return maximumWeight;
-        }
-
-        //! Simple getter.
-        double getMinimumWeight() const
-        {
-            return minimumWeight;
-        }
-
-        //! Simple getter.
-        size_t getNbItBeforeReinit() const
-        {
-            return nbItBeforeReinit;
-        }
-
-        //! Simple getter.
-        bool getGlobalNoise() const
-        {
-            return globalNoise;
-        }
-
-        //! Simple getter.
-        double getRho() const
-        {
-            return rho;
-        }
-
-        //! a simple getter
-        // double getPathDestroySizeRate() const
-        // {
-        //     return pathDestroyRate;
-        // }
-
-        //! a simple getter
-        double getNodeDestroyRate() const
-        {
-            return nodeDestroyRate;
-        }
-
-        //! Simple getter.
-        int getSigma1() const
-        {
-            return sigma1;
-        }
-
-        //! Simple getter.
-        int getSigma2() const
-        {
-            return sigma2;
-        }
-
-        //! Simple getter.
-        int getSigma3() const
-        {
-            return sigma3;
-        }
-
-        //! Simple getter.
-        StoppingCriteria getStopCrit() const
-        {
-            return stopCrit;
-        }
-
-        //! Simple getter.
-        size_t getTimeSegmentsIt() const
-        {
-            return timeSegmentsIt;
-        }
-
         //! Simple setter.
         void setMaxNbIterations(size_t maxNbIterations)
         {
             assert(!lock);
             this->maxNbIterations = maxNbIterations;
+        }
+
+        //! Simple getter.
+        size_t getMinNbIterations() const
+        {
+            return minNbIterations;
+        }
+
+        //! Simple setter.
+        void setMinNbIterations(size_t minNbIterations)
+        {
+            assert(!lock);
+            this->minNbIterations = minNbIterations;
+        }
+
+        //! Simple getter.
+        size_t getMaxNbIterationsNoImp() const
+        {
+            return maxNbIterationsNoImp;
         }
 
         //! Simple setter.
@@ -272,11 +211,23 @@ class ALNS_Parameters
             this->maxNbIterationsNoImp = maxNbIterationsNoImp;
         }
 
+        //! Simple getter.
+        double getMaxRunningTime() const
+        {
+            return maxRunningTime;
+        }
+
         //! Simple setter.
         void setMaxRunningTime(double maxRunningTime)
         {
             assert(!lock);
             this->maxRunningTime = maxRunningTime;
+        }
+
+        //! Simple getter.
+        double getMaximumWeight() const
+        {
+            return maximumWeight;
         }
 
         //! Simple setter.
@@ -286,6 +237,12 @@ class ALNS_Parameters
             this->maximumWeight = maximumWeight;
         }
 
+        //! Simple getter.
+        double getMinimumWeight() const
+        {
+            return minimumWeight;
+        }
+
         //! Simple setter.
         void setMinimumWeight(double minimumWeight)
         {
@@ -293,11 +250,23 @@ class ALNS_Parameters
             this->minimumWeight = minimumWeight;
         }
 
+        //! Simple getter.
+        // size_t getNbItBeforeReinit() const
+        // {
+        //     return nbItBeforeReinit;
+        // }
+
         //! Simple setter.
-        void setNbItBeforeReinit(size_t nbItBeforeReinit)
+        // void setNbItBeforeReinit(size_t nbItBeforeReinit)
+        // {
+        //     assert(!lock);
+        //     this->nbItBeforeReinit = nbItBeforeReinit;
+        // }
+
+        //! Simple getter.
+        bool getGlobalNoise() const
         {
-            assert(!lock);
-            this->nbItBeforeReinit = nbItBeforeReinit;
+            return globalNoise;
         }
 
         //! Simple setter.
@@ -307,25 +276,23 @@ class ALNS_Parameters
             this->globalNoise = noise;
         }
 
+        //! Simple getter.
+        double getRho() const
+        {
+            return rho;
+        }
+
         //! Simple setter.
-        void setRho(double rho)
+        void setRho(double rho)  //! for weight adaptive adjustment
         {
             assert(!lock);
             this->rho = rho;
         }
 
-        //! Simple setter.
-        void setPathDestroyRate(double rate1)
+        //! Simple getter.
+        int getSigma1() const   //! score
         {
-            assert(!lock);
-            this->pathDestroyRate = rate1;
-        }
-
-        //! Simple setter.
-        void setNodeDestroyRate(double rate2)
-        {
-            assert(!lock);
-            this->nodeDestroyRate = rate2;
+            return sigma1;
         }
 
         //! Simple setter.
@@ -335,11 +302,23 @@ class ALNS_Parameters
             this->sigma1 = sigma1;
         }
 
+        //! Simple getter.
+        int getSigma2() const
+        {
+            return sigma2;
+        }
+
         //! Simple setter.
         void setSigma2(int sigma2)
         {
             assert(!lock);
             this->sigma2 = sigma2;
+        }
+
+        //! Simple getter.
+        int getSigma3() const
+        {
+            return sigma3;
         }
 
         //! Simple setter.
@@ -349,11 +328,23 @@ class ALNS_Parameters
             this->sigma3 = sigma3;
         }
 
+        //! Simple getter.
+        StoppingCriteria getStopCrit() const
+        {
+            return stopCrit;
+        }
+
         //! Simple setter.
         void setStopCrit(StoppingCriteria stopCrit)
         {
             assert(!lock);
             this->stopCrit = stopCrit;
+        }
+
+        //! Simple getter.
+        size_t getTimeSegmentsIt() const
+        {
+            return timeSegmentsIt;
         }
 
         //! Simple setter.
@@ -369,53 +360,40 @@ class ALNS_Parameters
             lock = true;
         }
 
-        int getMaxDestroyPerc() const {
-            return maxDestroyPerc;
+        //! a simple getter
+        size_t getLookBackIterations() {
+            return lookBackIterations;
         }
 
-        void setMaxDestroyPerc(int maxDestroyPerc) {
-            this->maxDestroyPerc = maxDestroyPerc;
+        //! a simple setter
+        void setLookBackIterations(size_t nbIterations) {
+            assert(!lock);
+            this->lookBackIterations = nbIterations;
         }
 
-        int getMinDestroyPerc() const {
-            return minDestroyPerc;
+        //! a simple getter
+        size_t getObjImpThreshold() {
+            return objImpThreshold;
         }
 
-        void setMinDestroyPerc(int minDestroyPerc) {
-            this->minDestroyPerc = minDestroyPerc;
+        //! a simple setter
+        void setObjImpThreshold(size_t threshold) {
+            assert(!lock);
+            this->objImpThreshold = threshold;
         }
-
-        double getNodeDestroyRate() {return nodeDestroyRate;};
-
-        double getPathDestroySizeRate() {return pathDestroyRate;};
-
-        double getRandShawParam() {return randShawDes;};
-
-        double getShawRate1() {return shawRate1;};
-
-        double getShawRate2() {return shawRate2;};
-
-        double getShawRate3() {return shawRate3;};
-
-        double getShawRate4() {return shawRate4;};
-        
-        double getRandWorstParam() {return randWorstDes;};
-
-        int getTabuTenure() {return tenure;};
-
-        double getRandAvgLenDes() {return randAvgLenDes;};
-
-        double getRandCardiDes() {return randCardiDes;};
-
-        double getRandNFreqDes() {return randNfreqDes;};
-
-        double getRandKLenRep() {return randKlenRep;};
-
-        double getRandNfreqRep() {return randNfreqRep;};
-
     protected:
         //! Maximum number of iterations performed by the ALNS.
         size_t maxNbIterations;
+
+        //! Minimum number of iterations that must be performed by the ALNS.
+        //! for the stopping criteria: MAX_IT_NO_IMP
+        size_t minNbIterations;
+
+        //! iterations look-back -> used to calculate the gap of solution costs between two segment of look-back iterations
+        size_t lookBackIterations;
+
+        //! the objective improvement threshold
+        double objImpThreshold;
 
         //! Maximum running time of the ALNS.
         double maxRunningTime;
@@ -434,50 +412,8 @@ class ALNS_Parameters
         size_t timeSegmentsIt;
 
         //! Indicate the number of iterations that should be performed
-        //! before reinitialization of the scores of the operators.  //what is reinitialization?
-        size_t nbItBeforeReinit;
-
-        //! control the size of destroyed non-tabu paths
-        double pathDestroyRate;
-
-        //! control the maximum node destroy size
-        double nodeDestroyRate;
-
-        //! relatedness parameter in the Node Shaw removal in terms of the distance
-        double shawRate1;
-
-        //! relatedness parameter in the Node Shaw removal in terms of the demands
-        double shawRate2;
-
-        //! relatedness parameter in the Node Shaw removal in terms of the arrival time
-        double shawRate3;
-
-        //! relatedness parameter in the Node Shaw removal in terms of the customer type
-        double shawRate4;
-
-        //! randomizing selection parameter for shaw removal
-        double randShawDes;
-
-        //! randomizing selection parameter for the worst removal
-        double randWorstDes;
-
-        //! tabu tenure in path destroy operators
-        int tenure;
-
-        //! randomizing selection parameter for the AvgLenDiff path destroy 
-        double randAvgLenDes;
-
-        //! randomizing selection parameter for the Cardinality path destroy
-        double randCardiDes;
-
-        //! randomizing selection parameter for the NodeFreq path destroy
-        double randNfreqDes;
-
-        //! randomizing selection parameter for the KMaxLen path insert
-        double randKlenRep;
-
-        //! randomizing selection parameter for the NodeFreq path insert
-        double randNfreqRep;
+        //! before reinitialization of the scores of the operators.  (accumulative score per segment -> reset)
+        // size_t nbItBeforeReinit;
 
         //! score adjustment parameter in case the last remove-insert
         //! operation resulted in a new global best solution
@@ -511,28 +447,22 @@ class ALNS_Parameters
         AcceptanceCriterioKind acKind;
 
         //! path to the configuration file of the acceptance criterion.
-        std::string acPath;
+        // string acPath;
 
         //! path to the file where the global stats have to be saved.
-        std::string statsGlobPath;
+        string statsGlobPath;
 
         //! path to the file where the operators stats have to be saved.
-        std::string statsOpPath;
+        string statsOpPath;
 
         //! Indicate every each iteration logging is done.
         int logFrequency;
 
         //! A set of forbidden operators.
-        std::vector<std::string> forbidenOperators;
+        vector<string> forbidenOperators;
 
         //! A set of forbidden local search operators.
-        std::vector<std::string> forbidenLsOperators;
-
-        //! The minimum percentage of the solution destroyed by the destroy operators.
-        int minDestroyPerc;
-
-        //! The maximum percentage of the solution destroyed by the destroy operators.
-        int maxDestroyPerc;
+        vector<string> forbidenLsOperators;
 
         //! Indicate after how many iterations without improvement
         //! does the best known solution is reloaded.

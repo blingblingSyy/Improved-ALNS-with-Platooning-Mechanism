@@ -24,14 +24,12 @@
  */
 #include <iostream>
 #include <stdlib.h>
-#include "CoolingScheduleFactory.h"
-#include "CoolingSchedule_Parameters.h"
-#include "ICoolingSchedule.h"
-#include "LinearCoolingSchedule.h"
-#include "TimeLinearCoolingSchedule.h"
-#include "MixLinearCoolingSchedule.h"
-#include "ExponentialCoolingSchedule.h"
-#include "../alns/ISolution.h"
+#include "src/acceptanceModule/CoolingScheduleFactory.h"
+#include "src/acceptanceModule/CoolingSchedule_Parameters.h"
+#include "src/acceptanceModule/ICoolingSchedule.h"
+#include "src/acceptanceModule/ExponentialCoolingSchedule.h"
+#include "src/acceptanceModule/MixExponentialCoolingSchedule.h"
+#include "src/improvedALNS/ISolution.h"
 
 
 ICoolingSchedule* CoolingScheduleFactory::makeCoolingSchedule(ISolution& sol,
@@ -40,25 +38,15 @@ ICoolingSchedule* CoolingScheduleFactory::makeCoolingSchedule(ISolution& sol,
 	// Depending of the value of the field kind
 	// of the cooling schedule parameters
 	// a corresponding cooling schedule is build.
-	if(param.kind == CoolingSchedule_Parameters::Linear_it)
-	{
-		std::cout << "LI" << std::endl;
-		return dynamic_cast<ICoolingSchedule*>(new LinearCoolingSchedule(sol,param,param.maxIt));
-	}
-	else if(param.kind == CoolingSchedule_Parameters::Linear_time)
-	{
-		std::cout << "LT" << std::endl;
-		return dynamic_cast<ICoolingSchedule*>(new TimeLinearCoolingSchedule(sol,param));
-	}
-	else if(param.kind == CoolingSchedule_Parameters::Linear_mix)
-	{
-		std::cout << "LM" << std::endl;
-		return dynamic_cast<ICoolingSchedule*>(new MixLinearCoolingSchedule(sol,param));
-	}
-	else if(param.kind == CoolingSchedule_Parameters::Exponential_mix)
+	if(param.kind == CoolingSchedule_Parameters::Exponential_it)
 	{
 		std::cout << "EXP" << std::endl;
 		return dynamic_cast<ICoolingSchedule*>(new ExponentialCoolingSchedule(sol,param));
+	}
+	else if(param.kind == CoolingSchedule_Parameters::Exponential_mix)
+	{
+		std::cout << "EXP_MIX" << std::endl;
+		return dynamic_cast<ICoolingSchedule*>(new MixExponentialCoolingSchedule(sol,param));
 	}
 	else
 	{

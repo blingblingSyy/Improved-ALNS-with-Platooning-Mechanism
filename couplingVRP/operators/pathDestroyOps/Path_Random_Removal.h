@@ -6,7 +6,7 @@ using namespace std;
 
 class ISolution;
 class APathDestroyOperator;
-class ALNS_Parameters;
+class Operators_Parameters;
 class PathTabu;
 class Nodes;
 class VRPSolution;
@@ -15,7 +15,7 @@ class Path_Random_Removal: public APathDestroyOperator
 {
     public:
         //!  constructor
-        Path_Random_Removal(string s, ALNS_Parameters& alns_param, PathTabu& tabuObj);
+        Path_Random_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj);
 
         //! destructor
         virtual ~Path_Random_Removal() {};

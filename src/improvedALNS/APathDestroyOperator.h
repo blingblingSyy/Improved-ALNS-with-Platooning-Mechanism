@@ -10,7 +10,7 @@ using namespace std;
 class AOperator;
 class PathTabu;
 class ISolution;
-class ALNS_Parameters;
+// class ALNS_Parameters;
 
 /// @brief this class is used to represent Path Destory Operators.
 /// Any path destroy operator should inherit from this class and implement the destorySolPath function.
@@ -32,8 +32,8 @@ class APathDestroyOperator : public AOperator
 		//! \param pathtabu_obj a specific object of a PathTabu class.
 		//! \param pathDesRate the path destroy rate (the rate to destroy a non-tabu path)
 		//! \param s the name of the destroy operator.
-		APathDestroyOperator(string s, ALNS_Parameters& alns_param, PathTabu& pathtabu_obj) : 
-							pathDesSizeRate(alns_param.getPathDestroySizeRate()), pathTabuObj(&pathtabu_obj), AOperator(s)
+		APathDestroyOperator(string s, double maxPathDestroyRate, PathTabu& pathtabu_obj) : 
+							pathDesSizeRate(maxPathDestroyRate), pathTabuObj(&pathtabu_obj), AOperator(s)
 		{
 				// destroyed_arc_config.clear();
 		}

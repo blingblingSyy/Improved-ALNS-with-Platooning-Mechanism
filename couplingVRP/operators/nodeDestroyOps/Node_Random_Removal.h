@@ -11,12 +11,13 @@ class ANodeDestroyOperator;
 class ALNS_Iteration_Status;
 class VRPSolution;
 class NodeTabu;
+class Operators_Parameters;
 
 class Node_Random_Removal: public ANodeDestroyOperator
 {
     public:
         //! constructor
-        Node_Random_Removal(string s, ALNS_Parameters& alns_param, int cusnum);  //, NodeTabu& tabuObj
+        Node_Random_Removal(string s, Operators_Parameters& ops_param, int cusnum);  //, NodeTabu& tabuObj
 
         //! destructor
         virtual ~Node_Random_Removal();

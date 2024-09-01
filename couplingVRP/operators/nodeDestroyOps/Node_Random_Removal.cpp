@@ -1,6 +1,7 @@
 #include "couplingVRP/operators/nodeDestroyOps/Node_Random_Removal.h"
 #include "couplingVRP/model/establish/VRPSolution.h"
 #include "couplingVRP/model/establish/ARoute.h"
+#include "couplingVRP/operators/Operators_Parameters.h"
 // #include "couplingVRP/operators/tabuSearch/nodeTabu.h"
 #include "src/ALNS_inc.h"
 #include "utility.h"
@@ -8,7 +9,7 @@
 #include <tuple>
 using namespace std;
 
-Node_Random_Removal::Node_Random_Removal(string s, ALNS_Parameters& alns_param, int cusnum) : ANodeDestroyOperator(s, alns_param, cusnum)
+Node_Random_Removal::Node_Random_Removal(string s, Operators_Parameters& ops_param, int cusnum) : ANodeDestroyOperator(s, ops_param.getNodeDestroySizeRate(), cusnum)
 {
     empty = false;
     // hasSelectedCur = true;

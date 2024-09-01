@@ -26,7 +26,7 @@
 #ifndef DUMMYACCEPTANCEMODULE_H_
 #define DUMMYACCEPTANCEMODULE_H_
 
-#include "IAcceptanceModule.h"
+#include "src/acceptanceModule/IAcceptanceModule.h"
 
 class ISolution;
 class ALNS_Iteration_Status;
@@ -40,17 +40,20 @@ class IBestSolutionManager;
  * the previous solution.
  */
 
-class DummyAcceptanceModule: public IAcceptanceModule {
-public:
-	//! Constructor.
-	DummyAcceptanceModule();
-	//! Destructor.
-	virtual ~DummyAcceptanceModule();
-	//! Compute if the newly created solution have to be accepted or not
-	bool transitionAccepted(IBestSolutionManager& bestSolutionManager,
-							ISolution& currentSolution,
-							ISolution& newSolution,
-							ALNS_Iteration_Status& status);
+class DummyAcceptanceModule: public IAcceptanceModule
+{
+	public:
+		//! Constructor.
+		DummyAcceptanceModule();
+
+		//! Destructor.
+		virtual ~DummyAcceptanceModule();
+
+		//! Compute if the newly created solution have to be accepted or not
+		bool transitionAccepted(IBestSolutionManager& bestSolutionManager,
+								ISolution& currentSolution,
+								ISolution& newSolution,
+								ALNS_Iteration_Status& status);
 
 };
 

@@ -23,7 +23,6 @@ class AStrategyManager
 		};
 
 		//! This method selects a strategy.
-		//! \return a node destroy operator.
 		virtual void selectStrategy()=0;
 
 		//! This method selects a node destroy operator.
@@ -63,6 +62,9 @@ class AStrategyManager
 
 		//! a simple getter of the current strategy
 		CurStrategy getCurStrategy() {return curSt;};
+
+		//! get the name of the current selected strategy
+		virtual string getCurStName() = 0;
 
 	protected:
 		//! A pointer to the instance of the statistics module.

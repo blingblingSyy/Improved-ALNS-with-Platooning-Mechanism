@@ -6,7 +6,7 @@ using namespace std;
 
 class ISolution;
 class Path_Removal_Template;
-class ALNS_Parameters;
+class Operators_Parameters;
 class PathTabu;
 class Nodes;
 class VRPSolution;
@@ -15,7 +15,7 @@ class Path_NodeFreq_Removal: public Path_Random_Removal
 {
     public:
         //!  constructor
-        Path_NodeFreq_Removal(string s, ALNS_Parameters& alns_param, PathTabu& tabuObj, Nodes& nodes);
+        Path_NodeFreq_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj, Nodes& nodes);
 
         //! destructor
         virtual ~Path_NodeFreq_Removal() {};

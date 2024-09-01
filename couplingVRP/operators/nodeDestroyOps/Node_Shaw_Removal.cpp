@@ -7,19 +7,20 @@
 #include "couplingVRP/model/establish/ARoute.h"
 #include "couplingVRP/model/basic/Nodes.h"
 #include "couplingVRP/operators/NodeDestroyOps/Node_Random_Removal.h"
+#include "couplingVRP/operators/Operators_Parameters.h"
 using namespace std;
 
-Node_Shaw_Removal::Node_Shaw_Removal(string s, ALNS_Parameters& alns_param, Nodes& nodes) : 
-                    nodeset(nodes), Node_Random_Removal(s, alns_param, nodeset.getCusNum())
+Node_Shaw_Removal::Node_Shaw_Removal(string s, Operators_Parameters& ops_param, Nodes& nodes) : 
+                    nodeset(nodes), Node_Random_Removal(s, ops_param, nodeset.getCusNum())
 {
     empty = false;
     // hasSelectedCur = true;
     toSelectNext = true;
-    this->param1 = alns_param.getShawRate1();
-    this->param2 = alns_param.getShawRate2();
-    this->param3 = alns_param.getShawRate3();
-    this->param4 = alns_param.getShawRate4();
-    this->randShaw = alns_param.getRandShawParam();
+    this->param1 = ops_param.getShawRate1();
+    this->param2 = ops_param.getShawRate2();
+    this->param3 = ops_param.getShawRate3();
+    this->param4 = ops_param.getShawRate4();
+    this->randShaw = ops_param.getRandShawParam();
 }
 
 Node_Shaw_Removal::~Node_Shaw_Removal()

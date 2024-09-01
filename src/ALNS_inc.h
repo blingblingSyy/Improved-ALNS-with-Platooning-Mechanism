@@ -3,14 +3,10 @@
 
 #include "src/acceptanceModule/CoolingScheduleFactory.h"
 #include "src/acceptanceModule/CoolingSchedule_Parameters.h"
-#include "src/acceptanceModule/CoolingScheduleParametersOptimizable.h"
 #include "src/acceptanceModule/ExponentialCoolingSchedule.h"
 #include "src/acceptanceModule/IAcceptanceModule.h"
 #include "src/acceptanceModule/ICoolingSchedule.h"
-#include "src/acceptanceModule/LinearCoolingSchedule.h"
-#include "src/acceptanceModule/MixLinearCoolingSchedule.h"
 #include "src/acceptanceModule/SimulatedAnnealing.h"
-#include "src/acceptanceModule/TimeLinearCoolingSchedule.h"
 #include "src/acceptanceModule/DummyAcceptanceModule.h"
 #include "src/improvedALNS/ANodeDestroyOperator.h"
 #include "src/improvedALNS/ANodeRepairOperator.h"
@@ -22,7 +18,6 @@
 #include "src/improvedALNS/Path_Null_Repair.h"
 #include "src/improvedALNS/ALNS_Iteration_Status.h"
 #include "src/improvedALNS/ALNS_Parameters.h"
-#include "src/improvedALNS/ALNSParametersoptimizable.h"
 #include "src/improvedALNS/ALNS.h"
 #include "src/improvedALNS/AOperator.h"
 #include "src/improvedALNS/AStrategyManager.h"
@@ -35,8 +30,13 @@
 #include "src/localsearch/ILocalSearchManager.h"
 #include "src/localsearch/SimpleLocalSearchManager.h"
 #include "src/statistics/Statistics.h"
-#include "src/tuning/ISolverBuilder.h"
-#include "src/tuning/ParameterTuning.h"
+// #include "src/acceptanceModule/LinearCoolingSchedule.h"
+// #include "src/acceptanceModule/MixLinearCoolingSchedule.h"
+// #include "src/acceptanceModule/TimeLinearCoolingSchedule.h"
+// #include "src/acceptanceModule/CoolingScheduleParametersOptimizable.h"
+// #include "src/improvedALNS/ALNSParametersoptimizable.h"
+// #include "src/tuning/ISolverBuilder.h"
+// #include "src/tuning/ParameterTuning.h"
 
 #endif
 

@@ -6,12 +6,13 @@ using namespace std;
 
 class ISolution;
 class Path_Random_Insert;
+class Operators_Parameters;
  
 class Path_KMaxLen_Insert: public Path_Random_Insert
 {
     public:
         //!  constructor
-        Path_KMaxLen_Insert(string s, Nodes& nodes, double rand_klen);
+        Path_KMaxLen_Insert(string s, Nodes& nodes, Operators_Parameters& ops_param);
 
         //! destructor
         virtual ~Path_KMaxLen_Insert();

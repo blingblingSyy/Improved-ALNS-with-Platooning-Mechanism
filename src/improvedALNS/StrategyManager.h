@@ -49,6 +49,9 @@ class StrategyManager : public AStrategyManager
 		//! \return a path repair operator.
 		APathRepairOperator& selectPathRepairOperator(bool pathDesEmpty);
 
+		//! get the name of the current selected strategy
+		string getCurStName();
+		
 		//! This method adds a node repair operator to the list
 		//! of node repair operator managed by this manager.
 		//! \param nodeRepairOperator the node repair operator to be added.

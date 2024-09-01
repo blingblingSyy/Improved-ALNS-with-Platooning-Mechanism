@@ -10,14 +10,14 @@ class ISolution;
 class ALNS_Iteration_Status;
 class VRPSolution;
 class Nodes;
-class ALNS_Parameters;
+class Operators_Parameters;
 class Node_Random_Removal;
 
 class Node_Shaw_Removal: public Node_Random_Removal
 {
     public:
         //! constructor
-        Node_Shaw_Removal(string s, ALNS_Parameters& alns_param, Nodes& nodes);
+        Node_Shaw_Removal(string s, Operators_Parameters& ops_param, Nodes& nodes);
 
         //! destructor
         virtual ~Node_Shaw_Removal();

@@ -37,6 +37,10 @@ class Statistics {
 
 		void setStart(){start = clock();};
 
+		double getOneCurCost(int NbIter) {return currentCosts[NbIter];};
+
+		double getOneBestCost(int NbIter) {return bestCosts[NbIter];};
+
 	private:
 		vector<double> timeStamps;
 		vector<size_t> iterations;

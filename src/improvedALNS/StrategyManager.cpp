@@ -73,7 +73,7 @@ void StrategyManager::recomputeWeight(AStrategy& st, double& sumW)
 
 	sumW += newWeight;
 	st.setWeight(newWeight);
-	st.resetScore();
+	st.resetScore();  //! reset score at the end of each segment to prepare for new segment
 	st.resetNumberOfCalls();
 }
 
@@ -222,6 +222,18 @@ void StrategyManager::selectStrategy()
 		pathFirstStrategy->increaseNumberOfCalls();
 		pathFirstStrategy->setHasSelectedCur(true);
 		setCurStrategy(PathFirst);
+	}
+}
+
+string StrategyManager::getCurStName()
+{
+	if(getCurStrategy() == NodeFirst)
+	{
+		return nodeFirstStrategy->getName();
+	}
+	else if(getCurStrategy() == PathFirst)
+	{
+		pathFirstStrategy->getName();
 	}
 }
 

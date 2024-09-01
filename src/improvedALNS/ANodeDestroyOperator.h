@@ -5,12 +5,12 @@
 #include <tuple>
 #include <set>
 #include "src/improvedALNS/AOperator.h"
-#include "src/improvedALNS/ALNS_Parameters.h"
+// #include "src/improvedALNS/ALNS_Parameters.h"
 #include "utility.h"
 using namespace std;
 
 class ISolution;
-class ALNS_Parameters;
+// class ALNS_Parameters;
 class ALNS_Iteration_Status;
 class IUpdatable;
 
@@ -55,10 +55,10 @@ class ANodeDestroyOperator : public AOperator
 		//! \param nodenum the total number of customers.
 		//! \param maxNodeDestroyRate the maximum destroy size rate.
 		//! \param s the name of the destroy operator.
-		ANodeDestroyOperator(string s, ALNS_Parameters& alns_param, int cus_num) : AOperator(s)
+		ANodeDestroyOperator(string s, double maxNodeDestroyRate, int cus_num) : AOperator(s)
 		{
 			minimunDestroy = 1; 
-			maximumDestroy = alns_param.getNodeDestroyRate() * cus_num;
+			maximumDestroy = maxNodeDestroyRate * cus_num;
 			destroyed_nodeset.clear();
 		}
 

@@ -9,12 +9,13 @@ class ISolution;
 class Path_Removal_Template;
 class Nodes;
 class PathTabu;
+class Operators_Parameters;
 
 class Path_AvgLenDiff_Removal: public Path_Random_Removal
 {
     public:
         //!  constructor
-        Path_AvgLenDiff_Removal(string s, ALNS_Parameters& alns_param, PathTabu& tabuObj, Nodes& nodes);
+        Path_AvgLenDiff_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj, Nodes& nodes);
 
         //! destructor
         virtual ~Path_AvgLenDiff_Removal() {};

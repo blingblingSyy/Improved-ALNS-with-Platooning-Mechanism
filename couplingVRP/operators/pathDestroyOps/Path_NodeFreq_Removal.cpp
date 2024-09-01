@@ -4,6 +4,7 @@
 #include "couplingVRP/model/basic/Nodes.h"
 #include "couplingVRP/model/basic/ADijkstraSol.h"
 #include "couplingVRP/operators/tabuSearch/pathTabu.h"
+#include "couplingVRP/operators/Operators_Parameters.h"
 #include "src/ALNS_inc.h"
 #include "utility.h"
 #include <vector>
@@ -12,12 +13,12 @@
 #include <set>
 using namespace std;
 
-Path_NodeFreq_Removal::Path_NodeFreq_Removal(string s, ALNS_Parameters& alns_param, PathTabu& tabuObj, Nodes& nodes) : nodeset(nodes), Path_Random_Removal(s, alns_param, tabuObj)
+Path_NodeFreq_Removal::Path_NodeFreq_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj, Nodes& nodes) : nodeset(nodes), Path_Random_Removal(s, ops_param, tabuObj)
 {
     empty = false;
     // hasSelectedCur = true;
     toSelectNext = true;
-    randSel = alns_param.getRandNFreqDes();
+    randSel = ops_param.getRandNfreqDes();
 }
 
 double Path_NodeFreq_Removal::calPathAvgNodeFreq(VRPSolution& vrpsol, vector<int> path)

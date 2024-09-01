@@ -1,30 +1,5 @@
-/* ALNS_Framework - a framework to develop ALNS based solvers
- *
- * Copyright (C) 2012 Renaud Masson
- *
- * This library is free software; you can redistribute it and/or
- * modify it either under the terms of the GNU Lesser General Public
- * License version 3 as published by the Free Software Foundation
- * (the "LGPL"). If you do not alter this notice, a recipient may use
- * your version of this file under the LGPL.
- *
- * You should have received a copy of the LGPL along with this library
- * in the file COPYING-LGPL-3; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Suite 500, Boston, MA 02110-1335, USA
- *
- * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY
- * OF ANY KIND, either express or implied. See the LGPL for
- * the specific language governing rights and limitations.
- *
- * The Original Code is the ALNS_Framework library.
- *
- *
- * Contributor(s):
- *	Renaud Masson
- */
-
 #include "CoolingSchedule_Parameters.h"
-#include "../alns/ALNS_Parameters.h"
+#include "src/improvedALNS/ALNS_Parameters.h"
 #include <assert.h>
 #include <iostream>
 #include <sstream>
@@ -36,7 +11,7 @@ using namespace std;
 
 CoolingSchedule_Parameters::CoolingSchedule_Parameters(ALNS_Parameters& alnsPara)
 {
-	kind = Linear_it;
+	kind = Exponential_it;
 
 	expPercentageKept = 0.999;
 
@@ -123,6 +98,13 @@ void CoolingSchedule_Parameters::loadXMLParameters(std::string path)
 					str << nbTh->GetText();
 					str >> this->nbThresholds;
 				}
+				TiXmlElement* endTemp = paramCS->FirstChildElement( "EndingTemparature" );
+				if(endTemp)
+				{
+					stringstream str;
+					str << endTemp->GetText();
+					str >> this->endingTemparature;
+				}
 			}
 		}
 	}
@@ -188,6 +170,10 @@ void CoolingSchedule_Parameters::loadParameters(string path)
 			else if(id == "nbThresholds")
 			{
 				str >> nbThresholds;
+			}
+			else if(id == "endingTemparature")
+			{
+				str >> endingTemparature;
 			}
 			else
 			{

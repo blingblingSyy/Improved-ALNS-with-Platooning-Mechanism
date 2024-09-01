@@ -24,10 +24,10 @@
  */
 
 #include "DummyAcceptanceModule.h"
-#include "../alns/ISolution.h"
-#include "../alns/ALNS_Iteration_Status.h"
-#include "../alns/IBestSolutionManager.h"
-#include "IAcceptanceModule.h"
+#include "src/ImprovedALNS/ISolution.h"
+#include "src/ImprovedALNS/ALNS_Iteration_Status.h"
+#include "src/ImprovedALNS/IBestSolutionManager.h"
+#include "src/acceptanceModule/IAcceptanceModule.h"
 
 DummyAcceptanceModule::DummyAcceptanceModule() {
 	// Nothing to be done.

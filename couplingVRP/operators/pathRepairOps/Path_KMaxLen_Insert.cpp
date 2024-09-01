@@ -3,6 +3,7 @@
 #include "couplingVRP/model/establish/ARoute.h"
 #include "couplingVRP/model/basic/Nodes.h"
 #include "couplingVRP/model/basic/ADijkstraSol.h"
+#include "couplingVRP/operators/Operators_Parameters.h"
 #include "src/ALNS_inc.h"
 #include "utility.h"
 #include <vector>
@@ -11,9 +12,9 @@
 #include <set>
 using namespace std;
 
-Path_KMaxLen_Insert::Path_KMaxLen_Insert(string s, Nodes& nodes, double rand_klen) : Path_Random_Insert(s, nodes)
+Path_KMaxLen_Insert::Path_KMaxLen_Insert(string s, Nodes& nodes, Operators_Parameters& ops_param) : Path_Random_Insert(s, nodes)
 {
-    this->randK = rand_klen;
+    this->randK = ops_param.getRandKLenRep();
 }
 
 Path_KMaxLen_Insert::~Path_KMaxLen_Insert()

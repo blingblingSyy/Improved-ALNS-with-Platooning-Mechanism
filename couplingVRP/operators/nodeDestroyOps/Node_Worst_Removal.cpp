@@ -3,6 +3,7 @@
 #include "couplingVRP/model/establish/ARoute.h"
 #include "couplingVRP/model/basic/config.h"
 #include "couplingVRP/operators/nodeDestroyOps/Node_Random_Removal.h"
+#include "couplingVRP/operators/Operators_Parameters.h"
 #include "src/ALNS_inc.h"
 #include "utility.h"
 #include <vector>
@@ -10,12 +11,12 @@
 #include <numeric>
 using namespace std;
 
-Node_Worst_Removal::Node_Worst_Removal(string s, ALNS_Parameters& alns_param, int cusnum) : Node_Random_Removal(s, alns_param, cusnum)
+Node_Worst_Removal::Node_Worst_Removal(string s, Operators_Parameters& ops_param, int cusnum) : Node_Random_Removal(s, ops_param, cusnum)
 {
     empty = false;
     // hasSelectedCur = true;
     toSelectNext = true;
-    this->randWorst = alns_param.getRandWorstParam();
+    this->randWorst = ops_param.getRandWorstParam();
 }
 
 Node_Worst_Removal::~Node_Worst_Removal()

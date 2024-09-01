@@ -80,13 +80,13 @@ bool ALNS::solve()
 		performOneIteration();
 	}
 	//! get the results of the solution, and return whether the solution is feasible or not
-	string pathGlob = param->getStatsGlobPath(); //! store the 
+	string pathGlob = param->getStatsGlobPath();
 	pathGlob += name;
 	pathGlob += ".txt";
 	string pathOp = param->getStatsOpPath();
 	pathOp += name;
 	pathOp += ".txt";
-	stats.generateStatsFile(pathGlob,pathOp);
+	stats.generateStatsFile(pathGlob, pathOp);
 	return (*(bestSolManager->begin()))->isFeasible();
 }
 
@@ -121,37 +121,41 @@ void ALNS::performOneIteration()
 	//! create new solution with the selected strategy and the operators
 	if(stManager->getCurStrategy() == AStrategyManager::NodeFirst)
 	{
+		status.setAlreadyStrategySelected(ALNS_Iteration_Status::TRUE);
 		nodeDes.destroySolNode(*newSolution);
 		status.setAlreadyNodeDestroyed(ALNS_Iteration_Status::TRUE);
 		nodeDes.setHasSelectedCur(true);
 		nodeRep.repairSolNode(*newSolution);
 		status.setAlreadyNodeRepaired(ALNS_Iteration_Status::TRUE);
+		nodeRep.setHasSelectedCur(true);
 		pathDes.destroySolPath(*newSolution);
 		status.setAlreadyPathDestroyed(ALNS_Iteration_Status::TRUE);
-	    //! update the updatable operators
-	    for(vector<IUpdatable*>::iterator it = updatableStructures.begin(); it != updatableStructures.end(); it++)
-	    {
-		    (*it)->update(*newSolution,status);
-	    }
+		pathDes.setHasSelectedCur(true);
 		pathRep.repairSolPath(*newSolution);
 		status.setAlreadyPathRepaired(ALNS_Iteration_Status::TRUE);
+		pathRep.setHasSelectedCur(true);
 	}
 	else if(stManager->getCurStrategy() == AStrategyManager::PathFirst)
 	{
+		status.setAlreadyStrategySelected(ALNS_Iteration_Status::TRUE);
 		pathDes.destroySolPath(*newSolution);
 		status.setAlreadyPathDestroyed(ALNS_Iteration_Status::TRUE);
-	    //! update the updatable operators
-	    for(vector<IUpdatable*>::iterator it = updatableStructures.begin(); it != updatableStructures.end(); it++)
-	    {
-		    (*it)->update(*newSolution,status);
-	    }
+		pathDes.setHasSelectedCur(true);
 		pathRep.repairSolPath(*newSolution);
 		status.setAlreadyPathRepaired(ALNS_Iteration_Status::TRUE);
+		pathRep.setHasSelectedCur(true);
 		nodeDes.destroySolNode(*newSolution);
 		status.setAlreadyNodeDestroyed(ALNS_Iteration_Status::TRUE);
+		nodeDes.setHasSelectedCur(true);
 		nodeRep.repairSolNode(*newSolution);
 		status.setAlreadyNodeRepaired(ALNS_Iteration_Status::TRUE);
+		nodeRep.setHasSelectedCur(true);
 	}
+	//! update the updatable operators
+	// for(vector<IUpdatable*>::iterator it = updatableStructures.begin(); it != updatableStructures.end(); it++)
+	// {
+	// 	(*it)->update(*newSolution,status);
+	// }
 
 	//! update the number of iterations
 	nbIterations++;
@@ -181,32 +185,33 @@ void ALNS::performOneIteration()
 	//! update the number of iterations without improving the current solution
 	status.setNbIterationWithoutImprovementCurrent(nbIterationsWithoutImprovementCurrent);
 
-	//! param->getPerformLocalSearch(): whether to use LocalSearch
+	//! param->getPerformLocalSearch(): whether to use LocalSearch (2 cases: see in the useLocalSearch())
 	//! lsManager->useLocalSearch(*newSolution, status)
-	//lsManager->useLocalSearch(*newSolution,status)将返回true如果经过LocalSearch之后的解有改进的话。
+	//! lsManager->useLocalSearch(*newSolution,status) will return true if the solution is improved after LocalSearch
 	if(param->getPerformLocalSearch() && lsManager->useLocalSearch(*newSolution,status))
 	{
-		//判断LocalSearch之后的新解是不是最优解。
+		//! evaluate whether the solution after LocalSearch is the new best solution
 		bestSolManager->isNewBestSolution(*newSolution);
 	}
-	//判断是否接受当前的解。
+
+	//! evaluate whether to accept the current solution or not
 	bool transitionAccepted = transitionCurrentSolution(newSolution);
-	//如果接受
+	//! if accepted
 	if(transitionAccepted)
 	{
 		status.setAcceptedAsCurrentSolution(ALNS_Iteration_Status::TRUE);
 		nbIterationsWithoutTransition = 0;
 	}
-	//否则
+	//! or else
 	else
 	{
 		status.setAcceptedAsCurrentSolution(ALNS_Iteration_Status::FALSE);
 		nbIterationsWithoutTransition++;
 	}
-	//更新信息
+	//update the information
 	status.setNbIterationWithoutTransition(nbIterationsWithoutTransition);
 	
-	//再一次进行LocalSearch操作，以取得更好的效果。
+	//! performance once more LocalSearch to achieve a better result
 	if(param->getPerformLocalSearch() && lsManager->useLocalSearch(*newSolution,status))
 	{
 		bestSolManager->isNewBestSolution(*newSolution);
@@ -216,48 +221,59 @@ void ALNS::performOneIteration()
 		}
 	}
 
-	//对destroy,repair方法进行成绩更新。
-	stManager->updateScores(destroy,repair,status);
+	//! update the score for all strategies and operators
+	stManager->updateScores(nodeDes, nodeRep, pathDes, pathRep, status);
 
-	//记录本次迭代过程的一些信息。
-	stats.addEntry(static_cast<double>(clock()-startingTime)/CLOCKS_PER_SEC,nbIterations,destroy.getName(),repair.getName(),newCost,currentSolution->getObjectiveValue(),(*(bestSolManager->begin()))->getObjectiveValue(),knownKeys.size());
+	//record the information (statistics) of the current iteration
+	stats.addEntry(static_cast<double>(clock()-startingTime)/CLOCKS_PER_SEC, 
+					nbIterations,
+					stManager->getCurStName(),
+					nodeDes.getName(),
+					nodeRep.getName(),
+					pathDes.getName(),
+					pathRep.getName(),
+					newCost,
+					currentSolution->getObjectiveValue(),
+					(*(bestSolManager->begin()))->getObjectiveValue(),
+					knownKeys.size());
 
-	//更新destroy,repair方法的权重。是在进行了一定迭代次数以后才更新的，具体次数由param->getTimeSegmentsIt()获得。
+	//! update the weights for all strategies and operators -> update every segment
 	if(nbIterationsWC % param->getTimeSegmentsIt() == 0)
 	{
 		stManager->recomputeWeights();
 		nbIterationsWC = 0;
 	}
-	//接口，在求解的过程中某些内容需要更新。
+	//! update during the solution iteration -> do this update because performing the local search
 	for(vector<IUpdatable*>::iterator it = updatableStructures.begin(); it != updatableStructures.end(); it++)
 	{
 		(*it)->update(*newSolution,status);
 	}
 	
-	//如果有需要，将当前解转变成最优解再进行下一次迭代操作。
+	//! reload the best solution as the current solution for the next iteration
+	//! do this because sometimes a worse solution can be accepted in the transition period
 	currentSolution = bestSolManager->reloadBestSolution(currentSolution,status);
 
 	delete newSolution;
 }
 
-//检查该解是否是之前出现过的解。主要原理是利用一个解的哈希表，所有第一次出现的解都会生成一个唯一的哈希值存于哈希表中。
-//将传入解的哈希值在哈希表中进行匹配，如果存在，那么这个解之前已经出现过了，否则就是独一无二的新解。
+//! check against whether the solution has been appeared before 
+//! by checking whether the hash key of the solution has been appeared in the hash key list before
 bool ALNS::checkAgainstKnownSolution(ISolution& sol)
 {
 	bool notKnownSolution = false;
 	long long keySol = sol.getHash();
- 	//哈希值匹配
+ 	//! check in the hash key list
 	if(knownKeys.find(keySol) == knownKeys.end())
 	{
 		notKnownSolution = true;
 		knownKeys.insert(keySol);
 	}
-	//之前已经出现过的解。
+	//! if the solution has appeared before
 	if(!notKnownSolution)
 	{
 		status.setAlreadyKnownSolution(ALNS_Iteration_Status::TRUE);
 	}
-	//全新的解，之前没有出现过。
+	//! if the solution has never appeared before
 	else
 	{
 		status.setAlreadyKnownSolution(ALNS_Iteration_Status::FALSE);
@@ -265,19 +281,19 @@ bool ALNS::checkAgainstKnownSolution(ISolution& sol)
 	return notKnownSolution;
 }
 
-//用来判断解是否为新的最优解，并做出相应的设置。
+//! check whether the current solution is the new best solution
 bool ALNS::isNewBest(ISolution* newSol)
 {
-	//如果是新的最优解
+	//! if this is the new best solution
 	if(bestSolManager->isNewBestSolution(*newSol))
 	{
 		status.setNewBestSolution(ALNS_Iteration_Status::TRUE);
 		nbIterationsWithoutImprovement = 0;
 		status.setNbIterationWithoutImprovement(nbIterationsWithoutImprovement);
-		status.setNbIterationWithoutImprovementSinceLastReload(0);
+		status.setNbIterationWithoutImprovementSinceLastReload(0);  //! improvement: better than the previous best solution
 		return true;
 	}
-	//如果不是。
+	//! if else
 	else
 	{
 		status.setNewBestSolution(ALNS_Iteration_Status::FALSE);
@@ -288,27 +304,27 @@ bool ALNS::isNewBest(ISolution* newSol)
 	}
 }
 
-//利用接受准则判断是否要接受当前的解作为新的解。
+//! use acceptance module to check whether to use the new temperary solution as the current solution
 bool ALNS::transitionCurrentSolution(ISolution* newSol)
 {
-	//如果接受。
+	//! if accepted
 	if(acceptanceCriterion->transitionAccepted(*bestSolManager,*currentSolution,*newSol,status))
 	{
 		delete currentSolution;
 		currentSolution = newSol->getCopy();
 		return true;
 	}
-	//不接受，原来解不变，什么也不做。
+	//! if not accepted
 	else
 	{
 		return false;
 	}
 }
 
-//判断算法迭代是否遇到终止条件
+//! evaluate whether the algorithm has met the stopping criteria
 bool ALNS::isStoppingCriterionMet()
 {
-	//是否找到最优可行解。
+	//! whether the algorithm has found the new best feasible solution 是否找到最优可行解。
 	if((*(bestSolManager->begin()))->isFeasible() && (*(bestSolManager->begin()))->getObjectiveValue() == lowerBound)
 	{
 		return true;
@@ -317,22 +333,42 @@ bool ALNS::isStoppingCriterionMet()
 	{
 		switch(param->getStopCrit())
 		{
-			//是否达到最大迭代次数。
-			case ALNS_Parameters::MAX_IT: {
+			//! whether reach the maximum iteration times
+			case ALNS_Parameters::MAX_IT:
+			{
 				return nbIterations >= param->getMaxNbIterations();
 			}
-			//是否达到最大限制运行时间。
-			case ALNS_Parameters::MAX_RT: {
+			//! whether reach the maximum running time limit
+			case ALNS_Parameters::MAX_RT:
+			{
 				clock_t currentTime = clock();
 				double elapsed = (static_cast<double>(currentTime - startingTime)) / CLOCKS_PER_SEC;
 				return elapsed >= param->getMaxRunningTime();
 			}
-			//the maximum number of iterations without improvement. 
-			case ALNS_Parameters::MAX_IT_NO_IMP: {
-				return nbIterationsWithoutImprovement >= param->getMaxNbIterationsNoImp();
+			//! whether reach the maximum number of iterations without improvement. 
+			//! modify to the criteria in Part A paper
+			case ALNS_Parameters::MAX_IT_NO_IMP:
+			{
+				if(nbIterations >= param->getMinNbIterations())
+				{
+					double accum_objval_before = 0;
+					double accum_objval_after = 0;
+					for(int i = nbIterations - param->getLookBackIterations(); i <= nbIterations; i++)
+					{
+						accum_objval_after += stats.getOneBestCost(i);
+					}
+					for(int i = nbIterations - 2*param->getLookBackIterations(); i <= nbIterations - param->getLookBackIterations(); i++)
+					{
+						accum_objval_before += stats.getOneBestCost(i);
+					}
+					return (accum_objval_before / accum_objval_after - 1 <= param->getObjImpThreshold());
+				}
+				return false;
+				// return nbIterationsWithoutImprovement >= param->getMaxNbIterationsNoImp();
 			}
-			//a mix of the MAX_IT, MAX_RT and MAX_IT_NO_IMP.
-			case ALNS_Parameters::ALL: {
+			//! a mix of the MAX_IT, MAX_RT and MAX_IT_NO_IMP.
+			case ALNS_Parameters::ALL:
+			{
 				if(nbIterations >= param->getMaxNbIterations())
 				{
 					return true;
@@ -350,7 +386,8 @@ bool ALNS::isStoppingCriterionMet()
 				return false;
 			}
 
-			default: {
+			default:
+			{
 				assert(false);
 				return false;
 			}
