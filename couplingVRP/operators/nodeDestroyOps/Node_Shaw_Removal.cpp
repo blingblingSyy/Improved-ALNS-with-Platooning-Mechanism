@@ -21,6 +21,8 @@ Node_Shaw_Removal::Node_Shaw_Removal(string s, Operators_Parameters& ops_param, 
     this->param3 = ops_param.getShawRate3();
     this->param4 = ops_param.getShawRate4();
     this->randShaw = ops_param.getRandShawParam();
+    maxDistDiff = calMaxDistDiff(nodeset);
+    maxDmdDiff = calMaxDmdDiff(nodeset);
 }
 
 Node_Shaw_Removal::~Node_Shaw_Removal()
@@ -31,6 +33,7 @@ Node_Shaw_Removal::~Node_Shaw_Removal()
 void Node_Shaw_Removal::destroySolNode(ISolution& sol)
 {
     VRPSolution& vrpsol = dynamic_cast<VRPSolution&>(sol);
+    //! prepare for normalization
     maxTimeDiff = calMaxTimeDiff(vrpsol);
     calNodeDestroySize(vrpsol.getTotalServedCusNum()); //! get the nodeDestroySize
     vector<pair<int, int>> all_cus_pos = vrpsol.getAllCusPos();
@@ -76,7 +79,7 @@ double Node_Shaw_Removal::calRelatedness(VRPSolution& vrpsol, pair<int, int> rid
     int node1 = vrpsol.getOneRoute(rid_arcpos1.first)->getCompactRoute()[rid_arcpos1.second];
     int node2 = vrpsol.getOneRoute(rid_arcpos2.first)->getCompactRoute()[rid_arcpos2.second];
     double dist = nodeset.getSPdist()[node1][node2];
-    int dmd_diff = abs(nodeset.getDemands(node1) - nodeset.getDemands(node2));
+    int dmd_diff = abs(nodeset.getNodeDemand(node1) - nodeset.getNodeDemand(node2));
     int time_diff = abs(vrpsol.getOneRoute(rid_arcpos1.first)->getFinalArrTime()[rid_arcpos1.second] - vrpsol.getOneRoute(rid_arcpos2.first)->getFinalArrTime()[rid_arcpos2.second]);
     bool isSameType = nodeset.getNodeType(node1) == nodeset.getNodeType(node2);
     normalize(dist, dmd_diff, time_diff, vrpsol);
@@ -85,8 +88,8 @@ double Node_Shaw_Removal::calRelatedness(VRPSolution& vrpsol, pair<int, int> rid
 
 void Node_Shaw_Removal::normalize(double& dist, int& dmd_diff, int& arrtime_diff, VRPSolution &vrpsol)
 {
-    dist = dist / nodeset.getMaxSPDist();
-    dmd_diff = double(dmd_diff) / (nodeset.getMaxDmd() - nodeset.getMinDmd());
+    dist = dist / maxDistDiff;
+    dmd_diff = double(dmd_diff) / maxDmdDiff;
     arrtime_diff = double(arrtime_diff) / maxTimeDiff;
 }
 
@@ -104,6 +107,27 @@ int Node_Shaw_Removal::calMaxTimeDiff(VRPSolution& vrpsol)
     return *max_it - *min_it;
 }
 
+double Node_Shaw_Removal::calMaxDistDiff(Nodes& nodeset)
+{
+    vector<double> spDistVec;
+    for(int i = 0; i < nodeset.getNodeNum()-1; i++)
+    {
+        for(int j = i+1; j < nodeset.getNodeNum(); j++)
+        {
+            spDistVec.push_back(nodeset.getSPdist()[i][j]);
+        }
+    }
+    auto maxit = max_element(spDistVec.begin(), spDistVec.end());
+    auto minit = min_element(spDistVec.begin(), spDistVec.end());
+    return *maxit - *minit;
+}
+
+int Node_Shaw_Removal::calMaxDmdDiff(Nodes& nodeset)
+{
+    auto maxit = max_element(nodeset.getAllDemands().begin(), nodeset.getAllDemands().end());
+    auto minit = min_element(nodeset.getAllDemands().begin(), nodeset.getAllDemands().end());
+    return *maxit - *minit;
+}
 
 /*old version*/
 // void Node_Shaw_Removal::destroySolNode(ISolution& sol)

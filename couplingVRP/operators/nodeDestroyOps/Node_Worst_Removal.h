@@ -10,6 +10,7 @@ class ISolution;
 class VRPSolution;
 class Operators_Parameters;
 class Node_Random_Removal;
+class Nodes;
 
 class Node_Worst_Removal: public Node_Random_Removal
 {

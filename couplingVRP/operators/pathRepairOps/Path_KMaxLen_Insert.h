@@ -12,7 +12,7 @@ class Path_KMaxLen_Insert: public Path_Random_Insert
 {
     public:
         //!  constructor
-        Path_KMaxLen_Insert(string s, Nodes& nodes, Operators_Parameters& ops_param);
+        Path_KMaxLen_Insert(string s, Operators_Parameters& ops_param, Nodes& nodes);
 
         //! destructor
         virtual ~Path_KMaxLen_Insert();

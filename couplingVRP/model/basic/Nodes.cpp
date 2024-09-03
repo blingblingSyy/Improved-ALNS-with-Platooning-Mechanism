@@ -8,22 +8,47 @@
 #include "couplingVRP/model/basic/RawInstance.h"
 #include "couplingVRP/model/basic/ADijkstraSol.h"
 #include "couplingVRP/model/basic/KSPBuilder.h"
-#include "utility.h"
 #include "couplingVRP/model/basic/config.h"
+#include "utility.h"
 
-Nodes::Nodes(RawInstance& inputInstance, bool reset_demands = false, bool reset_sertime = false, bool reset_sertw = false, bool add_intersects, bool shrink_pasdmd, bool modify_connectivity, int veh_speed)
+Nodes::Nodes(RawInstance& inputInstance)
 {
     this->rawInstance = &inputInstance;
-    this->reset_demands = reset_demands;
-    this->reset_sertime = reset_sertime;
-    this->reset_sertw = reset_sertw;
-    this->add_intersects = add_intersects;
-    this->shrink_pasdmd = shrink_pasdmd;
-    this->modify_connectivity = modify_connectivity;
-    nodenum = rawInstance->getRowNum()-1;
-    buildNodesStruct(veh_speed);
-    calMaxMinSPDist();
-    calMaxMinDmd();
+    this->design_demands = false; //! default = false;
+    this->design_sertime = false; //! default = false;
+    this->design_sertw = false;  //! default = false;
+    this->add_intersects = false;  //! default = false;
+    this->shrink_pasdmd = false;  //! default = false;
+    this->modify_connectivity = false;  //! default = false;
+    veh_speed = rawInstance->extract_vehspeed();
+    nodenum = rawInstance->getNodesNum();
+    nodetype = designNodeTypes(nodenum, add_intersects, PAS_REQ_PROP); //{2, 2, 2, 0, 1, 2, 0} for test1.txt; {2,1,2,0,1,0} for test2.txt
+    // buildNodesStruct();
+}
+
+Nodes::Nodes(RawInstance& inputInstance, vector<int> input_nodetype)
+{
+    this->rawInstance = &inputInstance;
+    this->design_demands = false; //! default = false;
+    this->design_sertime = false; //! default = false;
+    this->design_sertw = false;  //! default = false;
+    this->add_intersects = false;  //! default = false;
+    this->shrink_pasdmd = false;  //! default = false;
+    this->modify_connectivity = false;  //! default = false;
+    veh_speed = rawInstance->extract_vehspeed();
+    nodenum = rawInstance->getNodesNum();
+    setNodeTypes(input_nodetype); //{2, 2, 2, 0, 1, 2, 0} for test1.txt; {2,1,2,0,1,0} for test2.txt
+    // buildNodesStruct();
+}
+
+Nodes::Nodes()
+{
+    this->design_demands = false; //! default = false;
+    this->design_sertime = false; //! default = false;
+    this->design_sertw = false;  //! default = false;
+    this->add_intersects = false;  //! default = false;
+    this->shrink_pasdmd = false;  //! default = false;
+    this->modify_connectivity = false;  //! default = false;
 }
 
 Nodes::~Nodes()
@@ -41,17 +66,31 @@ Nodes::~Nodes()
     }
 }
 
-void Nodes::buildNodesStruct(int veh_speed)
+/*old version*/
+void Nodes::buildNodesStruct(vector<vector<int>> disconnected_links)
 {
-    nodetype = set_nodetype(nodenum, add_intersects, PAS_REQ_PROP); //{2, 2, 2, 0, 1, 2, 0} for test1.txt
-    demands = (reset_demands) ? randdemand(nodetype) : rawInstance->extract_demands();
-    modify_demands(demands, nodetype, shrink_pasdmd);
+    // nodetype = designNodeTypes(nodenum, add_intersects, PAS_REQ_PROP); //{2, 2, 2, 0, 1, 2, 0} for test1.txt; {2,1,2,0,1,0} for test2.txt
+    demands = (design_demands) ? designRandDemands(nodetype) : rawInstance->extract_demands();
+    designModifiedDemands(demands, nodetype, shrink_pasdmd); //! default: shrink_pasdmd = false;
     coordinates = rawInstance->extract_coordinates();
-    initial_distmat = cal_init_distmat(coordinates);
-    modified_distmat = (modify_connectivity) ? modify_init_distmat(initial_distmat) : initial_distmat;
-    initial_timemat = cal_init_tvltime(modified_distmat, nodenum, veh_speed);
+    initial_distmat = calInitialDistMat(coordinates);
+    for(int i = 0; i < disconnected_links.size(); i++)
+    {
+        setLinkConnectivity(disconnected_links[i][0], disconnected_links[i][1]);
+    }
+    modified_distmat = (modify_connectivity) ? modifyInitialDistMat(initial_distmat) : initial_distmat;
+    initial_timemat = calInitialTravelTime(modified_distmat, nodenum, veh_speed);
 
-    // //self-defined data for test1.txt (deleted later)
+    // //self-defined data for test2.txt (delete later)
+    // setLinkConnectivity(0,1);
+    // setLinkConnectivity(0,3);
+    // setLinkConnectivity(1,4);
+    // setLinkConnectivity(2,4);
+    // setLinkConnectivity(2,5);
+    // setLinkConnectivity(3,5);
+    // setLinkConnectivity(4,5);
+
+    // //self-defined data for test1.txt (delete later)
     // modified_distmat[0][2] = INF;
     // modified_distmat[0][3] = INF;
     // modified_distmat[0][6] = INF;
@@ -81,17 +120,17 @@ void Nodes::buildNodesStruct(int veh_speed)
     // modified_distmat[6][3] = INF;
     // modified_distmat[6][4] = INF;    
 
-    neighbours = find_adjacent_nodes(modified_distmat, nodenum);
-    service_time = (reset_sertime) ? set_servetime(nodetype) : rawInstance->extract_sertime();
+    neighbours = findAdjacentNodes(modified_distmat, nodenum);
+    service_time = (design_sertime) ? designServiceTimes(nodetype) : rawInstance->extract_sertime();
     KSPBuilder altpathsets_obj(modified_distmat, nodenum, AVAIL_PATHSET_SIZE_K);
     SP_distmat = altpathsets_obj.getAllShortestPathDistance();
     avail_path_set = altpathsets_obj.getAllAvailablePathSet();
-    travel_tw = cal_tvltw(SP_distmat[0], rawInstance->getPlanHorizon(), veh_speed);
-    service_tw = (reset_sertw) ? set_sertw(travel_tw, nodetype) : rawInstance->extract_sertw();
-    calibrate_sertw(service_tw, service_time, travel_tw);//get modified service time windows for each node
+    travel_tw = calTravelTW(SP_distmat[0], rawInstance->getPlanHorizon(), veh_speed);
+    service_tw = (design_sertw) ? designServiceTW(travel_tw, nodetype) : rawInstance->extract_sertw();
+    calibrateServiceTW(service_tw, service_time, travel_tw);//get modified service time windows for each node
 }
 
-vector<int> Nodes::set_nodetype(int node_num, bool add_intersects, double prob)
+vector<int> Nodes::designNodeTypes(int node_num, bool add_intersects, double prob)
 {
     vector<int> node_type(node_num);
     int pas_reqs = int(ceil(node_num * prob));
@@ -131,7 +170,7 @@ vector<int> Nodes::set_nodetype(int node_num, bool add_intersects, double prob)
     return node_type;
 }
 
-vector<int> Nodes::randdemand(vector<int> nodetype)
+vector<int> Nodes::designRandDemands(vector<int> nodetype)
 {
     vector<int> demand;
     demand.resize(int(nodetype.size()));
@@ -154,7 +193,7 @@ vector<int> Nodes::randdemand(vector<int> nodetype)
     return demand;
 }
 
-void Nodes::modify_demands(vector<int> &initial_dmd, vector<int> nodetype, bool modify_pasdmd)
+void Nodes::designModifiedDemands(vector<int> &initial_dmd, vector<int> nodetype, bool modify_pasdmd)
 {
     int nodenum = nodetype.size();
     for(int i = 0; i < nodenum; i++)
@@ -176,7 +215,7 @@ void Nodes::modify_demands(vector<int> &initial_dmd, vector<int> nodetype, bool 
     }
 }
 
-vector<int> Nodes::set_servetime(vector<int> node_type)
+vector<int> Nodes::designServiceTimes(vector<int> node_type)
 {
     vector<int> serve_time(int(node_type.size()));
     for(int i = 0; i < node_type.size(); i++)
@@ -197,7 +236,7 @@ vector<int> Nodes::set_servetime(vector<int> node_type)
     return serve_time;
 }
 
-vector<double> Nodes::set_serverate(vector<int> node_type)
+vector<double> Nodes::designServiceRates(vector<int> node_type)
 {
     vector<double> serve_rate(int(node_type.size()));
     for(int i = 0; i < node_type.size(); i++)
@@ -218,7 +257,7 @@ vector<double> Nodes::set_serverate(vector<int> node_type)
     return serve_rate;
 }
 
-vector<vector<int>> Nodes::cal_tvltw(vector<double> source_dist, int plan_horizon, double speed)
+vector<vector<int>> Nodes::calTravelTW(vector<double> source_dist, int plan_horizon, double speed)
 {
     vector<vector<int>> tvl_tw(int(source_dist.size()));
     for(int i = 0; i < source_dist.size(); i++)   //source dist is the shortest path distance from the depot
@@ -235,7 +274,7 @@ vector<vector<int>> Nodes::cal_tvltw(vector<double> source_dist, int plan_horizo
 	return tvl_tw;
 }
 
-void Nodes::calibrate_sertw(vector<vector<int>>& initial_sertw, vector<int> servetime, vector<vector<int>> tvl_tw)
+void Nodes::calibrateServiceTW(vector<vector<int>>& initial_sertw, vector<int> servetime, vector<vector<int>> tvl_tw)
 {
     // assert(initial_sertw.size() == tvl_tw.size());
     for(int i = 0; i < initial_sertw.size(); i++)
@@ -246,7 +285,7 @@ void Nodes::calibrate_sertw(vector<vector<int>>& initial_sertw, vector<int> serv
 }
 
 
-vector<vector<int>> Nodes::set_sertw(vector<vector<int>> tvl_tw, vector<int> nodetype)
+vector<vector<int>> Nodes::designServiceTW(vector<vector<int>> tvl_tw, vector<int> nodetype)
 {
     // assert(tvl_tw.size() == nodetype.size());
     RandomNumber r;
@@ -275,7 +314,7 @@ vector<vector<int>> Nodes::set_sertw(vector<vector<int>> tvl_tw, vector<int> nod
     return ser_tw;
 }
 
-vector<vector<int>> Nodes::find_adjacent_nodes(vector<vector<double>> init_dist, int node_num)
+vector<vector<int>> Nodes::findAdjacentNodes(vector<vector<double>> init_dist, int node_num)
 {
     vector<vector<int>> adjacent_nodes(node_num);
     for(int i = 0; i < node_num; i++)
@@ -291,7 +330,7 @@ vector<vector<int>> Nodes::find_adjacent_nodes(vector<vector<double>> init_dist,
     return adjacent_nodes;
 }
 
-vector<vector<double>> Nodes::cal_init_distmat(vector<vector<double>> coordinates)
+vector<vector<double>> Nodes::calInitialDistMat(vector<vector<double>> coordinates)
 {
     int nodenum = coordinates.size();
     vector<vector<double>> init_dist(nodenum);
@@ -314,7 +353,7 @@ vector<vector<double>> Nodes::cal_init_distmat(vector<vector<double>> coordinate
     return init_dist;
 }
 
-vector<vector<double>> Nodes::modify_init_distmat(vector<vector<double>> init_dist)
+vector<vector<double>> Nodes::modifyInitialDistMat(vector<vector<double>> init_dist)
 {
     int nodenum = init_dist.size();
     vector<vector<double>> copy_dist = init_dist;
@@ -331,7 +370,7 @@ vector<vector<double>> Nodes::modify_init_distmat(vector<vector<double>> init_di
 }
 
 
-vector<vector<int>> Nodes::cal_init_tvltime(vector<vector<double>> init_dist, int node_num, double speed)
+vector<vector<int>> Nodes::calInitialTravelTime(vector<vector<double>> init_dist, int node_num, double speed)
 {
     vector<vector<int>> travel_time(node_num);
     for(int i = 0; i < node_num; i++)
@@ -339,7 +378,7 @@ vector<vector<int>> Nodes::cal_init_tvltime(vector<vector<double>> init_dist, in
         travel_time[i].resize(node_num);
         for(int j = 0; j < node_num; j++)
         {
-            travel_time[i][j] = (init_dist[i][j] < INF) ? int(ceil(init_dist[i][j] / speed)) : INF; //rounding up to integer
+            travel_time[i][j] = (init_dist[i][j] < INF) ? int(round(init_dist[i][j] / speed)) : INF; //rounding to integer
         }
     }
     return travel_time;
@@ -373,26 +412,32 @@ vector<vector<int>> Nodes::getAllAvailPathSize()
     return all_path_size;
 }
 
-void Nodes::calMaxMinSPDist()
-{
-    vector<double> spDistVec;
-    for(int i = 0; i < nodenum-1; i++)
-    {
-        for(int j = i+1; j < nodenum; j++)
-        {
-            spDistVec.push_back(SP_distmat[i][j]);
-        }
-    }
-    auto maxit = max_element(spDistVec.begin(), spDistVec.end());
-    auto minit = min_element(spDistVec.begin(), spDistVec.end());
-    maxSPdist = *maxit;
-    minSPdist = *minit;
-}
+// void Nodes::calMaxMinSPDist()
+// {
+//     vector<double> spDistVec;
+//     for(int i = 0; i < nodenum-1; i++)
+//     {
+//         for(int j = i+1; j < nodenum; j++)
+//         {
+//             spDistVec.push_back(SP_distmat[i][j]);
+//         }
+//     }
+//     auto maxit = max_element(spDistVec.begin(), spDistVec.end());
+//     auto minit = min_element(spDistVec.begin(), spDistVec.end());
+//     maxSPdist = *maxit;
+//     minSPdist = *minit;
+// }
 
-void Nodes::calMaxMinDmd()
+// void Nodes::calMaxMinDmd()
+// {
+//     auto maxit = max_element(demands.begin(), demands.end());
+//     auto minit = min_element(demands.begin(), demands.end());
+//     maxDmd = *maxit;
+//     minDmd = *minit;
+// }
+
+void Nodes::setLinkConnectivity(int start_node, int end_node)
 {
-    auto maxit = max_element(demands.begin(), demands.end());
-    auto minit = min_element(demands.begin(), demands.end());
-    maxDmd = *maxit;
-    minDmd = *minit;
+    modified_distmat[start_node][end_node] = INF;
+    modified_distmat[end_node][start_node] = INF;
 }

@@ -39,20 +39,26 @@ class Vehicles
         int veh_plmax;
 
         //! set the types for each MAV based on the proprotion of each customer type
-        void set_veh_types(double prob = PAS_MAV_PROP);
+        void designVehTypes(double prob = PAS_MAV_PROP);
 
         //! set the capaicty of each MAV based on its type
-        void set_veh_cap();
+        void setVehCap();
 
         //! set the waiting time limit for each vehicle
-        void set_wait_limit();
+        void setWaitLimit();
 
         //! build the complete information of all nodes
-        void buildVehsStruct();
+        // void buildVehsStruct();
 
     public:
         //! constructor
         Vehicles(RawInstance& inputInstance);
+
+        //! a second constructor
+        Vehicles(RawInstance& inputInstance, vector<int> input_vehtype);
+
+        //! default constructor
+        Vehicles() {};
 
         //! destructor
         ~Vehicles() {delete rawInstance;};
@@ -83,6 +89,12 @@ class Vehicles
 
         //! a simple setter
         void setVehSpeed(int input_speed) {veh_speed = input_speed;};
+
+        //! a simple setter
+        void setVehNum(int input_num) {veh_num = input_num;};
+
+        //! a simple setter
+        void setVehTypes(vector<int> input_types) {veh_types = input_types;};
 };
 
 

@@ -42,6 +42,9 @@ class RawInstance
         int getRowNum();
 
         //! a simple getter
+        int getNodesNum() {return rownum-1;};
+
+        //! a simple getter
         vector<int> getRowData(int rowid);
 
         //! get the planning horizon of the system

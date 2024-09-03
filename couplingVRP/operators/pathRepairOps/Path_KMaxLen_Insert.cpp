@@ -12,7 +12,7 @@
 #include <set>
 using namespace std;
 
-Path_KMaxLen_Insert::Path_KMaxLen_Insert(string s, Nodes& nodes, Operators_Parameters& ops_param) : Path_Random_Insert(s, nodes)
+Path_KMaxLen_Insert::Path_KMaxLen_Insert(string s, Operators_Parameters& ops_param, Nodes& nodes) : Path_Random_Insert(s, nodes)
 {
     this->randK = ops_param.getRandKLenRep();
 }

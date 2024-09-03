@@ -96,6 +96,9 @@ private:
 	//! the name of the input instance
 	string name;
 
+	//! cpu time for the overall algorithm
+	double cpu;
+
 public:
 	//! Constructor.
 	//! \param name the name of the instance.
@@ -154,6 +157,8 @@ public:
 	//! Destroy the manager that have been provided at the construction of
 	//! the instance.
 	void end();
+
+	double getCpuTime();
 };
 
 #endif

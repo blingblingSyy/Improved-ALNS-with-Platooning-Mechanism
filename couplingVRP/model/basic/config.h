@@ -8,8 +8,8 @@
 using namespace std;
 
 /*file paths*/
-const string ins100_dir = "C:\\Users\\SYY\\Improved_ALNS_Git\\Li_Lim_Benchmark\\pdp_100";  // the directory for benchmark instances
-const string result_dir = "C:\\Users\\SYY\\Improved_ALNS_Git\\results";   // the directory for result files
+// const string ins100_dir = "C:\\Users\\SYY\\Improved_ALNS_Git\\Li_Lim_Benchmark\\pdp_100";  // the directory for benchmark instances
+// const string result_dir = "C:\\Users\\SYY\\Improved_ALNS_Git\\results";   // the directory for result files
 
 /*special numbers*/
 #define INF 0x3f3f3f3f   // define a very large number
@@ -17,20 +17,21 @@ const string result_dir = "C:\\Users\\SYY\\Improved_ALNS_Git\\results";   // the
 
 /*network information*/
 const int PLEN_MAX = 5;  //the maximum length of platoons
-const int SPEED = 30;      //MAV speed (km/h)
-const int MAX_DIST = 200000;   //MAV maximum range (km)
+const int SPEED = 1;      //MAV speed (km/h)
+const int MAX_DIST = 100;   //MAV maximum range (km)
 const int VTYPE = 2;        //the number of MAV types
-const int VCAP_0 = 10;       //MAV capacity for passenger
-const int VCAP_1 = 90;      //MAV capacity for freight
-const int WAIT_0 = 2;       //waiting time limit for passenger-type AMV at each location
-const int WAIT_1 = 5;       //waiting time limit for freight-type AMV at each location
-const int WAIT_MAX = 10;    //waiting time limit for passenger-type AMV at all locations
-const int SERT_0 = 3;       //constant service time for passenger node (for self-designed data)
-const int SERT_1 = 5;       //constant service time for freight node (for self-designed data)
+const int VCAP_0 = 1;       //MAV capacity for passenger
+const int VCAP_1 = 2;      //MAV capacity for freight
+const int WAIT_0 = 1;       //waiting time limit for passenger-type AMV at each location
+const int WAIT_1 = 2;       //waiting time limit for freight-type AMV at each location
+const int WAIT_MAX_0 = 5;    //waiting time limit for passenger-type AMV at all locations
+const int WAIT_MAX_1 = 7;    //waiting time limit for freight-type AMV at all locations
+const int SERT_0 = 1;       //constant service time for passenger node (for self-designed data)
+const int SERT_1 = 3;       //constant service time for freight node (for self-designed data)
 const double SER_RATE_0 = 1;      //service rate for passenger node (for self-designed data)
 const double SER_RATE_1 = 1;      //service rate for freight node (for self-designed data)
 const int SER_PRD_0 = 10;   //service period for passenger node (for self-designed data)
-const int SER_PRD_1 = 15;   //service period for freight node (for self-designed data)
+const int SER_PRD_1 = 20;   //service period for freight node (for self-designed data)
 const vector<int> DMR_0 = {1,12};   //demand distribution range for passenger node (for self-designed data)
 const vector<int> DMR_1 = {1,60};   //demand distribution range for freight node (for self-designed data)
 const double PAS_MAV_PROP = 0.5;    //ratio of passenger MAVs (same as PAS_REQ_PROB)

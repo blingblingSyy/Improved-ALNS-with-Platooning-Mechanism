@@ -79,6 +79,9 @@ bool ALNS::solve()
 	{
 		performOneIteration();
 	}
+	//! record the cpu time
+	clock_t currentTime = clock();
+	cpu = static_cast<double>(currentTime - startingTime);
 	//! get the results of the solution, and return whether the solution is feasible or not
 	string pathGlob = param->getStatsGlobPath();
 	pathGlob += name;
@@ -162,6 +165,7 @@ void ALNS::performOneIteration()
 	status.setIterationId(nbIterations);
 	nbIterationsWC++;
 
+	newSolution->makePlatoons();
 	double newCost = newSolution->getObjectiveValue();
 
 	//! check whether the new solution is the new best solution
@@ -403,4 +407,9 @@ void ALNS::end()
 	delete acceptanceCriterion;
 	delete lsManager;
 	delete bestSolManager;
+}
+
+double ALNS::getCpuTime()
+{
+	return cpu;
 }

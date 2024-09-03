@@ -17,13 +17,13 @@ class Nodes
         RawInstance* rawInstance;
 
         //! whether to re-design the demands instead of using the raw demands from the instance
-        bool reset_demands;
+        bool design_demands;
 
         //! whether to re-design the service time instead of using the raw service time from the instance
-        bool reset_sertime;
+        bool design_sertime;
 
         //! whether to re-design the service time window instead of using the raw service time window from the instance
-        bool reset_sertw;
+        bool design_sertw;
 
         //! whether to add intersections in the input nodes or not
         bool add_intersects;
@@ -33,6 +33,9 @@ class Nodes
         
         //! whether to modify the connectivity between some nodes or not
         bool modify_connectivity;
+
+        //! the vehicle speed
+        int veh_speed;
 
         //! the number of nodes including the depot, customers, and intersections
         int nodenum;
@@ -79,63 +82,48 @@ class Nodes
         //! the service rate for each node, usually different for passegners and freight
         vector<double> service_rate;
 
-        //! set the types of all nodes: 0 for passenger and 1 for freight
-        vector<int> set_nodetype(int node_num, bool add_intersects, double prob = PAS_REQ_PROP);
-        
-        //! randomly generate demands based on the node types for all nodes
-        vector<int> randdemand(vector<int> nodetype);
-        
-        //! modify the demands for intersections and passengers
-        void modify_demands(vector<int> &initial_dmd, vector<int> nodetype, bool shrink_pasdmd);
-        
-        //! set different constant service time for different types of nodes
-        vector<int> set_servetime(vector<int> node_type);
-        
-        //! set different service rate for different types of nodes
-        vector<double> set_serverate(vector<int> node_type);
-        
-        //! set the travelable time windows for all nodes
-        vector<vector<int>> cal_tvltw(vector<double> source_dist, int plan_horizon, double speed);
-        
-        //! calibrate the service time windows for all nodes based on the travel time windows
-        void calibrate_sertw(vector<vector<int>>& initial_sertw, vector<int> servetime, vector<vector<int>> tvl_tw);
-        
-        //! set the service time windows for all nodes from top given their different node types
-        vector<vector<int>> set_sertw(vector<vector<int>> tvl_tw, vector<int> nodetype);
+        // //! max SP dist
+        // double maxSPdist;
 
-        //! get the set of adjacent nodes for all nodes given the initial distance matrix
-        vector<vector<int>> find_adjacent_nodes(vector<vector<double>> init_dist, int node_num);
-        
-        //! calculate the initial distance matrix for all pairs of nodes
-        vector<vector<double>> cal_init_distmat(vector<vector<double>> coordinates);
-        
-        //! modify the initial distance matrix by changing connectivity between nodes
-        vector<vector<double>> modify_init_distmat(vector<vector<double>> init_dist);
-        
-        //! get the initial travel time matrix based on the (modified) initial distance matrix
-        vector<vector<int>> cal_init_tvltime(vector<vector<double>> init_dist, int node_num, double speed);
+        // //! min SP dist
+        // double minSPdist;
 
-        //! build the complete information of all nodes
-        void buildNodesStruct(int veh_speed);
+        // //! max demands
+        // int maxDmd;
 
-        //! max SP dist
-        double maxSPdist;
-
-        //! min SP dist
-        double minSPdist;
-
-        //! max demands
-        int maxDmd;
-
-        //! min demands
-        int minDmd;
+        // //! min demands
+        // int minDmd;
 
     public:
         //! constructor
-        Nodes(RawInstance& inputInstance, bool reset_demands = false, bool reset_sertime = false, bool reset_sertw = false, bool add_intersects = true, bool shrink_pasdmd = true, bool modify_connectivity = true, int veh_speed = 1);
+        Nodes(RawInstance& inputInstance);
+
+        //! a second constructor
+        Nodes(RawInstance& inputInstance, vector<int> input_nodetype);
         
+        //! default constructor
+        Nodes();
+
         //! destructor
         ~Nodes();
+
+        //! a simple setter
+        void setDesignDemands(bool todesign) {design_demands = todesign;};
+
+        //! a simple setter
+        void setDesignSertime(bool todesign) {design_sertime = todesign;};
+
+        //! a simple setter 
+        void setDesignSerTW(bool todesign) {design_sertw = todesign;};
+
+        //! a simple setter
+        void setAddIntersects(bool toadd) {add_intersects = toadd;};
+
+        //! a simple setter
+        void setShrinkPasDmd(bool toshrink) {shrink_pasdmd = toshrink;};
+
+        //! a simple setter
+        void setRandModifyConnect(bool tomodify) {modify_connectivity = tomodify;};
 
         //! a simple getter
         int getNodeNum() {return nodenum;}; 
@@ -147,7 +135,10 @@ class Nodes
         int getNodeType(int nodeid) {return nodetype[nodeid];};
 
         //! a simple getter
-        int getDemands(int nodeid) {return demands[nodeid];};
+        int getNodeDemand(int nodeid) {return demands[nodeid];};
+
+        //! a simple getter
+        vector<int> getAllDemands() {return demands;};
 
         //! a simple getter
         vector<double> getCoordinate(int nodeid) {return coordinates[nodeid];};
@@ -188,23 +179,90 @@ class Nodes
         //! a simple getter
         double getServiceRate(int nodeid) {return service_rate[nodeid];};
 
-        //! calculate the max and min shortest path distance 
-        void calMaxMinSPDist();
+        //! a simple setter
+        void setNodeTypes(vector<int> input_nodetype) {nodetype = input_nodetype;};
 
-        //! calculate the max and min sdemands
-        void calMaxMinDmd();
+        //! a simple setter
+        void setNodeDemands(vector<int> input_nodedmd) {demands = input_nodedmd;};
 
-        //! a simple getter
-        double getMaxSPDist() {return maxSPdist;};
+        //! a simple setter
+        void setVehSpeed(int input_speed) {veh_speed = input_speed;};
 
-        //! a simple getter
-        double getMinSPDist() {return minSPdist;};
+        //! a simple setter
+        void setCoordinates(vector<vector<double>> input_coord) {coordinates = input_coord;};
 
-        //! a simple getter
-        int getMaxDmd() {return maxDmd;};
+        //! a simple setter
+        void setInitialDistMat(vector<vector<double>> input_distmat) {initial_distmat = input_distmat;};
 
-        //! a simple getter
-        int getMinDmd() {return minDmd;};
+        //! a simple setter
+        void setModifiedDistMat(vector<vector<double>> input_distmat) {modified_distmat = input_distmat;};
+
+        //! a simple setter
+        void setLinkConnectivity(int start_node, int end_node);
+
+        //! a simple setter
+        void setServiceTimes(vector<int> input_st) {service_time = input_st;};
+
+        //! a simple setter
+        void setServiceTW(vector<vector<int>> input_tw) {service_tw = input_tw;};
+
+        //! set the types of all nodes: 0 for passenger and 1 for freight
+        vector<int> designNodeTypes(int node_num, bool add_intersects, double prob = PAS_REQ_PROP);
+        
+        //! randomly generate demands based on the node types for all nodes
+        vector<int> designRandDemands(vector<int> nodetype);
+        
+        //! modify the demands for intersections and passengers
+        void designModifiedDemands(vector<int> &initial_dmd, vector<int> nodetype, bool shrink_pasdmd);
+        
+        //! set different constant service time for different types of nodes
+        vector<int> designServiceTimes(vector<int> node_type);
+        
+        //! set different service rate for different types of nodes
+        vector<double> designServiceRates(vector<int> node_type);
+        
+        //! set the travelable time windows for all nodes
+        vector<vector<int>> calTravelTW(vector<double> source_dist, int plan_horizon, double speed);
+        
+        //! calibrate the service time windows for all nodes based on the travel time windows
+        void calibrateServiceTW(vector<vector<int>>& initial_sertw, vector<int> servetime, vector<vector<int>> tvl_tw);
+        
+        //! set the service time windows for all nodes from top given their different node types
+        vector<vector<int>> designServiceTW(vector<vector<int>> tvl_tw, vector<int> nodetype);
+
+        //! get the set of adjacent nodes for all nodes given the initial distance matrix
+        vector<vector<int>> findAdjacentNodes(vector<vector<double>> init_dist, int node_num);
+        
+        //! calculate the initial distance matrix for all pairs of nodes
+        vector<vector<double>> calInitialDistMat(vector<vector<double>> coordinates);
+        
+        //! modify the initial distance matrix by changing connectivity between nodes
+        vector<vector<double>> modifyInitialDistMat(vector<vector<double>> init_dist);
+        
+        //! get the initial travel time matrix based on the (modified) initial distance matrix
+        vector<vector<int>> calInitialTravelTime(vector<vector<double>> init_dist, int node_num, double speed);
+
+        //! build the complete information of all nodes
+        void buildNodesStruct(vector<vector<int>> disconnected_links);
+
+        // //! calculate the max and min shortest path distance 
+        // void calMaxMinSPDist();
+
+        // //! calculate the max and min sdemands
+        // void calMaxMinDmd();
+
+        // //! a simple getter
+        // double getMaxSPDist() {return maxSPdist;};
+
+        // //! a simple getter
+        // double getMinSPDist() {return minSPdist;};
+
+        // //! a simple getter
+        // int getMaxDmd() {return maxDmd;};
+
+        // //! a simple getter
+        // int getMinDmd() {return minDmd;};
+
 };
 
 

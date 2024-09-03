@@ -58,6 +58,8 @@ public:
 	virtual ISolution* getCopy()=0;
 	//! Compute a hash key of the solution.
 	virtual long long getHash()=0;
+	//! Make platoons for the solution
+	virtual void makePlatoons() = 0;
 };
 
 

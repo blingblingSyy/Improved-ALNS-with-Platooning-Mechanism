@@ -149,59 +149,59 @@ void Operators_Parameters::loadParameters(string path)
 			string eq;
 			str >> id;
 			str >> eq;
-			if(id == "PathDestroyRate")
+			if(id == "pathDestroyRate")
 			{
 				str >> pathDestroyRate;
 			}
-			else if(id == "NodeDestroyRate")
+			else if(id == "nodeDestroyRate")
 			{
 				str >> nodeDestroyRate;
 			}
-			else if(id == "ShawRate1")
+			else if(id == "shawRate1")
 			{
 				str >> shawRate1;
 			}
-			else if(id == "ShawRate2")
+			else if(id == "shawRate2")
 			{
 				str >> shawRate2;
 			}
-			else if(id == "ShawRate3")
+			else if(id == "shawRate3")
 			{
 				str >> shawRate3;
 			}
-			else if(id == "ShawRate4")
+			else if(id == "shawRate4")
 			{
 				str >> shawRate4;
 			}
-			else if(id == "RandShawDes")
+			else if(id == "randShawDes")
 			{
 				str >> randShawDes;
 			}
-			else if(id == "RandWorstDes")
+			else if(id == "randWorstDes")
 			{
 				str >> randWorstDes;
 			}
-			else if(id == "RandAvgLenDes")
+			else if(id == "randAvgLenDes")
 			{
 				str >> randAvgLenDes;
 			}
-			else if(id == "RandCardiDes")
+			else if(id == "randCardiDes")
 			{
 				str >> randCardiDes;
 			}
-			else if(id == "RandNfreqDes")
+			else if(id == "randNfreqDes")
 			{
 				str >> randNfreqDes;
 			}
-			else if(id == "RandKlenRep")
+			else if(id == "randKlenRep")
 			{
 				str >> randKlenRep;
 			}
-			else if(id == "RandNfreqRep")
+			else if(id == "randNfreqRep")
 			{
 				str >> randNfreqRep;
 			}
-			else if(id == "Tenure")
+			else if(id == "tenure")
 			{
 				str >> tenure;
 			}

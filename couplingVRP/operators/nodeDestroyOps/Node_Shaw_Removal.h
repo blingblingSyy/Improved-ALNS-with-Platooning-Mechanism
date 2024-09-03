@@ -38,11 +38,23 @@ class Node_Shaw_Removal: public Node_Random_Removal
         //! calculate the relatedness measure between node i and node j
         double calRelatedness(VRPSolution& vrpsol, pair<int, int> rid_arcpos1, pair<int, int> rid_arcpos2);
 
-        //! maximum time diff
+        //! maximum time difference
         int maxTimeDiff;
+
+        //! maximum distance difference
+        double maxDistDiff;
+
+        //! maximum demand difference
+        int maxDmdDiff;
 
         //! calculate the maximum time diff
         int calMaxTimeDiff(VRPSolution& vrpsol);
+
+        //! calculate the maximum distance difference
+        double calMaxDistDiff(Nodes& nodeset);
+
+        //! calculate the maximum demand difference
+        int calMaxDmdDiff(Nodes& nodeset);
         
         //! normalization
         void normalize(double& dist, int& dmd_diff, int& arrtime_diff, VRPSolution &vrpsol);

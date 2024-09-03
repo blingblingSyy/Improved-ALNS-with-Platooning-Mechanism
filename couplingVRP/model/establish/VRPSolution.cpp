@@ -167,9 +167,9 @@ void VRPSolution::buildInitialSol()
 
     //need to be deleted later
     sol_config[1]->setRouteByModifyUsedPath(0, 1);
-    sol_config[1]->setRouteByModifyUsedPath(0, 1);
+    sol_config[1]->setRouteByModifyUsedPath(1, 1);
 
-    cpuBeforePlatooning = (clock() - start ) / (double) CLOCKS_PER_SEC;
+    // cpuBeforePlatooning = (clock() - start ) / (double) CLOCKS_PER_SEC;
     makePlatoons();
     recomputeCost();
     cpuAfterPlatooning = (clock() - start ) / (double) CLOCKS_PER_SEC;

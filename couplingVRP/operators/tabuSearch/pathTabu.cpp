@@ -1,6 +1,7 @@
 #include "couplingVRP/operators/tabuSearch/pathTabu.h"
 #include "src/improvedALNS/ALNS_Parameters.h"
 #include "couplingVRP/model/establish/VRPSolution.h"
+#include "couplingVRP/model/basic/Nodes.h"
 using namespace std;
 
 PathTabu::PathTabu(int tabuTenure, vector<vector<int>> availPathCardiSet)

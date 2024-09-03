@@ -32,6 +32,9 @@ class VRPSolution: public ISolution
         //! Constructor
         VRPSolution(Nodes& nodeset, Vehicles& vehset);
 
+        //! default constructor
+        VRPSolution() = default;
+
         //! Destructor.
         virtual ~VRPSolution();
 
@@ -165,10 +168,10 @@ class VRPSolution: public ISolution
         vector<APlatoon*>& getAllPlatoons() {return platoons_config;};
 
         //! the cpu time before making platoons
-        double getCpuBeforePlatooning() {return cpuBeforePlatooning;};
+        // double getCpuBeforePlatooning() {return cpuBeforePlatooning;};
 
         //! the cpu time after making platoons
-        double getCpuAfterPlatooning() {return cpuAfterPlatooning;};
+        double& getCpuAfterPlatooning() {return cpuAfterPlatooning;};
 
         //! a simple getter: the actual destroyble arc in the current solution
         vector<tuple<int, int, int>> getDestroyableArcPos() {return destroyableArcPos;};
@@ -254,7 +257,7 @@ class VRPSolution: public ISolution
         double totalObjValueAfterPlatooning;
         
         //! the cpu time spent before platooning
-        double cpuBeforePlatooning;
+        // double cpuBeforePlatooning;
 
         //! the cpu time spent after platooning
         double cpuAfterPlatooning;

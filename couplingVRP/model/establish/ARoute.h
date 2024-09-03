@@ -127,6 +127,9 @@ class ARoute
         vector<int> getNodeExpectedArrTW(int nodepos) {return expected_arrtw[nodepos];};
 
         //! a simple getter
+        vector<int> getNodeExpectedDepTW(int nodepos) {return expected_deptw[nodepos];};
+
+        //! a simple getter
         vector<vector<int>> getRouteExpectedArrTW() {return expected_arrtw;};
 
         //! a simple getter 
