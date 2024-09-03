@@ -21,7 +21,7 @@ Copyright (C) 2024 Sun Yingying (the Contributor)
 
 * The platooning conditions among vehicles are dependent on the overlapping departure time windows of several vehicles travelling along the same arc.
 
-## Algorithm: Improved ALNS
+## Algorithm: Improved ALNS (adapted based on Renaud Masson(2012): https://github.com/biblik/alns-framework/tree/master/trunk)
 * The improved ALNS consists of Node Operators and Path Operators, exploring opportunities for MAV coupling. All operators are chosen by the adaptive weight adjustment mechanism, with accumulative scores updated in each iteration.
 * Two strategies are proposed for the improved ALNS, which are the Node First strategy and the Path First strategy. 
     * In Node First strategy, nodes-related operators are chosen and conducted first, afterwards, the algorithm can opt to choose or not choose paths-related operators. 
