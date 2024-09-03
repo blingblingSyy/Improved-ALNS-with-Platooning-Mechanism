@@ -24,7 +24,7 @@ int main()
     // bool modify_connectivity = false;
     // bool modify_pasdmd = true;
     RawInstance data1(result_filepath);
-    Nodes nodeset(data1, {2,1,2,0,1,0});
+    vector<int> nodetype = {2,1,2,0,1,0};
     vector<vector<int>> disconnected_links;
     disconnected_links.push_back({0,1});
     disconnected_links.push_back({0,3});
@@ -32,7 +32,7 @@ int main()
     disconnected_links.push_back({2,4});
     disconnected_links.push_back({3,5});
     disconnected_links.push_back({4,5});
-    nodeset.buildNodesStruct(disconnected_links);
+    Nodes nodeset(data1, nodetype, disconnected_links);
     Vehicles vehset(data1);
 
     //! build initial solution

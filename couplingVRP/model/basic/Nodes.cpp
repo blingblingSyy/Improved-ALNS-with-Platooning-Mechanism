@@ -23,7 +23,7 @@ Nodes::Nodes(RawInstance& inputInstance)
     veh_speed = rawInstance->extract_vehspeed();
     nodenum = rawInstance->getNodesNum();
     nodetype = designNodeTypes(nodenum, add_intersects, PAS_REQ_PROP); //{2, 2, 2, 0, 1, 2, 0} for test1.txt; {2,1,2,0,1,0} for test2.txt
-    // buildNodesStruct();
+    buildNodesStruct();
 }
 
 Nodes::Nodes(RawInstance& inputInstance, vector<int> input_nodetype)
@@ -38,7 +38,23 @@ Nodes::Nodes(RawInstance& inputInstance, vector<int> input_nodetype)
     veh_speed = rawInstance->extract_vehspeed();
     nodenum = rawInstance->getNodesNum();
     setNodeTypes(input_nodetype); //{2, 2, 2, 0, 1, 2, 0} for test1.txt; {2,1,2,0,1,0} for test2.txt
-    // buildNodesStruct();
+    buildNodesStruct();
+}
+
+Nodes::Nodes(RawInstance& inputInstance, vector<int> input_nodetype, vector<vector<int>> disconnected_links)
+{
+    this->rawInstance = &inputInstance;
+    this->design_demands = false; //! default = false;
+    this->design_sertime = false; //! default = false;
+    this->design_sertw = false;  //! default = false;
+    this->add_intersects = false;  //! default = false;
+    this->shrink_pasdmd = false;  //! default = false;
+    this->modify_connectivity = false;  //! default = false;
+    veh_speed = rawInstance->extract_vehspeed();
+    nodenum = rawInstance->getNodesNum();
+    setNodeTypes(input_nodetype); //{2, 2, 2, 0, 1, 2, 0} for test1.txt; {2,1,2,0,1,0} for test2.txt
+    this->disconnected_links = disconnected_links;
+    buildNodesStruct();
 }
 
 Nodes::Nodes()
@@ -67,7 +83,7 @@ Nodes::~Nodes()
 }
 
 /*old version*/
-void Nodes::buildNodesStruct(vector<vector<int>> disconnected_links)
+void Nodes::buildNodesStruct()
 {
     // nodetype = designNodeTypes(nodenum, add_intersects, PAS_REQ_PROP); //{2, 2, 2, 0, 1, 2, 0} for test1.txt; {2,1,2,0,1,0} for test2.txt
     demands = (design_demands) ? designRandDemands(nodetype) : rawInstance->extract_demands();

@@ -40,6 +40,9 @@ class Nodes
         //! the number of nodes including the depot, customers, and intersections
         int nodenum;
 
+        //! predefined disconnected links
+        vector<vector<int>> disconnected_links;
+
         //! the type for each node: 0 for passenger and 1 for freight
         vector<int> nodetype;
 
@@ -100,6 +103,9 @@ class Nodes
 
         //! a second constructor
         Nodes(RawInstance& inputInstance, vector<int> input_nodetype);
+        
+        //! a third constructor
+        Nodes(RawInstance& inputInstance, vector<int> input_nodetype, vector<vector<int>> disconnected_links);
         
         //! default constructor
         Nodes();
@@ -243,7 +249,7 @@ class Nodes
         vector<vector<int>> calInitialTravelTime(vector<vector<double>> init_dist, int node_num, double speed);
 
         //! build the complete information of all nodes
-        void buildNodesStruct(vector<vector<int>> disconnected_links);
+        void buildNodesStruct();
 
         // //! calculate the max and min shortest path distance 
         // void calMaxMinSPDist();
