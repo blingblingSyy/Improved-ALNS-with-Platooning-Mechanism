@@ -22,6 +22,11 @@ APlatoon::APlatoon(APlatoon& p)
     this->overlap_deptw = p.overlap_deptw;
 }
 
+APlatoon::~APlatoon() 
+{
+    delete nodeset;
+}
+
 bool APlatoon::operator ==(const APlatoon& other) const
 {
     if (this->arc != other.arc) return false; 
@@ -45,6 +50,7 @@ vector<int> APlatoon::getCommonRoutes()
     {
         commonVehs.push_back(config[i].first);
     }
+    return commonVehs;
 }
 
 double APlatoon::calArcLen()

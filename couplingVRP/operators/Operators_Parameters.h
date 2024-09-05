@@ -124,7 +124,7 @@ class Operators_Parameters
         }
 
         //! a simple setter
-        void setRandShawParam(double randWorst) {
+        void setRandWorstParam(double randWorst) {
             this->randWorstDes = randWorst;
         }
 

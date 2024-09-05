@@ -43,7 +43,7 @@ class APlatoon
         APlatoon() = default;
 
         //! destructor
-        ~APlatoon() {delete nodeset;};
+        ~APlatoon();
         
         //! a == comparator
         virtual bool operator ==(const APlatoon& other) const;
@@ -79,10 +79,10 @@ class APlatoon
         double calEnergySaving();
 
         //! a simple setter of the arc
-        void setArc(vector<int> inputArc) {arc = inputArc;};
+        void setArc(vector<int> inputArc);
 
         //! a simple setter of the platoon configuration
-        void setConfig(vector<pair<int, int>> inputConfig) {config = inputConfig;};
+        void setConfig(vector<pair<int, int>> inputConfig);
 
         //! a simple setter to expand the platoon
         void addOneConfig(pair<int, int> inputVehiclePos) {config.push_back(inputVehiclePos);};

@@ -32,7 +32,13 @@ Vehicles::Vehicles(RawInstance& inputInstance, vector<int> input_vehtype)
     veh_plmax = PLEN_MAX;
 }
 
-void Vehicles::designVehTypes(double prob = PAS_MAV_PROP)
+Vehicles::~Vehicles()
+{
+    delete rawInstance;
+}
+
+
+void Vehicles::designVehTypes(double prob)
 {
     veh_types.resize(veh_num);
     int pas_mavs = int(ceil(veh_num * prob));

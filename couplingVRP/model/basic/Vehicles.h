@@ -61,7 +61,7 @@ class Vehicles
         Vehicles() {};
 
         //! destructor
-        ~Vehicles() {delete rawInstance;};
+        ~Vehicles();
 
         //! a simple getter
         int getVehNum() {return veh_num;}; 

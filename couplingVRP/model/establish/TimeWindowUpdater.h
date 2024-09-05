@@ -87,9 +87,6 @@ class TimeWindowUpdater
         
         //! calibrate the DT2 and AT2 for all nodes in a route given the specified departure time window of an arc
         void Calib_DT2_AT2(int fixed_deptw_arcpos, vector<vector<int>> original_deptw_input); //calibrate the DT2 and AT2 for a route given a modified departure time window for a node
-        
-        //! calibrate the time windows of a route given a modfied departure time window of an arc
-        void CalibRouteTW(int fixed_deptw_arcpos, vector<int> overlap_dep_tw); //calibrate the arrival and departure time windows for a route given a modified departure time window for a node
 
         //! check the time feasibility of a node position
         bool checkNodeTimeFeas(int node_pos);

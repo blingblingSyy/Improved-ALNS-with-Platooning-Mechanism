@@ -93,7 +93,7 @@ class VRPSolution: public ISolution
         double evaluateModifyPath(int modified_arcpos, int modified_pathid, int routeid);
 
         //! calculate the ordered insertion costs of all routes for a given node
-        vector<tuple<double, int, int>> VRPSolution::calOrderedInsertCostsAllRoutes(int insert_node_id);
+        vector<tuple<double, int, int>> calOrderedInsertCostsAllRoutes(int insert_node_id);
 
         //! calculate the cheapest insertion costs of all routes for a given node <insert_cost, insert_pos, insert_route>
         tuple<double, int, int> calCheapestInsertCostsAllRoutes(int insert_node_id, int k_cheapest); 
@@ -210,7 +210,7 @@ class VRPSolution: public ISolution
         //! the pointer to the set of vehicles
         Vehicles* vehset;
 
-        //! the current operation to the route
+        //! the current operation to the solution
         SolOperationKind solCurOpt;
 
         //! the customers that has not been inserted
@@ -228,9 +228,6 @@ class VRPSolution: public ISolution
 
         //! the selected paths to be destroyed later
         vector<tuple<int, int, int>> destroyedArcs; //{{destroyed_arcpos, destroyed_pathid, routeid}, ...};
-        
-        //! the selected paths that have been repaired
-        vector<tuple<int, int, int>> repairedArcs;
 
         //! the route configuration of the solution
         vector<ARoute*> sol_config;

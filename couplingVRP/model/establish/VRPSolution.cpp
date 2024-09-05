@@ -265,7 +265,7 @@ double VRPSolution::calTotalObjectiveValue()
     // return obj_w1*calTotalEnergyDist() + obj_w2*calTotalTripDuration() + obj_w3*calTotalUnservedRequests();
 }
 
-double VRPSolution::getPenalizedObjectiveValue(bool modified = false)
+double VRPSolution::getPenalizedObjectiveValue(bool modified)
 {
     if(!modified) return totalObjValueAfterPlatooning;
     else return (obj_w1*totalDistCostsAfterPlatooning + obj_w2*totalTripDurationAllRoutes);

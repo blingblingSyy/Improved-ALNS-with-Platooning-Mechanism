@@ -7,12 +7,11 @@
 #include <algorithm>  
 #include <fstream> 
 #include <tuple>
-#include "config.h"
-#include "utility.h"
 #include "src/ALNS_inc.h"
 #include "couplingVRP/VRP_inc.h"
 #include "couplingVRP/Operators_inc.h"
 #include "ResultWriter.h"
+#include "utility.h"
 using namespace std;  
 
 

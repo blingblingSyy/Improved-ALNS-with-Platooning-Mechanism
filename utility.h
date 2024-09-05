@@ -55,13 +55,15 @@ void process_intersections(vector<T>& a, vector<T>& b, bool keep = false)
     if(!keep) //remove
     {
         auto predicate = [&](const T &k){ return count(ab.begin(), ab.end(), k) > 1; };
+        a.erase(std::remove_if(a.begin(), a.end(), predicate), a.end());
+        b.erase(std::remove_if(b.begin(), b.end(), predicate), b.end());
     }
     else //keep
     {
         auto predicate = [&](const T &k){ return count(ab.begin(), ab.end(), k) <= 1; };
+        a.erase(std::remove_if(a.begin(), a.end(), predicate), a.end());
+        b.erase(std::remove_if(b.begin(), b.end(), predicate), b.end());
     }
-    a.erase(std::remove_if(a.begin(), a.end(), predicate), a.end());
-    b.erase(std::remove_if(b.begin(), b.end(), predicate), b.end());
 }
 
 #endif

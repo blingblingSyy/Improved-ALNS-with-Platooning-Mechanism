@@ -11,7 +11,7 @@
 #include "couplingVRP/model/basic/config.h"
 #include "couplingVRP/model/establish/TimeWindowUpdater.h"
 #include "couplingVRP/model/basic/ADijkstraSol.h"
-#define NDEBUG;
+// #define NDEBUG;
 using namespace std;
 
 ARoute::ARoute(Nodes& nodeset, Vehicles& vehset)
@@ -191,11 +191,11 @@ void ARoute::calRouteLoad()
     for(int i = 1; i < compact_route.size()-1; i++)
     {
         int node_id = compact_route[i];
-        route_load[0] += (nodeset->getDemands(node_id) < 0) ? -nodeset->getDemands(node_id) : 0;
+        route_load[0] += (nodeset->getNodeDemand(node_id) < 0) ? -nodeset->getNodeDemand(node_id) : 0;
     }
     for(int k = 1; k < compact_route.size(); k++)
     {
-        route_load[k] = route_load[k-1] + nodeset->getDemands(compact_route[k]);
+        route_load[k] = route_load[k-1] + nodeset->getNodeDemand(compact_route[k]);
     }
 }
 
@@ -222,6 +222,7 @@ vector<int> ARoute::setUsedPathsByInsertNode(int insert_pos, int insert_nodeid)
     vector<int> used_paths_copy = used_paths_in_compact_route;
     used_paths_copy[insert_pos-1] = 0;
     used_paths_copy.insert(used_paths_copy.begin()+insert_pos, 0);
+    return used_paths_copy;
 }
 
 vector<int> ARoute::setExtendRouteByInsertNode(int insert_pos, int insert_nodeid)
@@ -261,13 +262,13 @@ vector<int> ARoute::setRouteLoadByInsertNode(int insert_pos, int insert_nodeid)
 {
     vector<int> route_load_copy = route_load;
     route_load_copy.insert(route_load_copy.begin()+insert_pos, route_load[insert_pos-1]);
-    int insert_nodedmd = nodeset->getDemands(insert_nodeid);
+    int insert_nodedmd = nodeset->getNodeDemand(insert_nodeid);
     if(insert_nodedmd < 0) //delivery node
     {
         route_load_copy[0] = route_load[0] - insert_nodedmd;
         for(int i = 1; i < insert_pos; i++)
         {
-            route_load_copy[i] = route_load_copy[i-1] + nodeset->getDemands(route_load_copy[i]);
+            route_load_copy[i] = route_load_copy[i-1] + nodeset->getNodeDemand(route_load_copy[i]);
         }
     }
     else //pickup node
@@ -275,7 +276,7 @@ vector<int> ARoute::setRouteLoadByInsertNode(int insert_pos, int insert_nodeid)
         route_load_copy[insert_pos] += insert_nodedmd;
         for(int i = insert_pos+1; i < route_load_copy.size(); i++)
         {
-            route_load_copy[i] = route_load_copy[i-1] + nodeset->getDemands(route_load_copy[i]);
+            route_load_copy[i] = route_load_copy[i-1] + nodeset->getNodeDemand(route_load_copy[i]);
         }
     }
     return route_load_copy;
@@ -340,13 +341,13 @@ vector<int> ARoute::setRouteLoadByRemoveNode(int remove_pos)
 {
     vector<int> route_load_copy = route_load;
     route_load_copy.erase(route_load_copy.begin()+remove_pos);
-    int remove_nodedmd = nodeset->getDemands(compact_route[remove_pos]);
+    int remove_nodedmd = nodeset->getNodeDemand(compact_route[remove_pos]);
     if(remove_nodedmd < 0) //delivery node
     {
         route_load_copy[0] = route_load[0] + remove_nodedmd;
         for(int i = 1; i < remove_pos; i++)
         {
-            route_load_copy[i] = route_load_copy[i-1] + nodeset->getDemands(route_load_copy[i]);
+            route_load_copy[i] = route_load_copy[i-1] + nodeset->getNodeDemand(route_load_copy[i]);
         }
     }
     else //pickup node
@@ -354,7 +355,7 @@ vector<int> ARoute::setRouteLoadByRemoveNode(int remove_pos)
         route_load_copy[remove_pos] -= remove_nodedmd;
         for(int i = remove_pos+1; i < route_load_copy.size(); i++)
         {
-            route_load_copy[i] = route_load_copy[i-1] + nodeset->getDemands(route_load_copy[i]);
+            route_load_copy[i] = route_load_copy[i-1] + nodeset->getNodeDemand(route_load_copy[i]);
         }
     }
     return route_load_copy;
@@ -692,12 +693,14 @@ double ARoute::calRemovalCosts(int removal_pos)
 
 double ARoute::getRouteOperatorCosts(RouteOperationKind routeOperator)
 {
+    double cost = 0;
     switch (routeOperator)
     {
-        case InsertOneNode: return nodeInsertionCosts;
-        case RemoveOneNode: return nodeRemovalCosts;
-        case ModifyOnePath: return pathModificationCosts;
-        case Initialization: return 0;
-        case NoChange: return 0;
+        case InsertOneNode: cost = nodeInsertionCosts;
+        case RemoveOneNode: cost = nodeRemovalCosts;
+        case ModifyOnePath: cost = pathModificationCosts;
+        case Initialization: cost = 0;
+        case NoChange: cost = 0;
     }
+    return cost;
 }
