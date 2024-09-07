@@ -1,0 +1,3 @@
+C:\Strawberry\c\bin\cmake.exe -E rm -f CMakeFiles\MyApp.dir/objects.a
+C:\msys64\mingw64\bin\ar.exe qc CMakeFiles\MyApp.dir/objects.a @CMakeFiles\MyApp.dir\objects1.rsp
+C:\msys64\mingw64\bin\c++.exe -Wl,--whole-archive CMakeFiles\MyApp.dir/objects.a -Wl,--no-whole-archive -o MyApp.exe -Wl,--out-implib,libMyApp.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\MyApp.dir\linkLibs.rsp
