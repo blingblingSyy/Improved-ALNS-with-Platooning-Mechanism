@@ -1,3 +1,0 @@
-C:/Users/SYY/Improved_ALNS_Git/build/CMakeFiles/MyApp.dir
-C:/Users/SYY/Improved_ALNS_Git/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/SYY/Improved_ALNS_Git/build/CMakeFiles/ZERO_CHECK.dir
