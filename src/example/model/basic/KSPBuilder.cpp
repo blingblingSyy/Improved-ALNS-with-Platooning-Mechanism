@@ -77,7 +77,7 @@ void KSPBuilder::Dijsktra_body(vector<ADijkstraSol*> &SPset_fromstart, vector<in
 
 ADijkstraSol* KSPBuilder::Dijkstra_OnePath(int start, int end, vector<vector<double>> input_distmat) //calculate the shortest path distance between any two given nodes
 {
-    ADijkstraSol* SP_Start_End;
+    ADijkstraSol* SP_Start_End = new ADijkstraSol;
     //initialize predecessors and labels for SP tree from start node i
     vector<int> predecessors(node_num, -1);
     vector<ADijkstraSol*> initial_SPsol(node_num);  //shortest path structure from node i
@@ -251,7 +251,7 @@ vector<ADijkstraSol*> KSPBuilder::ModifiedYen_OnePath(int start_node, int end_no
             // }
             if(!subtour) //if no subtour
             {
-                ADijkstraSol* tempSP_Start_End; 
+                ADijkstraSol* tempSP_Start_End = new ADijkstraSol; 
                 //path reconnection
                 old_path.insert(old_path.end(), new_path.begin()+1, new_path.end()); //bug: new_path is empty because of unconnected nodes
                 tempSP_Start_End->setPath(old_path);

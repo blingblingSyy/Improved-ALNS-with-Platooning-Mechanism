@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "program": "${fileDirname}\\Debug\\${fileBasenameNoExtension}.exe",
             "args": [],
             "stopAtEntry": false,
             // "cwd": "${workspaceFolder}",
@@ -29,7 +29,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "g++.exe build active file"
+            // "preLaunchTask": "g++.exe build active file"
         }
 
 

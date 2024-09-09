@@ -531,5 +531,5 @@ double PlatoonMaker::calSolTotalEnergySaving()
 //get the total length of the solution -> including the total number of vehicles and total number of positions within each vehicle route
 double PlatoonMaker::calSolTotalEnergyDist()
 {
-    return cur_sol->calTotalDist() - calSolTotalEnergyDist();
+    return cur_sol->calTotalDist() - calSolTotalEnergySaving();
 }

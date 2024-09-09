@@ -8,6 +8,9 @@ project(MyProject LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+#Can manually add the sources using the set command as follows:
+#set(SOURCES ${PROJECT_SOURCE_DIR}/src/main.cpp)
+
 # automatically collect all .cpp files under src files and the sub-files
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
@@ -19,3 +22,9 @@ add_executable(MyApp ${SOURCES})
 target_include_directories(MyApp PRIVATE 
     ${PROJECT_SOURCE_DIR}/include
 )
+
+# compiler format
+# add_compile_options("$<$<C_COMPILER_ID:MSVC>:/source-charset:utf-8>")
+if (MSVC)
+	add_compile_options("/source-charset:utf-8")
+endif()

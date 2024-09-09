@@ -631,7 +631,7 @@ bool ARoute::isRouteFeas()
     bool linkfeas = true;
     for(int i = 0; i < used_paths_in_compact_route.size(); i++)
     {
-        linkfeas *= isLinkFeas(i, compact_route);
+        linkfeas = isLinkFeas(i, compact_route) && linkfeas;
     }
     return timefeas && loadfeas && distfeas && linkfeas;
 }

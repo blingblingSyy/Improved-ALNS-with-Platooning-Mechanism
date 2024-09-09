@@ -90,11 +90,11 @@ void Nodes::buildNodesStruct()
     designModifiedDemands(demands, nodetype, shrink_pasdmd); //! default: shrink_pasdmd = false;
     coordinates = rawInstance->extract_coordinates();
     initial_distmat = calInitialDistMat(coordinates);
+    modified_distmat = (modify_connectivity) ? modifyInitialDistMat(initial_distmat) : initial_distmat;
     for(int i = 0; i < disconnected_links.size(); i++)
     {
         setLinkConnectivity(disconnected_links[i][0], disconnected_links[i][1]);
     }
-    modified_distmat = (modify_connectivity) ? modifyInitialDistMat(initial_distmat) : initial_distmat;
     initial_timemat = calInitialTravelTime(modified_distmat, nodenum, veh_speed);
 
     // //self-defined data for test2.txt (delete later)
@@ -402,15 +402,12 @@ vector<vector<int>> Nodes::calInitialTravelTime(vector<vector<double>> init_dist
 
 ADijkstraSol* Nodes::getOnePath(int nodeid1, int nodeid2, int pathid)
 {
+    ADijkstraSol* initDijkstraSol;
     if(pathid < avail_path_set[nodeid1][nodeid2].size())
     {
-        return avail_path_set[nodeid1][nodeid2][pathid];
+        initDijkstraSol = avail_path_set[nodeid1][nodeid2][pathid];
     }
-    else
-    {
-        ADijkstraSol* emptyDijkstraSol;
-        return emptyDijkstraSol;
-    }
+    return initDijkstraSol;
 }
 
 

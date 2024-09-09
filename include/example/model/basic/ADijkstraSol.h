@@ -30,6 +30,7 @@ class ADijkstraSol
 
         //! a simple setter
         void setDist(double inputDist) {KSP_Dist = inputDist;};
+        
         void setPath(vector<int> inputPath) {KSP_Path = inputPath;};
 };
 
