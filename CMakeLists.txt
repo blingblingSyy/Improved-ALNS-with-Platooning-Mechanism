@@ -24,7 +24,6 @@ target_include_directories(MyApp PRIVATE
 )
 
 # compiler format
-# add_compile_options("$<$<C_COMPILER_ID:MSVC>:/source-charset:utf-8>")
 if (MSVC)
-	add_compile_options("/source-charset:utf-8")
+    add_compile_options("/source-charset:utf-8" "/execution-charset:utf-8")
 endif()
