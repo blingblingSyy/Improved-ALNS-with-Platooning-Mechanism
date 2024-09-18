@@ -119,11 +119,20 @@ class VRPSolution: public ISolution
         //! calculate the total unserved requests of the solution
         int calTotalUnservedRequests();
 
+        //! calculate the total unserved passenger requests of the solution
+        int calTotalUnservedPasRequests();
+
+        //! calculate the total unserved freight requests of the solution
+        int calTotalUnservedFreRequests();
+
         //! calculate the objective value after platooning
         double calTotalObjectiveValue();
 
         //! recompute the costs for a new solution
-        void recomputeCost(bool recouple = false);
+        void recomputeCost(); //bool make_platoon = false
+
+        //! update the solution
+        void updateSol(bool make_platoon = false);
 
         //! a simple getter
         double& getTotalDistBeforePlatooning() {return totalDistCostsBeforePlatooning;};
@@ -141,7 +150,7 @@ class VRPSolution: public ISolution
         vector<int>& getNonInsertedNodes() {return nonInsertedNodes;};
 
         //! a simple getter
-        int getTotalServedCusNum() {return static_cast<int>(nodeset->getCusNum() - nonInsertedNodes.size());};
+        int getTotalServedCusNum() {return static_cast<int>(nodeset.getCusNum() - nonInsertedNodes.size());};
 
         //! a simple getter
         vector<int>& getNonUsedVehs() {return nonUsedVehs;};
@@ -172,6 +181,9 @@ class VRPSolution: public ISolution
 
         //! the cpu time after making platoons
         double& getCpuAfterPlatooning() {return cpuAfterPlatooning;};
+
+        //! find the destroyable paths in the solution
+        void findDestroyablePaths();
 
         //! a simple getter: the actual destroyble arc in the current solution
         vector<tuple<int, int, int>> getDestroyableArcPos() {return destroyableArcPos;};
@@ -205,10 +217,10 @@ class VRPSolution: public ISolution
 
     private:
         //! the pointer to the set of nodes
-        Nodes* nodeset;
+        Nodes& nodeset;
 
         //! the pointer to the set of vehicles
-        Vehicles* vehset;
+        Vehicles& vehset;
 
         //! the current operation to the solution
         SolOperationKind solCurOpt;
@@ -250,6 +262,12 @@ class VRPSolution: public ISolution
         //! the total unserved requests
         int totalUnservedRequests;
 
+        //! the total unserved passenger requests
+        int totalUnservedPasRequests;
+
+        //! the total unserved freight requests
+        int totalUnservedFreRequests;
+
         //! the total objective value after platooning
         double totalObjValueAfterPlatooning;
         
@@ -258,9 +276,6 @@ class VRPSolution: public ISolution
 
         //! the cpu time spent after platooning
         double cpuAfterPlatooning;
-
-        //! find the destroyable paths in the solution
-        void findDestroyablePaths();
 
 };
 

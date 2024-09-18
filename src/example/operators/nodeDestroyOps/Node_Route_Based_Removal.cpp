@@ -23,5 +23,6 @@ void Node_RouteBased_Removal::destroySolNode(ISolution& sol)
     VRPSolution& vrpsol = dynamic_cast<VRPSolution&>(sol);
     RandomNumber r1;
     int select_rid = r1.get_rint(0, vrpsol.getRoutesNum()-1);
-    vrpsol.deleteOneRoute(select_rid);
+    // vrpsol.deleteOneRoute(select_rid);
+    vrpsol.deleteOneRoute(3);
 }

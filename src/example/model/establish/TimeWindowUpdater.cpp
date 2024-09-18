@@ -29,7 +29,7 @@ TimeWindowUpdater::~TimeWindowUpdater()
 {
     clear_route_tw();
     clear_route_time();
-    delete nodeset;
+    // delete nodeset;
 }
 
 void TimeWindowUpdater::initTimeElements()
@@ -53,7 +53,7 @@ void TimeWindowUpdater::setServiceTW()
     for(int i = 0; i < extendroutelen; i++)
     {
         int node_id = extended_route[i];  //label == 1: served; label == 0: bypass
-        sertw_inroute[i] = (node_labels[i] == 1) ? nodeset->getServiceTW(node_id) : nodeset->getTravelTW(node_id);  //nodeset.service_tw[0]
+        sertw_inroute[i] = (node_labels[i] == 1) ? nodeset->getServiceTW(node_id) : nodeset->getTravelTW(node_id);  //nodeset->service_tw[0]
     }
 }
 
@@ -117,7 +117,7 @@ int TimeWindowUpdater::calExpectedAT1(int node_pos, int lastnode_AT1)
     int AT1;
     if(node_pos == 0)   //the starting depot
     {
-        AT1 = sertw_inroute[node_pos][0];  //the starting depot does not have AT1:  nodeset.service_tw[0][0];
+        AT1 = sertw_inroute[node_pos][0];  //the starting depot does not have AT1:  nodeset->service_tw[0][0];
     }
     else //nodes in the middle, including the ending depot
     {
@@ -329,6 +329,18 @@ int TimeWindowUpdater::calActualWaitTimePerNode(int nodepos, int arrtime_pos, in
     return wait_thisnode;
 }
 
+vector<int> TimeWindowUpdater::getActualWaitTimeAllNodes()
+{
+    vector<int> waittime_allnodes(this->extended_route.size());
+    waittime_allnodes[0] = 0;
+    waittime_allnodes[waittime_allnodes.size()-1] = 0;
+    for(int i = 1; i < waittime_allnodes.size()-1; i++)
+    {
+        waittime_allnodes[i] = calActualWaitTimePerNode(i, this->route_arrtime[i], this->route_deptime[i]);
+    }
+    return waittime_allnodes;
+}
+
 void TimeWindowUpdater::Calib_AT1_DT1(int fixed_deptw_arcpos, vector<vector<int>> original_arrtw)
 {
     int fixed_arrtw_next_arcpos = fixed_deptw_arcpos + 1;
@@ -453,7 +465,7 @@ void TimeWindowUpdater::setFinalArrDepTime()
     route_deptime[0] = route_deptw[0][1]; //the latest departure time of the first node
     for(int i = 1; i < route_arrtw.size(); i++)
     {
-        route_arrtime[i] = route_deptime[i-1] + initial_timemat[i-1][i]; //arrival time of the node
+        route_arrtime[i] = route_deptime[i-1] + initial_timemat[extended_route[i-1]][extended_route[i]]; //arrival time of the node
         route_deptime[i] = max(route_arrtime[i] + st_inroute[i], route_deptw[i][0]); //departure time of the node
     }
     route_deptime[route_arrtw.size()-1] = 0;
@@ -464,7 +476,7 @@ int TimeWindowUpdater::calRouteTotalTripDuration()
     return route_arrtime[extendroutelen-1] - route_deptime[0];
 }
 
-int TimeWindowUpdater::calTotalWaitTime(int arrtime_lastnode, int deptime_firstnode)
+int TimeWindowUpdater::calTotalWaitTime()
 {
     int route_total_tripdur = calRouteTotalTripDuration();
     bool serve_start_pos = false;

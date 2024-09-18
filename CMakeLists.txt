@@ -24,6 +24,10 @@ target_include_directories(MyApp PRIVATE
 )
 
 # compiler format
+# add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8>") 
 if (MSVC)
     add_compile_options("/source-charset:utf-8" "/execution-charset:utf-8")
 endif()
+
+
+add_definitions("-DUNICODE" "-D_UNICODE")

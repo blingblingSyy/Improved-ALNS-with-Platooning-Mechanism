@@ -113,6 +113,9 @@ class Nodes
         //! destructor
         ~Nodes();
 
+        //! end()
+        void end();
+        
         //! a simple setter
         void setDesignDemands(bool todesign) {design_demands = todesign;};
 
@@ -228,7 +231,7 @@ class Nodes
         vector<double> designServiceRates(vector<int> node_type);
         
         //! set the travelable time windows for all nodes
-        vector<vector<int>> calTravelTW(vector<double> source_dist, int plan_horizon, double speed);
+        vector<vector<int>> calTravelTW(vector<int> source_timemat, int plan_horizon, double speed);
         
         //! calibrate the service time windows for all nodes based on the travel time windows
         void calibrateServiceTW(vector<vector<int>>& initial_sertw, vector<int> servetime, vector<vector<int>> tvl_tw);

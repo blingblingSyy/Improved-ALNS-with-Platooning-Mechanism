@@ -9,14 +9,16 @@
 ExponentialCoolingSchedule::ExponentialCoolingSchedule(ISolution& initSol, CoolingSchedule_Parameters& csParam)
 {
 	// The fields are instantiated to default values.
-	start_temp = (csParam.setupPercentage*initSol.getPenalizedObjectiveValue(true))/(-log(0.5)); //! modified = true
-	end_temp = csParam.endingTemparature;
+	this->start_temp = (csParam.setupPercentage*initSol.getPenalizedObjectiveValue(true))/(-log(0.5)); //! modified = true
+	this->end_temp = csParam.endingTemparature;
+	this->decreasingFactor = csParam.expPercentageKept;
 }
 
-ExponentialCoolingSchedule::ExponentialCoolingSchedule(double startingTemperature, double endingTemparature)
+ExponentialCoolingSchedule::ExponentialCoolingSchedule(double startingTemperature, double endingTemparature, double decreasingfactor)
 {
 	this->start_temp = startingTemperature;
-	end_temp = endingTemparature;
+	this->end_temp = endingTemparature;
+	this->decreasingFactor = decreasingfactor;
 }
 
 ExponentialCoolingSchedule::~ExponentialCoolingSchedule() {

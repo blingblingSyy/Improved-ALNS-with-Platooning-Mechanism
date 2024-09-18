@@ -11,7 +11,7 @@
 using namespace std;
 
 Node_Shaw_Removal::Node_Shaw_Removal(string s, Operators_Parameters& ops_param, Nodes& nodes) : 
-                    nodeset(nodes), Node_Random_Removal(s, ops_param, nodeset.getCusNum())
+                    nodeset(nodes), Node_Random_Removal(s, ops_param, nodes.getCusNum())
 {
     empty = false;
     // hasSelectedCur = true;
@@ -124,8 +124,9 @@ double Node_Shaw_Removal::calMaxDistDiff(Nodes& nodeset)
 
 int Node_Shaw_Removal::calMaxDmdDiff(Nodes& nodeset)
 {
-    auto maxit = max_element(nodeset.getAllDemands().begin(), nodeset.getAllDemands().end());
-    auto minit = min_element(nodeset.getAllDemands().begin(), nodeset.getAllDemands().end());
+    vector<int> all_demands = nodeset.getAllDemands();
+    auto maxit = max_element(all_demands.begin(), all_demands.end());
+    auto minit = min_element(all_demands.begin(), all_demands.end());
     return *maxit - *minit;
 }
 

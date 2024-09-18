@@ -54,6 +54,24 @@ class ARoute
         //! copy another route
         void copyFromOtherRoute(ARoute& input_route);
 
+        //! set the complete extended path based on the compact route and the used paths
+        void buildExtendedRoute();
+
+        //! set the complete node labels based on the compoact route and the used paths
+        void buildNodeLabels();
+
+        //! set the initial expected time windows of the extended route
+        void calExpectedArrDepTW();
+
+        //! set the final arrival and departure time of the extended route
+        void calArrDepTime();
+        
+        //! calculate the load of the route
+        void calRouteLoad();
+
+        //! calculate the mileage of the route
+        void calRouteMileage();
+
         //! evaluate the cost of inserting a node
         void evaluateRouteByInsertNode(int insert_pos, int insert_nodeid);
 
@@ -131,10 +149,7 @@ class ARoute
 
         //! a simple getter
         vector<vector<int>> getRouteExpectedArrTW() {return expected_arrtw;};
-
-        //! a simple getter 
-        vector<int> getExpectedDepTW(int nodepos) {return expected_deptw[nodepos];};
-
+        
         //! a simple getter
         vector<vector<int>> getRouteExpectedDepTW() {return expected_deptw;};
 
@@ -145,10 +160,16 @@ class ARoute
         vector<int> getFinalDepTime() {return actual_deptime;};
 
         //! a simple getter
+        vector<int> getFinalWaitTime() {return actual_waittime;};
+
+        //! a simple getter
+        int getFinalTotalWaitTime() {return total_waittime;}
+
+        //! a simple getter
         vector<int> getRouteLoad() {return route_load;};
 
         //! a simple getter
-        vector<int> getRouteMileage() {return route_mileage;};
+        vector<double> getRouteMileage() {return route_mileage;};
 
         //! a simple getter
         int getRouteWaitTimeLimitPerNode();
@@ -164,9 +185,6 @@ class ARoute
 
         //! a simple updater
         void updateRouteExpectedDepTW(vector<vector<int>> input_deptw) {expected_deptw = input_deptw;};
-
-        //! set the final arrival and departure time of the extended route
-        void calArrDepTime();
 
     private:
         //! the pointer to the nodeset
@@ -202,7 +220,7 @@ class ARoute
         //! the extended form of the route
         vector<int> extended_route;
 
-        //! the node labels of each node in the extended route
+        //! the node labels of each node in the extended route: label == 1: served; label == 0: bypass
         vector<int> node_labels;
 
         //! the expected arrival time windows of each node in the extended route
@@ -217,14 +235,20 @@ class ARoute
         //! the final departure time of each node in the extended route
         vector<int> actual_deptime;
 
+        //! the final waiting time of each node in the extended route
+        vector<int> actual_waittime;
+
+        //! the final total waiting time of the route
+        int total_waittime;
+
         //! the change of load in this vehicle on the compact rouote
         vector<int> route_load;
 
         //! the change of travelling mileage distance for this vehicle on the compact route
-        vector<int> route_mileage;
+        vector<double> route_mileage;
 
         //! transform the position of a node in the extended route to the closet position in the compact route
-        int transform_nodepos_extend_to_compact(int node_pos_extend);
+        int convert_nodepos_extend_to_compact(int node_pos_extend);
 
         //! transform the position of a node in the compact route to the position in the extended route
         int convert_nodepos_compact_to_extend(int node_pos_compact);
@@ -235,28 +259,13 @@ class ARoute
         //! initialize the used paths in the compact route
         void initUsedPaths();
 
-        //! set the complete extended path based on the compact route and the used paths
-        void buildExtendedRoute();
-
-        //! set the complete node labels based on the compoact route and the used paths
-        void buildNodeLabels();
-
-        //! set the initial expected time windows of the extended route
-        void InitExpectedArrDepTW();
-
-        //! calculate the load of the route
-        void calRouteLoad();
-
-        //! calculate the mileage of the route
-        void calRouteMileage();
-
         //! insert a node into the compact route
         vector<int> insertNodeIntoCompactRoute(int insert_pos, int insert_nodeid);
 
         //! set the used paths by inserting a node
         vector<int> setUsedPathsByInsertNode(int insert_pos, int insert_nodeid);
 
-        //! set the extended route by inserting a node
+        //! set the extended route (with node labels) by inserting a node
         vector<int> setExtendRouteByInsertNode(int insert_pos, int insert_nodeid);
 
         //! set the node labels by inserting a node
@@ -266,7 +275,7 @@ class ARoute
         vector<int> setRouteLoadByInsertNode(int insert_pos, int insert_nodeid);
 
         //! set the route mileage by inserting a node
-        vector<int> setRouteMileageByInsertNode(int insert_pos, int insert_nodeid);
+        vector<double> setRouteMileageByInsertNode(int insert_pos, int insert_nodeid);
 
         //! remove a node from the compact route
         vector<int> removeNodeFromCompactRoute(int remove_pos);
@@ -284,7 +293,7 @@ class ARoute
         vector<int> setRouteLoadByRemoveNode(int remove_pos);
 
         //! set the route mileage by inserting a node
-        vector<int> setRouteMileageByRemoveNode(int remove_pos);
+        vector<double> setRouteMileageByRemoveNode(int remove_pos);
 
         //! modify a used path
         vector<int> modifyUsedPath(int modified_arcpos, int used_path_id);
@@ -296,7 +305,7 @@ class ARoute
         vector<int> setNodeLabelsByModifyUsedPath(int modified_arcpos, int used_path_id);
 
         //! set the route mileage by inserting a node
-        vector<int> setRouteMileageByModifyUsedPath(int modified_arcpos, int used_path_id);
+        vector<double> setRouteMileageByModifyUsedPath(int modified_arcpos, int used_path_id);
 
 };
 

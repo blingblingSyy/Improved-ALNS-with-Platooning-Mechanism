@@ -83,10 +83,10 @@ bool ALNS::solve()
 	clock_t currentTime = clock();
 	cpu = static_cast<double>(currentTime - startingTime);
 	//! get the results of the solution, and return whether the solution is feasible or not
-	string pathGlob = param->getStatsGlobPath();
+	string pathGlob = result_dir + param->getStatsGlobPath() + "_";
 	pathGlob += name;
 	pathGlob += ".txt";
-	string pathOp = param->getStatsOpPath();
+	string pathOp = result_dir + param->getStatsOpPath() + "_";
 	pathOp += name;
 	pathOp += ".txt";
 	stats.generateStatsFile(pathGlob, pathOp);
@@ -106,6 +106,7 @@ void ALNS::performOneIteration()
 	status.partialReinit();
 	
 	//! select the strategy and corresponding operators
+    stManager->initWeights();
 	stManager->selectStrategy();
 	ANodeDestroyOperator& nodeDes = stManager->selectNodeDestroyOperator();
 	ANodeRepairOperator& nodeRep = stManager->selectNodeRepairOperator(nodeDes.isEmpty());
@@ -125,15 +126,19 @@ void ALNS::performOneIteration()
 	if(stManager->getCurStrategy() == AStrategyManager::NodeFirst)
 	{
 		status.setAlreadyStrategySelected(ALNS_Iteration_Status::TRUE);
+		//! node destroy
 		nodeDes.destroySolNode(*newSolution);
 		status.setAlreadyNodeDestroyed(ALNS_Iteration_Status::TRUE);
 		nodeDes.setHasSelectedCur(true);
+		//! node repair
 		nodeRep.repairSolNode(*newSolution);
 		status.setAlreadyNodeRepaired(ALNS_Iteration_Status::TRUE);
 		nodeRep.setHasSelectedCur(true);
+		//! path destroy
 		pathDes.destroySolPath(*newSolution);
 		status.setAlreadyPathDestroyed(ALNS_Iteration_Status::TRUE);
 		pathDes.setHasSelectedCur(true);
+		//! path repair
 		pathRep.repairSolPath(*newSolution);
 		status.setAlreadyPathRepaired(ALNS_Iteration_Status::TRUE);
 		pathRep.setHasSelectedCur(true);
@@ -141,15 +146,19 @@ void ALNS::performOneIteration()
 	else if(stManager->getCurStrategy() == AStrategyManager::PathFirst)
 	{
 		status.setAlreadyStrategySelected(ALNS_Iteration_Status::TRUE);
+		//! path destroy
 		pathDes.destroySolPath(*newSolution);
 		status.setAlreadyPathDestroyed(ALNS_Iteration_Status::TRUE);
 		pathDes.setHasSelectedCur(true);
+		//! path repair
 		pathRep.repairSolPath(*newSolution);
 		status.setAlreadyPathRepaired(ALNS_Iteration_Status::TRUE);
 		pathRep.setHasSelectedCur(true);
+		//! node destroy
 		nodeDes.destroySolNode(*newSolution);
 		status.setAlreadyNodeDestroyed(ALNS_Iteration_Status::TRUE);
 		nodeDes.setHasSelectedCur(true);
+		//! node repair
 		nodeRep.repairSolNode(*newSolution);
 		status.setAlreadyNodeRepaired(ALNS_Iteration_Status::TRUE);
 		nodeRep.setHasSelectedCur(true);
@@ -166,6 +175,7 @@ void ALNS::performOneIteration()
 	nbIterationsWC++;
 
 	newSolution->makePlatoons();
+	newSolution->recomputeCost();
 	double newCost = newSolution->getObjectiveValue();
 
 	//! check whether the new solution is the new best solution
@@ -314,7 +324,7 @@ bool ALNS::transitionCurrentSolution(ISolution* newSol)
 	//! if accepted
 	if(acceptanceCriterion->transitionAccepted(*bestSolManager,*currentSolution,*newSol,status))
 	{
-		delete currentSolution;
+		delete currentSolution; //! may have error in deleting the currentSolution
 		currentSolution = newSol->getCopy();
 		return true;
 	}

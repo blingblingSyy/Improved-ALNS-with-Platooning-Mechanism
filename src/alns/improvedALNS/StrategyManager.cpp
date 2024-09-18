@@ -33,13 +33,15 @@ StrategyManager::StrategyManager(ALNS_Parameters& param)
 	this->nodeFirstStrategy = new AStrategy("nodefirst");
 	this->pathFirstStrategy = new AStrategy("pathfirst");
 	this->nodeNullDestroy = new Node_Null_Destroy("nodeNullDestroy");
-	this->nodeNullRepair = new Node_Null_Repair("nodeNullRepair");
+	this->nodeNullRepair = new Node_Null_Repair("nodeNullRepair");   //! reset weights
 	this->pathNullDestroy = new Path_Null_Destroy("pathNullDestroy");
 	this->pathNullRepair = new Path_Null_Repair("pathNullRepair");
 
 	/* new version */
 	nodeDestroyOperators.push_back(nodeNullDestroy);
 	pathDestroyOperators.push_back(pathNullDestroy);
+
+    addStrategies();
 
 	// next_noise = false;
 	// performanceRepairOperatorsWithNoise = 1;
@@ -49,6 +51,12 @@ StrategyManager::StrategyManager(ALNS_Parameters& param)
 StrategyManager::~StrategyManager()
 {
 	// Nothing to be done.
+	delete this->nodeFirstStrategy;
+	delete this->pathFirstStrategy;
+	delete this->nodeNullDestroy;
+	delete this->nodeNullRepair;
+	delete this->pathNullDestroy;
+	delete this->pathNullRepair;
 }
 
 void StrategyManager::recomputeWeight(AStrategy& st, double& sumW)
@@ -75,6 +83,26 @@ void StrategyManager::recomputeWeight(AStrategy& st, double& sumW)
 	st.setWeight(newWeight);
 	st.resetScore();  //! reset score at the end of each segment to prepare for new segment
 	st.resetNumberOfCalls();
+}
+
+void StrategyManager::initWeights()
+{
+	//! node null operators
+	int nodeNullDesWeight = 0;
+	for(int i = 1; i < nodeDestroyOperators.size(); i++)
+	{
+		nodeNullDesWeight += nodeDestroyOperators[i]->getWeight();
+	}
+	nodeNullDestroy->setWeight(nodeNullDesWeight);
+	nodeNullRepair->setWeight(nodeNullDesWeight);
+	//! path null operators
+	int pathNullDesWeight = 0;
+	for(int i = 1; i < pathDestroyOperators.size(); i++)
+	{
+		pathNullDesWeight += pathDestroyOperators[i]->getWeight();
+	}
+	pathNullDestroy->setWeight(pathNullDesWeight);
+	pathNullRepair->setWeight(pathNullDesWeight);
 }
 
 void StrategyManager::recomputeWeights()
@@ -208,7 +236,7 @@ AOperator& StrategyManager::selectOpt(vector<AOperator*>& vecOp, double sumW)
 void StrategyManager::selectStrategy()
 {
 	double randomVal = static_cast<double>(rand())/static_cast<double>(RAND_MAX);
-	double randomWeightPos = randomVal * sumWeightsStrategy;
+	double randomWeightPos = randomVal * 0; //sumWeightsStrategy;
 	double cumulSum = 0;
 	cumulSum += nodeFirstStrategy->getWeight();
 	if(cumulSum >= randomWeightPos)
@@ -246,11 +274,11 @@ ANodeDestroyOperator& StrategyManager::selectNodeDestroyOperator()
 		// vector<AOperator*> updatedNodeDestroyOperators = nodeDestroyOperators;
 		// updatedNodeDestroyOperators.erase(remove(updatedNodeDestroyOperators.begin(), updatedNodeDestroyOperators.end(), nodeNullDestroy));
 		vector<AOperator*> updatedNodeDestroyOperators(nodeDestroyOperators.begin()+1, nodeDestroyOperators.end());
-		double newSumWeights = sumWeightsNodeDestroy - nodeNullDestroy->getWeight();
-		return dynamic_cast<ANodeDestroyOperator&>(selectOpt(updatedNodeDestroyOperators, newSumWeights));
+		return dynamic_cast<ANodeDestroyOperator&>(selectOpt(updatedNodeDestroyOperators, sumWeightsNodeDestroy));
 	}
 	else //! curSt == PathFirst
 	{
+		sumWeightsNodeDestroy = sumWeightsNodeDestroy + nodeNullDestroy->getWeight();
 		return dynamic_cast<ANodeDestroyOperator&>(selectOpt(nodeDestroyOperators, sumWeightsNodeDestroy));
 	}
 }
@@ -274,11 +302,11 @@ APathDestroyOperator& StrategyManager::selectPathDestroyOperator()
 		// vector<AOperator*> updatedPathDestroyOperators = pathDestroyOperators;
 		// updatedPathDestroyOperators.erase(remove(updatedPathDestroyOperators.begin(), updatedPathDestroyOperators.end(), pathNullDestroy));
 		vector<AOperator*> updatedPathDestroyOperators(pathDestroyOperators.begin()+1, pathDestroyOperators.end());
-		double newSumWeights = sumWeightsPathDestroy - pathNullDestroy->getWeight();
-		return dynamic_cast<APathDestroyOperator&>(selectOpt(updatedPathDestroyOperators, newSumWeights));
+		return dynamic_cast<APathDestroyOperator&>(selectOpt(updatedPathDestroyOperators, sumWeightsPathDestroy));
 	}
 	else //! curSt == NodeFirst
 	{
+		sumWeightsPathDestroy = sumWeightsPathDestroy + pathNullDestroy->getWeight();
 		return dynamic_cast<APathDestroyOperator&>(selectOpt(pathDestroyOperators, sumWeightsPathDestroy));
 	}
 }
@@ -295,10 +323,20 @@ APathRepairOperator& StrategyManager::selectPathRepairOperator(bool pathDesEmpty
 	}
 }
 
+void StrategyManager::addStrategies()
+{
+	strategies.push_back(nodeFirstStrategy);
+	strategies.push_back(pathFirstStrategy);
+	sumWeightsStrategy += nodeFirstStrategy->getWeight();
+	sumWeightsStrategy += pathFirstStrategy->getWeight();
+}
+
 void StrategyManager::addNodeRepairOperator(ANodeRepairOperator& nodeRepairOperator)
 {
-	auto forbiden_it = find(parameters->getForbidenOperators().begin(), parameters->getForbidenOperators().end(), nodeRepairOperator.getName());
-	if(forbiden_it != parameters->getForbidenOperators().end())
+	//set.find()==set.end() does not work -> different calling returns different vector containers
+	vector<string> forbidden_operators = parameters->getForbidenOperators();
+	auto forbiden_it = find(forbidden_operators.begin(), forbidden_operators.end(), nodeRepairOperator.getName());
+	if(forbiden_it != forbidden_operators.end())
 	{
 		cout << nodeRepairOperator.getName().c_str() << ": forbidden" << endl;
 	}
@@ -311,8 +349,9 @@ void StrategyManager::addNodeRepairOperator(ANodeRepairOperator& nodeRepairOpera
 
 void StrategyManager::addNodeDestroyOperator(ANodeDestroyOperator& nodeDestroyOperator)
 {
-	auto forbiden_it = find(parameters->getForbidenOperators().begin(), parameters->getForbidenOperators().end(), nodeDestroyOperator.getName());
-	if(forbiden_it != parameters->getForbidenOperators().end())
+	vector<string> forbidden_operators = parameters->getForbidenOperators();
+	auto forbiden_it = find(forbidden_operators.begin(), forbidden_operators.end(), nodeDestroyOperator.getName());
+	if(forbiden_it != forbidden_operators.end())
 	{
 		cout << nodeDestroyOperator.getName().c_str() << ": forbidden" << endl;
 	}
@@ -325,8 +364,9 @@ void StrategyManager::addNodeDestroyOperator(ANodeDestroyOperator& nodeDestroyOp
 
 void StrategyManager::addPathRepairOperator(APathRepairOperator& pathRepairOperator)
 {
-	auto forbiden_it = find(parameters->getForbidenOperators().begin(), parameters->getForbidenOperators().end(), pathRepairOperator.getName());
-	if(forbiden_it != parameters->getForbidenOperators().end())
+	vector<string> forbidden_operators = parameters->getForbidenOperators();
+	auto forbiden_it = find(forbidden_operators.begin(), forbidden_operators.end(), pathRepairOperator.getName());
+	if(forbiden_it != forbidden_operators.end())
 	{
 		cout << pathRepairOperator.getName().c_str() << ": forbidden" << endl;
 	}
@@ -339,8 +379,9 @@ void StrategyManager::addPathRepairOperator(APathRepairOperator& pathRepairOpera
 
 void StrategyManager::addPathDestroyOperator(APathDestroyOperator& pathDestroyOperator)
 {
-	auto forbiden_it = find(parameters->getForbidenOperators().begin(), parameters->getForbidenOperators().end(), pathDestroyOperator.getName());
-	if(forbiden_it != parameters->getForbidenOperators().end())
+	vector<string> forbidden_operators = parameters->getForbidenOperators();
+	auto forbiden_it = find(forbidden_operators.begin(), forbidden_operators.end(), pathDestroyOperator.getName());
+	if(forbiden_it != forbidden_operators.end())
 	{
 		cout << pathDestroyOperator.getName().c_str() << ": forbidden" << endl;
 	}

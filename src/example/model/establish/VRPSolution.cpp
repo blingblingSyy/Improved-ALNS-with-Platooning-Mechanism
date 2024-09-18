@@ -17,19 +17,21 @@
 #include "example/model/basic/config.h"
 #include "alns/improvedALNS/ISolution.h"
 
-VRPSolution::VRPSolution(Nodes& nodeset, Vehicles& vehset)
+VRPSolution::VRPSolution(Nodes& nodeset, Vehicles& vehset) : nodeset(nodeset), vehset(vehset)
 {
-    this->nodeset = &nodeset;
-    this->vehset = &vehset;
+    // this->nodeset = &nodeset;
+    // this->vehset = &vehset;
     for(int i = 1; i < nodeset.getNodeNum(); i++)
     {
-        nonInsertedNodes.push_back(i);  //{1,2,3,4,5,6,7,8,9}
+        if(nodeset.getNodeType(i) != 2)
+        {
+            nonInsertedNodes.push_back(i);  //{1,2,3,4,5,6,7,8,9}
+        }
     }
     for(int v = 0; v < vehset.getVehNum(); v++)
     {
         nonUsedVehs.push_back(v); //{0,1,2,3,4,5}
     }
-    findDestroyablePaths(); //set destroyableArcPos
     getDestroyedArcsPos().clear();
 }
 
@@ -37,16 +39,18 @@ VRPSolution::~VRPSolution()
 {
     nonInsertedNodes.clear();
     nonUsedVehs.clear();
-    delete nodeset;
-    delete vehset;
+    // delete nodeset;
+    // delete vehset;
     for(int i = 0; i < getRoutesNum(); i++)
     {
         delete sol_config[i];
     }
+    sol_config.clear();
     for(int i = 0; i < getPlatoonNum(); i++)
     {
-        delete sol_config[i];
+        delete platoons_config[i];
     }
+    platoons_config.clear();
 }
 
 void VRPSolution::findDestroyablePaths()
@@ -56,7 +60,7 @@ void VRPSolution::findDestroyablePaths()
         vector<int> compact_route_i = sol_config[i]->getCompactRoute();
         for(int j = 0; j < compact_route_i.size()-1; j++)
         {
-            if(nodeset->getAllAvailPathSize()[compact_route_i[j]][compact_route_i[j+1]] > 1)
+            if(nodeset.getAllAvailPathSize()[compact_route_i[j]][compact_route_i[j+1]] > 1)
             {
                 //! destroyableArcPos = {{destroyed_arcpos, destroyed_pathid, routeid}, ...}
                 destroyableArcPos.push_back(make_tuple(j, sol_config[i]->getUsedPathsAtArc(j), i));
@@ -68,7 +72,7 @@ void VRPSolution::findDestroyablePaths()
 
 ARoute* VRPSolution::buildNewRoute()
 {
-    ARoute* new_route = new ARoute(*nodeset, *vehset);
+    ARoute* new_route = new ARoute(nodeset, vehset);
     if(nonInsertedNodes.empty() || nonUsedVehs.empty()) //! if any set is empty, return an empty route
     {
         return new_route;
@@ -77,10 +81,10 @@ ARoute* VRPSolution::buildNewRoute()
     {
         //! randomly pick a customer to be inserted (note that the customer should not have nodetype of 2, which is for the intersection)
         RandomNumber r;
-        int pick_cus = r.get_rint(1, nonInsertedNodes.size()); //0;
-        int cus_type = nodeset->getNodeType(pick_cus);
+        int pick_cus = nonInsertedNodes[0]; //r.get_rint(0, nonInsertedNodes.size()-1);
+        int cus_type = nodeset.getNodeType(pick_cus);
         //! after picking the customer, check whether there are lefting vehicles of the same type as the customer type to be inserted
-        vector<int>::iterator veh_it = find_if(nonUsedVehs.begin(), nonUsedVehs.end(), [&](int x) -> bool {return vehset->getVehType(x) == cus_type;});
+        vector<int>::iterator veh_it = find_if(nonUsedVehs.begin(), nonUsedVehs.end(), [&](int x) -> bool {return vehset.getVehType(x) == cus_type || cus_type == 2;});
         if(veh_it != nonUsedVehs.end())  //! there are at least one vehicle of the same type as the chosen customer
         {
             new_route->setVehIdType((*veh_it));
@@ -96,7 +100,7 @@ ARoute* VRPSolution::buildNewRoute()
         }
         else //! there are no lefting vehicles of the same type as the selected customer type -> change a customer to create a new route
         {
-            vector<int>::iterator new_cus_it = find_if(nonInsertedNodes.begin(), nonInsertedNodes.end(), [&](int x) -> bool {return nodeset->getNodeType(x) != cus_type;});
+            vector<int>::iterator new_cus_it = find_if(nonInsertedNodes.begin(), nonInsertedNodes.end(), [&](int x) -> bool {return nodeset.getNodeType(x) != cus_type;});
             if(new_cus_it != nonInsertedNodes.end()) //! if not, the remaining customers and vehicles are incompatible
             {
                 new_route->setVehIdType(nonUsedVehs[0]);
@@ -126,7 +130,7 @@ void VRPSolution::buildInitialSol()
             vector<int> unserved_cus_id_same_type;
             for(auto iter = nonInsertedNodes.begin(); iter != nonInsertedNodes.end(); iter++)
             {
-                if(nodeset->getNodeType(*iter) == new_route->getVehType())
+                if(nodeset.getNodeType(*iter) == new_route->getVehType())
                 {
                     unserved_cus_id_same_type.push_back(*iter);
                 }
@@ -166,8 +170,9 @@ void VRPSolution::buildInitialSol()
     }
 
     //need to be deleted later
-    sol_config[1]->setRouteByModifyUsedPath(0, 1);
-    sol_config[1]->setRouteByModifyUsedPath(1, 1);
+    // sol_config[3]->setRouteByModifyUsedPath(0, 1);
+    // sol_config[3]->setRouteByModifyUsedPath(1, 1);
+    // sol_config[1]->setRouteByModifyUsedPath(0, 1);
 
     // cpuBeforePlatooning = (clock() - start ) / (double) CLOCKS_PER_SEC;
     makePlatoons();
@@ -211,11 +216,13 @@ void VRPSolution::makePlatoons()
     platoons_config.clear();
     if(sol_config.size() > 1)
     {
-        PlatoonMaker* plmaker = new PlatoonMaker(*this, *nodeset);
+        PlatoonMaker* plmaker = new PlatoonMaker(*this, nodeset);
         platoons_config = plmaker->getAllPlatoons();
         plmaker->setArrDepTimeAllRoutes();
         totalEnergySaving = plmaker->calSolTotalEnergySaving();
-        totalDistCostsAfterPlatooning = totalDistCostsBeforePlatooning - totalEnergySaving;
+        // totalDistCostsBeforePlatooning = calTotalDist();
+        // totalDistCostsAfterPlatooning = calTotalEnergyDist();
+        // totalTripDurationAllRoutes = calTotalTripDuration();
         delete plmaker;
     }
 }
@@ -240,6 +247,7 @@ double VRPSolution::calTotalDist()
 
 double VRPSolution::calTotalEnergyDist()
 {
+    // totalDistCostsAfterPlatooning = calTotalDist() - totalEnergySaving;
     totalDistCostsAfterPlatooning = totalDistCostsBeforePlatooning - totalEnergySaving;
     return totalDistCostsAfterPlatooning;
 }
@@ -256,47 +264,115 @@ int VRPSolution::calTotalTripDuration()
 
 int VRPSolution::calTotalUnservedRequests()
 {
-    return nonInsertedNodes.size();
+    totalUnservedPasRequests = 0;
+    totalUnservedFreRequests = 0;
+    totalUnservedRequests = 0;
+    for(int i = 0; i < nonInsertedNodes.size(); i++)
+    {
+        if(nodeset.getNodeType(nonInsertedNodes[i]) == 0)
+        {
+            totalUnservedPasRequests += 1;
+        }
+        else if(nodeset.getNodeType(nonInsertedNodes[i]) == 1)
+        {
+            totalUnservedFreRequests += 1;
+        }
+        totalUnservedRequests += 1;
+    }
+    return totalUnservedRequests;
+    // return nonInsertedNodes.size();
+}
+
+int VRPSolution::calTotalUnservedPasRequests()
+{
+    totalUnservedPasRequests = 0;
+    for(int i = 0; i < nonInsertedNodes.size(); i++)
+    {
+        if(nodeset.getNodeType(nonInsertedNodes[i]) == 0)
+        {
+            totalUnservedPasRequests += 1;
+        }
+    }
+    return totalUnservedPasRequests;
+}
+
+int VRPSolution::calTotalUnservedFreRequests()
+{
+    totalUnservedFreRequests = 0;
+    for(int i = 0; i < nonInsertedNodes.size(); i++)
+    {
+        if(nodeset.getNodeType(nonInsertedNodes[i]) == 0)
+        {
+            totalUnservedFreRequests += 1;
+        }
+    }
+    return totalUnservedFreRequests;
 }
 
 double VRPSolution::calTotalObjectiveValue()
 {
-    return obj_w1*totalDistCostsAfterPlatooning + obj_w2*totalTripDurationAllRoutes + obj_w3*totalUnservedRequests;
+    return obj_w1*totalDistCostsAfterPlatooning + obj_w2*totalTripDurationAllRoutes + obj_w3*(totalUnservedPasRequests+fp*totalUnservedFreRequests);
     // return obj_w1*calTotalEnergyDist() + obj_w2*calTotalTripDuration() + obj_w3*calTotalUnservedRequests();
 }
 
 double VRPSolution::getPenalizedObjectiveValue(bool modified)
 {
-    if(!modified) return totalObjValueAfterPlatooning;
+    if(!modified) return calTotalObjectiveValue();
     else return (obj_w1*totalDistCostsAfterPlatooning + obj_w2*totalTripDurationAllRoutes);
 }
 
-void VRPSolution::recomputeCost(bool recouple)
+void VRPSolution::recomputeCost() //bool make_platoon
 {
     totalDistCostsBeforePlatooning = 0;
     totalEnergySaving = 0;
     totalDistCostsAfterPlatooning = 0;
     totalTripDurationAllRoutes = 0;
     totalUnservedRequests = 0;
+    totalUnservedPasRequests = 0;
+    totalUnservedFreRequests = 0;
 	totalObjValueAfterPlatooning = 0;
-    if(recouple) makePlatoons(); //! recouple = true: rebuild platoons again
-    for(int i = 0; i < getRoutesNum(); i++)
+    // if(make_platoon) makePlatoons(); //! make_platoon = true: rebuild platoons again -> get the arrival time and departure time
+    for(int r = 0; r < getRoutesNum(); r++)
     {
-        totalDistCostsBeforePlatooning += sol_config[i]->getRouteDistance();
-        totalTripDurationAllRoutes += sol_config[i]->getRouteDuration();
+        totalDistCostsBeforePlatooning += sol_config[r]->getRouteDistance();
+        totalTripDurationAllRoutes += sol_config[r]->getRouteDuration();
     }
     for(int p = 0; p < getPlatoonNum(); p++)
     {
         totalEnergySaving += platoons_config[p]->calEnergySaving();
     }
     totalDistCostsAfterPlatooning = totalDistCostsBeforePlatooning - totalEnergySaving;
-    totalUnservedRequests = nonInsertedNodes.size();
-    totalObjValueAfterPlatooning = obj_w1*totalDistCostsAfterPlatooning + obj_w2*totalTripDurationAllRoutes + obj_w3*totalUnservedRequests;
+    for(int i = 0; i < nonInsertedNodes.size(); i++)
+    {
+        if(nodeset.getNodeType(nonInsertedNodes[i]) == 0)
+        {
+            totalUnservedPasRequests += 1;
+        }
+        else if(nodeset.getNodeType(nonInsertedNodes[i] == 1))
+        {
+            totalUnservedFreRequests += 1;
+        }
+        totalUnservedRequests += 1;
+    }
+    // totalUnservedRequests = nonInsertedNodes.size();
+    totalObjValueAfterPlatooning = obj_w1*totalDistCostsAfterPlatooning + obj_w2*totalTripDurationAllRoutes + obj_w3*(totalUnservedPasRequests+fp*totalUnservedFreRequests);
+}
+
+void VRPSolution::updateSol(bool make_platoon)
+{
+    for(int i = 0; i < getRoutesNum(); i++)
+    {
+        sol_config[i]->calExpectedArrDepTW();
+        sol_config[i]->calRouteLoad();
+        sol_config[i]->calRouteMileage();
+        if(make_platoon) makePlatoons(); //! make_platoon = true: rebuild platoons again
+        sol_config[i]->calArrDepTime();
+    }
 }
 
 ISolution* VRPSolution::getCopy()
 {
-	VRPSolution* newSol = new VRPSolution(*nodeset, *vehset);
+	VRPSolution* newSol = new VRPSolution(nodeset, vehset);
     newSol->getNonInsertedNodes().clear();
     for(int i = 0; i < getNonInsertedNodes().size(); i++)
     {
@@ -310,12 +386,14 @@ ISolution* VRPSolution::getCopy()
     newSol->getAllRoutes().clear();
     for(int r = 0; r < getRoutesNum(); r++)
     {
-        newSol->getAllRoutes().push_back(sol_config[r]);
+        ARoute* newRoute = new ARoute(*(sol_config[r]));
+        newSol->getAllRoutes().push_back(newRoute);
     }
     newSol->getAllPlatoons().clear();
     for(int p = 0; p < getPlatoonNum(); p++)
     {
-        newSol->getAllPlatoons().push_back(platoons_config[p]);
+        APlatoon* newPlatoon = new APlatoon(*(platoons_config[p]));
+        newSol->getAllPlatoons().push_back(newPlatoon);
     }
 	newSol->recomputeCost();
 	return dynamic_cast<ISolution*>(newSol);
@@ -325,7 +403,8 @@ long long VRPSolution::getHash()
 {
 	//recomputeCost();
     double hash = 1;
-    hash = 100 * calTotalEnergyDist() * calTotalTripDuration() + 50 * calTotalUnservedRequests();
+    hash = 100 * totalDistCostsAfterPlatooning * totalTripDurationAllRoutes + 50 * totalUnservedPasRequests * totalUnservedFreRequests;
+    // hash = 100 * calTotalEnergyDist() * calTotalTripDuration() + 50 * calTotalUnservedRequests();
 	return static_cast<long long>(hash);
 }
 
@@ -345,6 +424,14 @@ void VRPSolution::insertNode(int insert_pos, int insert_nodeid, int routeid)
             //! compute the cost for the solution after the insertion
             totalDistCostsBeforePlatooning += insertcosts;
             totalUnservedRequests -= 1;
+            if(nodeset.getNodeType(nonInsertedNodes[insert_nodeid] == 0))
+            {
+                totalUnservedPasRequests -= 1;
+            }
+            else if(nodeset.getNodeType(nonInsertedNodes[insert_nodeid] == 1))
+            {
+                totalUnservedFreRequests -= 1;
+            }
         }
         else
         {
@@ -376,6 +463,14 @@ void VRPSolution::removeNode(int remove_pos, int routeid)
         //! compute the removal costs for the solution after the removal
         totalDistCostsBeforePlatooning += removalcosts;
         totalUnservedRequests += 1;
+        if(nodeset.getNodeType(nonInsertedNodes[remove_nodeid] == 0))
+        {
+            totalUnservedPasRequests -= 1;
+        }
+        else if(nodeset.getNodeType(nonInsertedNodes[remove_nodeid] == 1))
+        {
+            totalUnservedFreRequests -= 1;
+        }
     }
     else
     {
@@ -454,10 +549,10 @@ void VRPSolution::deleteOneRoute(int rid)
     {
         nonInsertedNodes.push_back(compact_route[i]);
     }
-    delete sol_config[rid];
+    // delete sol_config[rid];
     sol_config.erase(sol_config.begin()+rid);
     //! remove platoons containing the route
-    for(auto it_platoon = platoons_config.begin(); it_platoon != platoons_config.end(); it_platoon++)
+    for(auto it_platoon = platoons_config.begin(); it_platoon != platoons_config.end();)
     {
         vector<int> common_routes = (*it_platoon)->getCommonRoutes();
         if(find(common_routes.begin(), common_routes.end(), rid) != common_routes.end())
@@ -465,10 +560,13 @@ void VRPSolution::deleteOneRoute(int rid)
             (*it_platoon)->removeOneVeh(rid);
             if((*it_platoon)->calPLen() < 2)
             {
-                delete (*it_platoon);
+                // delete (*it_platoon);
                 it_platoon = platoons_config.erase(it_platoon);
-                continue; //! not doing it_platoon++
             }
+        }
+        else
+        {
+            it_platoon++;
         }
     }
     // recomputeCost();
@@ -507,7 +605,8 @@ int VRPSolution::getNodeShowTimes(int nodeid)
     vector<int> allnodes;
     for(int i = 0; i < getRoutesNum(); i++)
     {
-        count_sum += count(getOneRoute(i)->getExtendedRoute().begin(), getOneRoute(i)->getExtendedRoute().end(), nodeid);
+        vector<int> extended_route_i = getOneRoute(i)->getExtendedRoute();
+        count_sum += count(extended_route_i.begin(), extended_route_i.end(), nodeid);
     }
     return count_sum;
 }

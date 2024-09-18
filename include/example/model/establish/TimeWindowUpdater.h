@@ -161,11 +161,14 @@ class TimeWindowUpdater
         //! calculate the actual waiting time spent at a given node in a route
         int calActualWaitTimePerNode(int nodepos, int arrtime_pos, int deptime_pos); 
 
+        //! calculate the actual waiting time spent at each node in an extended route
+        vector<int> getActualWaitTimeAllNodes();
+
         //! calculate the total trip duration for the input route
         int calRouteTotalTripDuration();
 
         //! calculate the total waiting time for the input route
-        int calTotalWaitTime(int arrtime_lastnode, int deptime_firstnode);
+        int calTotalWaitTime();
 
         //! clear the arrival and departure time windows for the route
         void clear_route_tw(); 

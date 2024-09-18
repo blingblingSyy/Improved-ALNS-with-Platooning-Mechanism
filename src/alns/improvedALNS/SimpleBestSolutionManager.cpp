@@ -20,7 +20,7 @@ SimpleBestSolutionManager::~SimpleBestSolutionManager()
 
 bool SimpleBestSolutionManager::isNewBestSolution(ISolution& sol)
 {
-	for(list<ISolution*>::iterator it = bestSols.begin(); it != bestSols.end(); it++) //it++
+	for(list<ISolution*>::iterator it = bestSols.begin(); it != bestSols.end();) //it++
 	{
 		ISolution& currentSol = *(*it);
 		if(currentSol < sol) //! not better
@@ -35,12 +35,15 @@ bool SimpleBestSolutionManager::isNewBestSolution(ISolution& sol)
 			{
 				break; //! jump out of the for cycle, and add the input sol to the list of bestSols
 			}
-			continue; //not execute it++ at the end of the current for cycle
 		}
 		else if(currentSol.getHash() == sol.getHash()) //! not better(==), not new
 		{
 			return false;
 		} //! if not the same, compare the next and finally add the input sol to the list of bestSols
+		else
+		{
+			it++;
+		}
 	}
 	ISolution* copy = sol.getCopy();
 	bestSols.push_back(copy); //! always put the better solution at the back of the list

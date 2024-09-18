@@ -27,6 +27,9 @@ class StrategyManager : public AStrategyManager
 		//! Destructor.
 		virtual ~StrategyManager();
 
+		//! recompute the weights of the operators and strategies
+		void initWeights();
+
 		//! This function recompute the weights of every strategy and operator managed by this manager.
 		void recomputeWeights();
 
@@ -51,6 +54,9 @@ class StrategyManager : public AStrategyManager
 
 		//! get the name of the current selected strategy
 		string getCurStName();
+
+		//! This method adds (node first / path first) strategies to the list
+		void addStrategies();
 		
 		//! This method adds a node repair operator to the list
 		//! of node repair operator managed by this manager.
@@ -104,6 +110,9 @@ class StrategyManager : public AStrategyManager
 
 		//! the pointer to a Path_Null_Repair operator
 		APathRepairOperator* pathNullRepair;
+
+		//! the set of strategies
+		vector<AStrategy*> strategies;
 
 		//! The set of node destroy operators.
 		vector<AOperator*> nodeDestroyOperators;

@@ -22,7 +22,7 @@ class ExponentialCoolingSchedule: public ICoolingSchedule
 
 		//! Constructor.
 		//! \param startingTemperature the initial temperature.
-		ExponentialCoolingSchedule(double startingTemperature, double endingTemparature);
+		ExponentialCoolingSchedule(double startingTemperature, double endingTemparature, double decreasingfactor);
 
 		//! Destructor.
 		virtual ~ExponentialCoolingSchedule();

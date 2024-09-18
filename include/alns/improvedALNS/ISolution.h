@@ -36,6 +36,12 @@ public:
 	
 	//! Make platoons for the solution
 	virtual void makePlatoons() = 0;
+
+	//! update the solution
+	virtual void updateSol(bool make_platoon = false) = 0;
+
+	//! recompute costs of the solution
+	virtual void recomputeCost() = 0;  //bool make_platoon = false
 };
 
 

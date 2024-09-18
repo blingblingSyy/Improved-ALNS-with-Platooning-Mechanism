@@ -69,17 +69,39 @@ Nodes::Nodes()
 
 Nodes::~Nodes()
 {
-    delete rawInstance;
+    // delete rawInstance; //! this is deleting scalar (existing inputInstance), not deleting new memory
     for(int i = 0; i < avail_path_set.size(); i++)
     {
         for(int j = 0; j < avail_path_set[i].size(); j++)
         {
-            for(int z = 0; z < avail_path_set[i][j].size(); z++)
+            if(i != j)
             {
-                delete avail_path_set[i][j][z];
+                for(int z = 0; z < avail_path_set[i][j].size(); z++)
+                {
+                    delete avail_path_set[i][j][z];
+                }
             }
         }
     }
+    delete avail_path_set[0][0][0];
+}
+
+void Nodes::end()
+{
+    for(int i = 0; i < avail_path_set.size(); i++)
+    {
+        for(int j = 0; j < avail_path_set[i].size(); j++)
+        {
+            if(i != j)
+            {
+                for(int z = 0; z < avail_path_set[i][j].size(); z++)
+                {
+                    delete avail_path_set[i][j][z];
+                }
+            }
+        }
+    }
+    delete avail_path_set[0][0][0];
 }
 
 /*old version*/
@@ -140,8 +162,9 @@ void Nodes::buildNodesStruct()
     service_time = (design_sertime) ? designServiceTimes(nodetype) : rawInstance->extract_sertime();
     KSPBuilder altpathsets_obj(modified_distmat, nodenum, AVAIL_PATHSET_SIZE_K);
     SP_distmat = altpathsets_obj.getAllShortestPathDistance();
+    SP_timemat = altpathsets_obj.getAllShortestPathTimeMat(veh_speed);
     avail_path_set = altpathsets_obj.getAllAvailablePathSet();
-    travel_tw = calTravelTW(SP_distmat[0], rawInstance->getPlanHorizon(), veh_speed);
+    travel_tw = calTravelTW(SP_timemat[0], rawInstance->getPlanHorizon(), veh_speed);
     service_tw = (design_sertw) ? designServiceTW(travel_tw, nodetype) : rawInstance->extract_sertw();
     calibrateServiceTW(service_tw, service_time, travel_tw);//get modified service time windows for each node
 }
@@ -273,19 +296,18 @@ vector<double> Nodes::designServiceRates(vector<int> node_type)
     return serve_rate;
 }
 
-vector<vector<int>> Nodes::calTravelTW(vector<double> source_dist, int plan_horizon, double speed)
+vector<vector<int>> Nodes::calTravelTW(vector<int> source_timemat, int plan_horizon, double speed)
 {
-    vector<vector<int>> tvl_tw(int(source_dist.size()));
-    for(int i = 0; i < source_dist.size(); i++)   //source dist is the shortest path distance from the depot
+    vector<vector<int>> tvl_tw(int(source_timemat.size()));
+    for(int i = 0; i < source_timemat.size(); i++)   //source dist is the shortest path distance from the depot
     {
-        int source_time = int(ceil(source_dist[i] / speed));
-        if(plan_horizon - source_time <= 0 + source_time)
+        if(plan_horizon - source_timemat[i] <= 0 + source_timemat[i])
         {
             cerr << "Infeasible travel time window of node "<< i << endl;
             tvl_tw[i] = {0, 0};
         }
         else
-            tvl_tw[i] = {0 + source_time, plan_horizon - source_time};  //by default, the starting time of the planning horizon is 0
+            tvl_tw[i] = {0 + source_timemat[i], plan_horizon - source_timemat[i]};  //by default, the starting time of the planning horizon is 0
     }
 	return tvl_tw;
 }
@@ -355,7 +377,7 @@ vector<vector<double>> Nodes::calInitialDistMat(vector<vector<double>> coordinat
         init_dist[i].resize(nodenum);
         for(int j = i+1; j < nodenum && j > i; j++)
         {
-            init_dist[i][j] = calEuclidDist(coordinates[i], coordinates[j]);
+            init_dist[i][j] = calEuclidDist(coordinates[i], coordinates[j]);  //round(calEuclidDist(coordinates[i], coordinates[j]))
         }
         init_dist[i][i] = 0;
     }
@@ -402,7 +424,7 @@ vector<vector<int>> Nodes::calInitialTravelTime(vector<vector<double>> init_dist
 
 ADijkstraSol* Nodes::getOnePath(int nodeid1, int nodeid2, int pathid)
 {
-    ADijkstraSol* initDijkstraSol;
+    ADijkstraSol* initDijkstraSol = new ADijkstraSol;
     if(pathid < avail_path_set[nodeid1][nodeid2].size())
     {
         initDijkstraSol = avail_path_set[nodeid1][nodeid2][pathid];

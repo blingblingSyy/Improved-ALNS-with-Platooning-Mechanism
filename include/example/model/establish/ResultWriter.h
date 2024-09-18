@@ -15,14 +15,15 @@ class VRPSolution;
 class ResultWriter
 {
     private: 
-        ofstream outfile;
         string instance_name;
         string result_filepath;
-        VRPSolution input_sol;
+        VRPSolution& input_sol;
         string solution_stage;
         double cpu;
         
     public:
+        ofstream outfile;
+
         //! constructor
         ResultWriter(VRPSolution& solution, string instancename, string stage_name, double cpu);
 

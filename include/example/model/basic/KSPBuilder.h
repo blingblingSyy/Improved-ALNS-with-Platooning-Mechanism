@@ -29,7 +29,7 @@ class KSPBuilder
         vector<vector<vector<ADijkstraSol*>>> KSP_AllPaths; 
 
         //! the size of available path set for each pair of nodes
-        vector<vector<int>> AlternativeSetSize_PerPath; 
+        // vector<vector<int>> AlternativeSetSize_PerPath; 
 
         //! the main body of Dijkstra algorithm
         void Dijsktra_body(vector<ADijkstraSol*> &SPset_fromstart, vector<int> &pred_fromstart, vector<vector<double>> input_distmat);
@@ -58,12 +58,18 @@ class KSPBuilder
         
         //! destructor
         ~KSPBuilder();
+
+        //! end()
+        void end();
         
         //! a simple getter of all shortest path solution
         vector<vector<ADijkstraSol*>> getAllShortestPaths();
 
         //! a simple getter of all shortest path distance
         vector<vector<double>> getAllShortestPathDistance();
+
+        //! a simple getter of all shortest path travel time matrix
+        vector<vector<int>> getAllShortestPathTimeMat(double speed);
 
         //! a simple getter of the shortest path solution of a given pair of nodes
         ADijkstraSol* getOneShortestPath(int start_id, int end_id);

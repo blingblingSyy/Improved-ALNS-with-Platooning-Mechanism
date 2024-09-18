@@ -13,7 +13,7 @@ Vehicles::Vehicles(RawInstance& inputInstance)
     this->rawInstance = &inputInstance;
     veh_num = rawInstance->extract_vehnum();
     veh_speed = rawInstance->extract_vehspeed();
-    designVehTypes(veh_num); 
+    designVehTypes(); 
     setVehCap();
     setWaitLimit();
     veh_range = MAX_DIST;
@@ -34,7 +34,7 @@ Vehicles::Vehicles(RawInstance& inputInstance, vector<int> input_vehtype)
 
 Vehicles::~Vehicles()
 {
-    delete rawInstance;
+    // delete rawInstance;  //! not creating new memory
 }
 
 

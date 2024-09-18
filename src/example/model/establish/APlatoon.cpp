@@ -20,11 +20,14 @@ APlatoon::APlatoon(APlatoon& p)
     this->arc = p.arc;
     this->config = p.config;
     this->overlap_deptw = p.overlap_deptw;
+    this->arclen = p.arclen;
+    this->plen = p.plen;
+    this->energy_saving = p.energy_saving;
 }
 
 APlatoon::~APlatoon() 
 {
-    delete nodeset;
+    // delete nodeset;
 }
 
 bool APlatoon::operator ==(const APlatoon& other) const
@@ -60,7 +63,8 @@ double APlatoon::calArcLen()
 
 int APlatoon::calPLen()
 {
-    return config.size();
+    plen = config.size();
+    return plen;
 }
 
 void APlatoon::setArc(vector<int> inputArc)
@@ -85,5 +89,8 @@ double APlatoon::calEnergySaving()
 void APlatoon::removeOneVeh(int vehid)
 {
     auto it = find_if(config.begin(), config.end(), [&](pair<int, int> vehpos) -> bool {return vehpos.first == vehid;});
-    if(it != config.end()) config.erase(it);
+    if(it != config.end()) 
+    {
+        config.erase(it);
+    }
 }

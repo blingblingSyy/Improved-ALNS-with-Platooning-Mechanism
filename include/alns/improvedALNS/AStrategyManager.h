@@ -42,6 +42,9 @@ class AStrategyManager
 		//! \return a node repair operator.
 		virtual APathRepairOperator& selectPathRepairOperator(bool pathDesEmpty)=0;
 
+		//! set the initial weights for the null operators
+		virtual void initWeights() = 0;
+
 		//! recompute the weights of the operators and strategies
 		virtual void recomputeWeights()=0;
 

@@ -34,6 +34,7 @@ void Path_Random_Removal::destroySolPath(ISolution& sol)
 {
     //! get the set of destroyable paths
     VRPSolution& vrpsol = dynamic_cast<VRPSolution&>(sol);
+    vrpsol.findDestroyablePaths();
     vector<tuple<int, int, int>> all_destroyable_arcpos = vrpsol.getDestroyableArcPos();  //! <destroyed_arcpos, destroyed_pathid, routeid>
     vector<vector<int>> all_destroyable_arcconfig = vrpsol.getDestroyableArcConfig(); //! {node1, node2}
     vrpsol.getDestroyedArcsPos().clear(); //! clear for the current iteration

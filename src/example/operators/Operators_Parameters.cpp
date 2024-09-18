@@ -9,7 +9,33 @@ using namespace std;
 Operators_Parameters::Operators_Parameters()
 {
 	// The variables are initialized with default values.
+	this->pathDestroyRate = 1;
 
+	this->nodeDestroyRate = 1;
+
+	this->shawRate1 = 9;
+
+	this->shawRate2 = 6;
+
+	this->shawRate3 = 4;
+
+	this->shawRate4 = 9;
+
+	this->randShawDes = 4;
+
+	this->randWorstDes = 4;
+
+	this->randAvgLenDes = 4;
+
+	this->randCardiDes = 4;
+
+	this->randNfreqDes = 4;
+
+	this->randKlenRep = 4;
+
+	this->randNfreqRep = 4;
+
+	this->tenure = 3;
 }
 
 Operators_Parameters::~Operators_Parameters()
@@ -90,7 +116,7 @@ void Operators_Parameters::loadXMLParameters(string path)
 				{
 					stringstream str;
 					str << randAL->GetText();
-					str >> this->randWorstDes;
+					str >> this->randAvgLenDes;
 				}
 				TiXmlElement* randcardi = paramOps->FirstChildElement( "RandCardiDes" );
 				if(randcardi)

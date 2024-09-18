@@ -7,10 +7,6 @@
 #include <vector>
 using namespace std;
 
-/*file paths*/
-// const string ins100_dir = "C:\\Users\\SYY\\Improved_ALNS_Git\\Li_Lim_Benchmark\\pdp_100";  // the directory for benchmark instances
-// const string result_dir = "C:\\Users\\SYY\\Improved_ALNS_Git\\results";   // the directory for result files
-
 /*special numbers*/
 #define INF 0x3f3f3f3f   // define a very large number
 #define SMALL 1e-4    // define a very small number
@@ -42,9 +38,9 @@ const int modify_pasdmd_amount = 10; //shrink the passenger demand by a factor o
 
 /*model parameters*/
 const int AVAIL_PATHSET_SIZE_K = 5;  //the limit of the size of alternative paths
-const double obj_w1 = 1;    //weight of the energy-related total distance in the objective
+const double obj_w1 = 50;    //weight of the energy-related total distance in the objective
 const double obj_w2 = 1;    //weight of the total trip duration in the objective
-const double obj_w3 = 10;   //weight of the total number of unserved requests
-
+const double obj_w3 = 10000;   //weight of the total number of unserved requests
+const double fp = 0.8;   //Freight to passenger weight ratio of total unserved request
 
 #endif

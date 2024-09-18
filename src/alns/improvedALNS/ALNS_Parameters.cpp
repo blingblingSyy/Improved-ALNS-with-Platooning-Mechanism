@@ -11,6 +11,8 @@ ALNS_Parameters::ALNS_Parameters()
 	// The variables are initialized with default values.
 	maxNbIterations = 10000;
 
+	minNbIterations = 1;
+
 	lookBackIterations = 1000;
 
 	objImpThreshold = 0.001;

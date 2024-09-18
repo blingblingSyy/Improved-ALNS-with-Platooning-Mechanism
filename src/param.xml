@@ -19,8 +19,8 @@
 		<AcKind>SA</AcKind>
 		<ReloadFrequency>5</ReloadFrequency>
 		<LogFrequency>1</LogFrequency>
-		<StatsGlobPath>./stats/globStats</StatsGlobPath>
-		<StatsOpPath>./stats/opStats</StatsOpPath>
+		<StatsGlobPath>stats/globStats</StatsGlobPath>
+		<StatsOpPath>stats/opStats</StatsOpPath>
 		<ForbiddenOperators>
 			<ForbiddenOperator>None</ForbiddenOperator>
 		</ForbiddenOperators>

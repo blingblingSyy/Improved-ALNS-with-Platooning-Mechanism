@@ -8,6 +8,11 @@
 // #include <bits/stdc++.h>
 using namespace std;
 
+/*file paths*/
+// const string ins100_dir = "C:\\Users\\SYY\\Improved_ALNS_Git\\Li_Lim_Benchmark\\pdp_100";  // the directory for benchmark instances
+const string base_dir = "C:/Users/SYY/Improved_ALNS_Git/";
+const string result_dir = "C:/Users/SYY/Improved_ALNS_Git/result/";   // the directory for result files
+
 /// @brief a class to generate random number of given type from a specific interval
 class RandomNumber  
 {  

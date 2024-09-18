@@ -37,7 +37,7 @@ vector<double> Path_NodeFreq_Removal::calMeasurement(VRPSolution& vrpsol, vector
     vector<double> destroyable_arc_avg_nodefreq;
     for(int i = 0; i < all_destroyable_arcpos.size(); i++)
     {
-        if(pathTabuObj->getPathTenure(all_destroyable_arcconfig[i]) <= 0)
+        if(pathTabuObj->getPathTenure(all_destroyable_arcconfig[i]) != 0) // <=0
         {
             destroyable_arc_avg_nodefreq.push_back(-INF);
         }

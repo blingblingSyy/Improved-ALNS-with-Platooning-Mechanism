@@ -19,11 +19,11 @@
 #include "utility.h"
 using namespace std;  
 
-PlatoonMaker::PlatoonMaker(VRPSolution& sol, Nodes& nodes)
+PlatoonMaker::PlatoonMaker(VRPSolution& sol, Nodes& nodes) : cur_sol(sol), nodeset(nodes)
 {
-    cur_sol = &sol;
-    nodeset = &nodes;
-    routes_num = cur_sol->getRoutesNum();
+    // cur_sol = &sol;
+    // nodeset = &nodes;
+    routes_num = cur_sol.getRoutesNum();
     setAllArcBasedExtendedRoutes();  //set arcs_based_extended_routes
     findAllUniqueArcs(); //set unique_arcs_set
     unique_arcs_num = unique_arcs_set.size();
@@ -35,13 +35,25 @@ PlatoonMaker::PlatoonMaker(VRPSolution& sol, Nodes& nodes)
 
 PlatoonMaker::~PlatoonMaker()
 {
-    delete cur_sol;
-    delete nodeset;
-    for(int i = 0; i < all_valid_platoons.size(); i++)
-    {
-        delete all_valid_platoons[i];
-    }
+    // delete cur_sol; //! deleting scalar
+    // delete nodeset;
+    // for(int i = 0; i < all_valid_platoons.size(); i++)
+    // {
+    //     delete all_valid_platoons[i];
+    // }
+    // all_valid_platoons.clear();
 }
+
+// void PlatoonMaker::end()
+// {
+//     // delete cur_sol; //! deleting scalar
+//     // delete nodeset;
+//     for(int i = 0; i < all_valid_platoons.size(); i++)
+//     {
+//         delete all_valid_platoons[i];
+//     }
+//     all_valid_platoons.clear();
+// }
 
 vector<vector<int>> PlatoonMaker::buildArcBasedRoute(vector<int> input_extended_route)
 {
@@ -58,7 +70,7 @@ void PlatoonMaker::setAllArcBasedExtendedRoutes()
 {
     for(int i = 0; i < routes_num; i++)
     {
-        arcs_based_extended_routes.push_back(buildArcBasedRoute(cur_sol->getOneRoute(i)->getExtendedRoute()));
+        arcs_based_extended_routes.push_back(buildArcBasedRoute(cur_sol.getOneRoute(i)->getExtendedRoute()));
     }
 }
 
@@ -83,7 +95,7 @@ void PlatoonMaker::findCommonVehs()
         {
             if(find(arcs_based_extended_routes[r].begin(), arcs_based_extended_routes[r].end(), unique_arcs_set[u]) != arcs_based_extended_routes[r].end())
             {
-                unique_arcs_occurance[u].common_vehs.push_back(cur_sol->getOneRoute(r)->getVehID());
+                unique_arcs_occurance[u].common_vehs.push_back(cur_sol.getOneRoute(r)->getVehID());
                 unique_arcs_occurance[u].common_routes.push_back(r);
             }
         }
@@ -131,8 +143,8 @@ bool PlatoonMaker::checkPairConnectivity(pair<int, int> route_pos1, pair<int, in
     }
     else //routeid1 != routeid2
     {
-        vector<int> deptw_veh_arc1 = sol_config_copy[routeid1]->getExpectedDepTW(arc_pos1);
-        vector<int> deptw_veh_arc2 = sol_config_copy[routeid2]->getExpectedDepTW(arc_pos2);
+        vector<int> deptw_veh_arc1 = sol_config_copy[routeid1]->getNodeExpectedDepTW(arc_pos1);
+        vector<int> deptw_veh_arc2 = sol_config_copy[routeid2]->getNodeExpectedDepTW(arc_pos2);
         vector<int> overlap_tw_veh_arc = {max(deptw_veh_arc1[0], deptw_veh_arc2[0]), min(deptw_veh_arc1[1], deptw_veh_arc2[1])};
         if(overlap_tw_veh_arc[0] > overlap_tw_veh_arc[1])
         {
@@ -268,6 +280,7 @@ vector<APlatoon*> PlatoonMaker::findMaximalCliquesNodeset(vector<pair<int, int>>
     for(int i = 0; i < maximal_cliques_id_set.size(); i++)
     {
         vector<pair<int, int>> platoon_config = transformIDsetToNodeset(maximal_cliques_id_set[i], graph_nodes);
+        all_maximal_cliques[i] = new APlatoon(nodeset);
         all_maximal_cliques[i]->setArc(arcs_based_extended_routes[platoon_config[0].first][platoon_config[0].second]);
         all_maximal_cliques[i]->setConfig(platoon_config);
     }
@@ -330,12 +343,12 @@ vector<int> PlatoonMaker::calOverlapDeptwOnePlatoon(vector<pair<int, int>> plato
     vector<int> overlapped_tw(2);
     int init_rid = platoon_config_on_arc[0].first;
     int init_start_nodepos = platoon_config_on_arc[0].second;
-    overlapped_tw = cur_sol->getOneRoute(init_rid)->getExpectedDepTW(init_start_nodepos);
+    overlapped_tw = cur_sol.getOneRoute(init_rid)->getNodeExpectedDepTW(init_start_nodepos);
     for(int i = 1; i < platoon_config_on_arc.size(); i++)
     {
         int rid = platoon_config_on_arc[i].first;
         int start_nodepos = platoon_config_on_arc[i].second;
-        vector<int> arc_deptw_rid = cur_sol->getOneRoute(rid)->getExpectedDepTW(start_nodepos);
+        vector<int> arc_deptw_rid = cur_sol.getOneRoute(rid)->getNodeExpectedDepTW(start_nodepos);
         overlapped_tw = {max(arc_deptw_rid[0], overlapped_tw[0]), min(arc_deptw_rid[1], overlapped_tw[1])};
     }
     if(overlapped_tw[0] > overlapped_tw[1])
@@ -394,7 +407,9 @@ void PlatoonMaker::updateArrDeptwAllCouplingRoutes(vector<pair<int, int>>& plato
             int rid = platoon_config_on_arc[i].first;
             int arc_start_pos = platoon_config_on_arc[i].second;
             //! only update the departure time windows of the routes used in the platoon
-            TimeWindowUpdater twupdater(sol_config_copy[rid]->getExtendedRoute(), sol_config_copy[rid]->getNodeLables(), sol_config_copy[rid]->getRouteWaitTimeLimitPerNode(), sol_config_copy[rid]->getRouteWaitMaxLimit(), *nodeset);
+            TimeWindowUpdater twupdater(sol_config_copy[rid]->getExtendedRoute(), sol_config_copy[rid]->getNodeLables(), sol_config_copy[rid]->getRouteWaitTimeLimitPerNode(), sol_config_copy[rid]->getRouteWaitMaxLimit(), nodeset);
+            twupdater.setRouteArrTW(sol_config_copy[rid]->getRouteExpectedArrTW());
+            twupdater.setRouteDepTW(sol_config_copy[rid]->getRouteExpectedDepTW());
             twupdater.CalibRouteTW(arc_start_pos, maximum_platoon_tw);
             sol_config_copy[rid]->updateRouteExpectedArrTW(twupdater.getRouteArrTW());
             sol_config_copy[rid]->updateRouteExpectedDepTW(twupdater.getRouteDepTW());
@@ -402,37 +417,109 @@ void PlatoonMaker::updateArrDeptwAllCouplingRoutes(vector<pair<int, int>>& plato
     }
 }
 
+
 vector<APlatoon*> PlatoonMaker::findAllPlatoons(vector<pair<int, int>>& graph_nodes, vector<vector<bool>>& pair_feas_graph)
 {
     vector<APlatoon*> all_platoons; //! exclude the platoons with length of 1
-    // vector<ARoute*> sol_config_copy = cur_sol->getAllRoutes();
+    // vector<ARoute*> sol_config_copy = cur_sol.getAllRoutes();
     while(!graph_nodes.empty())
     {
         vector<APlatoon*> all_maximal_cliques = findMaximalCliquesNodeset(graph_nodes, pair_feas_graph);
         APlatoon* maximum_clique = findMaxCliqueSavingNodeset(all_maximal_cliques);
-        //! output the overlapped departure time windows of each platoon
-        vector<int> maximum_platoon_tw = calOverlapDeptwOnePlatoon(maximum_clique->getPlatoonConfig());
-        vector<int> updated_max_platoon_tw = shrinkOverlapDeptwOnePlatoon(maximum_clique, maximum_platoon_tw);
-        all_platoons.push_back(maximum_clique);
-        //！ update time windows with the maximum platoon
-        vector<pair<int, int>> maxclique_config = maximum_clique->getPlatoonConfig();
-        updateArrDeptwAllCouplingRoutes(maxclique_config, updated_max_platoon_tw, cur_sol->getAllRoutes());
-        //！ remove all the nodes corresponding to the nodes in the maximum clique
-        process_intersections(graph_nodes, maxclique_config);
-        //！ remove all the links adjacent to the nodes in the maximum clique
-        if(!graph_nodes.empty())
+        //! delete all the platoons in the all_maximal_cliques that are not the maximum platoon
+        for(auto it = all_maximal_cliques.begin(); it != all_maximal_cliques.end();)
         {
-            pair_feas_graph = buildPairwiseFeasGraph(graph_nodes, cur_sol->getAllRoutes()); //sol_config_copy
+            if((*it) != maximum_clique)
+            {
+                delete (*it);
+                it = all_maximal_cliques.erase(it);
+            }
+            else
+            {
+                it++;
+            }
+        }
+        if(maximum_clique->getPlatoonConfig().size() > 1)
+        {
+            //! output the overlapped departure time windows of each platoon
+            vector<int> maximum_platoon_tw = calOverlapDeptwOnePlatoon(maximum_clique->getPlatoonConfig());
+            vector<int> updated_max_platoon_tw = shrinkOverlapDeptwOnePlatoon(maximum_clique, maximum_platoon_tw);
+            all_platoons.push_back(maximum_clique);
+            //！ update time windows with the maximum platoon
+            vector<pair<int, int>> maxclique_config = maximum_clique->getPlatoonConfig();
+            updateArrDeptwAllCouplingRoutes(maxclique_config, updated_max_platoon_tw, cur_sol.getAllRoutes());
+            //！ remove all the nodes corresponding to the nodes in the maximum clique
+            process_intersections(graph_nodes, maxclique_config);
+            //！ remove all the links adjacent to the nodes in the maximum clique
+            if(!graph_nodes.empty())
+            {
+                pair_feas_graph = buildPairwiseFeasGraph(graph_nodes, cur_sol.getAllRoutes()); //sol_config_copy
+            }
+        }
+        else
+        {
+            delete all_maximal_cliques.front();
+            all_maximal_cliques.clear();
+            break;
         }
     }
     return all_platoons;
 }
 
+/*old version*/
+// vector<APlatoon*> PlatoonMaker::findAllPlatoons(vector<pair<int, int>>& graph_nodes, vector<vector<bool>>& pair_feas_graph)
+// {
+//     vector<APlatoon*> all_platoons; //! exclude the platoons with length of 1
+//     // vector<ARoute*> sol_config_copy = cur_sol.getAllRoutes();
+//     while(!graph_nodes.empty())
+//     {
+//         vector<APlatoon*> all_maximal_cliques = findMaximalCliquesNodeset(graph_nodes, pair_feas_graph);
+//         //! remove all the platoons with only length of 1
+//         for(auto it = all_maximal_cliques.begin(); it != all_maximal_cliques.end();)
+//         {
+//             if((*it)->getPlatoonConfig().size() <= 1)
+//             {
+//                 delete (*it);
+//                 it = all_maximal_cliques.erase(it);
+//             }
+//             else
+//             {
+//                 it++;
+//             }
+//         }
+//         if(all_maximal_cliques.size() > 0)
+//         {
+//             APlatoon* maximum_clique = findMaxCliqueSavingNodeset(all_maximal_cliques);
+//             //! output the overlapped departure time windows of each platoon
+//             vector<int> maximum_platoon_tw = calOverlapDeptwOnePlatoon(maximum_clique->getPlatoonConfig());
+//             vector<int> updated_max_platoon_tw = shrinkOverlapDeptwOnePlatoon(maximum_clique, maximum_platoon_tw);
+//             all_platoons.push_back(maximum_clique);
+//             //！ update time windows with the maximum platoon
+//             vector<pair<int, int>> maxclique_config = maximum_clique->getPlatoonConfig();
+//             updateArrDeptwAllCouplingRoutes(maxclique_config, updated_max_platoon_tw, cur_sol.getAllRoutes());
+//             //！ remove all the nodes corresponding to the nodes in the maximum clique
+//             process_intersections(graph_nodes, maxclique_config);
+//             //！ remove all the links adjacent to the nodes in the maximum clique
+//             if(!graph_nodes.empty())
+//             {
+//                 pair_feas_graph = buildPairwiseFeasGraph(graph_nodes, cur_sol.getAllRoutes()); //sol_config_copy
+//             }
+//             //! delete all the platoons in the all_maximal_cliques that are not the maximum platoon
+
+//         }
+//         else
+//         {
+//             break;
+//         }
+//     }
+//     return all_platoons;
+// }
+
 double PlatoonMaker::calEnergySavingAllPlatoonsOneArc(vector<int> thisarc, vector<pair<int, int>>& graph_nodes, vector<vector<pair<int, int>>>& all_cliques_one_arc)
 {
     int nodes_size = graph_nodes.size();
     int platoon_size = all_cliques_one_arc.size();  //calculate the number of platoons formed on the given arc
-    double arc_len = nodeset->getInitialDist()[thisarc[0]][thisarc[1]];
+    double arc_len = nodeset.getInitialDist()[thisarc[0]][thisarc[1]];
     return 0.1*(nodes_size - platoon_size)*arc_len;
 }
 
@@ -440,7 +527,7 @@ vector<APlatoon*> PlatoonMaker::CouplingModuleOneArc(OccuranceOneArc input_arc_c
 {
     vector<pair<int, int>> graph_nodes_init = buildFullGraphNodesSet(input_arc_config);
     vector<pair<int, int>> graph_nodes = graph_nodes_init;
-    vector<vector<bool>> pair_feas_graph = buildPairwiseFeasGraph(graph_nodes_init, cur_sol->getAllRoutes());
+    vector<vector<bool>> pair_feas_graph = buildPairwiseFeasGraph(graph_nodes_init, cur_sol.getAllRoutes());
     //all platoons configuration
     vector<APlatoon*> all_platoons_one_arc = findAllPlatoons(graph_nodes, pair_feas_graph); //graph nodes will change
     return all_platoons_one_arc;
@@ -453,7 +540,7 @@ void PlatoonMaker::CouplingHeuristic()
     {
         all_graph_nodes.insert(all_graph_nodes.end(), unique_arcs_occurance[i].pairwise_feas_graph_nodeset.begin(), unique_arcs_occurance[i].pairwise_feas_graph_nodeset.end());
     }
-    vector<vector<bool>> pair_feas_graph = buildPairwiseFeasGraph(all_graph_nodes, cur_sol->getAllRoutes());
+    vector<vector<bool>> pair_feas_graph = buildPairwiseFeasGraph(all_graph_nodes, cur_sol.getAllRoutes());
     //all platoons configuration
     all_valid_platoons = findAllPlatoons(all_graph_nodes, pair_feas_graph);
 }
@@ -463,7 +550,7 @@ void PlatoonMaker::setArrDepTimeAllRoutes()
 {
     for(int i = 0; i < routes_num; i++)
     {
-        cur_sol->getOneRoute(i)->calArrDepTime();
+        cur_sol.getOneRoute(i)->calArrDepTime();
     }
 }
 
@@ -489,22 +576,22 @@ vector<APlatoon*> PlatoonMaker::getAllPlatoonsOneArc(vector<int> input_arc)
 
 vector<vector<int>> PlatoonMaker::getArrtwAfterPlatooning(int rid)
 {
-    return cur_sol->getOneRoute(rid)->getRouteExpectedArrTW();
+    return cur_sol.getOneRoute(rid)->getRouteExpectedArrTW();
 }
 
 vector<vector<int>> PlatoonMaker::getDeptwAfterPlatooning(int rid)
 {
-    return cur_sol->getOneRoute(rid)->getRouteExpectedDepTW();
+    return cur_sol.getOneRoute(rid)->getRouteExpectedDepTW();
 }
 
 vector<int> PlatoonMaker::getArrTimeAfterPlatooning(int rid)
 {
-    return cur_sol->getOneRoute(rid)->getFinalArrTime();
+    return cur_sol.getOneRoute(rid)->getFinalArrTime();
 }
 
 vector<int> PlatoonMaker::getDepTimeAfterPlatooning(int rid)
 {
-    return cur_sol->getOneRoute(rid)->getFinalDepTime();
+    return cur_sol.getOneRoute(rid)->getFinalDepTime();
 }
 
 vector<vector<int>> PlatoonMaker::getUniqueArcsSet()
@@ -531,5 +618,5 @@ double PlatoonMaker::calSolTotalEnergySaving()
 //get the total length of the solution -> including the total number of vehicles and total number of positions within each vehicle route
 double PlatoonMaker::calSolTotalEnergyDist()
 {
-    return cur_sol->calTotalDist() - calSolTotalEnergySaving();
+    return cur_sol.calTotalDist() - calSolTotalEnergySaving();
 }

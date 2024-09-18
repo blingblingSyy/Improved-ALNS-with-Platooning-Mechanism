@@ -19,10 +19,10 @@ class PlatoonMaker
 {
     private: 
         //! the pointer to the current input solution
-        VRPSolution* cur_sol;
+        VRPSolution& cur_sol;
 
         //! the pointer to the input nodes set
-        Nodes* nodeset;
+        Nodes& nodeset;
 
         //! the number of routes invovled in the solution
         int routes_num; 
@@ -133,6 +133,9 @@ class PlatoonMaker
 
         //! destructor
         ~PlatoonMaker();
+
+        //! end()
+        // void end();
 
         //! set the final arrival and departure time for all routes in the solution
         void setArrDepTimeAllRoutes(); //set the arrival time of all nodes within all routes in the solution -> &cur_sol.sol_config[r]

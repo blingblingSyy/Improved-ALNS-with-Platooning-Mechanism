@@ -67,7 +67,8 @@ double Node_Worst_Removal::calRemovalCost(VRPSolution& vrpsol, pair<int, int> re
     {
         // vrpsol_new.getNonInsertedNodes().erase(remove(vrpsol_new.getNonInsertedNodes().begin(), vrpsol_new.getNonInsertedNodes().end(), 
         //                                 vrpsol_new.getOneRoute(removed_node.first)->getCompactRoute()[removed_node.second]));
-        vrpsol_new.recomputeCost(true); //! rebuild platoons
+        vrpsol.makePlatoons();
+        vrpsol_new.recomputeCost(); //! rebuild platoons
         double new_cost = vrpsol_new.getPenalizedObjectiveValue(true); //! modified = true -> without the unserved request costs
         return orig_cost - new_cost;
     }
