@@ -46,8 +46,17 @@ void Path_Random_Removal::destroySolPath(ISolution& sol)
     vector<int> indices(path_measurement.size());
     iota(indices.begin(), indices.end(), 0);
     sort(indices.begin(), indices.end(), [&](int A, int B) -> bool {return path_measurement[A] > path_measurement[B];});
-    indices.erase(remove_if(indices.begin(), indices.end(), [&](int i){return path_measurement[i] == -INF;}));
-    int destroyableSize = indices.size() * pathDesSizeRate;
+    for(auto iter = indices.begin(); iter != indices.end(); iter++)
+    {
+        if(path_measurement[*iter] == -INF)
+        {
+            iter = indices.erase(iter);
+            iter--;
+        }
+    }
+    // indices.erase(remove_if(indices.begin(), indices.end(), [&](int i){return path_measurement[i] == -INF;}), indices.end());
+    RandomNumber r;
+    int destroyableSize = static_cast<int>(indices.size() * pathDesSizeRate * r.get_rflt());
 
     while(destroyableSize > 0)
     {

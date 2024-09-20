@@ -17,12 +17,15 @@
 #include "example/model/establish/PlatoonMaker.h"
 #include "example/model/basic/config.h"
 #include "utility.h"
+
+#define NDEBUG
+
 using namespace std;  
 
-PlatoonMaker::PlatoonMaker(VRPSolution& sol, Nodes& nodes) : cur_sol(sol), nodeset(nodes)
+PlatoonMaker::PlatoonMaker(VRPSolution& sol, Nodes& nodes) : cur_sol(sol)
 {
     // cur_sol = &sol;
-    // nodeset = &nodes;
+    nodeset = &nodes;
     routes_num = cur_sol.getRoutesNum();
     setAllArcBasedExtendedRoutes();  //set arcs_based_extended_routes
     findAllUniqueArcs(); //set unique_arcs_set
@@ -280,7 +283,7 @@ vector<APlatoon*> PlatoonMaker::findMaximalCliquesNodeset(vector<pair<int, int>>
     for(int i = 0; i < maximal_cliques_id_set.size(); i++)
     {
         vector<pair<int, int>> platoon_config = transformIDsetToNodeset(maximal_cliques_id_set[i], graph_nodes);
-        all_maximal_cliques[i] = new APlatoon(nodeset);
+        all_maximal_cliques[i] = new APlatoon(*nodeset);
         all_maximal_cliques[i]->setArc(arcs_based_extended_routes[platoon_config[0].first][platoon_config[0].second]);
         all_maximal_cliques[i]->setConfig(platoon_config);
     }
@@ -322,7 +325,7 @@ vector<int> PlatoonMaker::findMaxCliqueSizeIDset(vector<vector<int>> all_maximal
     return all_maximal_cliques_idset[max_clique_id];
 }
 
-APlatoon* PlatoonMaker::findMaxCliqueSavingNodeset(vector<APlatoon*> all_maximal_cliques)
+APlatoon* PlatoonMaker::findMaxCliqueSavingNodeset(vector<APlatoon*>& all_maximal_cliques)
 {
     assert(all_maximal_cliques.size() != 0);
     int max_clique_id = 0;
@@ -335,7 +338,14 @@ APlatoon* PlatoonMaker::findMaxCliqueSavingNodeset(vector<APlatoon*> all_maximal
             max_clique_saving = all_maximal_cliques[i]->getEnergySaving();
         }
     }
-    return all_maximal_cliques[max_clique_id];
+    APlatoon* max_platoon = new APlatoon(dynamic_cast<APlatoon&>(*(all_maximal_cliques[max_clique_id])));
+    //! clear the all_maximal_cliques
+    for(auto it = all_maximal_cliques.begin(); it != all_maximal_cliques.end();)
+    {
+        delete (*it);
+        it = all_maximal_cliques.erase(it);
+    }
+    return max_platoon;
 }
 
 vector<int> PlatoonMaker::calOverlapDeptwOnePlatoon(vector<pair<int, int>> platoon_config_on_arc) 
@@ -407,7 +417,7 @@ void PlatoonMaker::updateArrDeptwAllCouplingRoutes(vector<pair<int, int>>& plato
             int rid = platoon_config_on_arc[i].first;
             int arc_start_pos = platoon_config_on_arc[i].second;
             //! only update the departure time windows of the routes used in the platoon
-            TimeWindowUpdater twupdater(sol_config_copy[rid]->getExtendedRoute(), sol_config_copy[rid]->getNodeLables(), sol_config_copy[rid]->getRouteWaitTimeLimitPerNode(), sol_config_copy[rid]->getRouteWaitMaxLimit(), nodeset);
+            TimeWindowUpdater twupdater(sol_config_copy[rid]->getExtendedRoute(), sol_config_copy[rid]->getNodeLables(), sol_config_copy[rid]->getRouteWaitTimeLimitPerNode(), sol_config_copy[rid]->getRouteWaitMaxLimit(), *nodeset);
             twupdater.setRouteArrTW(sol_config_copy[rid]->getRouteExpectedArrTW());
             twupdater.setRouteDepTW(sol_config_copy[rid]->getRouteExpectedDepTW());
             twupdater.CalibRouteTW(arc_start_pos, maximum_platoon_tw);
@@ -426,19 +436,7 @@ vector<APlatoon*> PlatoonMaker::findAllPlatoons(vector<pair<int, int>>& graph_no
     {
         vector<APlatoon*> all_maximal_cliques = findMaximalCliquesNodeset(graph_nodes, pair_feas_graph);
         APlatoon* maximum_clique = findMaxCliqueSavingNodeset(all_maximal_cliques);
-        //! delete all the platoons in the all_maximal_cliques that are not the maximum platoon
-        for(auto it = all_maximal_cliques.begin(); it != all_maximal_cliques.end();)
-        {
-            if((*it) != maximum_clique)
-            {
-                delete (*it);
-                it = all_maximal_cliques.erase(it);
-            }
-            else
-            {
-                it++;
-            }
-        }
+
         if(maximum_clique->getPlatoonConfig().size() > 1)
         {
             //! output the overlapped departure time windows of each platoon
@@ -458,8 +456,6 @@ vector<APlatoon*> PlatoonMaker::findAllPlatoons(vector<pair<int, int>>& graph_no
         }
         else
         {
-            delete all_maximal_cliques.front();
-            all_maximal_cliques.clear();
             break;
         }
     }
@@ -474,22 +470,15 @@ vector<APlatoon*> PlatoonMaker::findAllPlatoons(vector<pair<int, int>>& graph_no
 //     while(!graph_nodes.empty())
 //     {
 //         vector<APlatoon*> all_maximal_cliques = findMaximalCliquesNodeset(graph_nodes, pair_feas_graph);
-//         //! remove all the platoons with only length of 1
+//         APlatoon* maximum_clique = findMaxCliqueSavingNodeset(all_maximal_cliques);
+//         //! delete all the platoons in the all_maximal_cliques that are not the maximum platoon
 //         for(auto it = all_maximal_cliques.begin(); it != all_maximal_cliques.end();)
 //         {
-//             if((*it)->getPlatoonConfig().size() <= 1)
-//             {
-//                 delete (*it);
-//                 it = all_maximal_cliques.erase(it);
-//             }
-//             else
-//             {
-//                 it++;
-//             }
+//             delete (*it);
+//             it = all_maximal_cliques.erase(it);
 //         }
-//         if(all_maximal_cliques.size() > 0)
+//         if(maximum_clique->getPlatoonConfig().size() > 1)
 //         {
-//             APlatoon* maximum_clique = findMaxCliqueSavingNodeset(all_maximal_cliques);
 //             //! output the overlapped departure time windows of each platoon
 //             vector<int> maximum_platoon_tw = calOverlapDeptwOnePlatoon(maximum_clique->getPlatoonConfig());
 //             vector<int> updated_max_platoon_tw = shrinkOverlapDeptwOnePlatoon(maximum_clique, maximum_platoon_tw);
@@ -504,11 +493,11 @@ vector<APlatoon*> PlatoonMaker::findAllPlatoons(vector<pair<int, int>>& graph_no
 //             {
 //                 pair_feas_graph = buildPairwiseFeasGraph(graph_nodes, cur_sol.getAllRoutes()); //sol_config_copy
 //             }
-//             //! delete all the platoons in the all_maximal_cliques that are not the maximum platoon
-
 //         }
 //         else
 //         {
+//             delete all_maximal_cliques.front();
+//             all_maximal_cliques.clear();
 //             break;
 //         }
 //     }
@@ -519,7 +508,7 @@ double PlatoonMaker::calEnergySavingAllPlatoonsOneArc(vector<int> thisarc, vecto
 {
     int nodes_size = graph_nodes.size();
     int platoon_size = all_cliques_one_arc.size();  //calculate the number of platoons formed on the given arc
-    double arc_len = nodeset.getInitialDist()[thisarc[0]][thisarc[1]];
+    double arc_len = nodeset->getInitialDist()[thisarc[0]][thisarc[1]];
     return 0.1*(nodes_size - platoon_size)*arc_len;
 }
 

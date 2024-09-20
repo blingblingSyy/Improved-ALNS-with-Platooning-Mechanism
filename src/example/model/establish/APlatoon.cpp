@@ -17,6 +17,7 @@ APlatoon::APlatoon(Nodes& nodeset)
 
 APlatoon::APlatoon(APlatoon& p)
 {
+    this->nodeset = p.nodeset;
     this->arc = p.arc;
     this->config = p.config;
     this->overlap_deptw = p.overlap_deptw;

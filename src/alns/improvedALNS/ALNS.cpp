@@ -25,6 +25,8 @@
 #include "alns/acceptanceModule/IAcceptanceModule.h"
 #include "alns/statistics/Statistics.h"
 
+#define NDEBUG
+
 using namespace std;
 
 

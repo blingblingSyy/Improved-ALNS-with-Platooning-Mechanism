@@ -6,6 +6,8 @@
 #include "alns/improvedALNS/ISolution.h"
 #include "alns/acceptanceModule/CoolingSchedule_Parameters.h"
 
+#define NDEBUG
+
 ExponentialCoolingSchedule::ExponentialCoolingSchedule(ISolution& initSol, CoolingSchedule_Parameters& csParam)
 {
 	// The fields are instantiated to default values.

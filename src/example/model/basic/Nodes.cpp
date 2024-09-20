@@ -11,6 +11,8 @@
 #include "example/model/basic/config.h"
 #include "utility.h"
 
+#define NDEBUG
+
 Nodes::Nodes(RawInstance& inputInstance)
 {
     this->rawInstance = &inputInstance;
@@ -424,12 +426,14 @@ vector<vector<int>> Nodes::calInitialTravelTime(vector<vector<double>> init_dist
 
 ADijkstraSol* Nodes::getOnePath(int nodeid1, int nodeid2, int pathid)
 {
-    ADijkstraSol* initDijkstraSol = new ADijkstraSol;
-    if(pathid < avail_path_set[nodeid1][nodeid2].size())
-    {
-        initDijkstraSol = avail_path_set[nodeid1][nodeid2][pathid];
-    }
-    return initDijkstraSol;
+    // ADijkstraSol* initDijkstraSol = new ADijkstraSol;
+    // if(pathid < avail_path_set[nodeid1][nodeid2].size())
+    // {
+    //     initDijkstraSol = avail_path_set[nodeid1][nodeid2][pathid];
+    // }
+    // return initDijkstraSol;
+    assert(pathid < avail_path_set[nodeid1][nodeid2].size());
+    return avail_path_set[nodeid1][nodeid2][pathid];
 }
 
 

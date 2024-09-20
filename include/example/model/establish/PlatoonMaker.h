@@ -22,7 +22,7 @@ class PlatoonMaker
         VRPSolution& cur_sol;
 
         //! the pointer to the input nodes set
-        Nodes& nodeset;
+        Nodes* nodeset;
 
         //! the number of routes invovled in the solution
         int routes_num; 
@@ -103,7 +103,7 @@ class PlatoonMaker
         vector<int> findMaxCliqueSizeIDset(vector<vector<int>> all_maximal_cliques_idset_one_arc);
 
         //! find the clique with the maximum energy saving of node set based on all the maximal cliques for a given arc
-        APlatoon* findMaxCliqueSavingNodeset(vector<APlatoon*> all_maximal_cliques);
+        APlatoon* findMaxCliqueSavingNodeset(vector<APlatoon*>& all_maximal_cliques);
         
         //! calculate the overlapping departure time windows for one platoon on a given arc
         vector<int> calOverlapDeptwOnePlatoon(vector<pair<int, int>> platoon_config_on_arc);
@@ -130,6 +130,9 @@ class PlatoonMaker
     public:
         //! constructor
         PlatoonMaker(VRPSolution& sol, Nodes& nodes);
+
+        //! default constructor
+        PlatoonMaker(VRPSolution& sol) : cur_sol(sol) {};
 
         //! destructor
         ~PlatoonMaker();

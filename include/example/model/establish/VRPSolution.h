@@ -150,7 +150,7 @@ class VRPSolution: public ISolution
         vector<int>& getNonInsertedNodes() {return nonInsertedNodes;};
 
         //! a simple getter
-        int getTotalServedCusNum() {return static_cast<int>(nodeset.getCusNum() - nonInsertedNodes.size());};
+        int getTotalServedCusNum() {return static_cast<int>(nodeset->getCusNum() - nonInsertedNodes.size());};
 
         //! a simple getter
         vector<int>& getNonUsedVehs() {return nonUsedVehs;};
@@ -186,10 +186,10 @@ class VRPSolution: public ISolution
         void findDestroyablePaths();
 
         //! a simple getter: the actual destroyble arc in the current solution
-        vector<tuple<int, int, int>> getDestroyableArcPos() {return destroyableArcPos;};
+        vector<tuple<int, int, int>>& getDestroyableArcPos() {return destroyableArcPos;};
 
         //! a simple getter
-        vector<vector<int>> getDestroyableArcConfig() {return destroyableArcConifg;};
+        vector<vector<int>>& getDestroyableArcConfig() {return destroyableArcConifg;};
 
         //! a simple getter
         int getNodeShowTimes(int nodeid);
@@ -217,10 +217,10 @@ class VRPSolution: public ISolution
 
     private:
         //! the pointer to the set of nodes
-        Nodes& nodeset;
+        Nodes* nodeset;
 
         //! the pointer to the set of vehicles
-        Vehicles& vehset;
+        Vehicles* vehset;
 
         //! the current operation to the solution
         SolOperationKind solCurOpt;

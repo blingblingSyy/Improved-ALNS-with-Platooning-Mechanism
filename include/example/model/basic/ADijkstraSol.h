@@ -15,6 +15,9 @@ class ADijkstraSol
         //! constructor
         ADijkstraSol() {KSP_Dist = 0; KSP_Path = {};}; 
 
+        //! copy constructor
+        ADijkstraSol(ADijkstraSol& other); 
+
         //! destructor
         ~ADijkstraSol() {};
         

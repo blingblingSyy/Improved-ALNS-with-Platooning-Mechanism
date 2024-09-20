@@ -10,6 +10,9 @@
 #include "example/model/basic/Nodes.h"
 #include "example/model/basic/config.h"
 #include "utility.h"
+
+#define NDEBUG
+
 using namespace std;
 
 TimeWindowUpdater::TimeWindowUpdater(vector<int> extended_route, vector<int> node_labels, int WaitTimePerNode, int WaitMaxRoute, Nodes& nodes)

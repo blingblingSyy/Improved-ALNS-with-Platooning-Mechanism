@@ -229,7 +229,7 @@ AOperator& StrategyManager::selectOpt(vector<AOperator*>& vecOp, double sumW)
 			return *(vecOp[i]);
 		}
 	}
-	assert(false); 
+	assert(false);  //! write assert(false) at places that is never supposed to reach
 	return *(vecOp.back());
 }
 
@@ -490,20 +490,20 @@ void StrategyManager::end()
 	delete nodeNullRepair;
 	delete pathNullDestroy;
 	delete pathNullRepair;
-	for(int i = 0; i < nodeRepairOperators.size(); ++i)
-	{
-		delete nodeRepairOperators[i];
-	}
-	for(int i = 0; i < nodeDestroyOperators.size(); ++i)
-	{
-		delete nodeDestroyOperators[i];
-	}
-	for(int i = 0; i < pathRepairOperators.size(); ++i)
-	{
-		delete pathRepairOperators[i];
-	}
-	for(int i = 0; i < pathDestroyOperators.size(); ++i)
-	{
-		delete pathDestroyOperators[i];
-	}
+	// for(int i = 0; i < nodeRepairOperators.size(); ++i)
+	// {
+	// 	delete nodeRepairOperators[i];
+	// }
+	// for(int i = 0; i < nodeDestroyOperators.size(); ++i)
+	// {
+	// 	delete nodeDestroyOperators[i];
+	// }
+	// for(int i = 0; i < pathRepairOperators.size(); ++i)
+	// {
+	// 	delete pathRepairOperators[i];
+	// }
+	// for(int i = 0; i < pathDestroyOperators.size(); ++i)
+	// {
+	// 	delete pathDestroyOperators[i];
+	// }
 }

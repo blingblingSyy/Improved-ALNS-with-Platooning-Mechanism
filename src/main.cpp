@@ -18,7 +18,8 @@ int main()
 {
     // #ifdef UNICODE
     //obtain all the instance file paths
-    string result_filepath = "C:/Users/SYY/Improved_ALNS_Git/dataset/Small_Benchmark/test2.txt"; //"C:/Users/SYY/Improved_ALNS_Git/dataset/Li_Lim_Benchmark/pdp_100/lc101.txt"
+    string test_filename = "test2";
+    string result_filepath = "C:/Users/SYY/Improved_ALNS_Git/dataset/Small_Benchmark/" + test_filename + ".txt"; //"C:/Users/SYY/Improved_ALNS_Git/dataset/Li_Lim_Benchmark/pdp_100/lc101.txt"
     // bool modify_nodes_to_intersects = false;
     // bool modify_connectivity = false;
     // bool modify_pasdmd = true;
@@ -40,7 +41,7 @@ int main()
     initialsol.buildInitialSol();
     //! write down the results
     ResultWriter writer1(initialsol, "test2", "initial_solution", initialsol.getCpuAfterPlatooning());
-    writer1.write_result();  //! waiting time?
+    writer1.write_result();
 
     //! add operators
     Operators_Parameters ops_param;
@@ -95,13 +96,19 @@ int main()
 
 	// simpleLsManager.addLocalSearchOperator(dynamic_cast<ILocalSearch&>(none));
 
-	ALNS alns("couplingVRP",dynamic_cast<ISolution&>(initialsol),dynamic_cast<IAcceptanceModule&>(sa),alnsParam,dynamic_cast<AStrategyManager&>(opMan),dynamic_cast<IBestSolutionManager&>(bestSM),dynamic_cast<ILocalSearchManager&>(simpleLsManager));
+	ALNS alns(test_filename, dynamic_cast<ISolution&>(initialsol), dynamic_cast<IAcceptanceModule&>(sa), alnsParam, dynamic_cast<AStrategyManager&>(opMan), dynamic_cast<IBestSolutionManager&>(bestSM), dynamic_cast<ILocalSearchManager&>(simpleLsManager));
 
 	alns.addUpdatable(dynamic_cast<IUpdatable&>(pathtabu));
 
 	alns.solve();
 
-    alns.end();
+    //! write down the results
+    // VRPSolution& alnsSol = dynamic_cast<VRPSolution&>(**(alns.getBestSolutionManager()->begin()));
+    VRPSolution& alnsSol = dynamic_cast<VRPSolution&>(*alns.getBestSolution());
+    ResultWriter writer2(alnsSol, "test2", "alns_solution", alns.getCpuTime());
+    writer2.write_result();
+
+    // alns.end();
 
     // #endif
     return 0;

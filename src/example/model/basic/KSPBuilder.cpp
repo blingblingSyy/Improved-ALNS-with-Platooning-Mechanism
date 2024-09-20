@@ -93,7 +93,7 @@ void KSPBuilder::Dijsktra_body(vector<ADijkstraSol*> &SPset_fromstart, vector<in
 
 ADijkstraSol* KSPBuilder::Dijkstra_OnePath(int start, int end, vector<vector<double>> input_distmat) //calculate the shortest path distance between any two given nodes
 {
-    ADijkstraSol* SP_Start_End = new ADijkstraSol;
+    // ADijkstraSol* SP_Start_End = new ADijkstraSol;
     //initialize predecessors and labels for SP tree from start node i
     vector<int> predecessors(node_num, -1);
     vector<ADijkstraSol*> initial_SPsol(node_num);  //shortest path structure from node i
@@ -108,32 +108,45 @@ ADijkstraSol* KSPBuilder::Dijkstra_OnePath(int start, int end, vector<vector<dou
     
     Dijsktra_body(initial_SPsol, predecessors, input_distmat);
  
-    SP_Start_End->setDist(initial_SPsol[end]->getDist());
-    SP_Start_End->setPath(generate_onepath(end, predecessors));
+    // ADijkstraSol* SP_Start_End = initial_SPsol[end];
+    // SP_Start_End->setDist(initial_SPsol[end]->getDist());
+    initial_SPsol[end]->setPath(generate_onepath(end, predecessors));
 
-    // for(int j = 0; j < node_num; j++)
-    // {
-    //     delete initial_SPsol[j];
-    // }
+    for(int j = 0; j < node_num; j++)
+    {
+        if(j != end)
+        {
+            delete initial_SPsol[j];
+        }
+    }
+    // initial_SPsol.clear();
 
-    return SP_Start_End;
+    // return SP_Start_End;
+
+    return initial_SPsol[end];
 }
 
 void KSPBuilder::Dijkstra_AllPaths()  //calculate the shortest path distance between any two nodes
 {
     for(int i = 0; i < node_num; i++)
     {
+        ADijkstraSol* empty_DijkstraSol = new ADijkstraSol; //defaulted: dist = 0; path = {}
         //initialize predecessors and labels for SP tree from start node i
         vector<int> predecessors(node_num, -1);
         //vector<vector<int>> SP_from_i;  //shortest path from node i to all other nodes
         SP_AllPaths[i].resize(node_num);  //shortest path structure from node i
         for(int j = 0; j < node_num; j++)
         {
-            SP_AllPaths[i][j] = new ADijkstraSol;
             if(j != i)
+            {
+                SP_AllPaths[i][j] = new ADijkstraSol;  //defaulted: dist = 0; path = {}
                 SP_AllPaths[i][j]->setDist(INF);
+            }
             else //j == i
-                SP_AllPaths[i][j]->setDist(0);
+            {
+                // SP_AllPaths[i][j]->setDist(0);
+                SP_AllPaths[i][j] = empty_DijkstraSol;
+            }
         }
         
         Dijsktra_body(SP_AllPaths[i], predecessors, init_distmat);
@@ -141,10 +154,10 @@ void KSPBuilder::Dijkstra_AllPaths()  //calculate the shortest path distance bet
         //SP_from_i = generate_paths_tree(predecessors);
         for(int z = 0; z < node_num; z++)
         {
-            SP_AllPaths[i][z]->setPath(generate_onepath(z, predecessors));
-            //! to eliminate the path containing the subtours with the depot
             if(i != z)
             {
+                SP_AllPaths[i][z]->setPath(generate_onepath(z, predecessors));
+                //! to eliminate the path containing the subtours with the depot
                 vector<int> temp_path = SP_AllPaths[i][z]->getPath();
                 if(find(temp_path.begin()+1, temp_path.end()-1, 0) != temp_path.end()-1)
                 {
@@ -206,7 +219,8 @@ vector<ADijkstraSol*> KSPBuilder::ModifiedYen_OnePath(int start_node, int end_no
     while(KShortestPath_Start_End.size() < k_limit && !KDeviationPath_Start_End.empty())
     {
         //! find the Dijsktra solution with the smallest distance in B[] and put it in A[]
-        vector<ADijkstraSol*>::iterator iter = min_element(KDeviationPath_Start_End.begin(), KDeviationPath_Start_End.end()); //operator < is defined in ADijkstraSol
+        auto compare = [&](ADijkstraSol* A, ADijkstraSol* B) -> bool {return *A < *B;};
+        vector<ADijkstraSol*>::iterator iter = min_element(KDeviationPath_Start_End.begin(), KDeviationPath_Start_End.end(), compare); //operator < is defined in ADijkstraSol
         ADijkstraSol* selected_KSPsol = *iter;
         KShortestPath_Start_End.push_back(selected_KSPsol);
         KDeviationPath_Start_End.erase(iter);
@@ -305,17 +319,18 @@ vector<ADijkstraSol*> KSPBuilder::ModifiedYen_OnePath(int start_node, int end_no
     {
         delete KDeviationPath_Start_End[i];
     }
+    KDeviationPath_Start_End.clear();
 
     return KShortestPath_Start_End;
 }
 
 void KSPBuilder::ModifiedYen_AllPaths()
 {
-    ADijkstraSol* empty_DijkstraSol = new ADijkstraSol; //defaulted: dist = 0; path = {}
+    // ADijkstraSol* empty_DijkstraSol = new ADijkstraSol; //defaulted: dist = 0; path = {}
     for(int i = 0; i < node_num; i++) //start_node
     {
         KSP_AllPaths[i].resize(node_num);
-        KSP_AllPaths[i][i].push_back(empty_DijkstraSol); //! points to the same empty_DijkstraSol
+        KSP_AllPaths[i][i].push_back(SP_AllPaths[i][i]); //! points to the same empty_DijkstraSol
         for(int j = 0; j < node_num; j++) //end_node
         {
             if(j != i)

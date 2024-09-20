@@ -11,7 +11,7 @@
 #include "example/model/basic/config.h"
 #include "example/model/establish/TimeWindowUpdater.h"
 #include "example/model/basic/ADijkstraSol.h"
-// #define NDEBUG;
+#define NDEBUG;
 using namespace std;
 
 ARoute::ARoute(Nodes& nodeset, Vehicles& vehset)
@@ -23,6 +23,8 @@ ARoute::ARoute(Nodes& nodeset, Vehicles& vehset)
 
 ARoute::ARoute(ARoute& route)
 {
+    this->nodeset = route.nodeset;
+    this->vehset = route.vehset;
     this->vehid = route.vehid;
     this->vehtype = route.vehtype;
     this->compact_route = route.compact_route;
@@ -33,6 +35,8 @@ ARoute::ARoute(ARoute& route)
     this->expected_deptw = route.expected_deptw;
     this->actual_arrtime = route.actual_arrtime;
     this->actual_deptime = route.actual_deptime;
+    this->actual_waittime = route.actual_waittime;
+    this->total_waittime = route.total_waittime;
     this->route_load = route.route_load;
     this->route_mileage = route.route_mileage;
 }
@@ -660,7 +664,7 @@ bool ARoute::isTimeFeas()
 
 bool ARoute::isLoadFeas(vector<int> input_load_vec)
 {
-    auto isNodeLoadFeas = [&](int node_load) -> bool {return node_load >= 0 && node_load < vehset->getVehCap(vehid);};
+    auto isNodeLoadFeas = [&](int node_load) -> bool {return node_load >= 0 && node_load <= vehset->getVehCap(vehid);};
     for(int i = 0; i < route_load.size(); i++)
     {
         if(!isNodeLoadFeas(route_load[i]))

@@ -52,19 +52,19 @@ void Statistics::generateStatsFile(string pathGlob, string pathOp)
 {
 	ofstream myfile;
 	myfile.open(pathGlob.c_str(), ios::out | ios::trunc);
-	myfile << "iterations\ttimeStamps\tStrategy\tNode Destroy Operator\tNode Repair Operator\tPath Destroy Operator\tPath Repair Operator\tNew Cost\tCurrent Cost\tBest Cost\tCumulative Known Solutions\n";
+	myfile << "iterations\t\ttimeStamps\t\tStrategy\t\tNode Destroy Operator\t\tNode Repair Operator\t\tPath Destroy Operator\t\tPath Repair Operator\t\tNew Cost\t\tCurrent Cost\t\tBest Cost\t\tCumulative Known Solutions\n";
 	for(size_t i = 0; i < iterations.size(); i++)
 	{
-		myfile << iterations[i] << "\t" << timeStamps[i] << "\t" << strategyNames[i] << "\t" << nodeDestroyNames[i] << "\t" << nodeRepairNames[i] << "\t" << pathDestroyNames[i] << "\t" << pathRepairNames[i] << "\t" << newCosts[i] << "\t" << currentCosts[i] << "\t" << bestCosts[i] << "\t" << cumulativeKnownSolutions[i] << "\n";
+		myfile << iterations[i] << "\t\t" << timeStamps[i] << "\t\t" << strategyNames[i] << "\t\t" << nodeDestroyNames[i] << "\t\t" << nodeRepairNames[i] << "\t\t" << pathDestroyNames[i] << "\t\t" << pathRepairNames[i] << "\t\t" << newCosts[i] << "\t\t" << currentCosts[i] << "\t\t" << bestCosts[i] << "\t\t" << cumulativeKnownSolutions[i] << "\n";
 	}
 	myfile.close();
 
 	ofstream myfileOp;
 	myfileOp.open(pathOp.c_str(), ios::out | ios::trunc);
-	myfileOp << "time stamp\t";
+	myfileOp << "time stamp\t\t";
 	for(size_t i = 0; i < operatorNames->size(); i++)
 	{
-		myfileOp << "Weight_" << operatorNames->at(i) << "\tCalls_" << operatorNames->at(i) << "\t";
+		myfileOp << "Weights of " << operatorNames->at(i) << "\t\tCalls of " << operatorNames->at(i) << "\t\t";
 	}
 	myfileOp << "\n";
 
