@@ -32,7 +32,7 @@ void Node_Worst_Removal::destroySolNode(ISolution& sol)
     keepRemovablePos(vrpsol, all_cus_pos); //! this will modify all_cus_pos
     sort(all_cus_pos.begin(), all_cus_pos.end(), [&](auto A, auto B) -> bool {return calRemovalCost(vrpsol, A) > calRemovalCost(vrpsol, B);});
     int i = 0;
-    while(i < nodeDestroySize)
+    while(i < nodeDestroySize && !all_cus_pos.empty())
     {
         RandomNumber r1;
         int new_select = int(pow(r1.get_rflt(0,1), randWorst) * (all_cus_pos.size()-1));
@@ -45,6 +45,7 @@ void Node_Worst_Removal::destroySolNode(ISolution& sol)
     {
         vrpsol.removeNode(destroyed_nodeset[k].second, destroyed_nodeset[k].first);
     }
+    destroyed_nodeset.clear();
     // if(destroyed_nodeset.empty()) //! no nodes are actually removed
     // {
     //     setEmpty(true);

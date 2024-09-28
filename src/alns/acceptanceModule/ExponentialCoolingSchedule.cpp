@@ -6,7 +6,7 @@
 #include "alns/improvedALNS/ISolution.h"
 #include "alns/acceptanceModule/CoolingSchedule_Parameters.h"
 
-#define NDEBUG
+// #define NDEBUG
 
 ExponentialCoolingSchedule::ExponentialCoolingSchedule(ISolution& initSol, CoolingSchedule_Parameters& csParam)
 {

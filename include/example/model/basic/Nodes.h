@@ -138,7 +138,7 @@ class Nodes
         int getNodeNum() {return nodenum;}; 
 
         //! a simple getter
-        int getCusNum() {return nodenum-1;}
+        int getCusNum();
 
         //! a simple getter
         int getNodeType(int nodeid) {return nodetype[nodeid];};

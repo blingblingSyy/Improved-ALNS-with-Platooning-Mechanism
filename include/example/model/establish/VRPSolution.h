@@ -41,6 +41,9 @@ class VRPSolution: public ISolution
         //! whether the solution is empty or not
         bool isSolEmpty();
 
+        //! reset the expected time windows of all routes in the solution
+        void resetExpectedTWAllRoutes();
+
         //! build a new route with randomly selected node from the set of uninserted customers
         ARoute* buildNewRoute();
 
@@ -156,7 +159,7 @@ class VRPSolution: public ISolution
         vector<int>& getNonUsedVehs() {return nonUsedVehs;};
 
         //! a simple getter: {{destroyed_arcpos, destroyed_pathid, routeid}, ...}
-        vector<tuple<int, int, int>>& getDestroyedArcsPos() {return destroyedArcs;};
+        vector<tuple<int, int, int>>& getDestroyedArcsPos() {return destroyedArcPos;};
 
         //! a simple getter: {{destroyed_arcpos, destroyed_pathid, routeid}, ...}
         // vector<tuple<int, int, int>>& getRepairedArcsPos() {return repairedArcs;};
@@ -189,7 +192,7 @@ class VRPSolution: public ISolution
         vector<tuple<int, int, int>>& getDestroyableArcPos() {return destroyableArcPos;};
 
         //! a simple getter
-        vector<vector<int>>& getDestroyableArcConfig() {return destroyableArcConifg;};
+        vector<vector<int>>& getDestroyableArcConfig() {return destroyableArcConfig;};
 
         //! a simple getter
         int getNodeShowTimes(int nodeid);
@@ -236,10 +239,10 @@ class VRPSolution: public ISolution
         
         //! the set of configuration of arcs that can be destroyed
         //! as each served node only appears in the solution once, the destroyableArcConfig is in the same order as the destroyableArcPos
-        vector<vector<int>> destroyableArcConifg; //! {{i,j}, ...}
+        vector<vector<int>> destroyableArcConfig; //! {{i,j}, ...}
 
         //! the selected paths to be destroyed later
-        vector<tuple<int, int, int>> destroyedArcs; //{{destroyed_arcpos, destroyed_pathid, routeid}, ...};
+        vector<tuple<int, int, int>> destroyedArcPos; //{{destroyed_arcpos, destroyed_pathid, routeid}, ...};
 
         //! the route configuration of the solution
         vector<ARoute*> sol_config;

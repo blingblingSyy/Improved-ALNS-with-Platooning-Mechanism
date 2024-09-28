@@ -9,6 +9,7 @@
 #include "example/operators/nodeRepairOps/Node_Random_Insert.h"
 #include "example/operators/nodeRepairOps/Node_Regret_Insert.h"
 #include "example/operators/pathDestroyOps/Path_AvgLenDiff_Removal.h"
+#include "example/operators/pathDestroyOps/Path_AvgLen_Removal.h"
 #include "example/operators/pathDestroyOps/Path_Cardinality_Removal.h"
 #include "example/operators/pathDestroyOps/Path_NodeFreq_Removal.h"
 #include "example/operators/pathDestroyOps/Path_Random_Removal.h"

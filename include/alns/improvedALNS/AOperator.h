@@ -11,8 +11,8 @@ class ASelecter;
 class AOperator : public AStrategy
 {
 	protected:
-		// //! Indicate if the operator is used in noise mode or not.
-		// bool noise;
+		//! Indicate if the operator is used in noise mode or not in terms of node.
+		bool noise;
 
 		//! indicate if the operator is empty or not.
 		//! if empty, the operator does nothing to the solution
@@ -26,17 +26,17 @@ class AOperator : public AStrategy
 		//! Constructor.
 		AOperator(string name) : AStrategy(name)
 		{
-
+			noise = false;
 		}
+
+		//! Set noise to true.
+		void setNoise() {this->noise = true;};
+
+		//! check whether the path noise operator is used or not
+		void unsetNoise() {this->noise = false;};
 
 		//! Destructor.
 		virtual ~AOperator() {};
-
-		// //! Set noise to true.
-		// void setNoise(){noise=true;};
-
-		// //! Set noise to false.
-		// void unsetNoise(){noise=false;};
 
 		//! evaluate whether the operator is empty or not.
 		//! \return empty

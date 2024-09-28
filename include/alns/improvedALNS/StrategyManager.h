@@ -28,13 +28,16 @@ class StrategyManager : public AStrategyManager
 		virtual ~StrategyManager();
 
 		//! recompute the weights of the operators and strategies
-		void initWeights();
+		void initNullOperators();
 
 		//! This function recompute the weights of every strategy and operator managed by this manager.
 		void recomputeWeights();
 
 		//! This method selects a strategy with a roulette wheel and set the current strategy curSt.
 		void selectStrategy();
+
+		// //! This method selects whether to employ noise to related operators
+		// void selectNoise();
 
 		//! This method selects a node destroy operator.
 		//! \return a node destroy operator.
@@ -57,6 +60,9 @@ class StrategyManager : public AStrategyManager
 
 		//! This method adds (node first / path first) strategies to the list
 		void addStrategies();
+
+		// //! This method adds the path noise and node noise operators to the list
+		// void addNoise();
 		
 		//! This method adds a node repair operator to the list
 		//! of node repair operator managed by this manager.
@@ -144,26 +150,35 @@ class StrategyManager : public AStrategyManager
 		//! The paramaters to be used by the ALNS.
 		ALNS_Parameters* parameters;
 
-		//! Indicate whether or not the next operators to be return
+		//! Indicate whether or not the node operators to be return
 		//! should be noised or not.
-		bool next_noise;
+		bool nodenoise;
 
-		// //! A counter that indicates the number of times repair operators with noise have been successfull
-		// double performanceRepairOperatorsWithNoise;
+		//! Indicate whether or not the path operators to be return
+		//! should be noised or not.
+		bool pathnoise;
 
-		// //! A counter that indicates the number of times repair operators without noise have been successfull
-		// double performanceNodeRepairOperatorsWithoutNoise;
+		//! A counter that indicates the number of times node operators with noise have been successfull
+		double performanceNodeOperatorsWithNoise;
+
+		//! A counter that indicates the number of times node operators without noise have been successfull
+		double performanceNodeOperatorsWithoutNoise;
+
+		//! A counter that indicates the number of times path operators with noise have been successfull
+		double performancePathOperatorsWithNoise;
+
+		//! A counter that indicates the number of times path operators without noise have been successfull
+		double performancePathOperatorsWithoutNoise;
 
 		//! Use a roulette wheel to select a operator in a vector of operators.
 		//! \return the selected strategy. Will update the sumW.
 		AOperator& selectOpt(vector<AOperator*>& vecOp, double sumW);
 
-		// //! Use a roulette wheel to select a strategy in a vector of strategies.
-		// //! \return the selected strategy.
-		// AStrategy& selectSt();
-
 		//! Recompute the weight of an operator.
 		void recomputeWeight(AStrategy& st, double& sumW);
+
+		//! Recompute whether to use noise
+		void updateNoise();
 
 };
 

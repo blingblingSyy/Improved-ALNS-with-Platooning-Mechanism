@@ -42,8 +42,8 @@ void Node_Shaw_Removal::destroySolNode(ISolution& sol)
     int select_pos = r1.get_rint(0, all_cus_pos.size()-1);
     destroyed_nodeset.push_back(all_cus_pos[select_pos]);
     all_cus_pos.erase(all_cus_pos.begin() + select_pos);
-    int i = 1;
-    while(i < nodeDestroySize)
+    int i = 0;
+    while(i < nodeDestroySize && !all_cus_pos.empty())
     {
         RandomNumber r2;
         int pos = r2.get_rint(0, destroyed_nodeset.size()-1);
@@ -67,6 +67,7 @@ void Node_Shaw_Removal::destroySolNode(ISolution& sol)
     {
         vrpsol.removeNode(destroyed_nodeset[k].second, destroyed_nodeset[k].first);
     }
+    destroyed_nodeset.clear();
     // if(destroyed_nodeset.empty()) //! no nodes are actually removed
     // {
     //     setEmpty(true);
@@ -99,12 +100,15 @@ int Node_Shaw_Removal::calMaxTimeDiff(VRPSolution& vrpsol)
     for(int i = 0; i < vrpsol.getRoutesNum(); i++)
     {
         ARoute* route_i = vrpsol.getOneRoute(i);
-        maxArrTimeVec.push_back(route_i->getFinalArrTime()[route_i->getCompactRoute().size()-2]);
-        minArrTimeVec.push_back(route_i->getFinalArrTime()[1]);
+        if(route_i->getCompactRoute().size() > 2)
+        {
+            maxArrTimeVec.push_back(route_i->getNodeExpectedArrTW(route_i->getCompactRoute().size()-2)[1]);
+            minArrTimeVec.push_back(route_i->getNodeExpectedArrTW(1)[0]);
+        }
     }
     auto max_it = max_element(maxArrTimeVec.begin(), maxArrTimeVec.end());
     auto min_it = min_element(minArrTimeVec.begin(), minArrTimeVec.end());
-    return *max_it - *min_it;
+    return max(*max_it - *min_it, 1);
 }
 
 double Node_Shaw_Removal::calMaxDistDiff(Nodes& nodeset)

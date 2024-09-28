@@ -12,7 +12,7 @@
 #include <set>
 using namespace std;
 
-Path_Cardinality_Removal::Path_Cardinality_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj, Nodes& nodes) : nodeset(nodes), Path_Random_Removal(s, ops_param, tabuObj)
+Path_Cardinality_Removal::Path_Cardinality_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj, Nodes& nodes) : Path_Random_Removal(s, ops_param, tabuObj, nodes)
 {
     empty = false;
     // hasSelectedCur = true;
@@ -22,16 +22,26 @@ Path_Cardinality_Removal::Path_Cardinality_Removal(string s, Operators_Parameter
 
 vector<double> Path_Cardinality_Removal::calMeasurement(VRPSolution& vrpsol, vector<tuple<int, int, int>> all_destroyable_arcpos, vector<vector<int>> all_destroyable_arcconfig)
 {
+    RandomNumber r;
     vector<double> destroyable_arc_card;
     for(int i = 0; i < all_destroyable_arcconfig.size(); i++)
     {
-        if(pathTabuObj->getPathTenure(all_destroyable_arcconfig[i]) <= 0)
+        if(pathTabuObj->getPathTenure(all_destroyable_arcconfig[i]) != 0)
         {
             destroyable_arc_card.push_back(-INF);
         }
         else
         {
-            destroyable_arc_card.push_back(static_cast<double>(nodeset.getAllAvailPathSize()[all_destroyable_arcconfig[i][0]][all_destroyable_arcconfig[i][1]]));
+            int pathset_size = nodeset.getAllAvailPathSize()[all_destroyable_arcconfig[i][0]][all_destroyable_arcconfig[i][1]];
+            // destroyable_arc_card.push_back(static_cast<double>(pathset_size));
+            if(!noise)
+            {
+                destroyable_arc_card.push_back(static_cast<double>(pathset_size));
+            }
+            else
+            {
+                destroyable_arc_card.push_back(static_cast<double>(pathset_size) + r.get_rint(-pathset_size, pathset_size));
+            }
         }
     }
     return destroyable_arc_card;

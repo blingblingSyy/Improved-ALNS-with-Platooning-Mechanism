@@ -47,6 +47,7 @@ class APathDestroyOperator : public AOperator
 		//! This function is the one called to destroy a solution.
 		//! \param sol the solution to be destroyed.
 		virtual void destroySolPath(ISolution& sol)=0;
+
 };
 
 #endif

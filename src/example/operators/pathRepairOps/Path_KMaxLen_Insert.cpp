@@ -28,7 +28,15 @@ vector<int> Path_KMaxLen_Insert::sortMeasurement(VRPSolution& vrpsol, vector<int
     vector<int> indices(avail_path_set_at_arc.size());
     iota(indices.begin(), indices.end(), 0);
     indices.erase(remove(indices.begin(), indices.end(), orig_usedpath));   //!  orig_usedpath = get<1>(*pos_it): the index for the old used path
-    sort(indices.begin(), indices.end(), [&](int A, int B) -> bool {return avail_path_set_at_arc[A]->getDist() > avail_path_set_at_arc[B]->getDist();});
+    RandomNumber r;
+    if(!noise)
+    {
+        sort(indices.begin(), indices.end(), [&](int A, int B) -> bool {return avail_path_set_at_arc[A]->getDist() > avail_path_set_at_arc[B]->getDist();});
+    }
+    else
+    {
+        sort(indices.begin(), indices.end(), [&](int A, int B) -> bool {return avail_path_set_at_arc[A]->getDist() * r.get_rflt(0.9, 1) > avail_path_set_at_arc[B]->getDist() * r.get_rflt(0.9, 1);});
+    }
     return indices;
 }
 

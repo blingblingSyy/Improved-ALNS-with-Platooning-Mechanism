@@ -35,7 +35,15 @@ double Path_NodeFreq_Insert::calPathAvgNodeFreq(VRPSolution& vrpsol, vector<int>
     {
         avg_freq.push_back(vrpsol.getNodeShowTimes(*it));
     }
-    return calAverage(avg_freq);
+    RandomNumber r;
+    if(!noise)
+    {
+        return calAverage(avg_freq);
+    }
+    else
+    {
+        return calAverage(avg_freq) + r.get_rflt(-unique_middle_nodes.size(), unique_middle_nodes.size());
+    }
 }
 
 vector<int> Path_NodeFreq_Insert::sortMeasurement(VRPSolution& vrpsol, vector<int> arc_config, int orig_usedpath)

@@ -13,7 +13,7 @@
 #include <set>
 using namespace std;
 
-Path_NodeFreq_Removal::Path_NodeFreq_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj, Nodes& nodes) : nodeset(nodes), Path_Random_Removal(s, ops_param, tabuObj)
+Path_NodeFreq_Removal::Path_NodeFreq_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj, Nodes& nodes) : Path_Random_Removal(s, ops_param, tabuObj, nodes)
 {
     empty = false;
     // hasSelectedCur = true;
@@ -25,11 +25,27 @@ double Path_NodeFreq_Removal::calPathAvgNodeFreq(VRPSolution& vrpsol, vector<int
 {
     vector<int> avg_freq;
     set<int> unique_middle_nodes = set(path.begin()+1, path.end()-1);
-    for(auto it = unique_middle_nodes.begin(); it != unique_middle_nodes.end(); it++)
+    if(unique_middle_nodes.size() == 0)
     {
-        avg_freq.push_back(vrpsol.getNodeShowTimes(*it));
+        return 0;
     }
-    return calAverage(avg_freq);
+    else
+    {
+        for(auto it = unique_middle_nodes.begin(); it != unique_middle_nodes.end(); it++)
+        {
+            avg_freq.push_back(vrpsol.getNodeShowTimes(*it));
+        }
+        // return calAverage(avg_freq);
+        RandomNumber r;
+        if(!noise)
+        {
+            return calAverage(avg_freq);
+        }
+        else
+        {
+            return calAverage(avg_freq) + r.get_rflt(-unique_middle_nodes.size(), unique_middle_nodes.size());
+        }
+    }
 }
 
 vector<double> Path_NodeFreq_Removal::calMeasurement(VRPSolution& vrpsol, vector<tuple<int, int, int>> all_destroyable_arcpos, vector<vector<int>> all_destroyable_arcconfig)

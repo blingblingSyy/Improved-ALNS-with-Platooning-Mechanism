@@ -11,7 +11,7 @@
 #include "example/model/basic/config.h"
 #include "example/model/establish/TimeWindowUpdater.h"
 #include "example/model/basic/ADijkstraSol.h"
-#define NDEBUG;
+// #define NDEBUG
 using namespace std;
 
 ARoute::ARoute(Nodes& nodeset, Vehicles& vehset)
@@ -31,14 +31,23 @@ ARoute::ARoute(ARoute& route)
     this->used_paths_in_compact_route = route.used_paths_in_compact_route;
     this->extended_route = route.extended_route;
     this->node_labels = route.node_labels;
+    TimeWindowUpdater twupdater(extended_route, node_labels, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
+    twupdater.calRouteExpectedTW();
+    // this->expected_arrtw = twupdater.getRouteArrTW();
+    // this->expected_deptw = twupdater.getRouteDepTW();
     this->expected_arrtw = route.expected_arrtw;
     this->expected_deptw = route.expected_deptw;
+    // this->actual_arrtime.clear();
+    // this->actual_deptime.clear();
+    // this->actual_waittime.clear();
+    // this->total_waittime = 0;
     this->actual_arrtime = route.actual_arrtime;
     this->actual_deptime = route.actual_deptime;
     this->actual_waittime = route.actual_waittime;
     this->total_waittime = route.total_waittime;
     this->route_load = route.route_load;
     this->route_mileage = route.route_mileage;
+
 }
 
 ARoute::~ARoute()
@@ -197,6 +206,10 @@ void ARoute::calExpectedArrDepTW()
     twupdater.calRouteExpectedTW();
     expected_arrtw = twupdater.getRouteArrTW();
     expected_deptw = twupdater.getRouteDepTW();
+    // this->actual_arrtime.clear();
+    // this->actual_deptime.clear();
+    // this->actual_waittime.clear();
+    // this->total_waittime = 0;
 }
 
 void ARoute::calArrDepTime()
@@ -339,27 +352,41 @@ vector<int> ARoute::setUsedPathsByRemoveNode(int remove_pos)
 vector<int> ARoute::setExtendRouteByRemoveNode(int remove_pos)
 {
     vector<int> extended_route_copy;
-    int segnode1 = convert_nodepos_compact_to_extend(remove_pos-1);
-    int segnode2 = convert_nodepos_compact_to_extend(remove_pos+1);
-    extended_route_copy.insert(extended_route_copy.end(), extended_route.begin(), extended_route.begin()+segnode1+1);
     vector<int> extendpath = findExtendPath(compact_route[remove_pos-1], compact_route[remove_pos+1], 0);
-    extended_route_copy.insert(extended_route_copy.end(), extendpath.begin()+1, extendpath.end());
-    extended_route_copy.insert(extended_route_copy.end(), extended_route.begin()+segnode2+1, extended_route.end());
+    if(!extendpath.empty())
+    {
+        int segnode1 = convert_nodepos_compact_to_extend(remove_pos-1);
+        int segnode2 = convert_nodepos_compact_to_extend(remove_pos+1);
+        extended_route_copy.insert(extended_route_copy.end(), extended_route.begin(), extended_route.begin()+segnode1+1);
+        extended_route_copy.insert(extended_route_copy.end(), extendpath.begin()+1, extendpath.end());
+        extended_route_copy.insert(extended_route_copy.end(), extended_route.begin()+segnode2+1, extended_route.end());
+    }
+    else
+    {
+        extended_route_copy = {0,0};
+    }
     return extended_route_copy;
 }
 
 vector<int> ARoute::setNodeLabelsByRemoveNode(int remove_pos)
 {
     vector<int> node_labels_copy;
-    int segnode1 = convert_nodepos_compact_to_extend(remove_pos-1);
-    int segnode2 = convert_nodepos_compact_to_extend(remove_pos+1);
-    node_labels_copy.insert(node_labels_copy.end(), node_labels.begin(), node_labels.begin()+segnode1+1);
     int extendpath_size = findExtendPath(compact_route[remove_pos-1], compact_route[remove_pos+1], 0).size();
-    vector<int> nodelabels_vec(extendpath_size);
-    nodelabels_vec[extendpath_size-1] = 1;
-    node_labels_copy.insert(node_labels_copy.end(), nodelabels_vec.begin()+1, nodelabels_vec.end());
-    node_labels_copy.insert(node_labels_copy.end(), node_labels.begin()+segnode2+1, node_labels.end());
-    node_labels_copy[node_labels_copy.size()-1] = 0; //in case the last node is the ending depot
+    if(extendpath_size > 1) // >0
+    {
+        int segnode1 = convert_nodepos_compact_to_extend(remove_pos-1);
+        int segnode2 = convert_nodepos_compact_to_extend(remove_pos+1);
+        node_labels_copy.insert(node_labels_copy.end(), node_labels.begin(), node_labels.begin()+segnode1+1);
+        vector<int> nodelabels_vec(extendpath_size);
+        nodelabels_vec[extendpath_size-1] = 1;
+        node_labels_copy.insert(node_labels_copy.end(), nodelabels_vec.begin()+1, nodelabels_vec.end());
+        node_labels_copy.insert(node_labels_copy.end(), node_labels.begin()+segnode2+1, node_labels.end());
+        node_labels_copy[node_labels_copy.size()-1] = 0; //in case the last node is the ending depot
+    }
+    else
+    {
+        node_labels_copy = {1,1};
+    }
     return node_labels_copy;
 }
 
@@ -409,27 +436,42 @@ vector<int> ARoute::modifyUsedPath(int modified_arcpos, int used_path_id)
 vector<int> ARoute::setExtendRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
 {
     vector<int> extended_route_copy;
-    int segnode1 = convert_nodepos_compact_to_extend(modified_arcpos);
-    int segnode2 = convert_nodepos_compact_to_extend(modified_arcpos+1);
-    extended_route_copy.insert(extended_route_copy.end(), extended_route.begin(), extended_route.begin()+segnode1+1);
     vector<int> extendpath = findExtendPath(compact_route[modified_arcpos], compact_route[modified_arcpos+1], used_path_id);
-    extended_route_copy.insert(extended_route_copy.end(), extendpath.begin()+1, extendpath.end());
-    extended_route_copy.insert(extended_route_copy.end(), extended_route.begin()+segnode2+1, extended_route.end());
+    if(!extendpath.empty())
+    {
+        int segnode1 = convert_nodepos_compact_to_extend(modified_arcpos);
+        int segnode2 = convert_nodepos_compact_to_extend(modified_arcpos+1);
+        extended_route_copy.insert(extended_route_copy.end(), extended_route.begin(), extended_route.begin()+segnode1+1);
+        extended_route_copy.insert(extended_route_copy.end(), extendpath.begin()+1, extendpath.end());
+        extended_route_copy.insert(extended_route_copy.end(), extended_route.begin()+segnode2+1, extended_route.end());
+    }
+    else
+    {
+        extended_route_copy = {0,0};
+    }
     return extended_route_copy;
 }
 
 vector<int> ARoute::setNodeLabelsByModifyUsedPath(int modified_arcpos, int used_path_id)
 {
     vector<int> node_labels_copy;
-    int segnode1 = convert_nodepos_compact_to_extend(modified_arcpos);
-    int segnode2 = convert_nodepos_compact_to_extend(modified_arcpos+1);
-    node_labels_copy.insert(node_labels_copy.end(), node_labels.begin(), node_labels.begin()+segnode1+1);
     int extendpath_size = findExtendPath(compact_route[modified_arcpos], compact_route[modified_arcpos+1], used_path_id).size();
-    vector<int> nodelabels_vec(extendpath_size);
-    nodelabels_vec[extendpath_size-1] = 1;
-    node_labels_copy.insert(node_labels_copy.end(), nodelabels_vec.begin()+1, nodelabels_vec.end());
-    node_labels_copy.insert(node_labels_copy.end(), node_labels.begin()+segnode2+1, node_labels.end());
-    node_labels_copy[node_labels_copy.size()-1] = 0; //in case the last node is the ending depot
+
+    if(extendpath_size > 1)
+    {
+        int segnode1 = convert_nodepos_compact_to_extend(modified_arcpos);
+        int segnode2 = convert_nodepos_compact_to_extend(modified_arcpos+1);
+        node_labels_copy.insert(node_labels_copy.end(), node_labels.begin(), node_labels.begin()+segnode1+1);
+        vector<int> nodelabels_vec(extendpath_size);
+        nodelabels_vec[extendpath_size-1] = 1;
+        node_labels_copy.insert(node_labels_copy.end(), nodelabels_vec.begin()+1, nodelabels_vec.end());
+        node_labels_copy.insert(node_labels_copy.end(), node_labels.begin()+segnode2+1, node_labels.end());
+        node_labels_copy[node_labels_copy.size()-1] = 0; //in case the last node is the ending depot
+    }
+    else
+    {
+        node_labels_copy = {1,1};
+    }
     return node_labels_copy;
 }
 
@@ -654,9 +696,9 @@ void ARoute::setRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
 
 bool ARoute::isTimeFeas()
 {
-    // TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
+    TimeWindowUpdater twupdater(extended_route, node_labels, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
     // twupdater.calRouteExpectedTW();
-    TimeWindowUpdater twupdater;
+    // TimeWindowUpdater twupdater;
     twupdater.setRouteArrTW(expected_arrtw);
     twupdater.setRouteDepTW(expected_deptw);
     return twupdater.isRouteTimeFeas();
@@ -682,7 +724,11 @@ bool ARoute::isDistFeas(int total_dist)
 
 bool ARoute::isLinkFeas(int arcpos, vector<int> compactRoute)
 {
-    return !nodeset->getAvailPathSet(compactRoute[arcpos], compactRoute[arcpos+1]).empty();
+    bool linkfeas1 = !nodeset->getOnePath(compactRoute[arcpos], compactRoute[arcpos+1], 0)->getPath().empty();
+    bool linkfeas2 = nodeset->getOnePath(compactRoute[arcpos], compactRoute[arcpos+1], 0)->getDist() < INF;
+    // bool linkfeas3 = nodeset->getOnePath(compactRoute[arcpos], compactRoute[arcpos+1], 0)->getDist() > 0;
+    return linkfeas1 && linkfeas2; //! if == INF -> contains depots in the middle of the path
+    // return !nodeset->getAvailPathSet(compactRoute[arcpos], compactRoute[arcpos+1]).empty(); 
 }
 
 bool ARoute::isRouteFeas()

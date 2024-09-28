@@ -39,7 +39,7 @@ VRPSolution::~VRPSolution()
 {
     nonInsertedNodes.clear();
     nonUsedVehs.clear();
-    destroyedArcs.clear();
+    destroyedArcPos.clear();
     for(int i = 0; i < getRoutesNum(); i++)
     {
         delete sol_config[i];
@@ -54,6 +54,8 @@ VRPSolution::~VRPSolution()
 
 void VRPSolution::findDestroyablePaths()
 {
+    destroyableArcConfig.clear();
+    destroyableArcPos.clear();
     for(int i = 0; i < sol_config.size(); i++)
     {
         vector<int> compact_route_i = sol_config[i]->getCompactRoute();
@@ -63,7 +65,7 @@ void VRPSolution::findDestroyablePaths()
             {
                 //! destroyableArcPos = {{destroyed_arcpos, destroyed_pathid, routeid}, ...}
                 destroyableArcPos.push_back(make_tuple(j, sol_config[i]->getUsedPathsAtArc(j), i));
-                destroyableArcConifg.push_back({compact_route_i[j], compact_route_i[j+1]});
+                destroyableArcConfig.push_back({compact_route_i[j], compact_route_i[j+1]});
             }
         }
     }
@@ -80,7 +82,7 @@ ARoute* VRPSolution::buildNewRoute()
     {
         //! randomly pick a customer to be inserted (note that the customer should not have nodetype of 2, which is for the intersection)
         RandomNumber r;
-        int pick_cus = nonInsertedNodes[0]; //r.get_rint(0, nonInsertedNodes.size()-1);
+        int pick_cus = nonInsertedNodes[r.get_rint(0, nonInsertedNodes.size()-1)]; //0;
         int cus_type = nodeset->getNodeType(pick_cus);
         //! after picking the customer, check whether there are lefting vehicles of the same type as the customer type to be inserted
         vector<int>::iterator veh_it = find_if(nonUsedVehs.begin(), nonUsedVehs.end(), [&](int x) -> bool {return vehset->getVehType(x) == cus_type || cus_type == 2;});
@@ -169,8 +171,9 @@ void VRPSolution::buildInitialSol()
     }
 
     //need to be deleted later
-    // sol_config[3]->setRouteByModifyUsedPath(0, 1);
+    //! mip_optimal_solution
     // sol_config[3]->setRouteByModifyUsedPath(1, 1);
+    // sol_config[3]->setRouteByModifyUsedPath(0, 1);
     // sol_config[1]->setRouteByModifyUsedPath(0, 1);
 
     // cpuBeforePlatooning = (clock() - start ) / (double) CLOCKS_PER_SEC;
@@ -183,7 +186,10 @@ bool VRPSolution::isFeasible()
 {
     for(int i = 0; i < getRoutesNum(); i++)
     {
-        if(!sol_config[i]->isRouteFeas()) return false;
+        if(!sol_config[i]->isRouteFeas())
+        {
+            return false;
+        }
     }
     return true;
 }
@@ -208,6 +214,14 @@ int VRPSolution::distance(ISolution& s)
 bool VRPSolution::isSolEmpty()
 {
     return (sol_config.size() == 0);
+}
+
+void VRPSolution::resetExpectedTWAllRoutes()
+{
+    for(int i = 0; i < getRoutesNum(); i++)
+    {
+        sol_config[i]->calExpectedArrDepTW();
+    }
 }
 
 void VRPSolution::makePlatoons()
@@ -362,10 +376,10 @@ void VRPSolution::updateSol(bool make_platoon)
     for(int i = 0; i < getRoutesNum(); i++)
     {
         sol_config[i]->calExpectedArrDepTW();
-        sol_config[i]->calRouteLoad();
-        sol_config[i]->calRouteMileage();
-        if(make_platoon) makePlatoons(); //! make_platoon = true: rebuild platoons again
-        sol_config[i]->calArrDepTime();
+        // sol_config[i]->calRouteLoad();
+        // sol_config[i]->calRouteMileage();
+        // if(make_platoon) makePlatoons(); //! make_platoon = true: rebuild platoons again
+        // sol_config[i]->calArrDepTime();
     }
 }
 
@@ -384,17 +398,18 @@ ISolution* VRPSolution::getCopy()
     {
         newSol->getNonUsedVehs().push_back(getNonUsedVehs()[v]);
     }
-    newSol->getDestroyableArcConfig().clear(); //! destroyable
-    for(int a = 0; a < getDestroyableArcConfig().size(); a++)
-    {
-        newSol->getDestroyableArcConfig().push_back(getDestroyableArcConfig()[a]);
-        newSol->getDestroyableArcPos().push_back(getDestroyableArcPos()[a]);
-    }
-    newSol->getDestroyedArcsPos().clear(); //! destroyed
-    for(int a = 0; a < getDestroyedArcsPos().size(); a++)
-    {
-        newSol->getDestroyedArcsPos().push_back(getDestroyedArcsPos()[a]);
-    }
+    newSol->destroyableArcConfig.clear(); //! destroyable
+    newSol->destroyableArcPos.clear(); //! destroyable
+    // for(int a = 0; a < destroyableArcConfig.size(); a++)
+    // {
+    //     newSol->destroyableArcConfig.push_back(getDestroyableArcConfig()[a]);
+    //     newSol->destroyableArcPos.push_back(getDestroyableArcPos()[a]);
+    // }
+    newSol->destroyedArcPos.clear(); //! destroyed
+    // for(int a = 0; a < destroyedArcPos.size(); a++)
+    // {
+    //     newSol->destroyedArcPos.push_back(getDestroyedArcsPos()[a]);
+    // }
     newSol->getAllRoutes().clear();
     for(int r = 0; r < getRoutesNum(); r++)
     {
@@ -407,7 +422,15 @@ ISolution* VRPSolution::getCopy()
         APlatoon* newPlatoon = new APlatoon(*(platoons_config[p]));
         newSol->getAllPlatoons().push_back(newPlatoon);
     }
-	newSol->recomputeCost();
+    newSol->totalDistCostsBeforePlatooning = totalDistCostsBeforePlatooning;
+    newSol->totalEnergySaving = totalEnergySaving;
+    newSol->totalDistCostsAfterPlatooning = totalDistCostsAfterPlatooning;
+    newSol->totalTripDurationAllRoutes = totalTripDurationAllRoutes;
+    newSol->totalUnservedRequests = totalUnservedRequests;
+    newSol->totalUnservedPasRequests = totalUnservedPasRequests;
+    newSol->totalUnservedFreRequests = totalUnservedFreRequests;
+	newSol->totalObjValueAfterPlatooning = totalObjValueAfterPlatooning;
+    // newSol->recomputeCost();
 	return dynamic_cast<ISolution*>(newSol);
 }
 
@@ -435,15 +458,15 @@ void VRPSolution::insertNode(int insert_pos, int insert_nodeid, int routeid)
             solCurOpt = InsertOneNode;
             //! compute the cost for the solution after the insertion
             totalDistCostsBeforePlatooning += insertcosts;
-            totalUnservedRequests -= 1;
-            if(nodeset->getNodeType(nonInsertedNodes[insert_nodeid] == 0))
-            {
-                totalUnservedPasRequests -= 1;
-            }
-            else if(nodeset->getNodeType(nonInsertedNodes[insert_nodeid] == 1))
-            {
-                totalUnservedFreRequests -= 1;
-            }
+            // totalUnservedRequests -= 1;
+            // if(nodeset->getNodeType(insert_nodeid) == 0)
+            // {
+            //     totalUnservedPasRequests -= 1;
+            // }
+            // else if(nodeset->getNodeType(insert_nodeid) == 1)
+            // {
+            //     totalUnservedFreRequests -= 1;
+            // }
         }
         else
         {
@@ -474,15 +497,15 @@ void VRPSolution::removeNode(int remove_pos, int routeid)
         solCurOpt = RemoveOneNode;
         //! compute the removal costs for the solution after the removal
         totalDistCostsBeforePlatooning += removalcosts;
-        totalUnservedRequests += 1;
-        if(nodeset->getNodeType(nonInsertedNodes[remove_nodeid] == 0))
-        {
-            totalUnservedPasRequests -= 1;
-        }
-        else if(nodeset->getNodeType(nonInsertedNodes[remove_nodeid] == 1))
-        {
-            totalUnservedFreRequests -= 1;
-        }
+        // totalUnservedRequests += 1;
+        // if(nodeset->getNodeType(remove_nodeid) == 0)
+        // {
+        //     totalUnservedPasRequests += 1;
+        // }
+        // else if(nodeset->getNodeType(remove_nodeid) == 1)
+        // {
+        //     totalUnservedFreRequests += 1;
+        // }
     }
     else
     {

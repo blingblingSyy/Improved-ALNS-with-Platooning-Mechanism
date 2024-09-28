@@ -1,3 +1,0 @@
-time stamp	Weight_nodefirst	Calls_nodefirst	Weight_pathfirst	Calls_pathfirst	Weight_nodeNullDestroy	Calls_nodeNullDestroy	Weight_Node Route-based Removal	Calls_Node Route-based Removal	Weight_Node Random Insert	Calls_Node Random Insert	Weight_pathNullDestroy	Calls_pathNullDestroy	Weight_Path Node-Frequency Removal	Calls_Path Node-Frequency Removal	Weight_Path K-max Length Removal	Calls_Path K-max Length Removal	
-41.371	1	1	1	0	1	0	1	1	1	1	1	1	1	0	1	0	
-69.395	1	1	1	0	1	0	1	1	1	1	1	1	1	0	1	0	

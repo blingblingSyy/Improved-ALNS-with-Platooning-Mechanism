@@ -23,8 +23,8 @@ class Path_Cardinality_Removal: public Path_Random_Removal
         // void destroySolPath(ISolution& sol);
         
     private:
-        //! reference to the set of nodes
-        Nodes& nodeset;
+        // //! reference to the set of nodes
+        // Nodes& nodeset;
 
         //! randomzing selection parameter for the path removal operator;
         // double randCardi;

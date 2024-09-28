@@ -18,7 +18,7 @@
 #include "example/model/basic/config.h"
 #include "utility.h"
 
-#define NDEBUG
+// #define NDEBUG
 
 using namespace std;  
 
@@ -33,6 +33,7 @@ PlatoonMaker::PlatoonMaker(VRPSolution& sol, Nodes& nodes) : cur_sol(sol)
     unique_arcs_occurance.resize(unique_arcs_num);
     findCommonVehs(); //set unique_arcs_occurance.common_vehs & unique_arcs_occurance.common_routes
     findArcPosAllRoutes(); //set unique_arcs_occurance.arc_all_pos
+    pivotArc_all_routes.clear();
     pivotArc_all_routes.resize(routes_num, -1);
 }
 
@@ -375,12 +376,12 @@ vector<int> PlatoonMaker::shrinkOverlapDeptwOnePlatoon(APlatoon* input_platoon, 
 {
     vector<pair<int, int>> platoon_config = input_platoon->getPlatoonConfig();
     vector<int> updated_overlap_tw(2);
-    vector<int> used_pivot_arcpos;
     vector<int> temp_deptime(platoon_config.size());
-    for(int i = 0; i < platoon_config.size(); i++)
-    {
-        used_pivot_arcpos.push_back(pivotArc_all_routes[platoon_config[i].first]);
-    }
+    // vector<int> used_pivot_arcpos;
+    // for(int i = 0; i < platoon_config.size(); i++)
+    // {
+    //     used_pivot_arcpos.push_back(pivotArc_all_routes[platoon_config[i].first]);
+    // }
     for(int r = 0; r < platoon_config.size(); r++)
     {
         int pivot_arcpos_thisroute = pivotArc_all_routes[platoon_config[r].first];
@@ -437,7 +438,7 @@ vector<APlatoon*> PlatoonMaker::findAllPlatoons(vector<pair<int, int>>& graph_no
         vector<APlatoon*> all_maximal_cliques = findMaximalCliquesNodeset(graph_nodes, pair_feas_graph);
         APlatoon* maximum_clique = findMaxCliqueSavingNodeset(all_maximal_cliques);
 
-        if(maximum_clique->getPlatoonConfig().size() > 1)
+        if(maximum_clique->getPlatoonConfig().size() > 1 && maximum_clique->getEnergySaving() > 0)
         {
             //! output the overlapped departure time windows of each platoon
             vector<int> maximum_platoon_tw = calOverlapDeptwOnePlatoon(maximum_clique->getPlatoonConfig());

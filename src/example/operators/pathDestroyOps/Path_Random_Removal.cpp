@@ -4,6 +4,7 @@
 #include "example/model/establish/ARoute.h"
 #include "example/model/basic/Nodes.h"
 #include "example/operators/Operators_Parameters.h"
+#include "example/model/basic/ADijkstraSol.h"
 #include "alns/ALNS_inc.h"
 #include "utility.h"
 #include <vector>
@@ -12,7 +13,7 @@
 #include <set>
 using namespace std;
 
-Path_Random_Removal::Path_Random_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj) : APathDestroyOperator(s, ops_param.getPathDestroySizeRate(), tabuObj)
+Path_Random_Removal::Path_Random_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj, Nodes& nodes) : nodeset(nodes), APathDestroyOperator(s, ops_param.getPathDestroySizeRate(), tabuObj)
 {
     empty = false;
     // hasSelectedCur = true;
@@ -22,10 +23,11 @@ Path_Random_Removal::Path_Random_Removal(string s, Operators_Parameters& ops_par
 
 vector<double> Path_Random_Removal::calMeasurement(VRPSolution& vrpsol, vector<tuple<int, int, int>> all_destroyable_arcpos, vector<vector<int>> all_destroyable_arcconfig)
 {
+    RandomNumber r;
     vector<double> rand_measure;
     for(int i = 0; i < all_destroyable_arcconfig.size(); i++)
     {
-        (pathTabuObj->getPathTenure(all_destroyable_arcconfig[i]) <= 0) ? rand_measure.push_back(-INF) : rand_measure.push_back(1);
+        (pathTabuObj->getPathTenure(all_destroyable_arcconfig[i]) == 0) ? rand_measure.push_back(r.get_rflt(0,1)) : rand_measure.push_back(-INF);
     }
     return rand_measure;
 }
@@ -46,23 +48,26 @@ void Path_Random_Removal::destroySolPath(ISolution& sol)
     vector<int> indices(path_measurement.size());
     iota(indices.begin(), indices.end(), 0);
     sort(indices.begin(), indices.end(), [&](int A, int B) -> bool {return path_measurement[A] > path_measurement[B];});
-    for(auto iter = indices.begin(); iter != indices.end(); iter++)
+    for(auto iter = indices.begin(); iter != indices.end(); )
     {
         if(path_measurement[*iter] == -INF)
         {
             iter = indices.erase(iter);
-            iter--;
+        }
+        else
+        {
+            iter++;
         }
     }
     // indices.erase(remove_if(indices.begin(), indices.end(), [&](int i){return path_measurement[i] == -INF;}), indices.end());
     RandomNumber r;
-    int destroyableSize = static_cast<int>(indices.size() * pathDesSizeRate * r.get_rflt());
+    int destroyableSize = static_cast<int>(ceil(indices.size() * pathDesSizeRate * r.get_rflt(0,1)));
 
     while(destroyableSize > 0)
     {
-        //! randomly select a destroyale path
+        //! randomly select a destroyable path
         RandomNumber r;
-        int select_indpos = int(pow(r.get_rflt(0,1), randSel)*(indices.size()-1));
+        int select_indpos = static_cast<int>(round(pow(r.get_rflt(0,1), randSel)*(indices.size()-1)));
         tuple<int, int, int> selected_arcpos = all_destroyable_arcpos[indices[select_indpos]]; //! <destroyed_arcpos, destroyed_pathid, routeid>
         vector<int> selected_arcconfig = all_destroyable_arcconfig[indices[select_indpos]]; //! {node1, node2}
         //! destroy the selected path

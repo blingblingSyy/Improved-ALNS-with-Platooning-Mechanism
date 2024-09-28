@@ -57,7 +57,7 @@ class APlatoon
         //! a simple getter
         vector<int> getArc() {return arc;};
 
-        //! a simple getter
+        //! a simple getter: <route_id, arc_pos_on_the_route>
         vector<pair<int, int>>& getPlatoonConfig() {return config;};
 
         //! a simple getter

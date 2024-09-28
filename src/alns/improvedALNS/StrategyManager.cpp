@@ -2,7 +2,7 @@
 #include <iostream>
 #include <time.h>
 #include <set>
-#define NDEBUG 	//add to cancel debug mode
+// #define NDEBUG 	//add to cancel debug mode
 #include "alns/improvedALNS/AStrategy.h"
 #include "alns/improvedALNS/AOperator.h"
 #include "alns/improvedALNS/ANodeDestroyOperator.h"
@@ -30,22 +30,24 @@ StrategyManager::StrategyManager(ALNS_Parameters& param)
 	sumWeightsPathRepair = 0;
 	sumWeightsPathDestroy = 0;
 
-	this->nodeFirstStrategy = new AStrategy("nodefirst");
-	this->pathFirstStrategy = new AStrategy("pathfirst");
-	this->nodeNullDestroy = new Node_Null_Destroy("nodeNullDestroy");
-	this->nodeNullRepair = new Node_Null_Repair("nodeNullRepair");   //! reset weights
-	this->pathNullDestroy = new Path_Null_Destroy("pathNullDestroy");
-	this->pathNullRepair = new Path_Null_Repair("pathNullRepair");
+	// this->nodeFirstStrategy = new AStrategy("nodefirst");
+	// this->pathFirstStrategy = new AStrategy("pathfirst");
+	// this->nodeNullDestroy = new Node_Null_Destroy("nodeNullDestroy");
+	// this->nodeNullRepair = new Node_Null_Repair("nodeNullRepair");   //! reset weights
+	// this->pathNullDestroy = new Path_Null_Destroy("pathNullDestroy");
+	// this->pathNullRepair = new Path_Null_Repair("pathNullRepair");
 
-	/* new version */
-	nodeDestroyOperators.push_back(nodeNullDestroy);
-	pathDestroyOperators.push_back(pathNullDestroy);
+	// nodeDestroyOperators.push_back(nodeNullDestroy);
+	// pathDestroyOperators.push_back(pathNullDestroy);
 
-    addStrategies();
+    // addStrategies();
 
-	// next_noise = false;
-	// performanceRepairOperatorsWithNoise = 1;
-	// performanceNodeRepairOperatorsWithoutNoise = 1;
+	nodenoise = false;
+	pathnoise = false;
+	performanceNodeOperatorsWithNoise = 1;
+	performanceNodeOperatorsWithoutNoise = 1;
+	performancePathOperatorsWithNoise = 1;
+	performancePathOperatorsWithoutNoise = 1;
 }
 
 StrategyManager::~StrategyManager()
@@ -65,10 +67,15 @@ void StrategyManager::recomputeWeight(AStrategy& st, double& sumW)
 	sumW -= prevWeight;
 	double currentScore = st.getScore();
 	size_t nbCalls = st.getNumberOfCallsSinceLastEvaluation(); //! the nb of calls in the last segment
-	/* new version */
-	double newWeight = (1-parameters->getRho())*prevWeight + parameters->getRho()*(static_cast<double>(nbCalls)/static_cast<double>(parameters->getTimeSegmentsIt()))*currentScore;
-	/* old version */
-	// double newWeight = (1-parameters->getRho())*prevWeight + parameters->getRho()*currentScore/(static_cast<double>(nbCalls));
+	/* version 1 */
+	// double newWeight = (1-parameters->getRho())*prevWeight + parameters->getRho()*(static_cast<double>(nbCalls)/static_cast<double>(parameters->getTimeSegmentsIt()))*currentScore;
+	/* version 2 (PART A) */
+	double newWeight = (1-parameters->getRho())*prevWeight + parameters->getRho()*currentScore;
+	/* version 3 (TS) */
+	// int updated_nbCalls = (nbCalls > 0) ? nbCalls : 1;
+	// double newWeight = (1-parameters->getRho())*prevWeight + parameters->getRho()*(static_cast<double>(1.0*currentScore/updated_nbCalls));
+	//! nbCalls may be 0: 
+	//double newWeight = (1-parameters->getRho())*prevWeight + parameters->getRho()*(static_cast<double>(1.0*currentScore/nbCalls));
 	//! ensure that the weight is within the bounds.
 	if(newWeight > parameters->getMaximumWeight())
 	{
@@ -85,8 +92,30 @@ void StrategyManager::recomputeWeight(AStrategy& st, double& sumW)
 	st.resetNumberOfCalls();
 }
 
-void StrategyManager::initWeights()
+void StrategyManager::updateNoise()
 {
+	double performanceNodeOperatorsGlobal = 0;
+	double performancePathOperatorsGlobal = 0;
+	performanceNodeOperatorsGlobal += performanceNodeOperatorsWithNoise + performanceNodeOperatorsWithoutNoise;
+	performancePathOperatorsGlobal += performancePathOperatorsWithNoise + performancePathOperatorsWithoutNoise;
+
+	RandomNumber r;
+	double randomNodeWeightPos = r.get_rflt(0,1)*performanceNodeOperatorsGlobal;
+	double randomPathWeightPos = r.get_rflt(0,1)*performancePathOperatorsGlobal;
+	nodenoise = (randomNodeWeightPos < performanceNodeOperatorsWithNoise);
+	pathnoise = (randomPathWeightPos < performancePathOperatorsWithNoise);
+}
+
+void StrategyManager::initNullOperators()
+{
+	this->nodeNullDestroy = new Node_Null_Destroy("nodeNullDestroy");
+	this->nodeNullRepair = new Node_Null_Repair("nodeNullRepair");   //! reset weights
+	this->pathNullDestroy = new Path_Null_Destroy("pathNullDestroy");
+	this->pathNullRepair = new Path_Null_Repair("pathNullRepair");
+
+	nodeDestroyOperators.push_back(nodeNullDestroy);
+	pathDestroyOperators.push_back(pathNullDestroy);
+
 	//! node null operators
 	int nodeNullDesWeight = 0;
 	for(int i = 1; i < nodeDestroyOperators.size(); i++)
@@ -95,6 +124,8 @@ void StrategyManager::initWeights()
 	}
 	nodeNullDestroy->setWeight(nodeNullDesWeight);
 	nodeNullRepair->setWeight(nodeNullDesWeight);
+	sumWeightsNodeDestroy += nodeNullDestroy->getWeight();
+
 	//! path null operators
 	int pathNullDesWeight = 0;
 	for(int i = 1; i < pathDestroyOperators.size(); i++)
@@ -103,6 +134,7 @@ void StrategyManager::initWeights()
 	}
 	pathNullDestroy->setWeight(pathNullDesWeight);
 	pathNullRepair->setWeight(pathNullDesWeight);
+	sumWeightsPathDestroy += pathNullDestroy->getWeight();
 }
 
 void StrategyManager::recomputeWeights()
@@ -179,12 +211,29 @@ void StrategyManager::recomputeWeights()
 		weightsStats->push_back(pathRepairOperators[i]->getWeight());
 	}
 
+	//! noise
+	if(parameters->getGlobalNoise())
+	{		
+		nbCalls->push_back(performanceNodeOperatorsWithNoise-1);
+		nbCalls->push_back(performancePathOperatorsWithNoise-1);
+		weightsStats->push_back(performanceNodeOperatorsWithNoise / (performanceNodeOperatorsWithNoise + performanceNodeOperatorsWithoutNoise));
+		weightsStats->push_back(performancePathOperatorsWithNoise / (performancePathOperatorsWithNoise + performancePathOperatorsWithoutNoise));
+	}
+
 	stats->addOperatorEntry(weightsStats,nbCalls);
+
+	//! reset noise
+	performanceNodeOperatorsWithNoise = 1;
+	performanceNodeOperatorsWithoutNoise = 1;
+	performancePathOperatorsWithNoise = 1;
+	performancePathOperatorsWithoutNoise = 1;
 
 }
 
 void StrategyManager::startSignal()  //! Be careful of the sequence.
 {
+	addStrategies();
+	initNullOperators();
 	vector<string>* names = new vector<string>();
 	names->push_back(nodeFirstStrategy->getName());
 	names->push_back(pathFirstStrategy->getName());
@@ -204,7 +253,15 @@ void StrategyManager::startSignal()  //! Be careful of the sequence.
 	{
 		names->push_back(pathRepairOperators[i]->getName());
 	}
+
+	if(parameters->getGlobalNoise())
+	{
+		names->push_back("nodeNoise");
+		names->push_back("pathNoise");
+	}
+		
 	stats->addOperatorsNames(names);
+	
 }
 
 AOperator& StrategyManager::selectOpt(vector<AOperator*>& vecOp, double sumW)
@@ -226,6 +283,8 @@ AOperator& StrategyManager::selectOpt(vector<AOperator*>& vecOp, double sumW)
 			// 	vecOp[i]->unsetNoise();
 			// }
 			vecOp[i]->increaseNumberOfCalls();
+			// cout << "selectOp: ";
+			// cout << vecOp[i]->getName() << "\t " << vecOp[i]->getNumberOfCallsSinceLastEvaluation() << endl;
 			return *(vecOp[i]);
 		}
 	}
@@ -236,7 +295,7 @@ AOperator& StrategyManager::selectOpt(vector<AOperator*>& vecOp, double sumW)
 void StrategyManager::selectStrategy()
 {
 	double randomVal = static_cast<double>(rand())/static_cast<double>(RAND_MAX);
-	double randomWeightPos = randomVal * 0; //sumWeightsStrategy;
+	double randomWeightPos = randomVal * sumWeightsStrategy; //0 -> must be nodefirst; 100 -> must be pathfirst; sumWeightsStrategy -> randomm
 	double cumulSum = 0;
 	cumulSum += nodeFirstStrategy->getWeight();
 	if(cumulSum >= randomWeightPos)
@@ -269,62 +328,96 @@ string StrategyManager::getCurStName()
 
 ANodeDestroyOperator& StrategyManager::selectNodeDestroyOperator()
 {
+	// cout << "sumWeightsNodeDestroy: " << sumWeightsNodeDestroy << endl;
 	if(curSt == NodeFirst)
 	{
 		// vector<AOperator*> updatedNodeDestroyOperators = nodeDestroyOperators;
 		// updatedNodeDestroyOperators.erase(remove(updatedNodeDestroyOperators.begin(), updatedNodeDestroyOperators.end(), nodeNullDestroy));
-		vector<AOperator*> updatedNodeDestroyOperators(nodeDestroyOperators.begin()+1, nodeDestroyOperators.end());
-		return dynamic_cast<ANodeDestroyOperator&>(selectOpt(updatedNodeDestroyOperators, sumWeightsNodeDestroy));
+
+		// vector<AOperator*> updatedNodeDestroyOperators(nodeDestroyOperators.begin()+1, nodeDestroyOperators.end());
+		vector<AOperator*> updatedNodeDestroyOperators(nodeDestroyOperators.begin(), nodeDestroyOperators.end()-1); //nodeNullDes is added to the back
+		double newSumWeightsNodeDestroy = sumWeightsNodeDestroy - nodeNullDestroy->getWeight();
+		ANodeDestroyOperator& selectedNodeDesOp = dynamic_cast<ANodeDestroyOperator&>(selectOpt(updatedNodeDestroyOperators, newSumWeightsNodeDestroy));
+		(nodenoise) ? selectedNodeDesOp.setNoise() : selectedNodeDesOp.unsetNoise();
+		return selectedNodeDesOp;
 	}
 	else //! curSt == PathFirst
 	{
-		sumWeightsNodeDestroy = sumWeightsNodeDestroy + nodeNullDestroy->getWeight();
 		return dynamic_cast<ANodeDestroyOperator&>(selectOpt(nodeDestroyOperators, sumWeightsNodeDestroy));
 	}
 }
 
 ANodeRepairOperator& StrategyManager::selectNodeRepairOperator(bool nodeDesEmpty)
 {
+	// cout << "sumWeightsNodeRepair: " << sumWeightsNodeRepair << endl;
 	if(!nodeDesEmpty)
 	{
-		return dynamic_cast<ANodeRepairOperator&>(selectOpt(nodeRepairOperators, sumWeightsNodeRepair));
+		ANodeRepairOperator& selectedNodeRepOp = dynamic_cast<ANodeRepairOperator&>(selectOpt(nodeRepairOperators, sumWeightsNodeRepair));
+		(nodenoise) ? selectedNodeRepOp.setNoise() : selectedNodeRepOp.unsetNoise();
+		return selectedNodeRepOp;
 	}
 	else //! nodeDesEmpty == true
 	{
+		nodeNullRepair->increaseNumberOfCalls();
+		// cout << "selectOp: ";
+		// cout << nodeNullRepair->getName() << "\t " << nodeNullRepair->getNumberOfCallsSinceLastEvaluation() << endl;
 		return dynamic_cast<ANodeRepairOperator&>(*nodeNullRepair);
 	}
 }
 
 APathDestroyOperator& StrategyManager::selectPathDestroyOperator()
 {
+	// cout << "sumWeightsPathDestroy: " << sumWeightsPathDestroy << endl;
 	if(curSt == PathFirst)
 	{
 		// vector<AOperator*> updatedPathDestroyOperators = pathDestroyOperators;
 		// updatedPathDestroyOperators.erase(remove(updatedPathDestroyOperators.begin(), updatedPathDestroyOperators.end(), pathNullDestroy));
-		vector<AOperator*> updatedPathDestroyOperators(pathDestroyOperators.begin()+1, pathDestroyOperators.end());
-		return dynamic_cast<APathDestroyOperator&>(selectOpt(updatedPathDestroyOperators, sumWeightsPathDestroy));
+
+		// vector<AOperator*> updatedPathDestroyOperators(pathDestroyOperators.begin()+1, pathDestroyOperators.end());
+		vector<AOperator*> updatedPathDestroyOperators(pathDestroyOperators.begin(), pathDestroyOperators.end()-1); //! pathNullDes is added to the back
+		double newSumWeightsPathDestroy = sumWeightsPathDestroy - pathNullDestroy->getWeight();
+		APathDestroyOperator& selectedPathDesOp = dynamic_cast<APathDestroyOperator&>(selectOpt(updatedPathDestroyOperators, newSumWeightsPathDestroy));
+		(pathnoise) ? selectedPathDesOp.setNoise() : selectedPathDesOp.unsetNoise();
+		return selectedPathDesOp;
+
+		// APathDestroyOperator& pathDes = dynamic_cast<APathDestroyOperator&>(selectOpt(updatedPathDestroyOperators, sumWeightsPathDestroy));
+		// cout << "APathDestroyOperator& StrategyManager::selectPathDestroyOperator(): " << "\t ";
+		// cout << pathDes.getName() << "\t " << pathDes.getNumberOfCallsSinceLastEvaluation() << endl;
+		// return pathDes;
 	}
 	else //! curSt == NodeFirst
 	{
-		sumWeightsPathDestroy = sumWeightsPathDestroy + pathNullDestroy->getWeight();
 		return dynamic_cast<APathDestroyOperator&>(selectOpt(pathDestroyOperators, sumWeightsPathDestroy));
+
+		// APathDestroyOperator& pathDes = dynamic_cast<APathDestroyOperator&>(selectOpt(pathDestroyOperators, sumWeightsPathDestroy));
+		// cout << "APathDestroyOperator& StrategyManager::selectPathDestroyOperator(): " << "\t ";
+		// cout << pathDes.getName() << "\t " << pathDes.getNumberOfCallsSinceLastEvaluation() << endl;
+		// return pathDes;
 	}
 }
 
 APathRepairOperator& StrategyManager::selectPathRepairOperator(bool pathDesEmpty)
 {
+	// cout << "sumWeightsPathRepair: " << sumWeightsPathRepair << endl;
 	if(!pathDesEmpty)
 	{
-		return dynamic_cast<APathRepairOperator&>(selectOpt(pathRepairOperators, sumWeightsPathRepair));
+		APathRepairOperator& selectedPathRepOp = dynamic_cast<APathRepairOperator&>(selectOpt(pathRepairOperators, sumWeightsPathRepair));
+		(pathnoise) ? selectedPathRepOp.setNoise() : selectedPathRepOp.unsetNoise();
+		return selectedPathRepOp;
 	}
 	else //! nodeDesEmpty == true
 	{
+		pathNullRepair->increaseNumberOfCalls();
+		// cout << "selectOp: ";
+		// cout << pathNullRepair->getName() << "\t " << pathNullRepair->getNumberOfCallsSinceLastEvaluation() << endl;
 		return dynamic_cast<APathRepairOperator&>(*pathNullRepair);
 	}
 }
 
 void StrategyManager::addStrategies()
 {
+	this->nodeFirstStrategy = new AStrategy("nodefirst");
+	this->pathFirstStrategy = new AStrategy("pathfirst");
 	strategies.push_back(nodeFirstStrategy);
 	strategies.push_back(pathFirstStrategy);
 	sumWeightsStrategy += nodeFirstStrategy->getWeight();
@@ -441,8 +534,8 @@ void StrategyManager::updateScores(ANodeDestroyOperator& node_des, ANodeRepairOp
 	}
 
 	if(status.getImproveCurrentSolution() == ALNS_Iteration_Status::FALSE
-			&& status.getAcceptedAsCurrentSolution() == ALNS_Iteration_Status::TRUE
-			&& status.getAlreadyKnownSolution() == ALNS_Iteration_Status::FALSE)
+		&& status.getAcceptedAsCurrentSolution() == ALNS_Iteration_Status::TRUE
+		&& status.getAlreadyKnownSolution() == ALNS_Iteration_Status::FALSE)
 	{
 		if(curSt == NodeFirst)
 		{
@@ -456,30 +549,22 @@ void StrategyManager::updateScores(ANodeDestroyOperator& node_des, ANodeRepairOp
 		node_rep.setScore(node_rep.getScore() + parameters->getSigma3());
 		path_des.setScore(path_des.getScore() + parameters->getSigma3());
 		path_rep.setScore(path_rep.getScore() + parameters->getSigma3());
-
 	}
-	
-	// //! TODO wrong logic of setting next_noise -> should set it like setting the strategy
-	// //! TODO some repair operators are just random, don't need the noise.
-	// if(next_noise)
-	// {
-	// 	performanceRepairOperatorsWithNoise += 1;
-	// }
-	// else
-	// {
-	// 	performanceNodeRepairOperatorsWithoutNoise += 1;
-	// }
 
-	// if(parameters->getGlobalNoise()) 
-	// {
-	// 	double performanceRepairOperatorsGlobal = 0;
-	// 	performanceRepairOperatorsGlobal += performanceRepairOperatorsWithNoise;
-	// 	performanceRepairOperatorsGlobal += performanceNodeRepairOperatorsWithoutNoise;
+	//! noise
+	if(parameters->getGlobalNoise())
+	{
+		if(status.getNewBestSolution() == ALNS_Iteration_Status::TRUE
+			|| status.getImproveCurrentSolution() == ALNS_Iteration_Status::TRUE
+			|| status.getAcceptedAsCurrentSolution() == ALNS_Iteration_Status::TRUE && status.getAlreadyKnownSolution() == ALNS_Iteration_Status::FALSE)
+		{
+			(nodenoise) ? performanceNodeOperatorsWithNoise += 1 : performanceNodeOperatorsWithoutNoise += 1;
+			(pathnoise) ? performancePathOperatorsWithNoise += 1 : performancePathOperatorsWithoutNoise += 1;
+		}
 
-	// 	double randomVal = static_cast<double>(rand())/RAND_MAX;
-	// 	double randomWeightPos = randomVal*performanceRepairOperatorsGlobal;
-	// 	next_noise = (randomWeightPos < performanceRepairOperatorsWithNoise);
-	// }
+		updateNoise();
+	}
+
 }
 
 void StrategyManager::end()

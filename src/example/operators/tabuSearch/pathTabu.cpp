@@ -2,6 +2,7 @@
 #include "alns/improvedALNS/ALNS_Parameters.h"
 #include "example/model/establish/VRPSolution.h"
 #include "example/model/basic/Nodes.h"
+#include "utility.h"
 using namespace std;
 
 PathTabu::PathTabu(int tabuTenure, vector<vector<int>> availPathCardiSet)
@@ -56,8 +57,10 @@ void PathTabu::update(ISolution& sol, ALNS_Iteration_Status& status)
 
 void PathTabu::updatePathTenure(vector<int> input_path)
 {
+	RandomNumber r1;
     if(pathTabuList[input_path[0]][input_path[1]] == 0)
     {
-        pathTabuList[input_path[0]][input_path[1]] += tabu_tenure + 1;
+        // pathTabuList[input_path[0]][input_path[1]] += tabu_tenure + r1.get_rint(0, static_cast<int>(tabu_tenure/2));
+        pathTabuList[input_path[0]][input_path[1]] += tabu_tenure + r1.get_rint(-tabu_tenure+1, tabu_tenure);
     }
 }

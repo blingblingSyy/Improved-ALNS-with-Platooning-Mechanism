@@ -16,7 +16,7 @@ class Path_Random_Removal: public APathDestroyOperator
 {
     public:
         //!  constructor
-        Path_Random_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj);
+        Path_Random_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj, Nodes& nodes);
 
         //! destructor
         virtual ~Path_Random_Removal() {};
@@ -25,6 +25,9 @@ class Path_Random_Removal: public APathDestroyOperator
         void destroySolPath(ISolution& sol);
     
     protected:
+        //! reference to the set of nodes
+        Nodes& nodeset;
+
         //! the measurement to destroy a path
         vector<double> path_measurement;
 

@@ -1,3 +1,0 @@
-iterations	timeStamps	Strategy	Node Destroy Operator	Node Repair Operator	Path Destroy Operator	Path Repair Operator	New Cost	Current Cost	Best Cost	Cumulative Known Solutions
-1	39.722	nodefirst	Node Route-based Removal	Node Random Insert	pathNullDestroy	pathNullRepair	13503.5	5136.47	5136.47	1
-2	68.933	nodefirst	Node Route-based Removal	Node Random Insert	pathNullDestroy	pathNullRepair	13503.5	5136.47	5136.47	1

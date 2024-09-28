@@ -55,11 +55,12 @@ int main()
     Node_Greedy_Insert nodeGreedyI("Node Greedy Insert");
     Node_Random_Insert nodeRandomeI("Node Random Insert");
     Node_Regret_Insert nodeRegret2I("Node Regret-2 Insert", 2);
-    Path_AvgLenDiff_Removal pathAvgLenR("Path Average-Length Removal", ops_param, pathtabu, nodeset);
+    Path_AvgLenDiff_Removal pathAvgLenDiffR("Path Average-Length-Difference Removal", ops_param, pathtabu, nodeset);
+    Path_AvgLen_Removal pathAvgLenR("Path Average-Length Removal", ops_param, pathtabu, nodeset);
     Path_Cardinality_Removal pathCardiR("Path Cardinality Removal", ops_param, pathtabu, nodeset);
     Path_NodeFreq_Removal pathNFreqR("Path Node-Frequency Removal", ops_param, pathtabu, nodeset);
-    Path_Random_Removal pathRandomR("Path Random Removal", ops_param, pathtabu);
-    Path_KMaxLen_Insert pathKLenI("Path K-max Length Removal", ops_param, nodeset);
+    Path_Random_Removal pathRandomR("Path Random Removal", ops_param, pathtabu, nodeset);
+    Path_KMaxLen_Insert pathKLenI("Path K-max Length Insert", ops_param, nodeset);
     Path_NodeFreq_Insert pathNFreqI("Path Node-Frequency Insert", ops_param, nodeset);
     Path_Random_Insert pathRandomI("Path Random Insert", nodeset);
 
@@ -71,32 +72,33 @@ int main()
 	ICoolingSchedule* cs = CoolingScheduleFactory::makeCoolingSchedule(dynamic_cast<ISolution&>(initialsol),csParam);
 	SimulatedAnnealing sa(*cs);
 
-	StrategyManager opMan(alnsParam);
+	StrategyManager stMan(alnsParam);
     
-	// opMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeRandomR));
-	opMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeRouteBasedR));
-	// opMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeShawR));
-	// opMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeWorstR));
+	stMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeRandomR));
+	// stMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeShawR));
+	// stMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeWorstR));
+	// stMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeRouteBasedR));
 
-	// opMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeGreedyI));
-	opMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeRandomeI));
-	// opMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeRegret2I));
+	// stMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeGreedyI));
+	stMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeRandomeI));
+	// stMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeRegret2I));
 
-	// opMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathAvgLenR));
-	// opMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathCardiR));
-	opMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathNFreqR));
-	// opMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathRandomR));
+	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathAvgLenDiffR));
+	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathAvgLenR));
+	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathCardiR));
+	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathNFreqR));
+	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathRandomR));
 
-	opMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathKLenI));
-	// opMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathNFreqI));
-	// opMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathRandomI));
+	stMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathKLenI));
+	stMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathNFreqI));
+	stMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathRandomI));
 
 	SimpleBestSolutionManager bestSM(alnsParam);
 	SimpleLocalSearchManager simpleLsManager(alnsParam);
 
 	// simpleLsManager.addLocalSearchOperator(dynamic_cast<ILocalSearch&>(none));
 
-	ALNS alns(test_filename, dynamic_cast<ISolution&>(initialsol), dynamic_cast<IAcceptanceModule&>(sa), alnsParam, dynamic_cast<AStrategyManager&>(opMan), dynamic_cast<IBestSolutionManager&>(bestSM), dynamic_cast<ILocalSearchManager&>(simpleLsManager));
+	ALNS alns(test_filename, dynamic_cast<ISolution&>(initialsol), dynamic_cast<IAcceptanceModule&>(sa), alnsParam, dynamic_cast<AStrategyManager&>(stMan), dynamic_cast<IBestSolutionManager&>(bestSM), dynamic_cast<ILocalSearchManager&>(simpleLsManager));
 
 	alns.addUpdatable(dynamic_cast<IUpdatable&>(pathtabu));
 

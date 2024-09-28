@@ -27,7 +27,7 @@ class Node_Random_Insert: public ANodeRepairOperator
         
     protected:
         //! update the forbidden destroyed node positions
-        void keepRepairablePos(VRPSolution& vrpsol, vector<pair<int, int>>& all_cus_pos);
+        void keepRepairablePos(VRPSolution& vrpsol, vector<pair<int, int>>& all_cus_pos_copy);
         // vector<int> nonRepairableNodes(VRPSolution& vrpsol);
 
         //! initialize the non-repairable positions

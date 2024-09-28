@@ -25,6 +25,8 @@ Operators_Parameters::Operators_Parameters()
 
 	this->randWorstDes = 4;
 
+	this->randAvgLenDiffDes = 4;
+
 	this->randAvgLenDes = 4;
 
 	this->randCardiDes = 4;
@@ -111,7 +113,14 @@ void Operators_Parameters::loadXMLParameters(string path)
 					str << randworst->GetText();
 					str >> this->randWorstDes;
 				}
-				TiXmlElement* randAL = paramOps->FirstChildElement( "RandAvgLenDes" );
+				TiXmlElement* randALDiff = paramOps->FirstChildElement( "randAvgLenDiffDes" );
+				if(randALDiff)
+				{
+					stringstream str;
+					str << randALDiff->GetText();
+					str >> this->randAvgLenDiffDes;
+				}
+				TiXmlElement* randAL = paramOps->FirstChildElement( "randAvgLenDes" );
 				if(randAL)
 				{
 					stringstream str;
@@ -207,6 +216,10 @@ void Operators_Parameters::loadParameters(string path)
 			{
 				str >> randWorstDes;
 			}
+			else if(id == "randAvgLenDiffDes")
+			{
+				str >> randAvgLenDiffDes;
+			}
 			else if(id == "randAvgLenDes")
 			{
 				str >> randAvgLenDes;
@@ -261,6 +274,8 @@ Operators_Parameters::Operators_Parameters(Operators_Parameters& p)
 	randShawDes = p.randShawDes;
 
 	randWorstDes = p.randWorstDes;
+
+	randAvgLenDiffDes = p.randAvgLenDiffDes;
 
 	randAvgLenDes = p.randAvgLenDes;
 

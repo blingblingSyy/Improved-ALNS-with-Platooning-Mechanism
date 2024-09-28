@@ -6,10 +6,23 @@ total distance before platooning: 103
 total energy-related distance cost: 98.2
 total trip duration: 111
 total unserved requests: 0
-CPU time: 5000
+CPU time: 2115
 
 * All routes:
 vehicle id: 0  vehicle type: 0
+	compact route: 0  3  0  
+	used paths between two served nodes: 1  0  
+	extended route: 0  2  3  4  0  
+	node labels: 0  0  1  0  0  
+	arrival time windows: {0, 40}  {11, 11}  {14, 14}  {23, 23}  {28, 28}  
+	departure time windows: {0, 0}  {11, 11}  {15, 15}  {23, 23}  {0, 40}  
+	arrival time: 0  11  14  23  28  
+	departure time: 0  11  15  23  0  
+	waiting time: 0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  1  1  
+	route mileage: 0  14  27  
+vehicle id: 1  vehicle type: 0
 	compact route: 0  5  0  
 	used paths between two served nodes: 1  1  
 	extended route: 0  2  1  5  1  2  0  
@@ -35,19 +48,6 @@ vehicle id: 3  vehicle type: 1
 	total waiting time: 0  
 	route load: 0  2  2  
 	route mileage: 0  5  10  
-vehicle id: 1  vehicle type: 0
-	compact route: 0  3  0  
-	used paths between two served nodes: 1  0  
-	extended route: 0  2  3  4  0  
-	node labels: 0  0  1  0  0  
-	arrival time windows: {0, 40}  {11, 11}  {14, 14}  {23, 23}  {28, 28}  
-	departure time windows: {0, 0}  {11, 11}  {15, 15}  {23, 23}  {0, 40}  
-	arrival time: 0  11  14  23  28  
-	departure time: 0  11  15  23  0  
-	waiting time: 0  0  0  0  0  
-	total waiting time: 0  
-	route load: 0  1  1  
-	route mileage: 0  14  27  
 vehicle id: 4  vehicle type: 1
 	compact route: 0  1  0  
 	used paths between two served nodes: 0  0  
@@ -71,21 +71,21 @@ platoon 1	platooning arc: {0, 2}
 	energy saving on this arc: 2.2
 platoon 2	platooning arc: {2, 0}
 	platoons on this arc: 
-		vehicle id: 0  arc position: 5
+		vehicle id: 1  arc position: 5
 		vehicle id: 4  arc position: 3
 	energy saving on this arc: 1.1
 platoon 3	platooning arc: {4, 0}
 	platoons on this arc: 
+		vehicle id: 0  arc position: 3
 		vehicle id: 3  arc position: 1
-		vehicle id: 1  arc position: 3
 	energy saving on this arc: 0.5
 platoon 4	platooning arc: {2, 1}
 	platoons on this arc: 
-		vehicle id: 0  arc position: 1
+		vehicle id: 1  arc position: 1
 		vehicle id: 4  arc position: 1
 	energy saving on this arc: 0.5
 platoon 5	platooning arc: {1, 2}
 	platoons on this arc: 
-		vehicle id: 0  arc position: 4
+		vehicle id: 1  arc position: 4
 		vehicle id: 4  arc position: 2
 	energy saving on this arc: 0.5

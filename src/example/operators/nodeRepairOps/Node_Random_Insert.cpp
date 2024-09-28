@@ -29,7 +29,7 @@ void Node_Random_Insert::repairSolNode(ISolution& sol)
     while(!all_non_inserted.empty()) //! insert the first element in the noninserted each time
     {
         vector<pair<int, int>> cus_pos_copy = all_cus_pos;
-        keepRepairablePos(vrpsol, cus_pos_copy); //! will sort all_cus_pos and nonRepairablePos
+        keepRepairablePos(vrpsol, cus_pos_copy); //! will sort nonRepairablePos
         while(!cus_pos_copy.empty())
         {
             RandomNumber r1;
@@ -61,15 +61,21 @@ void Node_Random_Insert::initNonRepairablePos(VRPSolution& vrpsol)
 }
 
 /*new version*/
-void Node_Random_Insert::keepRepairablePos(VRPSolution& vrpsol, vector<pair<int, int>>& all_cus_pos)
+void Node_Random_Insert::keepRepairablePos(VRPSolution& vrpsol, vector<pair<int, int>>& all_cus_pos_copy)
 {
+    vector<pair<int, int>> nonRepairablePos_copy = nonRepairablePos;
+    process_intersections(all_cus_pos_copy, nonRepairablePos_copy, false);
+    //! sort nonRepairablePos and all_cus_pos_copy
     sort(nonRepairablePos.begin(), nonRepairablePos.end(), [&](pair<int, int> A, pair<int, int> B) {return A > B;});
-    sort(all_cus_pos.begin(), all_cus_pos.end(), [&](pair<int, int> A, pair<int, int> B) {return A < B;});
-    //! erase the unremovable positions from the all_cus_pos
-    for(auto it = nonRepairablePos.begin(); it != nonRepairablePos.end(); it++)
-    {
-        all_cus_pos.erase(remove(all_cus_pos.begin(), all_cus_pos.end(), *it));
-    }
+    sort(all_cus_pos_copy.begin(), all_cus_pos_copy.end(), [&](pair<int, int> A, pair<int, int> B) {return A < B;});
+
+    // sort(nonRepairablePos.begin(), nonRepairablePos.end(), [&](pair<int, int> A, pair<int, int> B) {return A > B;});
+    // sort(all_cus_pos.begin(), all_cus_pos.end(), [&](pair<int, int> A, pair<int, int> B) {return A < B;});
+    // //! erase the unremovable positions from the all_cus_pos
+    // for(auto it = nonRepairablePos.begin(); it != nonRepairablePos.end(); it++)
+    // {
+    //     all_cus_pos.erase(remove(all_cus_pos.begin(), all_cus_pos.end(), *it));
+    // }
 }
 
 void Node_Random_Insert::updateAllCusPos(VRPSolution& vrpsol, vector<pair<int, int>>& all_cus_pos, pair<int, int> insert_vehpos)

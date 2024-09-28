@@ -13,12 +13,12 @@
 #include <set>
 using namespace std;
 
-Path_AvgLenDiff_Removal::Path_AvgLenDiff_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj, Nodes& nodes) : nodeset(nodes), Path_Random_Removal(s, ops_param, tabuObj)
+Path_AvgLenDiff_Removal::Path_AvgLenDiff_Removal(string s, Operators_Parameters& ops_param, PathTabu& tabuObj, Nodes& nodes) : Path_Random_Removal(s, ops_param, tabuObj, nodes)
 {
     empty = false;
     // hasSelectedCur = true;
     toSelectNext = true;
-    randSel = ops_param.getRandAvgLenDes();
+    randSel = ops_param.getRandAvgLenDiffDes();
 }
 
 vector<double> Path_AvgLenDiff_Removal::calMeasurement(VRPSolution& vrpsol, vector<tuple<int, int, int>> all_destroyable_arcpos, vector<vector<int>> all_destroyable_arcconfig)
@@ -26,7 +26,7 @@ vector<double> Path_AvgLenDiff_Removal::calMeasurement(VRPSolution& vrpsol, vect
     vector<double> destroyable_arc_avglen;
     for(int i = 0; i < all_destroyable_arcpos.size(); i++)
     {
-        if(pathTabuObj->getPathTenure(all_destroyable_arcconfig[i]) <= 0)
+        if(pathTabuObj->getPathTenure(all_destroyable_arcconfig[i]) != 0)
         {
             destroyable_arc_avglen.push_back(-INF);  //! if the path is tabu, cannot destroy it
         }
@@ -39,10 +39,21 @@ vector<double> Path_AvgLenDiff_Removal::calMeasurement(VRPSolution& vrpsol, vect
             {
                 if(p != selected_usedpath_id)
                 {
-                    dist_diff_i.push_back(avail_path_set_i[p]->getDist() - avail_path_set_i[selected_usedpath_id]->getDist());
+                    // dist_diff_i.push_back(avail_path_set_i[p]->getDist() - avail_path_set_i[selected_usedpath_id]->getDist());
+                    //! reversely: prioritize the path with small average length difference
+                    dist_diff_i.push_back(-avail_path_set_i[p]->getDist() + avail_path_set_i[selected_usedpath_id]->getDist());
                 }
             }
-            destroyable_arc_avglen.push_back(calAverage(dist_diff_i));
+            // destroyable_arc_avglen.push_back(calAverage(dist_diff_i));
+            RandomNumber r;
+            if(!noise)
+            {
+                destroyable_arc_avglen.push_back(calAverage(dist_diff_i));
+            }
+            else
+            {
+                destroyable_arc_avglen.push_back(calAverage(dist_diff_i) * r.get_rflt(0.9,1));
+            }
         }
     }
     return destroyable_arc_avglen;

@@ -228,6 +228,10 @@ vector<ADijkstraSol*> KSPBuilder::ModifiedYen_OnePath(int start_node, int end_no
         int k = KShortestPath_Start_End.size();
         //! generate the current SP by modifying the last SP
         vector<int> last_SP = KShortestPath_Start_End[k-1]->getPath();
+        if(last_SP.empty()) //if last_SP = {} -> dist = 0 or INF
+        {
+            break;
+        }
         for(int i = 0; i < last_SP.size()-1; i++) //for every deviation node in the shortest path except the end_node
         {
             //! find the disconnected path segment in the current Dijsktra solution
@@ -270,7 +274,7 @@ vector<ADijkstraSol*> KSPBuilder::ModifiedYen_OnePath(int start_node, int end_no
             {
                 continue;
             }
-            // //check 2: check if the new path contains depot(s) in the middle of the route -> but this will make even some shortest path solution infeasible
+            //check 2: check if the new path contains depot(s) in the middle of the route -> but this will make even some shortest path solution infeasible
             // for(auto it = new_path.begin()+1; it != new_path.end()-1; it++)
             // {
             //     if((*it) == 0)

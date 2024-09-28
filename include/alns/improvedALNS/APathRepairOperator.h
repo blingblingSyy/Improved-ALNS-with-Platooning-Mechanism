@@ -16,6 +16,7 @@ class APathRepairOperator : public AOperator
 		virtual ~APathRepairOperator(){};
 
 		virtual void repairSolPath(ISolution& sol)=0;
+
 };
 
 #endif

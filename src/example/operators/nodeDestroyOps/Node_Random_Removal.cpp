@@ -29,7 +29,7 @@ void Node_Random_Removal::destroySolNode(ISolution& sol)
     vector<pair<int, int>> all_cus_pos = vrpsol.getAllCusPos();
     keepRemovablePos(vrpsol, all_cus_pos); //! this will modify all_cus_pos
     int i = 0;
-    while(i < nodeDestroySize)
+    while(i < nodeDestroySize && !all_cus_pos.empty())
     {
         RandomNumber r1;
         int select_pos = r1.get_rint(0, all_cus_pos.size()-1);
@@ -43,6 +43,7 @@ void Node_Random_Removal::destroySolNode(ISolution& sol)
         //! after removal, the solution may become infeasible; after insertion, the solution must be feasible.
         vrpsol.removeNode(destroyed_nodeset[k].second, destroyed_nodeset[k].first);
     }
+    destroyed_nodeset.clear();
     // if(destroyed_nodeset.empty()) //! no nodes are actually removed
     // {
     //     setEmpty(true);
@@ -55,6 +56,7 @@ void Node_Random_Removal::keepRemovablePos(VRPSolution& vrpsol, vector<pair<int,
 {
     //! find out the positions that cannot be removed
     vector<pair<int, int>> non_remove_pos;
+    // vector<pair<int, int>> all_cus_pos_copy = all_cus_pos;
     vector<tuple<int, int, int>> all_modified_arcs = vrpsol.getDestroyedArcsPos();
     for(int a = 0; a < all_modified_arcs.size(); a++)
     {
@@ -71,13 +73,14 @@ void Node_Random_Removal::keepRemovablePos(VRPSolution& vrpsol, vector<pair<int,
         //     non_remove_pos.push_back(make_pair(rid, arcpos+1)); //! not removing the ending depot
         // }
     }
-    sort(non_remove_pos.begin(), non_remove_pos.end(), [&](pair<int, int> A, pair<int, int> B) {return A > B;});
-    sort(all_cus_pos.begin(), all_cus_pos.end(), [&](pair<int, int> A, pair<int, int> B) {return A < B;});
+    process_intersections(all_cus_pos, non_remove_pos, false); //! remove the intersections from all_cus_pos
+    // sort(non_remove_pos.begin(), non_remove_pos.end(), [&](pair<int, int> A, pair<int, int> B) {return A > B;});
+    // sort(all_cus_pos.begin(), all_cus_pos.end(), [&](pair<int, int> A, pair<int, int> B) {return A < B;});
     //! erase the unremovable positions from the all_cus_pos
-    for(auto it = non_remove_pos.begin(); it != non_remove_pos.end(); it++)
-    {
-        all_cus_pos.erase(remove(all_cus_pos.begin(), all_cus_pos.end(), *it));
-    }
+    // for(auto it = non_remove_pos.begin(); it != non_remove_pos.end(); it++)
+    // {
+    //     all_cus_pos.erase(remove(all_cus_pos.begin(), all_cus_pos.end(), *it));
+    // }
 }
 
 

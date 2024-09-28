@@ -24,8 +24,8 @@ class Path_NodeFreq_Removal: public Path_Random_Removal
         // void destroySolPath(ISolution& sol);
         
     private:
-        //! reference to the set of nodes
-        Nodes& nodeset;
+        // //! reference to the set of nodes
+        // Nodes& nodeset;
 
         //! calculate the average frequency of intermediate nodes 
         double calPathAvgNodeFreq(VRPSolution& vrpsol, vector<int> path);

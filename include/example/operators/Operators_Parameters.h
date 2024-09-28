@@ -129,6 +129,16 @@ class Operators_Parameters
         }
 
         //! a simple getter
+        double getRandAvgLenDiffDes() {
+            return randAvgLenDiffDes;
+        }
+
+        //! a simple setter
+        void setRandAvgLenDiffDes(double randALD) {
+            this->randAvgLenDiffDes = randALD;
+        }
+
+        //! a simple getter
         double getRandAvgLenDes() {
             return randAvgLenDes;
         }
@@ -214,6 +224,9 @@ class Operators_Parameters
         double randWorstDes;
 
         //! randomizing selection parameter for the AvgLenDiff path destroy 
+        double randAvgLenDiffDes;
+
+        //! randomizing selection parameter for the AvgLen path destroy 
         double randAvgLenDes;
 
         //! randomizing selection parameter for the Cardinality path destroy

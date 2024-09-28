@@ -33,6 +33,16 @@ void Node_Greedy_Insert::repairSolNode(ISolution& sol)
         for(auto it = all_non_inserted.begin(); it != all_non_inserted.end(); it++)  //int i = 0; i < all_non_inserted.size(); i++
         {
             vector<tuple<double, int, int>> ordered_insertion = vrpsol.calOrderedInsertCostsAllRoutes(*it);
+            // if(noise)
+            // {
+            //     RandomNumber r;
+            //     for(auto it = ordered_insertion.begin(); it != ordered_insertion.end(); it++)
+            //     {
+            //         double cost = get<0>(*it) * r.get_rflt();
+            //         get<0>(*it) = cost;
+            //     }
+            //     sort(ordered_insertion.begin(), ordered_insertion.end(), [&](auto A, auto B){return get<0>(A) < get<0>(B);});
+            // }
             // bool canInsert = false;
             for(int s = 0; s < ordered_insertion.size(); s++)
             {
@@ -59,10 +69,11 @@ void Node_Greedy_Insert::repairSolNode(ISolution& sol)
         {
             int insert_rid = get<2>(*it);
             int insert_pos = get<1>(*it);
+            // vrpsol.insertNode(insert_pos, selected_node, insert_rid);
             vrpsol.getOneRoute(insert_rid)->setRouteByInsertNode(insert_pos, selected_node);
             vrpsol.getNonInsertedNodes().erase(remove(vrpsol.getNonInsertedNodes().begin(), vrpsol.getNonInsertedNodes().end(), selected_node));
             vrpsol.getTotalDistBeforePlatooning() += get<0>(*it);
-            vrpsol.getTotalUnservedRequests() -= 1;
+            // vrpsol.getTotalUnservedRequests() -= 1;
             vrpsol.setSolCurOperation(VRPSolution::InsertOneNode);
             updateNonRepairablePos(insert_rid, insert_pos);
             all_non_inserted.erase(all_non_inserted.begin());

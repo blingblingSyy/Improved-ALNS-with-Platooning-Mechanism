@@ -1,3 +1,877 @@
-iterations		timeStamps		Strategy		Node Destroy Operator		Node Repair Operator		Path Destroy Operator		Path Repair Operator		New Cost		Current Cost		Best Cost		Cumulative Known Solutions
-1		31.431		nodefirst		Node Route-based Removal		Node Random Insert		pathNullDestroy		pathNullRepair		13503.5		5136.47		5136.47		1
-2		77.309		nodefirst		Node Route-based Removal		Node Random Insert		pathNullDestroy		pathNullRepair		13503.5		5136.47		5136.47		1
+iterations	timeStamps	Strategy	Node Destroy Operator	Node Repair Operator	Path Destroy Operator	Path Repair Operator	New Cost	Current Cost	Best Cost	Cumulative Known Solutions
+1	0.005	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	5159	5083	5083	1
+2	0.01	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	5083	5083	5083	2
+3	0.015	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	5083	5083	5083	2
+4	0.021	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	5083	5083	5083	2
+5	0.026	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5159	5083	5083	2
+6	0.037	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5055	5055	3
+7	0.044	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5052	5052	5052	4
+8	0.048	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+9	0.053	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+10	0.057	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+11	0.064	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+12	0.069	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+13	0.075	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+14	0.079	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+15	0.084	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+16	0.088	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+17	0.092	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+18	0.096	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+19	0.101	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+20	0.105	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+21	0.111	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+22	0.114	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+23	0.123	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+24	0.127	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+25	0.132	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+26	0.136	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+27	0.141	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+28	0.145	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+29	0.15	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+30	0.154	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+31	0.16	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+32	0.165	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+33	0.171	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+34	0.175	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+35	0.179	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+36	0.183	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+37	0.188	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+38	0.192	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+39	0.197	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+40	0.201	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+41	0.21	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+42	0.215	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+43	0.223	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+44	0.227	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+45	0.232	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+46	0.236	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+47	0.24	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+48	0.244	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+49	0.25	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+50	0.254	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+51	0.258	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+52	0.262	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+53	0.268	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+54	0.272	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+55	0.277	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+56	0.281	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+57	0.285	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+58	0.29	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+59	0.295	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+60	0.299	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+61	0.304	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+62	0.308	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+63	0.313	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+64	0.318	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+65	0.323	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+66	0.327	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+67	0.332	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+68	0.338	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+69	0.344	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+70	0.348	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+71	0.353	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+72	0.357	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+73	0.362	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+74	0.367	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+75	0.373	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+76	0.377	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+77	0.382	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+78	0.385	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+79	0.391	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+80	0.395	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+81	0.4	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+82	0.405	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+83	0.41	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+84	0.415	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+85	0.421	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+86	0.426	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+87	0.431	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+88	0.436	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+89	0.442	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+90	0.447	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+91	0.452	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+92	0.457	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+93	0.464	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+94	0.469	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+95	0.474	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+96	0.478	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+97	0.483	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+98	0.488	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+99	0.493	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+100	0.497	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+101	0.501	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+102	0.505	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+103	0.511	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+104	0.515	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+105	0.519	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+106	0.522	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+107	0.527	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+108	0.532	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+109	0.537	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+110	0.542	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+111	0.547	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+112	0.551	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+113	0.556	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+114	0.56	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+115	0.566	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+116	0.57	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+117	0.575	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+118	0.579	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+119	0.584	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+120	0.589	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+121	0.594	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+122	0.597	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+123	0.603	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+124	0.607	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+125	0.616	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+126	0.621	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+127	0.625	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+128	0.629	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+129	0.634	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+130	0.639	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5079	5052	5052	5
+131	0.643	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5055	5052	5052	5
+132	0.649	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	5128	5128	5052	6
+133	0.657	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5021	5021	5021	7
+134	0.663	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	8
+135	0.67	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	9
+136	0.675	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+137	0.681	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+138	0.686	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+139	0.692	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+140	0.697	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+141	0.711	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+142	0.719	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+143	0.724	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+144	0.731	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+145	0.737	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+146	0.764	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+147	0.769	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+148	0.774	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+149	0.781	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+150	0.796	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+151	0.801	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+152	0.805	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+153	0.81	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+154	0.817	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+155	0.83	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+156	0.843	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+157	0.848	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+158	0.853	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+159	0.859	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+160	0.865	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+161	0.871	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+162	0.877	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+163	0.883	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+164	0.889	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+165	0.896	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+166	0.901	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+167	0.907	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+168	0.942	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+169	0.949	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+170	0.956	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+171	0.961	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+172	0.974	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+173	0.978	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+174	0.985	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+175	0.99	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+176	0.996	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+177	1.001	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+178	1.006	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+179	1.012	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+180	1.018	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+181	1.023	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+182	1.029	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+183	1.034	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+184	1.041	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+185	1.05	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+186	1.055	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+187	1.06	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+188	1.065	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+189	1.072	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+190	1.078	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+191	1.083	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+192	1.093	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+193	1.098	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+194	1.103	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+195	1.109	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+196	1.114	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+197	1.12	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+198	1.125	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+199	1.132	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+200	1.138	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+201	1.143	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+202	1.149	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+203	1.155	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+204	1.162	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+205	1.168	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+206	1.173	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+207	1.18	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+208	1.185	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+209	1.192	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+210	1.198	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+211	1.203	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+212	1.21	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+213	1.216	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+214	1.222	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+215	1.228	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+216	1.234	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+217	1.251	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+218	1.256	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+219	1.262	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+220	1.266	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+221	1.27	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+222	1.277	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+223	1.282	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+224	1.288	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+225	1.292	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+226	1.297	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+227	1.302	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+228	1.306	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+229	1.312	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+230	1.318	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+231	1.324	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+232	1.33	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+233	1.335	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+234	1.341	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+235	1.346	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+236	1.351	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+237	1.356	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+238	1.361	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+239	1.368	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+240	1.374	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+241	1.379	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+242	1.385	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+243	1.391	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+244	1.398	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+245	1.403	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+246	1.408	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+247	1.413	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+248	1.418	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+249	1.424	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+250	1.43	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+251	1.435	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+252	1.441	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+253	1.446	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+254	1.453	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+255	1.459	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+256	1.464	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+257	1.47	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+258	1.475	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+259	1.481	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+260	1.487	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+261	1.493	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+262	1.499	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+263	1.504	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+264	1.512	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+265	1.519	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+266	1.524	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+267	1.53	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+268	1.535	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+269	1.542	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+270	1.547	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+271	1.552	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+272	1.558	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+273	1.564	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+274	1.571	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+275	1.579	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+276	1.585	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+277	1.592	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+278	1.598	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+279	1.607	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+280	1.614	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+281	1.62	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+282	1.627	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+283	1.634	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5203	5203	5021	10
+284	1.64	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5154	5154	5021	10
+285	1.647	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	5278	5278	5021	10
+286	1.654	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5203	5203	5021	10
+287	1.659	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5278	5278	5021	10
+288	1.665	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5203	5203	5021	10
+289	1.673	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+290	1.681	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+291	1.688	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+292	1.696	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+293	1.703	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+294	1.712	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+295	1.72	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+296	1.727	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+297	1.736	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+298	1.743	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+299	1.752	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+300	1.76	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+301	1.767	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+302	1.778	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+303	1.785	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+304	1.792	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+305	1.801	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+306	1.808	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+307	1.816	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+308	1.823	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+309	1.832	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+310	1.841	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+311	1.848	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+312	1.856	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+313	1.862	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+314	1.872	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+315	1.88	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+316	1.886	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+317	1.894	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+318	1.904	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+319	1.912	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+320	1.92	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+321	1.927	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+322	1.935	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+323	1.942	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+324	1.951	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+325	1.959	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+326	1.965	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+327	1.972	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+328	1.978	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+329	1.984	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+330	1.993	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+331	2.001	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+332	2.009	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+333	2.016	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+334	2.026	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+335	2.035	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+336	2.044	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+337	2.052	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+338	2.06	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+339	2.067	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+340	2.075	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+341	2.081	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+342	2.089	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+343	2.095	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+344	2.102	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+345	2.11	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+346	2.116	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+347	2.123	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+348	2.13	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+349	2.137	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+350	2.145	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+351	2.152	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+352	2.161	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+353	2.168	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+354	2.175	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+355	2.182	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+356	2.189	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+357	2.196	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+358	2.203	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+359	2.209	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+360	2.216	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+361	2.223	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+362	2.232	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+363	2.239	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+364	2.248	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+365	2.256	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+366	2.263	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+367	2.271	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+368	2.277	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+369	2.283	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+370	2.294	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+371	2.301	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+372	2.309	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+373	2.315	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+374	2.322	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+375	2.33	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+376	2.337	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+377	2.344	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+378	2.351	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+379	2.358	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+380	2.366	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+381	2.373	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+382	2.383	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+383	2.39	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+384	2.396	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+385	2.403	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+386	2.409	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+387	2.418	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+388	2.425	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+389	2.432	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+390	2.439	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+391	2.447	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+392	2.454	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+393	2.46	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+394	2.467	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+395	2.474	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+396	2.481	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+397	2.49	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+398	2.496	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+399	2.503	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+400	2.511	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+401	2.518	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+402	2.526	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+403	2.533	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+404	2.539	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+405	2.547	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+406	2.553	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+407	2.561	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+408	2.567	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+409	2.574	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+410	2.581	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+411	2.588	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+412	2.596	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+413	2.602	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+414	2.609	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+415	2.616	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+416	2.621	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+417	2.627	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+418	2.632	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+419	2.637	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+420	2.642	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5021	5021	5021	10
+421	2.647	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	5052	5052	5021	10
+422	2.65	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5079	5052	5021	10
+423	2.656	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5055	5055	5021	10
+424	2.662	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	10
+425	2.666	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+426	2.671	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+427	2.676	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+428	2.681	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+429	2.687	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+430	2.692	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+431	2.696	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+432	2.701	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+433	2.706	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+434	2.711	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+435	2.716	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+436	2.72	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+437	2.725	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+438	2.729	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+439	2.734	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+440	2.739	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+441	2.743	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+442	2.748	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+443	2.753	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+444	2.759	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+445	2.763	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+446	2.768	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+447	2.773	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+448	2.779	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+449	2.785	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+450	2.791	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+451	2.796	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+452	2.801	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+453	2.806	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+454	2.811	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+455	2.816	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+456	2.821	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+457	2.826	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+458	2.832	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+459	2.837	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+460	2.842	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+461	2.847	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+462	2.851	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+463	2.857	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+464	2.863	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+465	2.868	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+466	2.875	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+467	2.879	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+468	2.884	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+469	2.889	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+470	2.893	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+471	2.898	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+472	2.902	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+473	2.907	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+474	2.913	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+475	2.918	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+476	2.925	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+477	2.931	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+478	2.936	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+479	2.942	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+480	2.947	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+481	2.952	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+482	2.957	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+483	2.961	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+484	2.967	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+485	2.973	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+486	2.979	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+487	2.984	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+488	2.99	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+489	2.996	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+490	3.001	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+491	3.006	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+492	3.011	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+493	3.015	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+494	3.021	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+495	3.025	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+496	3.03	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+497	3.034	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+498	3.039	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+499	3.045	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+500	3.051	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+501	3.055	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+502	3.06	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+503	3.065	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+504	3.07	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+505	3.075	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+506	3.081	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+507	3.085	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+508	3.091	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+509	3.096	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+510	3.101	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+511	3.106	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+512	3.111	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+513	3.116	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+514	3.121	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+515	3.126	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+516	3.131	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+517	3.136	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+518	3.141	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+519	3.147	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+520	3.153	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+521	3.158	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+522	3.163	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+523	3.168	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+524	3.175	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+525	3.18	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+526	3.186	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+527	3.191	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+528	3.197	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+529	3.202	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+530	3.207	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+531	3.211	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+532	3.216	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+533	3.221	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+534	3.228	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+535	3.233	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+536	3.238	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+537	3.243	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+538	3.248	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+539	3.253	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+540	3.257	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+541	3.262	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+542	3.268	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+543	3.273	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+544	3.278	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+545	3.283	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+546	3.288	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+547	3.293	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+548	3.298	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+549	3.303	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+550	3.308	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+551	3.312	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+552	3.317	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+553	3.321	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+554	3.326	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+555	3.33	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+556	3.335	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+557	3.341	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+558	3.346	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+559	3.351	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+560	3.357	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+561	3.361	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+562	3.366	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+563	3.371	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+564	3.376	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+565	3.381	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+566	3.386	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+567	3.391	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+568	3.396	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+569	3.401	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+570	3.406	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+571	3.41	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+572	3.415	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+573	3.42	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+574	3.425	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+575	3.429	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+576	3.434	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+577	3.438	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+578	3.443	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+579	3.448	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+580	3.453	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+581	3.458	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+582	3.464	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+583	3.469	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+584	3.475	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+585	3.48	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+586	3.485	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+587	3.49	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+588	3.495	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+589	3.499	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+590	3.504	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+591	3.509	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+592	3.514	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+593	3.518	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+594	3.523	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+595	3.528	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+596	3.532	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+597	3.537	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+598	3.542	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+599	3.546	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+600	3.551	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+601	3.556	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+602	3.56	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+603	3.564	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+604	3.57	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+605	3.576	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+606	3.583	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+607	3.588	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+608	3.594	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+609	3.6	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+610	3.605	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+611	3.61	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+612	3.615	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+613	3.621	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+614	3.626	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+615	3.631	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+616	3.636	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+617	3.641	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5050	5021	5021	11
+618	3.646	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	5052	5021	5021	11
+619	3.652	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5050	5050	5021	11
+620	3.657	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	11
+621	3.662	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	11
+622	3.667	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+623	3.672	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+624	3.679	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+625	3.685	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+626	3.689	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+627	3.695	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+628	3.699	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+629	3.706	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+630	3.711	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+631	3.714	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+632	3.72	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+633	3.724	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+634	3.733	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+635	3.737	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+636	3.741	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+637	3.746	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+638	3.75	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+639	3.757	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+640	3.762	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+641	3.766	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+642	3.772	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+643	3.777	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+644	3.783	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+645	3.787	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+646	3.791	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+647	3.797	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+648	3.801	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+649	3.808	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+650	3.813	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+651	3.818	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+652	3.824	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+653	3.829	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+654	3.836	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+655	3.842	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+656	3.846	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+657	3.852	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+658	3.857	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+659	3.864	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+660	3.871	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+661	3.876	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+662	3.882	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+663	3.886	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+664	3.892	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+665	3.896	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+666	3.9	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+667	3.905	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+668	3.912	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+669	3.919	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+670	3.923	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+671	3.927	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+672	3.933	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+673	3.937	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+674	3.943	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+675	3.948	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+676	3.952	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+677	3.958	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+678	3.963	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+679	3.969	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+680	3.975	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+681	3.979	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+682	3.984	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+683	3.99	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+684	3.997	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+685	4.002	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+686	4.006	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+687	4.011	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+688	4.015	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+689	4.021	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+690	4.026	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+691	4.03	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+692	4.035	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+693	4.039	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+694	4.047	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+695	4.051	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+696	4.055	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+697	4.061	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+698	4.065	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+699	4.072	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+700	4.076	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+701	4.082	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+702	4.087	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+703	4.091	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+704	4.098	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+705	4.104	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+706	4.11	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+707	4.116	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+708	4.121	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+709	4.128	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+710	4.133	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+711	4.136	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+712	4.142	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+713	4.147	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+714	4.154	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+715	4.158	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+716	4.163	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+717	4.168	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+718	4.172	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+719	4.178	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+720	4.183	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+721	4.187	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+722	4.192	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+723	4.195	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+724	4.201	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+725	4.206	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+726	4.209	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+727	4.216	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+728	4.22	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+729	4.226	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+730	4.23	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+731	4.234	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+732	4.24	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+733	4.244	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+734	4.25	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+735	4.255	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+736	4.258	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+737	4.263	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+738	4.268	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+739	4.274	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+740	4.278	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+741	4.282	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+742	4.287	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+743	4.293	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+744	4.299	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+745	4.304	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+746	4.307	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+747	4.312	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+748	4.316	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+749	4.323	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+750	4.327	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+751	4.331	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+752	4.336	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+753	4.341	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+754	4.348	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+755	4.353	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+756	4.357	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+757	4.362	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+758	4.366	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+759	4.372	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+760	4.377	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+761	4.38	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+762	4.386	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+763	4.389	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+764	4.396	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+765	4.4	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+766	4.403	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+767	4.409	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+768	4.412	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+769	4.418	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+770	4.423	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+771	4.426	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+772	4.431	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+773	4.435	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+774	4.441	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+775	4.445	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+776	4.449	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+777	4.453	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+778	4.457	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+779	4.463	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+780	4.468	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+781	4.473	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+782	4.478	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+783	4.482	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+784	4.489	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+785	4.493	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+786	4.498	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+787	4.503	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+788	4.507	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+789	4.514	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+790	4.518	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+791	4.522	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+792	4.529	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+793	4.533	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+794	4.54	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+795	4.544	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+796	4.549	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+797	4.554	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+798	4.559	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+799	4.566	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+800	4.57	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+801	4.573	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+802	4.577	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+803	4.581	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+804	4.588	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+805	4.592	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+806	4.596	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+807	4.602	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+808	4.607	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+809	4.615	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+810	4.621	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+811	4.627	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+812	4.632	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5054	5054	5021	12
+813	4.636	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5083	5083	5021	12
+814	4.642	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5052	5052	5021	12
+815	4.646	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	5079	5079	5021	12
+816	4.652	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5050	5050	5021	12
+817	4.658	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5021	5021	5021	12
+818	4.665	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5154	5154	5021	12
+819	4.673	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5154	5154	5021	12
+820	4.679	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+821	4.685	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+822	4.69	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+823	4.696	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+824	4.702	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5154	5154	5021	12
+825	4.709	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+826	4.714	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+827	4.72	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+828	4.725	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+829	4.732	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5154	5154	5021	12
+830	4.737	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+831	4.742	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+832	4.748	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+833	4.754	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+834	4.761	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5154	5154	5021	12
+835	4.767	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+836	4.772	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+837	4.778	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+838	4.783	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+839	4.789	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5154	5154	5021	12
+840	4.794	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+841	4.799	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+842	4.804	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+843	4.81	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+844	4.817	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5154	5154	5021	12
+845	4.822	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+846	4.827	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+847	4.833	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+848	4.837	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+849	4.843	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5154	5154	5021	12
+850	4.848	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+851	4.853	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+852	4.858	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+853	4.864	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+854	4.87	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5154	5154	5021	12
+855	4.877	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+856	4.883	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+857	4.89	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+858	4.895	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+859	4.902	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5154	5154	5021	12
+860	4.908	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+861	4.913	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+862	4.919	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+863	4.924	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+864	4.931	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5154	5154	5021	12
+865	4.937	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+866	4.943	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+867	4.949	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+868	4.955	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+869	4.962	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5154	5154	5021	12
+870	4.969	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+871	4.974	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+872	4.98	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+873	4.984	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12
+874	4.99	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5154	5154	5021	12
+875	4.995	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5278	5278	5021	12
+876	5	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	5203	5203	5021	12

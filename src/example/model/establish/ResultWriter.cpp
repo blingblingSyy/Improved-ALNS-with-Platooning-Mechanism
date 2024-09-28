@@ -28,7 +28,8 @@ void ResultWriter::write_result()
     outfile << "Instance name: " << instance_name << endl;
     outfile << "Algorithm Stage: " << solution_stage << endl;
     outfile << endl;
-
+    
+    outfile << "total objective value: " << input_sol.getObjectiveValue() << endl;
     outfile << "total distance before platooning: " << input_sol.getTotalDistBeforePlatooning() << endl;
     outfile << "total energy-related distance cost: " << input_sol.getTotalDistAfterPlatooning() << endl;
     outfile << "total trip duration: " << input_sol.getTotalTripDuration() << endl;

@@ -23,8 +23,17 @@ class AStrategyManager
 			PathFirst
 		};
 
+		//! add available strategies to the algorithm
+		virtual void addStrategies() = 0;
+
+		// //! add available noise operators to the algorithm
+		// virtual void addNoise() = 0;
+
 		//! This method selects a strategy.
 		virtual void selectStrategy()=0;
+
+		// //! This method selects whether to employ noise to operators
+		// virtual void selectNoise() = 0;
 
 		//! This method selects a node destroy operator.
 		//! \return a node destroy operator.
@@ -43,7 +52,7 @@ class AStrategyManager
 		virtual APathRepairOperator& selectPathRepairOperator(bool pathDesEmpty)=0;
 
 		//! set the initial weights for the null operators
-		virtual void initWeights() = 0;
+		virtual void initNullOperators() = 0;
 
 		//! recompute the weights of the operators and strategies
 		virtual void recomputeWeights()=0;

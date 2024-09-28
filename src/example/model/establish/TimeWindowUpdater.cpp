@@ -11,7 +11,7 @@
 #include "example/model/basic/config.h"
 #include "utility.h"
 
-#define NDEBUG
+// #define NDEBUG
 
 using namespace std;
 
@@ -278,7 +278,9 @@ bool TimeWindowUpdater::checkNodeTimeFeas(int node_pos)
 {
     //case 1: AT1 > AT2
     if(route_arrtw[node_pos][0] > route_arrtw[node_pos][1])
+    {
         return false;
+    }
     // //case 2: DT1 > DT2
     // else if(route_deptw[node_pos][0] > route_deptw[node_pos][1])
     //     return false;
@@ -297,7 +299,9 @@ bool TimeWindowUpdater::isRouteTimeFeas()
     for(int i = 0; i < extendroutelen; i++)
     {
         if(!checkNodeTimeFeas(i))
+        {
             return false;
+        }
     }
     return true;
 }

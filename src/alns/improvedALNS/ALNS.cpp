@@ -25,7 +25,7 @@
 #include "alns/acceptanceModule/IAcceptanceModule.h"
 #include "alns/statistics/Statistics.h"
 
-#define NDEBUG
+// #define NDEBUG
 
 using namespace std;
 
@@ -61,6 +61,9 @@ ALNS::ALNS(string instanceName,
 
 	nbIterationsWithoutLocalSearch = 0;
 
+	// long long key_initialSol = initialSolution.getHash();
+	// knownKeys.insert(key_initialSol);
+
 }
 
 ALNS::~ALNS()
@@ -74,6 +77,9 @@ bool ALNS::solve()
 	startingTime = clock();
 	param->setLock();
 	acceptanceCriterion->startSignal();
+	// //! select the strategy and corresponding operators
+	// stManager->addStrategies();
+    // stManager->initNullOperators();
 	stManager->startSignal();
 	stats.setStart();
 	//! if not meeting the stopping criterion, will keep doing the iterations
@@ -106,16 +112,23 @@ void ALNS::performOneIteration()
 {
 	//! initialize some status of the ALNS iteration
 	status.partialReinit();
-	
-	//! select the strategy and corresponding operators
-    stManager->initWeights();
+
+	//! select strategies
 	stManager->selectStrategy();
+
+	// cout << "iteration: " << nbIterations << endl;
+	// cout << "strategy: " << stManager->getCurStName() << endl;
+
 	ANodeDestroyOperator& nodeDes = stManager->selectNodeDestroyOperator();
 	ANodeRepairOperator& nodeRep = stManager->selectNodeRepairOperator(nodeDes.isEmpty());
 	APathDestroyOperator& pathDes = stManager->selectPathDestroyOperator();
 	APathRepairOperator& pathRep = stManager->selectPathRepairOperator(pathDes.isEmpty());
 
+	// cout << "ALNS: APathDestroyOperator& pathDes: " << "\t ";
+	// cout << pathDes.getName() << "\t " << pathDes.getNumberOfCallsSinceLastEvaluation() << endl;
+
 	ISolution* newSolution = currentSolution->getCopy();
+	newSolution->updateSol();
 	
 	//! output the number of iterations and solution results
 	//! param->getLogFrequence() obtains the value of logFrequence, which represents how often the information is output.
@@ -172,7 +185,7 @@ void ALNS::performOneIteration()
 	// }
 
 	//! update the number of iterations
-	nbIterations++;
+	nbIterations++; //! nbIterations starts from 1
 	status.setIterationId(nbIterations);
 	nbIterationsWC++;
 
@@ -365,21 +378,25 @@ bool ALNS::isStoppingCriterionMet()
 			//! modify to the criteria in Part A paper
 			case ALNS_Parameters::MAX_IT_NO_IMP:
 			{
-				if(nbIterations >= param->getMinNbIterations())
+				// if(nbIterations > 0)
+				// 	return stats.getOneBestCost(nbIterations-1) <= 5021; //! for test2.txt
+
+				if(nbIterations >= param->getMinNbIterations() && nbIterations > 2*param->getLookBackIterations())
 				{
 					double accum_objval_before = 0;
 					double accum_objval_after = 0;
-					for(int i = nbIterations - param->getLookBackIterations(); i <= nbIterations; i++)
+					for(int i = nbIterations - param->getLookBackIterations(); i < nbIterations; i++)
 					{
 						accum_objval_after += stats.getOneBestCost(i);
 					}
-					for(int i = nbIterations - 2*param->getLookBackIterations(); i <= nbIterations - param->getLookBackIterations(); i++)
+					for(int i = nbIterations - 2*param->getLookBackIterations(); i < nbIterations - param->getLookBackIterations(); i++)
 					{
 						accum_objval_before += stats.getOneBestCost(i);
 					}
 					return (accum_objval_before / accum_objval_after - 1 <= param->getObjImpThreshold());
 				}
 				return false;
+
 				// return nbIterationsWithoutImprovement >= param->getMaxNbIterationsNoImp();
 			}
 			//! a mix of the MAX_IT, MAX_RT and MAX_IT_NO_IMP.

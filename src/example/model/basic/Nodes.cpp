@@ -11,7 +11,7 @@
 #include "example/model/basic/config.h"
 #include "utility.h"
 
-#define NDEBUG
+// #define NDEBUG
 
 Nodes::Nodes(RawInstance& inputInstance)
 {
@@ -104,6 +104,19 @@ void Nodes::end()
         }
     }
     delete avail_path_set[0][0][0];
+}
+
+int Nodes::getCusNum()
+{
+    int cusnum = 0;
+    for(int i = 0; i < nodenum; i++)
+    {
+        if(nodetype[i] != 2)
+        {
+            cusnum += 1;
+        }
+    }
+    return cusnum;
 }
 
 /*old version*/
@@ -379,7 +392,7 @@ vector<vector<double>> Nodes::calInitialDistMat(vector<vector<double>> coordinat
         init_dist[i].resize(nodenum);
         for(int j = i+1; j < nodenum && j > i; j++)
         {
-            init_dist[i][j] = calEuclidDist(coordinates[i], coordinates[j]);  //round(calEuclidDist(coordinates[i], coordinates[j]))
+            init_dist[i][j] = round(calEuclidDist(coordinates[i], coordinates[j]));  //calEuclidDist(coordinates[i], coordinates[j])
         }
         init_dist[i][i] = 0;
     }

@@ -35,7 +35,7 @@ void Path_Random_Insert::repairSolPath(ISolution& sol)
         vector<int> arc_config = vrpsol.getDestroyableArcConfig()[config_it - destroyable_arcpos.begin()];
         vector<int> indices = sortMeasurement(vrpsol, arc_config, get<1>(*pos_it));
         RandomNumber r1;
-        int new_usedpath = indices[int(pow(r1.get_rint(0,1), randSel)*(indices.size()-1))];
+        int new_usedpath = indices[static_cast<int>(round(pow(r1.get_rflt(0,1), randSel)*(indices.size()-1)))];
         vrpsol.repairPath(get<0>(*pos_it), new_usedpath, get<2>(*pos_it));
         // vrpsol.getRepairedArcsPos().push_back(*pos_it);
         // pos_it = vrpsol.getDestroyedArcsPos().erase(pos_it);
