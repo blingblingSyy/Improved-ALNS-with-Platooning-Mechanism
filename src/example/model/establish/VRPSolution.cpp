@@ -82,7 +82,7 @@ ARoute* VRPSolution::buildNewRoute()
     {
         //! randomly pick a customer to be inserted (note that the customer should not have nodetype of 2, which is for the intersection)
         RandomNumber r;
-        int pick_cus = nonInsertedNodes[r.get_rint(0, nonInsertedNodes.size()-1)]; //0;
+        int pick_cus = nonInsertedNodes[0]; //r.get_rint(0, nonInsertedNodes.size()-1);
         int cus_type = nodeset->getNodeType(pick_cus);
         //! after picking the customer, check whether there are lefting vehicles of the same type as the customer type to be inserted
         vector<int>::iterator veh_it = find_if(nonUsedVehs.begin(), nonUsedVehs.end(), [&](int x) -> bool {return vehset->getVehType(x) == cus_type || cus_type == 2;});
@@ -171,10 +171,14 @@ void VRPSolution::buildInitialSol()
     }
 
     //need to be deleted later
-    //! mip_optimal_solution
+    //! mip_optimal_solution (integer distance)
     // sol_config[3]->setRouteByModifyUsedPath(1, 1);
     // sol_config[3]->setRouteByModifyUsedPath(0, 1);
     // sol_config[1]->setRouteByModifyUsedPath(0, 1);
+
+    //! mip_optimal_solution (original distance)
+    // sol_config[1]->setRouteByModifyUsedPath(0, 1);
+    // sol_config[0]->setRouteByModifyUsedPath(1, 1);
 
     // cpuBeforePlatooning = (clock() - start ) / (double) CLOCKS_PER_SEC;
     makePlatoons();
@@ -382,6 +386,22 @@ void VRPSolution::updateSol(bool make_platoon)
         // sol_config[i]->calArrDepTime();
     }
 }
+
+int& VRPSolution::getTotalUnservedRequests(int type)
+{
+    switch (type)
+    {
+    case 0:
+        return totalUnservedPasRequests;
+    case 1:
+        return totalUnservedFreRequests;
+    case 2:
+        return totalUnservedRequests;
+    default:
+        break;
+    }
+}
+
 
 ISolution* VRPSolution::getCopy()
 {

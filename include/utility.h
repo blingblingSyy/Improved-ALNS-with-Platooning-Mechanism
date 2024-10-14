@@ -12,6 +12,7 @@ using namespace std;
 // const string ins100_dir = "C:\\Users\\SYY\\Improved_ALNS_Git\\Li_Lim_Benchmark\\pdp_100";  // the directory for benchmark instances
 const string base_dir = "C:/Users/SYY/Improved_ALNS_Git/";
 const string result_dir = "C:/Users/SYY/Improved_ALNS_Git/result/";   // the directory for result files
+const string dataset_dir = "C:/Users/SYY/Improved_ALNS_Git/dataset/";   // the directory for dataset files
 
 /// @brief a class to generate random number of given type from a specific interval
 class RandomNumber  
@@ -29,6 +30,9 @@ double calAverage(vector<T> vec)
     double average = accumulate(vec.begin(), vec.end(), 0.0) / vec.size();
     return average;
 }
+
+//! transform a double-type vector to int-type vector
+vector<int> convert_vectype_to_int(vector<double> double_vec);
 
 //! calculate the euclidean distance between two coordinates
 double calEuclidDist(vector<double> x1_coord, vector<double> x2_coord);
@@ -70,6 +74,71 @@ void process_intersections(vector<T>& a, vector<T>& b, bool keep = false)
         a.erase(std::remove_if(a.begin(), a.end(), predicate), a.end());
         b.erase(std::remove_if(b.begin(), b.end(), predicate), b.end());
     }
+}
+
+// Function to generate a normal distribution
+template<typename T>
+vector<double> generateNormalData(int numSamples, T mean, T stddev, double min_bound = -INF, double max_bound = INF)
+{
+    vector<double> data;
+    random_device rd;
+    mt19937 gen(rd());
+    normal_distribution<> dist(mean, stddev);
+
+    for (int i = 0; i < numSamples; ++i) 
+    {
+        double x;
+        do {
+            x = dist(gen);
+        } while (x < min_bound || x > max_bound);
+        data.push_back(x);
+    }
+
+    return data;
+}
+
+// Function to generate a multi-modal dataset
+template<typename T>
+vector<double> generateMultiModalData(vector<int> numSamplesPerMode, const vector<T>& means, const vector<T>& stddevs, double min_bound = -INF, double max_bound = INF)
+{
+    vector<double> data;
+
+    // Generate data for each mode
+    for (size_t i = 0; i < means.size(); ++i) 
+    {
+        vector<double> modeData = generateNormalData(numSamplesPerMode[i], means[i], stddevs[i], min_bound, max_bound);
+        data.insert(data.end(), modeData.begin(), modeData.end());
+    }
+
+    // Shuffle the dataset to interleave data points from different modes
+    random_device rd;
+    mt19937 g(rd());
+    shuffle(data.begin(), data.end(), g);
+
+    return data;
+}
+
+//! sort one vector (vec_tosort) based on another vector (vec_fromsort)
+template<typename T1, typename T2>
+void sortVec(vector<T1>& vec_tosort, vector<T2>& vec_fromsort, bool greater)
+{
+    vector<int> indices(vec_tosort.size());
+    iota(indices.begin(), indices.end(), 0);
+    if(greater)
+    {
+        sort(indices.begin(), indices.end(), [&](int a, int b)->bool {return vec_fromsort[a] > vec_fromsort[b];});
+    }
+    else
+    {
+        sort(indices.begin(), indices.end(), [&](int a, int b)->bool {return vec_fromsort[a] < vec_fromsort[b];});
+    }
+    for(int id: indices)
+    {
+        vec_tosort.push_back(vec_tosort[id]);
+        // vec_fromsort.push_back(vec_fromsort[id]);
+    }
+    vec_tosort.erase(vec_tosort.begin(), vec_tosort.begin()+indices.size());
+    // vec_fromsort.erase(vec_fromsort.begin(), vec_fromsort.begin()+indices.size());
 }
 
 #endif

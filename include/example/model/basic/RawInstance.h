@@ -1,7 +1,7 @@
-// DataReader.h
+// RawInstance.h
 
-#ifndef _DATAREADER_H_    //include guards
-#define _DATAREADER_H_
+#ifndef _RAWINSTANCE_H_    //include guards
+#define _RAWINSTANCE_H_
 
 #include <vector>
 #include <string>
@@ -12,64 +12,153 @@ using namespace std;
 class RawInstance
 {
     private: 
-        
-        //! the file path
-        string filename;
-
         //! the number of rows in the file
         int rownum;
 
         //! the container to store all the information in the file
-        vector<vector<int>> data_vec;
+        vector<vector<double>> data_vec;
+
+        // //! the number of customers in the file
+        int nodenum_wodepot;
+
+        //! the number of passenger-type nodes
+        int pas_cusnum;
+
+        //! the number of freight-type nodes
+        int fre_cusnum;
+
+        //! the number of intersections
+        int sect_num;
+
+        //! the types of nodes of all nodes
+        vector<int> nodetypes;
+
+        //! the coordinates of all nodes
+        vector<vector<double>> coordinates;
+
+        //! the service time windows of all nodes
+        vector<vector<int>> serviceTW;
+
+        //! the demands of all nodes
+        vector<int> demands;
+
+        //! the service time of all nodes
+        vector<int> serviceTime;
+
+        //! the passenger-type vehicle number
+        int pas_vehnum;
+
+        //! the freight-type vehicle number
+        int fre_vehnum;
+
+        //! the total vehicle number
+        int vehnum;
+
+        //! the vehicle capacity of passenger-type
+        int pas_vehcap;
+
+        //! the vehicle capacity of freight-type
+        int fre_vehcap;
+
+        //! the vehicle speed
+        double veh_speed;
 
         //! count the rows in the file
-        void countrows();
+        void countrows(string filepath);
 
         //! read the file and store the information to data_vec
-        void readdata();
+        void readdata(string filepath);
+
+        //! extract vehicle information from the file data
+        void extractVehsInfo();
+
+        //! extract node information from the file data
+        void extractNodesInfo();
+
+        //! design node types for all nodes
+        void designNodeTypes(int nodenum_wodepot);
+
+        //! design coordinates for all nodes - pattern = cluster if cluster == true, or else pattern = distributed
+        void designCoord(bool cluster); //! cusnum from nodetypes
+
+        //! design service time windows for all nodes - pattern = peak if peak == true, or else pattern = even
+        void designSerTW(bool peak); //! cusnum from nodetypes
+
+        //! design demands for all nodes -> depends on nodetypes
+        void designDemands();
+
+        //! design service time for all nodes -> depends on nodetypes
+        void designSerTime();
+
+        //! design vehicle numbers of each type
+        void designVehInfo();
+
+        //! create the dataset with four different scenarios and store in the data_vec
+        void designdata();
 
     public:
-        //! constructor
+        //! constructor: read dataset from the given path
         RawInstance(string filepath);
 
-        //! default constructor
-        RawInstance() = default;
+        //! default constructor: create dataset
+        RawInstance(int nodenum_wodepot, bool cluster, bool peak);
 
         //! destructor
-        ~RawInstance(){};
+        ~RawInstance();
+
+        //! write the created data to files
+        void writedata(string dirpath, string filename);
 
         //! a simple getter
-        int getRowNum();
+        int getRowNum() {return rownum;};
 
         //! a simple getter
-        int getNodesNum() {return rownum-1;};
+        int getAllNodesNum() {return rownum-1;};
 
         //! a simple getter
-        vector<int> getRowData(int rowid);
+        int getCusNum() {return pas_cusnum + fre_cusnum;};
+
+        //! a simple getter
+        vector<double> getRowData(int rowid);
 
         //! get the planning horizon of the system
-        int getPlanHorizon() {return data_vec[1][5];};
+        vector<int> getPlanHorizon();
 
-        //! extract the number of vehicles from the instance data
-        int extract_vehnum() {return data_vec[0][0];};
+        //! get the number of vehicles from the instance data - 0 for passenger-type, 1 for freight-type and 2 for all
+        int getVehNum(int type = 2);
 
-        //! extract the capacity of vehicles from the instance data
-        int extract_vehcap() {return data_vec[0][1];};
+        //! set the number of vehicles 
+        void setVehNum(int type, int vehnum);
 
-        //! extract the speed of vehicles from the instance data
-        int extract_vehspeed() {return data_vec[0][2];};
+        //! get the vehicle ids given the specific type - 0 for passenger-type and 1 for freight-type
+        vector<int> getVehIDs(int type);
 
-        //! extract demands from the instance data
-        vector<int> extract_demands();
+        //! get the capacity of vehicles given the specific type - 0 for passenger-type and 1 for freight-type
+        int getVehCap(int type);
 
-        //! extract coordinates from the instance data
-        vector<vector<double>> extract_coordinates();
+        //! set the capacity of vehicles 
+        void setVehCap(int type, int vehcap);
 
-        //! extract service time windows from the instance data
-        vector<vector<int>> extract_sertw();
+        //! get the speed of vehicles from the instance data
+        int getVehSpeed() {return veh_speed;};
 
-        //! extract service time from the instance data
-        vector<int> extract_sertime();
+        //! get the types of nodes from the input instance data
+        vector<int> getNodeTypes() {return nodetypes;};
+
+        //! get the node ids given the node type - 0 for passenger-type and 1 for freight-type
+        vector<int> getNodeIDs(int type);
+
+        //! get demands from the instance data
+        vector<int> getDemands() {return demands;};
+
+        //! get coordinates from the instance data
+        vector<vector<double>> getCoordinates() {return coordinates;};
+
+        //! get service time windows from the instance data
+        vector<vector<int>> getSerTW() {return serviceTW;};
+
+        //! get service time from the instance data
+        vector<int> getSerTime() {return serviceTime;};
 };
 
 #endif

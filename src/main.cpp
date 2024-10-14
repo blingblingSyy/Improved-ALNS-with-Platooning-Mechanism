@@ -16,31 +16,58 @@ using namespace std;
 
 int main()
 {
-    // #ifdef UNICODE
-    //obtain all the instance file paths
-    string test_filename = "test2";
-    string result_filepath = "C:/Users/SYY/Improved_ALNS_Git/dataset/Small_Benchmark/" + test_filename + ".txt"; //"C:/Users/SYY/Improved_ALNS_Git/dataset/Li_Lim_Benchmark/pdp_100/lc101.txt"
-    // bool modify_nodes_to_intersects = false;
-    // bool modify_connectivity = false;
-    // bool modify_pasdmd = true;
-    RawInstance data1(result_filepath);
-    vector<int> nodetype = {2,1,2,0,1,0};
-    vector<vector<int>> disconnected_links;
-    disconnected_links.push_back({0,1});
-    disconnected_links.push_back({0,3});
-    disconnected_links.push_back({1,4});
-    disconnected_links.push_back({2,4});
-    disconnected_links.push_back({2,5});
-    disconnected_links.push_back({3,5});
-    disconnected_links.push_back({4,5});
-    Nodes nodeset(data1, nodetype, disconnected_links);
+    // //! generate large dataset
+    // vector<int> nodesizes = {50, 100, 250, 500};
+    // vector<bool> coord_cluster_modes = {true, false};
+    // vector<bool> sertime_peak_modes = {true, false};
+    // vector<string> all_instances;
+    // const int instanceNumPerMode = 3;
+    // for(int i = 0; i < nodesizes.size(); i++)
+    // {
+    //     for(int j = 0; j < coord_cluster_modes.size(); j++)
+    //     {
+    //         for(int k = 0; k < sertime_peak_modes.size(); k++)
+    //         {
+    //             for(int z = 0; z < instanceNumPerMode; z++)
+    //             {
+    //                 string coord = (coord_cluster_modes[j] == true) ? "cluster" : "uniform";
+    //                 string sertw = (sertime_peak_modes[k] == true) ? "peak" : "even";
+    //                 string filename = to_string(nodesizes[i]) + "_" + coord + "_" + sertw + "_" + to_string(z+1);
+    //                 all_instances.push_back(filename);
+    //                 RawInstance instance_i(nodesizes[i], coord_cluster_modes[j], sertime_peak_modes[k]);
+    //                 instance_i.writedata(dataset_dir + "Large_Dataset/", filename);
+    //             }
+    //         }
+    //     }
+    // }
+
+    // //! small test data
+    // string test_filename = "test2";
+    // string filepath = dataset_dir + "Small_Dataset/" + test_filename + ".txt"; //"C:/Users/SYY/Improved_ALNS_Git/Small_Dataset/xxx.txt"
+    // RawInstance data1(filepath);
+    // vector<vector<int>> disconnected_links;
+    // disconnected_links.push_back({0,1});
+    // disconnected_links.push_back({0,3});
+    // disconnected_links.push_back({1,4});
+    // disconnected_links.push_back({2,4});
+    // disconnected_links.push_back({2,5});
+    // disconnected_links.push_back({3,5});
+    // disconnected_links.push_back({4,5});
+    // Nodes nodeset(data1, disconnected_links);
+    // Vehicles vehset(data1);
+
+    //! large test data
+    string test_filename = "50_cluster_even_1";
+    string filepath = dataset_dir + "Large_Dataset/" + test_filename + ".txt"; //"C:/Users/SYY/Improved_ALNS_Git/Large_Dataset/xxx.txt"
+    RawInstance data1(filepath);
+    Nodes nodeset(data1);
     Vehicles vehset(data1);
 
     //! build initial solution
     VRPSolution initialsol(nodeset, vehset);
     initialsol.buildInitialSol();
     //! write down the results
-    ResultWriter writer1(initialsol, "test2", "initial_solution", initialsol.getCpuAfterPlatooning());
+    ResultWriter writer1(initialsol, test_filename, "initial_solution", initialsol.getCpuAfterPlatooning()); //mip_optimal_solution
     writer1.write_result();
 
     //! add operators
@@ -107,11 +134,12 @@ int main()
     //! write down the results
     // VRPSolution& alnsSol = dynamic_cast<VRPSolution&>(**(alns.getBestSolutionManager()->begin()));
     VRPSolution& alnsSol = dynamic_cast<VRPSolution&>(*alns.getBestSolution());
-    ResultWriter writer2(alnsSol, "test2", "alns_solution", alns.getCpuTime());
+    string stage_name = "alns_solution";
+    stage_name += (alnsParam.getGlobalNoise()) ? "_wt_noise" : "_wo_noise";
+    ResultWriter writer2(alnsSol, test_filename, stage_name, alns.getCpuTime());
     writer2.write_result();
 
     // alns.end();
 
-    // #endif
     return 0;
 }

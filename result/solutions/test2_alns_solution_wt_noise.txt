@@ -1,0 +1,81 @@
+Instance name: test2
+Algorithm Stage: alns_solution_wt_noise
+
+total objective value: 1105.2
+total distance before platooning: 102.647
+total energy-related distance cost: 99.4195
+total trip duration: 111
+total unserved passenger requests: 0
+total unserved freight requests: 0
+CPU time: 27.061
+
+* All routes:
+vehicle id: 3  vehicle type: 1
+	compact route: 0  1  0  
+	used paths between two served nodes: 0  1  
+	extended route: 0  2  1  5  0  
+	node labels: 0  0  1  0  0  
+	arrival time windows: {0, 40}  {11, 11}  {16, 16}  {20, 20}  {36, 36}  
+	departure time windows: {0, 0}  {11, 11}  {19, 19}  {20, 20}  {0, 40}  
+	arrival time: 0  11  16  20  36  
+	departure time: 0  11  19  20  0  
+	waiting time: 0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  2  2  
+	route mileage: 0  16.2794  33.2794  
+vehicle id: 0  vehicle type: 0
+	compact route: 0  3  0  
+	used paths between two served nodes: 1  0  
+	extended route: 0  2  3  4  0  
+	node labels: 0  0  1  0  0  
+	arrival time windows: {0, 40}  {11, 11}  {14, 14}  {23, 23}  {28, 28}  
+	departure time windows: {0, 0}  {11, 11}  {15, 15}  {23, 23}  {0, 40}  
+	arrival time: 0  11  14  23  28  
+	departure time: 0  11  15  23  0  
+	waiting time: 0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  1  1  
+	route mileage: 0  14.0088  27.17  
+vehicle id: 4  vehicle type: 1
+	compact route: 0  4  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  4  0  
+	node labels: 0  1  0  
+	arrival time windows: {0, 40}  {17, 20}  {28, 28}  
+	departure time windows: {12, 15}  {23, 23}  {0, 40}  
+	arrival time: 0  20  28  
+	departure time: 15  23  0  
+	waiting time: 0  0  0  
+	total waiting time: 0  
+	route load: 0  2  2  
+	route mileage: 0  5.09902  10.198  
+vehicle id: 1  vehicle type: 0
+	compact route: 0  5  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  5  0  
+	node labels: 0  1  0  
+	arrival time windows: {0, 40}  {18, 18}  {36, 36}  
+	departure time windows: {2, 2}  {20, 20}  {0, 40}  
+	arrival time: 0  18  36  
+	departure time: 2  20  0  
+	waiting time: 0  1  0  
+	total waiting time: 1  
+	route load: 0  1  1  
+	route mileage: 0  16  32  
+
+* All platoons: 
+platoon 1	platooning arc: {5, 0}
+	platoons on this arc: 
+		vehicle id: 3  arc position: 3
+		vehicle id: 1  arc position: 1
+	energy saving on this arc: 1.6
+platoon 2	platooning arc: {0, 2}
+	platoons on this arc: 
+		vehicle id: 3  arc position: 0
+		vehicle id: 0  arc position: 0
+	energy saving on this arc: 1.11803
+platoon 3	platooning arc: {4, 0}
+	platoons on this arc: 
+		vehicle id: 0  arc position: 3
+		vehicle id: 4  arc position: 1
+	energy saving on this arc: 0.509902

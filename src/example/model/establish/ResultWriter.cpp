@@ -33,7 +33,8 @@ void ResultWriter::write_result()
     outfile << "total distance before platooning: " << input_sol.getTotalDistBeforePlatooning() << endl;
     outfile << "total energy-related distance cost: " << input_sol.getTotalDistAfterPlatooning() << endl;
     outfile << "total trip duration: " << input_sol.getTotalTripDuration() << endl;
-    outfile << "total unserved requests: " << input_sol.getTotalUnservedRequests() << endl;
+    outfile << "total unserved passenger requests: " << input_sol.getTotalUnservedRequests(0) << endl;
+    outfile << "total unserved freight requests: " << input_sol.getTotalUnservedRequests(1) << endl;
     // outfile << "CPU time before platooning: " << cpu[0] << endl;
     outfile << "CPU time: " << cpu << endl;
     outfile << endl;

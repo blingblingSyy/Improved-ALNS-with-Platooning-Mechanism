@@ -1,0 +1,79 @@
+Instance name: 50_cluster_even_1
+Algorithm Stage: initial_solution
+
+total objective value: 343270
+total distance before platooning: 113.768
+total energy-related distance cost: 113.768
+total trip duration: 132
+total unserved passenger requests: 23
+total unserved freight requests: 14
+CPU time: 0.21
+
+* All routes:
+vehicle id: 0  vehicle type: 0
+	compact route: 0  11  1  0  
+	used paths between two served nodes: 0  0  0  
+	extended route: 0  11  1  0  
+	node labels: 0  1  1  0  
+	arrival time windows: {0, 960}  {725, 727}  {731, 732}  {745, 747}  
+	departure time windows: {712, 714}  {729, 730}  {734, 736}  {0, 960}  
+	arrival time: 0  727  732  746  
+	departure time: 714  730  735  0  
+	waiting time: 0  0  0  0  
+	total waiting time: 0  
+	route load: 12  6  0  0  
+	route mileage: 0  13.0148  14.7511  26.0768  
+vehicle id: 1  vehicle type: 1
+	compact route: 0  26  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  26  0  
+	node labels: 0  1  0  
+	arrival time windows: {0, 960}  {107, 158}  {124, 175}  
+	departure time windows: {94, 145}  {111, 162}  {0, 960}  
+	arrival time: 0  158  172  
+	departure time: 145  159  0  
+	waiting time: 0  0  0  
+	total waiting time: 0  
+	route load: 4  0  0  
+	route mileage: 0  12.8844  25.7688  
+vehicle id: 2  vehicle type: 1
+	compact route: 0  27  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  27  0  
+	node labels: 0  1  0  
+	arrival time windows: {0, 960}  {665, 712}  {677, 724}  
+	departure time windows: {658, 705}  {670, 717}  {0, 960}  
+	arrival time: 0  712  721  
+	departure time: 705  714  0  
+	waiting time: 0  0  0  
+	total waiting time: 0  
+	route load: 6  0  0  
+	route mileage: 0  7.12085  14.2417  
+vehicle id: 3  vehicle type: 1
+	compact route: 0  37  28  0  
+	used paths between two served nodes: 0  0  0  
+	extended route: 0  37  28  0  
+	node labels: 0  1  1  0  
+	arrival time windows: {0, 960}  {229, 255}  {238, 261}  {247, 273}  
+	departure time windows: {223, 249}  {236, 259}  {240, 266}  {0, 960}  
+	arrival time: 0  255  261  270  
+	departure time: 249  259  263  0  
+	waiting time: 0  0  0  0  
+	total waiting time: 0  
+	route load: 0  13  18  18  
+	route mileage: 0  6.29026  8.26036  15.345  
+vehicle id: 4  vehicle type: 1
+	compact route: 0  31  29  0  
+	used paths between two served nodes: 0  0  0  
+	extended route: 0  31  29  0  
+	node labels: 0  1  1  0  
+	arrival time windows: {0, 960}  {613, 617}  {630, 631}  {640, 644}  
+	departure time windows: {601, 605}  {617, 618}  {632, 636}  {0, 960}  
+	arrival time: 0  617  631  641  
+	departure time: 605  618  633  0  
+	waiting time: 0  0  0  0  
+	total waiting time: 0  
+	route load: 2  0  8  8  
+	route mileage: 0  12.076  24.5969  32.336  
+
+* All platoons: 

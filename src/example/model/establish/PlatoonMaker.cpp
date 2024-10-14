@@ -211,7 +211,7 @@ vector<int> PlatoonMaker::processNodeNeighborsInSet(int input_u, vector<int> inp
 
 void PlatoonMaker::BronKerbosch(vector<int> Rset, vector<int> Pset, vector<int> Xset, vector<vector<bool>>& pair_feas_graph, vector<vector<int>>& maximal_cliques_set)
 {
-    if(Pset.empty() && Xset.empty()) //report a maximal clique when both Pset and Xset are empty
+    if(Pset.empty() && Xset.empty() || Rset.size() == PLEN_MAX) //report a maximal clique when both Pset and Xset are empty
     {
         maximal_cliques_set.push_back(Rset); //report R
         // if(find(maximal_cliques_set.begin(), maximal_cliques_set.end(), Rset) == maximal_cliques_set.end())

@@ -14,8 +14,8 @@ class Vehicles
         //! a copy of raw data of input instance
         RawInstance* rawInstance;
 
-        //! the total number of vehicles
-        int veh_num;
+        //! the total number of vehicles of each type
+        int pas_vehnum, fre_vehnum, vehnum;
 
         //! the vehicle speed in the system
         int veh_speed;
@@ -38,24 +38,9 @@ class Vehicles
         //! the maximum platoon length of vehicles 
         int veh_plmax;
 
-        //! set the types for each MAV based on the proprotion of each customer type
-        void designVehTypes(double prob = PAS_MAV_PROP);
-
-        //! set the capaicty of each MAV based on its type
-        void setVehCap();
-
-        //! set the waiting time limit for each vehicle
-        void setWaitLimit();
-
-        //! build the complete information of all nodes
-        // void buildVehsStruct();
-
     public:
         //! constructor
         Vehicles(RawInstance& inputInstance);
-
-        //! a second constructor
-        Vehicles(RawInstance& inputInstance, vector<int> input_vehtype);
 
         //! default constructor
         Vehicles() {};
@@ -64,7 +49,7 @@ class Vehicles
         ~Vehicles();
 
         //! a simple getter
-        int getVehNum() {return veh_num;}; 
+        int getVehNum() {return vehnum;}; 
 
         //! a simple getter
         int getVehSpeed() {return veh_speed;};
@@ -91,10 +76,16 @@ class Vehicles
         void setVehSpeed(int input_speed) {veh_speed = input_speed;};
 
         //! a simple setter
-        void setVehNum(int input_num) {veh_num = input_num;};
+        void setVehNum(int type, int vehnum);
 
-        //! a simple setter
-        void setVehTypes(vector<int> input_types) {veh_types = input_types;};
+        //! set the capaicty of each MAV based on its type
+        void setVehCap(int type, int vehcap);
+
+        //! set the waiting time limit for each vehicle based on its type
+        void setWaitLimitPerNode(int type, int waitlim);
+
+        //! set the maximum waiting time limit for each vehicle based on its type
+        void setWaitLimitMax(int type, int waitlim);
 };
 
 

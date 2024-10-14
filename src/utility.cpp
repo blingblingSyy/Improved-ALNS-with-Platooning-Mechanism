@@ -8,6 +8,7 @@
 #include <math.h>
 #include <numeric>
 #include <functional>
+#include <random>
 #include "example/model/basic/config.h"
 #include "utility.h"
 
@@ -83,3 +84,13 @@ int calPathTvlTime(vector<int> route, vector<vector<int>> init_timemat, int star
 //     }
 //     return pos_in_arc1;
 // }
+
+vector<int> convert_vectype_to_int(vector<double> double_vec)
+{
+    vector<int> int_vec;
+    for(int i = 0; i < double_vec.size(); i++)
+    {
+        int_vec.push_back(int(round(double_vec[i])));
+    }
+    return int_vec;
+}

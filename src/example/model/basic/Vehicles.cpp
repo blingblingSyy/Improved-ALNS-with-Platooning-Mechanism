@@ -11,88 +11,95 @@
 Vehicles::Vehicles(RawInstance& inputInstance)
 {
     this->rawInstance = &inputInstance;
-    veh_num = rawInstance->extract_vehnum();
-    veh_speed = rawInstance->extract_vehspeed();
-    designVehTypes(); 
-    setVehCap();
-    setWaitLimit();
-    veh_range = MAX_DIST;
-    veh_plmax = PLEN_MAX;
-}
-
-Vehicles::Vehicles(RawInstance& inputInstance, vector<int> input_vehtype)
-{
-    this->rawInstance = &inputInstance;
-    veh_num = rawInstance->extract_vehnum();
-    veh_speed = rawInstance->extract_vehspeed();
-    veh_types = input_vehtype;
-    setVehCap();
-    setWaitLimit();
+    pas_vehnum = rawInstance->getVehNum(0);
+    vehnum = rawInstance->getVehNum();
+    veh_speed = rawInstance->getVehSpeed();
+    veh_types.resize(vehnum);
+    veh_cap.resize(vehnum);
+    veh_wlim_pernode.resize(vehnum);
+    veh_wlim_max.resize(vehnum);
+    for(int i = 0; i < vehnum; i++)
+    {
+        veh_types[i] = (i < pas_vehnum) ? 0 : 1;
+        veh_cap[i] = (i < pas_vehnum) ? rawInstance->getVehCap(0) : rawInstance->getVehCap(1);
+        veh_wlim_pernode[i] = (i < pas_vehnum) ? WAIT_0 : WAIT_1;
+        veh_wlim_max[i] = (i < pas_vehnum) ? WAIT_MAX_0 : WAIT_MAX_1;
+    }
     veh_range = MAX_DIST;
     veh_plmax = PLEN_MAX;
 }
 
 Vehicles::~Vehicles()
 {
-    // delete rawInstance;  //! not creating new memory
+
 }
 
-
-void Vehicles::designVehTypes(double prob)
+void Vehicles::setVehNum(int type, int vehnum)
 {
-    veh_types.resize(veh_num);
-    int pas_mavs = int(ceil(veh_num * prob));
-    if(prob == 0)
+    if(type == 0)
     {
-        for(int i = 0; i < veh_num; i++)
-        {
-            veh_types[i] = 1;
-        }
+        this->pas_vehnum = vehnum;
     }
-    else if(prob == 1)
+    else if(type == 1)
     {
-        for(int i = 0; i < veh_num; i++)
-        {
-            veh_types[i] = 0;
-        }
+        this->fre_vehnum = vehnum;
     }
-    else
-    {
-        for(int i = 0; i < pas_mavs; i++)
-        {
-            veh_types[i] = 0;
-        }
-        for(int i = pas_mavs; i < veh_num; i++)
-        {
-            veh_types[i] = 1;
-        }
-    }
+    assert(false);
 }
 
-void Vehicles::setVehCap()
+void Vehicles::setVehCap(int type, int vehcap)
 {
-    veh_cap.resize(veh_num);
-    for(int i = 0; i < veh_num; i++)
+    if(type == 0)
     {
-        veh_cap[i] = (veh_types[i] == 0) ? VCAP_0: VCAP_1;
-    }
-}
-
-void Vehicles::setWaitLimit()
-{
-    veh_wlim_pernode.resize(veh_num);
-    veh_wlim_max.resize(veh_num);
-    for(int i = 0; i < veh_num; i++)
-    {
-        switch (veh_types[i])
+        for(int i = 0; i < pas_vehnum; i++)
         {
-        case 0: //passenger type
-            veh_wlim_pernode[i] = WAIT_0;
-            veh_wlim_max[i] = WAIT_MAX_0;
-            break;
-        case 1: //freight type
-            veh_wlim_pernode[i] = WAIT_1;
-            veh_wlim_max[i] = WAIT_MAX_1;
+            veh_cap[i] = vehcap;
         }
     }
+    else if(type == 1)
+    {
+        for(int i = pas_vehnum; i < vehnum; i++)
+        {
+            veh_cap[i] = vehcap;
+        }
+    }
+    assert(false);
+}
+
+void Vehicles::setWaitLimitPerNode(int type, int waitlim)
+{
+    if(type == 0)
+    {
+        for(int i = 0; i < pas_vehnum; i++)
+        {
+            veh_wlim_pernode[i] = waitlim;
+        }
+    }
+    else if(type == 1)
+    {
+        for(int i = pas_vehnum; i < vehnum; i++)
+        {
+            veh_wlim_pernode[i] = waitlim;
+        }
+    }
+    assert(false);
+}
+
+void Vehicles::setWaitLimitMax(int type, int waitlim)
+{
+    if(type == 0)
+    {
+        for(int i = 0; i < pas_vehnum; i++)
+        {
+            veh_wlim_max[i] = waitlim;
+        }
+    }
+    else if(type == 1)
+    {
+        for(int i = pas_vehnum; i < vehnum; i++)
+        {
+            veh_wlim_max[i] = waitlim;
+        }
+    }
+    assert(false);
 }

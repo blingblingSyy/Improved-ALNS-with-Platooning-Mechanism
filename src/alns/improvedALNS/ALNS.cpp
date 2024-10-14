@@ -356,6 +356,7 @@ bool ALNS::isStoppingCriterionMet()
 	//! whether the algorithm has found the new best feasible solution 是否找到最优可行解。
 	if((*(bestSolManager->begin()))->isFeasible() && (*(bestSolManager->begin()))->getObjectiveValue() == lowerBound)
 	{
+		cout << "Stop: the objective value of the best solution reaches the lower bound.";
 		return true;
 	}
 	else
@@ -365,14 +366,24 @@ bool ALNS::isStoppingCriterionMet()
 			//! whether reach the maximum iteration times
 			case ALNS_Parameters::MAX_IT:
 			{
-				return nbIterations >= param->getMaxNbIterations();
+				bool maxit = nbIterations >= param->getMaxNbIterations();
+				if(maxit)
+				{
+					cout << "Stop: the algorithm reaches the maximum number of iterations.";
+				}
+				return maxit;
 			}
 			//! whether reach the maximum running time limit
 			case ALNS_Parameters::MAX_RT:
 			{
 				clock_t currentTime = clock();
 				double elapsed = (static_cast<double>(currentTime - startingTime)) / CLOCKS_PER_SEC;
-				return elapsed >= param->getMaxRunningTime();
+				bool maxrt = elapsed >= param->getMaxRunningTime();
+				if(maxrt)
+				{
+					cout << "Stop: the algorithm reaches the maximum running time.";
+				}
+				return maxrt;
 			}
 			//! whether reach the maximum number of iterations without improvement. 
 			//! modify to the criteria in Part A paper
@@ -393,7 +404,12 @@ bool ALNS::isStoppingCriterionMet()
 					{
 						accum_objval_before += stats.getOneBestCost(i);
 					}
-					return (accum_objval_before / accum_objval_after - 1 <= param->getObjImpThreshold());
+					bool maxitnoimp = (accum_objval_before / accum_objval_after - 1 <= param->getObjImpThreshold());
+					if(maxitnoimp)
+					{
+						cout << "Stop: the algorithm reaches the maximum number of iterations without improvement by threshold.";
+					}
+					return maxitnoimp;
 				}
 				return false;
 
@@ -404,16 +420,19 @@ bool ALNS::isStoppingCriterionMet()
 			{
 				if(nbIterations >= param->getMaxNbIterations())
 				{
+					cout << "Stop: the algorithm reaches the maximum number of iterations.";
 					return true;
 				}
 				if(nbIterationsWithoutImprovement >= param->getMaxNbIterationsNoImp())
 				{
+					cout << "Stop: the algorithm reaches the maximum number of iterations without improvement by threshold.";
 					return true;
 				}
 				clock_t currentTime = clock();
 				double elapsed = (static_cast<double>(currentTime - startingTime)) / CLOCKS_PER_SEC;
 				if(elapsed >= param->getMaxRunningTime())
 				{
+					cout << "Stop: the algorithm reaches the maximum running time.";
 					return true;
 				}
 				return false;
@@ -440,5 +459,5 @@ void ALNS::end()
 
 double ALNS::getCpuTime()
 {
-	return cpu;
+	return cpu / (double) CLOCKS_PER_SEC;
 }

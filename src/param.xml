@@ -1,11 +1,11 @@
 <Parameters>
 	<ALNS>
-		<MaxNbIterations>2000</MaxNbIterations>
+		<MaxNbIterations>10000</MaxNbIterations>
 		<MinNbIterations>5</MinNbIterations>
-		<LookBackIterations>500</LookBackIterations>
+		<LookBackIterations>3000</LookBackIterations>
 		<ObjImpThreshold>0.001</ObjImpThreshold>
-		<MaxRunTime>5</MaxRunTime>
-		<MaxNbIterationsNoImp>1000</MaxNbIterationsNoImp>
+		<MaxRunTime>60</MaxRunTime>
+		<MaxNbIterationsNoImp>5000</MaxNbIterationsNoImp>
 		<StoppingCriterion>ALL</StoppingCriterion>
 		<Noise>true</Noise>
 		<TimeSegmentIt>1</TimeSegmentIt>

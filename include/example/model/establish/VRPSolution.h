@@ -147,7 +147,7 @@ class VRPSolution: public ISolution
         int& getTotalTripDuration() {return totalTripDurationAllRoutes;};
 
         //! a simple getter
-        int& getTotalUnservedRequests() {return totalUnservedRequests;};
+        int& getTotalUnservedRequests(int type = 2);
 
         //! a simple getter
         vector<int>& getNonInsertedNodes() {return nonInsertedNodes;};

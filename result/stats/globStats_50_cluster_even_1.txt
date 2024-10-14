@@ -1,0 +1,1110 @@
+iterations	timeStamps	Strategy	Node Destroy Operator	Node Repair Operator	Path Destroy Operator	Path Repair Operator	New Cost	Current Cost	Best Cost	Cumulative Known Solutions
+1	0.069	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343308	343308	343270	1
+2	0.13	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343278	343278	343270	2
+3	0.197	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343304	343304	343270	3
+4	0.264	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343273	343273	343270	4
+5	0.334	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343308	343308	343270	4
+6	0.404	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343308	343308	343270	4
+7	0.468	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343278	343278	343270	4
+8	0.531	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343304	343304	343270	4
+9	0.593	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343273	343273	343270	4
+10	0.662	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343308	343308	343270	4
+11	0.736	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343308	343308	343270	4
+12	0.803	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343278	343278	343270	4
+13	0.871	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343304	343304	343270	4
+14	0.933	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343273	343273	343270	4
+15	0.997	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	343308	343273	343270	4
+16	1.025	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	343301	343270	343270	5
+17	1.122	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Random Insert	343334	343270	343270	6
+18	1.22	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Random Insert	343334	343270	343270	6
+19	1.315	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Random Insert	343334	343270	343270	6
+20	1.418	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Random Insert	343334	343270	343270	6
+21	1.519	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	343339	343270	343270	7
+22	1.615	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	343339	343270	343270	7
+23	1.711	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	343339	343270	343270	7
+24	1.809	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	343339	343270	343270	7
+25	1.902	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	343339	343270	343270	7
+26	2.002	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	343339	343339	343270	7
+27	2.026	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343346	343346	343270	8
+28	2.054	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343331	343331	343270	9
+29	2.076	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343337	343337	343270	10
+30	2.102	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343352	343352	343270	11
+31	2.122	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343277	343277	343270	12
+32	2.145	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343282	343282	343270	13
+33	2.17	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343280	343280	343270	14
+34	2.194	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343287	343287	343270	15
+35	2.217	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343289	343289	343270	16
+36	2.237	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343277	343277	343270	17
+37	2.26	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343282	343282	343270	17
+38	2.286	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343291	343291	343270	18
+39	2.312	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343287	343287	343270	18
+40	2.335	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343278	343278	343270	19
+41	2.355	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343277	343277	343270	19
+42	2.376	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343282	343282	343270	19
+43	2.402	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343280	343280	343270	19
+44	2.427	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343287	343287	343270	19
+45	2.452	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343289	343289	343270	19
+46	2.47	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343277	343277	343270	19
+47	2.496	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343282	343282	343270	19
+48	2.522	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343291	343291	343270	19
+49	2.547	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343287	343287	343270	19
+50	2.567	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343278	343278	343270	19
+51	2.588	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343277	343277	343270	19
+52	2.61	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343282	343282	343270	19
+53	2.636	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343280	343280	343270	19
+54	2.659	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343287	343287	343270	19
+55	2.685	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343289	343289	343270	19
+56	2.705	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343277	343277	343270	19
+57	2.732	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343282	343282	343270	19
+58	2.761	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343291	343291	343270	19
+59	2.785	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343287	343287	343270	19
+60	2.807	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343278	343278	343270	19
+61	2.829	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343277	343277	343270	19
+62	2.851	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343282	343282	343270	19
+63	2.877	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343280	343280	343270	19
+64	2.9	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343287	343287	343270	19
+65	2.925	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343289	343289	343270	19
+66	2.945	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343277	343277	343270	19
+67	2.966	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343282	343282	343270	19
+68	2.991	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Node-Frequency Insert	343291	343291	343270	19
+69	3.166	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	343332	343332	343270	20
+70	3.313	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	335319	335319	335319	21
+71	3.414	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	343328	335319	335319	22
+72	3.516	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	343328	335319	335319	22
+73	3.616	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	343328	335319	335319	22
+74	3.739	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	343328	335319	335319	22
+75	3.841	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	343328	335319	335319	22
+76	3.95	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	343328	335319	335319	22
+77	4.047	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	343347	335319	335319	23
+78	4.113	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	343280	335319	335319	24
+79	4.203	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	351258	335319	335319	25
+80	4.277	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	343282	335319	335319	26
+81	4.378	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	335454	335319	335319	27
+82	4.459	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	343290	335319	335319	28
+83	4.526	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	343368	335319	335319	29
+84	4.607	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	343290	335319	335319	29
+85	4.672	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	343368	335319	335319	29
+86	4.762	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	343290	335319	335319	29
+87	4.832	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	343368	335319	335319	29
+88	4.915	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	343290	335319	335319	29
+89	4.987	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	343368	335319	335319	29
+90	5.081	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	343317	335319	335319	30
+91	5.181	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	343317	335319	335319	30
+92	5.282	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	343317	335319	335319	30
+93	5.379	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	343317	335319	335319	30
+94	5.478	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	343317	335319	335319	30
+95	5.578	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	343317	335319	335319	30
+96	5.679	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	343317	335319	335319	30
+97	5.777	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	343317	335319	335319	30
+98	5.876	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	343317	335319	335319	30
+99	5.975	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	343317	335319	335319	30
+100	6.133	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	335321	335321	335319	31
+101	6.298	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	335321	335321	335319	31
+102	6.438	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	335316	335316	335316	32
+103	6.582	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	335323	335323	335316	33
+104	6.74	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	335312	335312	335312	34
+105	6.884	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	335328	335328	335312	35
+106	7.043	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	335311	335311	335311	36
+107	7.139	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	335496	335311	335311	37
+108	7.235	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	335491	335311	335311	38
+109	7.328	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	335496	335311	335311	39
+110	7.419	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	335494	335311	335311	40
+111	7.513	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	335496	335311	335311	40
+112	7.619	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	335500	335311	335311	41
+113	7.701	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	335306	335306	335306	42
+114	7.779	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	335491	335306	335306	43
+115	7.856	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	335310	335310	335306	44
+116	7.923	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353276	335310	335306	45
+117	7.983	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	351259	335310	335306	46
+118	8.079	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353288	353288	353288	47
+119	8.161	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353273	353273	353273	48
+120	8.241	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353284	353284	353273	49
+121	8.323	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353285	353285	353273	50
+122	8.403	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353283	353283	353273	51
+123	8.484	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353273	353273	353273	52
+124	8.57	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353284	353284	353273	52
+125	8.659	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353284	353284	353273	52
+126	8.748	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353285	353285	353273	52
+127	8.836	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353283	353283	353273	52
+128	8.922	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353273	353273	353273	52
+129	9.006	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353284	353284	353273	52
+130	9.11	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353280	353280	353273	53
+131	9.215	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353285	353285	353273	54
+132	9.321	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353280	353280	353273	55
+133	9.431	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353273	353273	353273	55
+134	9.531	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353280	353280	353273	55
+135	9.637	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353280	353280	353273	55
+136	9.741	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353285	353285	353273	55
+137	9.844	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353289	353289	353273	56
+138	9.952	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353285	353285	353273	56
+139	10.053	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353289	353289	353273	56
+140	10.139	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353292	353292	353273	57
+141	10.235	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353316	353316	353273	58
+142	10.329	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353317	353317	353273	59
+143	10.429	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353285	353285	353273	60
+144	10.525	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353294	353294	353273	61
+145	10.611	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353291	353291	353273	62
+146	10.704	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353299	353299	353273	63
+147	10.795	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353308	353308	353273	64
+148	10.883	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353308	353308	353273	65
+149	10.978	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353314	353314	353273	66
+150	11.028	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353289	353289	353273	67
+151	11.07	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353292	353292	353273	68
+152	11.122	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353282	353282	353273	69
+153	11.168	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353292	353292	353273	69
+154	11.217	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353282	353282	353273	69
+155	11.277	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353311	353311	353273	70
+156	11.317	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353269	353269	353269	71
+157	11.357	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353311	353311	353269	71
+158	11.398	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353269	353269	353269	71
+159	11.436	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353311	353311	353269	71
+160	11.473	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353269	353269	353269	71
+161	11.511	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353311	353311	353269	71
+162	11.553	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353311	353311	353269	71
+163	11.589	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353269	353269	353269	71
+164	11.629	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353311	353311	353269	71
+165	11.667	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353269	353269	353269	71
+166	11.707	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353311	353311	353269	71
+167	11.749	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353311	353311	353269	71
+168	11.785	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353269	353269	353269	71
+169	11.824	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353311	353311	353269	71
+170	11.862	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353269	353269	353269	71
+171	11.9	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353311	353311	353269	71
+172	11.941	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353311	353311	353269	71
+173	11.979	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353269	353269	353269	71
+174	12.008	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353308	353308	353269	72
+175	12.03	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353319	353319	353269	73
+176	12.058	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353281	353281	353269	74
+177	12.085	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353281	353281	353269	75
+178	12.111	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353319	353319	353269	76
+179	12.135	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353308	353308	353269	77
+180	12.163	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353269	353269	353269	78
+181	12.189	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353281	353281	353269	79
+182	12.218	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353308	353308	353269	79
+183	12.243	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353319	353319	353269	79
+184	12.275	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353281	353281	353269	79
+185	12.299	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353269	353269	353269	79
+186	12.325	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353308	353308	353269	79
+187	12.351	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353281	353281	353269	79
+188	12.38	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353319	353319	353269	79
+189	12.468	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353315	353315	353269	80
+190	12.561	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353279	353279	353269	81
+191	12.655	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353297	353297	353269	82
+192	12.734	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353303	353303	353269	83
+193	12.819	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353318	353318	353269	84
+194	12.909	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353297	353297	353269	84
+195	13	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353273	353273	353269	85
+196	13.057	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353307	353273	353269	86
+197	13.123	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353283	353283	353269	87
+198	13.172	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353318	353283	353269	87
+199	13.236	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353269	353269	353269	88
+200	13.284	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353304	353269	353269	89
+201	13.344	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353283	353283	353269	89
+202	13.396	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353318	353283	353269	89
+203	13.459	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353269	353269	353269	89
+204	13.507	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353304	353269	353269	89
+205	13.573	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353283	353283	353269	89
+206	13.624	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353318	353283	353269	89
+207	13.647	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	353269	353269	353269	89
+208	13.666	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	353304	353269	353269	90
+209	13.69	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	353283	353283	353269	90
+210	13.711	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	353304	353269	353269	90
+211	13.735	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Random Insert	353283	353283	353269	90
+212	13.761	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353302	353302	353269	91
+213	13.789	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353288	353288	353269	92
+214	13.813	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353270	353270	353269	93
+215	13.837	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353283	353283	353269	93
+216	13.86	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353302	353302	353269	93
+217	13.891	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353288	353288	353269	93
+218	13.914	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353270	353270	353269	93
+219	13.939	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353284	353284	353269	94
+220	13.965	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353288	353288	353269	94
+221	13.993	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353302	353302	353269	94
+222	14.023	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353268	353268	353268	95
+223	14.056	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+224	14.086	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353268	353268	353268	96
+225	14.115	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+226	14.143	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353268	353268	353268	96
+227	14.174	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+228	14.207	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+229	14.234	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353268	353268	353268	96
+230	14.266	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+231	14.294	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353268	353268	353268	96
+232	14.327	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+233	14.362	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+234	14.391	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353268	353268	353268	96
+235	14.42	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+236	14.448	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353268	353268	353268	96
+237	14.477	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+238	14.512	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+239	14.541	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353268	353268	353268	96
+240	14.57	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+241	14.601	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353268	353268	353268	96
+242	14.632	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+243	14.667	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+244	14.699	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353268	353268	353268	96
+245	14.729	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+246	14.758	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353268	353268	353268	96
+247	14.791	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+248	14.825	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+249	14.852	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353268	353268	353268	96
+250	14.882	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+251	14.909	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353268	353268	353268	96
+252	14.938	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+253	14.97	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	96
+254	14.994	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	361258	353298	353268	97
+255	15.078	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353287	353287	353268	98
+256	15.13	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353296	353296	353268	99
+257	15.198	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353271	353271	353268	100
+258	15.25	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	361273	353268	353268	101
+259	15.298	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353268	102
+260	15.373	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	103
+261	15.425	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353268	104
+262	15.472	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	361268	353270	353268	105
+263	15.52	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353268	105
+264	15.592	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353298	353298	353268	105
+265	15.642	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353268	105
+266	15.691	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	361268	353270	353268	105
+267	15.736	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353275	353275	353268	106
+268	15.791	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	361273	353268	353268	106
+269	15.835	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353268	106
+270	15.935	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353291	353291	353268	107
+271	15.975	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	361092	353291	353268	108
+272	15.999	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	109
+273	16.027	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	110
+274	16.05	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+275	16.073	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+276	16.097	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+277	16.123	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+278	16.148	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+279	16.171	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+280	16.196	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+281	16.221	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+282	16.244	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+283	16.274	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+284	16.298	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+285	16.322	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+286	16.348	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+287	16.37	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+288	16.395	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+289	16.42	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+290	16.444	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+291	16.468	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+292	16.491	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+293	16.52	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+294	16.546	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+295	16.568	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+296	16.594	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+297	16.617	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+298	16.644	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+299	16.669	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+300	16.696	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+301	16.72	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+302	16.742	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+303	16.771	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+304	16.794	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+305	16.815	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+306	16.838	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+307	16.86	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+308	16.892	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+309	16.915	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+310	16.937	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+311	16.961	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353268	111
+312	16.985	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353268	111
+313	17.077	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353303	353303	353268	112
+314	17.166	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353279	353279	353268	113
+315	17.257	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353303	353303	353268	113
+316	17.344	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353279	353279	353268	113
+317	17.432	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353303	353303	353268	113
+318	17.526	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353303	353303	353268	113
+319	17.612	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353276	353276	353268	114
+320	17.701	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353304	353304	353268	115
+321	17.786	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353276	353276	353268	116
+322	17.876	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353304	353304	353268	117
+323	17.969	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353304	353304	353268	118
+324	18.094	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353270	353270	353268	119
+325	18.187	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353276	353276	353268	120
+326	18.299	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353293	353293	353268	121
+327	18.423	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353299	353299	353268	122
+328	18.515	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353282	353282	353268	123
+329	18.613	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353286	353286	353268	124
+330	18.723	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353276	353276	353268	125
+331	18.828	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353268	353268	353268	126
+332	18.928	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353288	353288	353268	127
+333	19.017	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353286	353286	353268	128
+334	19.102	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path K-max Length Insert	353284	353284	353268	129
+335	19.184	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path K-max Length Insert	353284	353284	353268	130
+336	19.269	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path K-max Length Insert	353284	353284	353268	131
+337	19.354	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path K-max Length Insert	353284	353284	353268	131
+338	19.45	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353267	132
+339	19.54	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353267	132
+340	19.625	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353267	132
+341	19.707	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353267	132
+342	19.789	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353267	132
+343	19.872	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353307	353267	353267	133
+344	19.96	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353307	353267	353267	133
+345	20.078	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353318	353318	353267	134
+346	20.119	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353304	353304	353267	135
+347	20.16	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353322	353322	353267	136
+348	20.198	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353304	353304	353267	136
+349	20.233	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353306	353306	353267	137
+350	20.267	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353275	353275	353267	138
+351	20.302	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353306	353306	353267	138
+352	20.332	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353275	353275	353267	138
+353	20.365	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353306	353306	353267	138
+354	20.401	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353306	353306	353267	138
+355	20.437	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353275	353275	353267	138
+356	20.475	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353306	353306	353267	138
+357	20.51	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353275	353275	353267	138
+358	20.548	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353306	353306	353267	138
+359	20.584	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353306	353306	353267	138
+360	20.617	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353275	353275	353267	138
+361	20.652	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353306	353306	353267	138
+362	20.684	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353275	353275	353267	138
+363	20.722	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353306	353306	353267	138
+364	20.761	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353306	353306	353267	138
+365	20.793	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353275	353275	353267	138
+366	20.832	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353306	353306	353267	138
+367	20.867	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353275	353275	353267	138
+368	20.904	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353306	353306	353267	138
+369	20.944	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353306	353306	353267	138
+370	20.975	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353275	353275	353267	138
+371	21.046	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353269	353269	353267	139
+372	21.119	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353269	353269	353267	139
+373	21.187	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353269	353269	353267	139
+374	21.262	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	140
+375	21.334	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	140
+376	21.403	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	140
+377	21.474	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	140
+378	21.544	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	140
+379	21.613	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	140
+380	21.687	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	140
+381	21.756	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	140
+382	21.829	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	140
+383	21.904	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	140
+384	21.979	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	140
+385	22.033	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+386	22.081	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+387	22.131	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+388	22.176	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+389	22.224	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+390	22.276	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+391	22.326	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+392	22.376	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+393	22.425	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+394	22.473	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+395	22.523	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+396	22.569	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+397	22.617	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+398	22.666	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+399	22.715	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+400	22.766	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+401	22.814	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+402	22.863	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+403	22.912	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+404	22.96	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+405	23.01	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353302	353266	353266	141
+406	23.088	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353283	353266	353266	142
+407	23.164	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353291	353266	353266	143
+408	23.242	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353283	353266	353266	143
+409	23.316	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353291	353266	353266	143
+410	23.396	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353283	353266	353266	143
+411	23.47	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353291	353266	353266	143
+412	23.552	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353283	353266	353266	143
+413	23.625	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353291	353266	353266	143
+414	23.703	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353283	353266	353266	143
+415	23.783	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353291	353266	353266	143
+416	23.86	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353283	353266	353266	143
+417	23.937	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353291	353266	353266	143
+418	24.016	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	353283	353283	353266	143
+419	24.041	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353304	353304	353266	144
+420	24.071	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353301	353301	353266	145
+421	24.094	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353310	353310	353266	146
+422	24.124	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353295	353295	353266	147
+423	24.147	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353300	353300	353266	148
+424	24.177	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353313	353313	353266	149
+425	24.2	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353299	353299	353266	150
+426	24.228	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353320	353320	353266	151
+427	24.254	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353318	353318	353266	152
+428	24.284	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353301	353301	353266	153
+429	24.309	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353303	353303	353266	154
+430	24.336	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353287	353287	353266	155
+431	24.358	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353310	353310	353266	155
+432	24.387	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353294	353294	353266	156
+433	24.408	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353299	353299	353266	157
+434	24.438	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353315	353315	353266	158
+435	24.46	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353299	353299	353266	158
+436	24.492	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353320	353320	353266	158
+437	24.518	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353318	353318	353266	158
+438	24.548	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353301	353301	353266	158
+439	24.573	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353303	353303	353266	158
+440	24.602	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353287	353287	353266	158
+441	24.626	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353310	353310	353266	158
+442	24.656	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353294	353294	353266	158
+443	24.679	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353299	353299	353266	158
+444	24.712	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353315	353315	353266	158
+445	24.733	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353299	353299	353266	158
+446	24.779	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353320	353320	353266	158
+447	24.809	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353318	353318	353266	158
+448	24.839	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353301	353301	353266	158
+449	24.864	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353303	353303	353266	158
+450	24.895	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353287	353287	353266	158
+451	24.92	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353310	353310	353266	158
+452	24.949	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353294	353294	353266	158
+453	24.971	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353299	353299	353266	158
+454	24.997	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353282	353282	353266	159
+455	25.022	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+456	25.045	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+457	25.067	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+458	25.09	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+459	25.113	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+460	25.141	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+461	25.165	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+462	25.191	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+463	25.214	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+464	25.236	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+465	25.261	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+466	25.284	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+467	25.309	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+468	25.33	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+469	25.354	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+470	25.381	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+471	25.406	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+472	25.431	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+473	25.453	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+474	25.477	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+475	25.502	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+476	25.526	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+477	25.551	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+478	25.574	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+479	25.598	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+480	25.623	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+481	25.645	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+482	25.668	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+483	25.692	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+484	25.718	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+485	25.745	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+486	25.768	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+487	25.79	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+488	25.811	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+489	25.834	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+490	25.86	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+491	25.882	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+492	25.905	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+493	25.927	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	160
+494	25.951	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	160
+495	25.974	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353266	353266	160
+496	26.006	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path K-max Length Insert	353270	353266	353266	161
+497	26.087	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353267	353267	353266	162
+498	26.15	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	361083	353267	353266	163
+499	26.233	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353266	353266	353266	164
+500	26.297	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	361084	353266	353266	165
+501	26.38	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353267	353267	353266	165
+502	26.443	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	361083	353267	353266	165
+503	26.524	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353266	353266	353266	165
+504	26.589	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	361084	353266	353266	165
+505	26.676	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353267	353267	353266	165
+506	26.735	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	361083	353267	353266	165
+507	26.818	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353266	353266	353266	165
+508	26.883	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	361084	353266	353266	165
+509	26.959	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353267	353267	353266	165
+510	27.026	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	361084	353266	353266	165
+511	27.052	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353285	353285	353266	166
+512	27.083	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353291	353291	353266	167
+513	27.113	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353273	353273	353266	168
+514	27.147	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353303	353303	353266	169
+515	27.176	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353285	353285	353266	169
+516	27.21	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353291	353291	353266	169
+517	27.24	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353273	353273	353266	169
+518	27.272	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353303	353303	353266	169
+519	27.304	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353273	353273	353266	170
+520	27.334	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353285	353285	353266	170
+521	27.364	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353291	353291	353266	170
+522	27.394	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353273	353273	353266	170
+523	27.428	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353303	353303	353266	170
+524	27.461	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353273	353273	353266	170
+525	27.491	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353285	353285	353266	170
+526	27.521	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353291	353291	353266	170
+527	27.55	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353273	353273	353266	170
+528	27.58	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353303	353303	353266	170
+529	27.614	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353273	353273	353266	170
+530	27.642	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353285	353285	353266	170
+531	27.674	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353291	353291	353266	170
+532	27.704	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353273	353273	353266	170
+533	27.735	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353303	353303	353266	170
+534	27.767	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353273	353273	353266	170
+535	27.797	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353285	353285	353266	170
+536	27.829	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353291	353291	353266	170
+537	27.86	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353273	353273	353266	170
+538	27.893	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353303	353303	353266	170
+539	27.924	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353273	353273	353266	170
+540	27.953	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353285	353285	353266	170
+541	27.984	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Node-Frequency Insert	353291	353291	353266	170
+542	28.148	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353313	353313	353266	171
+543	28.296	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353308	353308	353266	172
+544	28.458	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353297	353297	353266	173
+545	28.575	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353304	353304	353266	174
+546	28.713	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353298	353298	353266	175
+547	28.855	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353288	353288	353266	176
+548	28.991	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353294	353288	353266	177
+549	29.071	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353306	353288	353266	178
+550	29.15	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353285	353266	353266	179
+551	29.228	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353294	353266	353266	180
+552	29.289	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	180
+553	29.353	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	180
+554	29.421	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353301	353266	353266	181
+555	29.489	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	361099	353266	353266	182
+556	29.554	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353291	353266	353266	183
+557	29.627	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	361105	353266	353266	184
+558	29.693	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353291	353266	353266	184
+559	29.767	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	361105	353266	353266	184
+560	29.837	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353291	353266	353266	184
+561	29.911	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	361105	353266	353266	184
+562	29.98	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353291	353291	353266	184
+563	30.057	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353285	353285	353266	185
+564	30.131	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353285	353285	353266	185
+565	30.207	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	185
+566	30.276	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	185
+567	30.344	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	185
+568	30.411	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	185
+569	30.482	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	185
+570	30.557	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	185
+571	30.628	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	185
+572	30.697	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	185
+573	30.767	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	185
+574	30.839	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	185
+575	30.915	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	185
+576	30.978	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	185
+577	31	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	186
+578	31.017	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353271	353266	187
+579	31.041	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	188
+580	31.064	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	188
+581	31.086	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	189
+582	31.107	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+583	31.128	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+584	31.145	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+585	31.168	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+586	31.186	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+587	31.21	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+588	31.23	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+589	31.25	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+590	31.269	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+591	31.294	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+592	31.312	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+593	31.333	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+594	31.354	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+595	31.377	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+596	31.394	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+597	31.414	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+598	31.432	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+599	31.453	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+600	31.473	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+601	31.497	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+602	31.516	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+603	31.537	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+604	31.556	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+605	31.579	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+606	31.596	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+607	31.616	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+608	31.633	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+609	31.655	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+610	31.675	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+611	31.697	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+612	31.716	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+613	31.738	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+614	31.755	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+615	31.778	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+616	31.799	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+617	31.821	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+618	31.836	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+619	31.856	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+620	31.878	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+621	31.902	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+622	31.921	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353267	353267	353266	190
+623	31.942	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+624	31.958	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353266	353266	353266	190
+625	31.978	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path K-max Length Insert	353271	353266	353266	191
+626	32.061	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353283	353266	353266	192
+627	32.136	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353299	353266	353266	193
+628	32.216	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353283	353266	353266	193
+629	32.288	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353301	353266	353266	194
+630	32.368	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353283	353266	353266	194
+631	32.45	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353301	353266	353266	194
+632	32.533	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353283	353266	353266	194
+633	32.617	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353301	353266	353266	194
+634	32.702	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353283	353266	353266	194
+635	32.781	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353301	353266	353266	194
+636	32.858	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353283	353266	353266	194
+637	32.936	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353301	353266	353266	194
+638	33.019	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353283	353283	353266	194
+639	33.06	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353288	353288	353266	195
+640	33.113	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353315	353315	353266	196
+641	33.169	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353278	353278	353266	197
+642	33.222	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353315	353315	353266	197
+643	33.277	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353278	353278	353266	197
+644	33.336	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353315	353315	353266	197
+645	33.388	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353315	353315	353266	197
+646	33.444	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353278	353278	353266	197
+647	33.51	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353315	353315	353266	197
+648	33.563	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353278	353278	353266	197
+649	33.623	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353315	353315	353266	197
+650	33.674	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353315	353315	353266	197
+651	33.723	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353278	353278	353266	197
+652	33.775	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353315	353315	353266	197
+653	33.826	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353278	353278	353266	197
+654	33.876	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353315	353315	353266	197
+655	33.936	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353315	353315	353266	197
+656	33.985	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353278	353278	353266	197
+657	34.043	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353315	353315	353266	198
+658	34.139	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353314	353314	353266	199
+659	34.2	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353312	353312	353266	200
+660	34.249	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353312	353266	353266	201
+661	34.317	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353285	353285	353266	202
+662	34.376	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	353318	353318	353266	202
+663	34.43	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	361288	353318	353266	203
+664	34.518	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Random Insert	353332	353332	353266	204
+665	34.612	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Random Insert	353303	353303	353266	205
+666	34.703	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Random Insert	353328	353328	353266	206
+667	34.801	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Random Insert	353294	353294	353266	207
+668	34.897	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Random Insert	353289	353289	353266	208
+669	34.989	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Random Insert	353288	353288	353266	209
+670	35.066	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353271	353266	353266	210
+671	35.083	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353279	353266	353266	211
+672	35.11	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353303	353266	353266	212
+673	35.127	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353279	353266	353266	212
+674	35.153	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353303	353266	353266	212
+675	35.171	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	213
+676	35.195	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+677	35.212	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+678	35.239	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+679	35.255	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+680	35.282	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+681	35.298	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+682	35.321	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+683	35.336	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+684	35.36	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+685	35.379	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+686	35.402	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+687	35.418	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+688	35.443	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+689	35.459	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+690	35.483	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+691	35.498	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+692	35.522	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+693	35.54	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+694	35.563	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+695	35.582	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+696	35.608	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+697	35.623	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+698	35.652	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+699	35.67	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+700	35.695	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+701	35.712	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+702	35.737	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+703	35.752	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+704	35.775	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+705	35.794	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+706	35.819	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+707	35.838	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+708	35.862	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+709	35.879	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+710	35.904	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+711	35.92	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+712	35.945	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353266	353266	214
+713	35.962	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353266	353266	214
+714	35.99	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353293	353293	353266	214
+715	36.077	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353303	353303	353266	215
+716	36.175	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353290	353290	353266	216
+717	36.274	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353303	353303	353266	216
+718	36.375	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353290	353290	353266	216
+719	36.468	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353303	353303	353266	216
+720	36.56	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353303	353303	353266	216
+721	36.661	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353290	353290	353266	216
+722	36.756	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353303	353303	353266	216
+723	36.855	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353290	353290	353266	216
+724	36.952	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353303	353303	353266	216
+725	37.038	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353282	353282	353266	217
+726	37.111	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353285	353285	353266	218
+727	37.176	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353278	353278	353266	219
+728	37.242	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353267	353267	353266	220
+729	37.298	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	361268	353267	353266	221
+730	37.38	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353268	353268	353266	221
+731	37.426	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	361083	353268	353266	222
+732	37.504	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353266	353266	353266	222
+733	37.545	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	361083	353266	353266	223
+734	37.627	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353268	353268	353266	223
+735	37.669	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	361083	353266	353266	223
+736	37.751	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353268	353268	353266	223
+737	37.798	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	361083	353268	353266	223
+738	37.873	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353266	353266	353266	223
+739	37.916	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	361083	353266	353266	223
+740	38.004	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	353268	353268	353266	223
+741	38.023	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Random Insert	353295	353268	353266	224
+742	38.094	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	225
+743	38.164	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	225
+744	38.233	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	225
+745	38.302	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	225
+746	38.367	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	225
+747	38.432	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	225
+748	38.498	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	225
+749	38.57	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	225
+750	38.643	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	225
+751	38.711	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	225
+752	38.784	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	225
+753	38.851	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	225
+754	38.914	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	225
+755	38.983	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	225
+756	39.094	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353290	353290	353266	226
+757	39.222	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353291	353291	353266	227
+758	39.343	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353290	353290	353266	227
+759	39.472	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353291	353291	353266	227
+760	39.586	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353290	353290	353266	228
+761	39.727	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353303	353303	353266	229
+762	39.875	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353294	353294	353266	230
+763	40.006	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353303	353303	353266	230
+764	40.092	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353284	353284	353266	231
+765	40.17	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353277	353277	353266	232
+766	40.255	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353305	353305	353266	233
+767	40.345	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353298	353298	353266	234
+768	40.433	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353298	353298	353266	235
+769	40.528	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353296	353296	353266	236
+770	40.609	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353301	353301	353266	237
+771	40.693	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353318	353318	353266	238
+772	40.784	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353297	353297	353266	239
+773	40.872	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353299	353299	353266	240
+774	40.97	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353302	353302	353266	241
+775	41.084	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353297	353266	353266	242
+776	41.206	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353305	353266	353266	243
+777	41.328	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	353305	353266	353266	243
+778	41.451	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353304	353266	353266	244
+779	41.566	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353304	353266	353266	244
+780	41.686	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353304	353266	353266	244
+781	41.807	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353304	353266	353266	244
+782	41.921	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353304	353266	353266	244
+783	42.043	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	353304	353304	353266	244
+784	42.067	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353305	353305	353266	245
+785	42.095	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353278	353278	353266	246
+786	42.116	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353306	353306	353266	247
+787	42.147	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353314	353314	353266	248
+788	42.174	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353291	353291	353266	249
+789	42.203	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353282	353282	353266	250
+790	42.223	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353294	353294	353266	251
+791	42.246	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353306	353306	353266	251
+792	42.268	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353282	353282	353266	252
+793	42.301	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353298	353298	353266	253
+794	42.325	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353293	353293	353266	254
+795	42.351	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353278	353278	353266	254
+796	42.377	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353306	353306	353266	254
+797	42.408	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353314	353314	353266	254
+798	42.432	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353291	353291	353266	254
+799	42.46	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353282	353282	353266	254
+800	42.482	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353294	353294	353266	254
+801	42.506	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353306	353306	353266	254
+802	42.528	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353282	353282	353266	254
+803	42.558	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353298	353298	353266	254
+804	42.584	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353293	353293	353266	254
+805	42.615	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353278	353278	353266	254
+806	42.639	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353306	353306	353266	254
+807	42.668	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353314	353314	353266	254
+808	42.692	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353291	353291	353266	254
+809	42.721	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353282	353282	353266	254
+810	42.742	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353294	353294	353266	254
+811	42.767	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353306	353306	353266	254
+812	42.788	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353282	353282	353266	254
+813	42.822	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353298	353298	353266	254
+814	42.847	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353293	353293	353266	254
+815	42.877	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353278	353278	353266	254
+816	42.908	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353306	353306	353266	254
+817	42.942	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353314	353314	353266	254
+818	42.971	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	353291	353291	353266	254
+819	43.129	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353280	353280	353266	255
+820	43.255	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353284	353284	353266	256
+821	43.369	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353294	353294	353266	257
+822	43.491	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353280	353280	353266	258
+823	43.624	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353291	353291	353266	259
+824	43.767	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353305	353305	353266	260
+825	43.876	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353276	353276	353266	261
+826	43.996	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353282	353282	353266	262
+827	44.079	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Random Insert	353312	353282	353266	263
+828	44.153	pathfirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Random Insert	353312	353282	353266	263
+829	44.237	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353312	353282	353266	263
+830	44.297	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	264
+831	44.353	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	264
+832	44.415	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	264
+833	44.468	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	264
+834	44.527	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	264
+835	44.583	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	264
+836	44.639	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	264
+837	44.695	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	264
+838	44.751	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	264
+839	44.805	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	264
+840	44.868	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	264
+841	44.922	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	264
+842	44.991	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353319	353319	353266	264
+843	45.089	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353296	353296	353266	265
+844	45.18	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353310	353310	353266	266
+845	45.262	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353307	353307	353266	267
+846	45.348	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353320	353320	353266	268
+847	45.449	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353280	353280	353266	269
+848	45.541	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353293	353293	353266	270
+849	45.629	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353307	353307	353266	270
+850	45.704	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353278	353278	353266	271
+851	45.797	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353310	353310	353266	272
+852	45.89	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353303	353303	353266	273
+853	45.981	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353306	353306	353266	274
+854	46.005	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353297	353297	353266	275
+855	46.04	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353331	353266	353266	276
+856	46.069	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Random Insert	353331	353266	353266	276
+857	46.095	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	276
+858	46.122	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	276
+859	46.148	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	276
+860	46.176	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Random Insert	353319	353266	353266	276
+861	46.206	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+862	46.236	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+863	46.267	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+864	46.298	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+865	46.331	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+866	46.361	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+867	46.391	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+868	46.421	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+869	46.451	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+870	46.482	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+871	46.512	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+872	46.542	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+873	46.578	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+874	46.611	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+875	46.646	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+876	46.675	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+877	46.707	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+878	46.74	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+879	46.773	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+880	46.807	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+881	46.836	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+882	46.864	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+883	46.894	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+884	46.926	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+885	46.959	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+886	46.987	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	353320	353266	353266	277
+887	47.066	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353266	278
+888	47.151	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353266	279
+889	47.235	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353266	279
+890	47.325	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353266	279
+891	47.411	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353266	279
+892	47.502	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353266	279
+893	47.588	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353266	279
+894	47.669	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353266	279
+895	47.755	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353266	279
+896	47.839	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353266	279
+897	47.927	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353266	279
+898	48.019	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353266	279
+899	48.094	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353282	353282	353266	280
+900	48.165	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353302	353302	353266	281
+901	48.252	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	361114	353302	353266	282
+902	48.328	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353279	353279	353266	283
+903	48.393	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	361100	353279	353266	284
+904	48.482	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353302	353302	353266	284
+905	48.536	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	361100	353266	353266	285
+906	48.62	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353290	353290	353266	286
+907	48.69	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	361114	353290	353266	286
+908	48.764	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353267	353267	353266	287
+909	48.826	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	361101	353267	353266	288
+910	48.921	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353290	353290	353266	288
+911	48.995	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	361114	353290	353266	288
+912	49.083	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	289
+913	49.17	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	290
+914	49.251	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	290
+915	49.335	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	291
+916	49.421	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	292
+917	49.503	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	292
+918	49.589	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	292
+919	49.669	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	292
+920	49.75	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	292
+921	49.835	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	292
+922	49.923	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	292
+923	50.003	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	292
+924	50.107	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353266	353266	353266	293
+925	50.201	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	294
+926	50.304	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353266	353266	353266	295
+927	50.396	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	295
+928	50.495	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353266	353266	353266	295
+929	50.591	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	295
+930	50.685	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	295
+931	50.786	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353266	353266	353266	295
+932	50.88	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	295
+933	50.974	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353266	353266	353266	295
+934	51.059	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353297	353297	353266	296
+935	51.13	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353283	353283	353266	297
+936	51.219	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	353314	353314	353266	298
+937	51.309	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353286	353286	353266	299
+938	51.4	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353290	353290	353266	300
+939	51.486	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353290	353290	353266	301
+940	51.559	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353279	353279	353266	302
+941	51.646	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353315	353315	353266	303
+942	51.734	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353290	353290	353266	304
+943	51.824	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353290	353290	353266	304
+944	51.905	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353283	353283	353266	305
+945	51.985	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353298	353298	353266	306
+946	52.104	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path K-max Length Insert	353319	353319	353266	307
+947	52.239	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353285	353285	353266	308
+948	52.355	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353312	353312	353266	309
+949	52.488	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353285	353285	353266	309
+950	52.608	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353282	353282	353266	310
+951	52.75	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353294	353294	353266	311
+952	52.911	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353282	353282	353266	311
+953	53.055	nodefirst	Node Random Removal	Node Random Insert	Path Cardinality Removal	Path Node-Frequency Insert	353294	353294	353266	311
+954	53.169	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353289	353289	353266	312
+955	53.258	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353299	353266	353266	313
+956	53.35	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	353267	353267	353266	314
+957	53.449	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353293	353267	353266	315
+958	53.534	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353283	353267	353266	316
+959	53.633	nodefirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Node-Frequency Insert	353288	353267	353266	317
+960	53.69	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353305	353266	353266	318
+961	53.772	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353286	353266	353266	319
+962	53.83	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353305	353266	353266	319
+963	53.907	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353286	353266	353266	319
+964	53.964	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353305	353266	353266	319
+965	54.052	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	353286	353286	353266	319
+966	54.183	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353286	353286	353266	319
+967	54.312	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353286	353286	353266	319
+968	54.44	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353286	353286	353266	319
+969	54.569	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353286	353286	353266	319
+970	54.668	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	319
+971	54.768	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	319
+972	54.869	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	319
+973	54.967	nodefirst	Node Random Removal	Node Random Insert	pathNullDestroy	pathNullRepair	353266	353266	353266	319
+974	55.015	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+975	55.06	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+976	55.111	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+977	55.162	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+978	55.21	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+979	55.253	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+980	55.303	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+981	55.35	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+982	55.396	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+983	55.443	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+984	55.49	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+985	55.537	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+986	55.583	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+987	55.63	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+988	55.677	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+989	55.723	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+990	55.771	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+991	55.817	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+992	55.862	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+993	55.91	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+994	55.957	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353332	353266	353266	320
+995	56.031	pathfirst	Node Random Removal	Node Random Insert	Path Random Removal	Path Random Insert	353304	353266	353266	321
+996	56.127	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353266	353266	353266	321
+997	56.228	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353268	353268	353266	322
+998	56.346	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353266	323
+999	56.464	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353266	324
+1000	56.569	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353266	325
+1001	56.687	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353271	353271	353266	326
+1002	56.799	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353267	353267	353266	327
+1003	56.912	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353266	353266	353266	327
+1004	57.018	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	353270	353270	353266	327
+1005	57.056	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	328
+1006	57.092	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353275	353275	353266	329
+1007	57.13	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1008	57.161	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353275	353275	353266	329
+1009	57.194	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1010	57.23	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1011	57.262	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353275	353275	353266	329
+1012	57.301	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1013	57.335	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353275	353275	353266	329
+1014	57.368	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1015	57.405	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1016	57.442	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353275	353275	353266	329
+1017	57.479	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1018	57.515	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353275	353275	353266	329
+1019	57.553	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1020	57.59	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1021	57.623	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353275	353275	353266	329
+1022	57.658	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1023	57.69	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353275	353275	353266	329
+1024	57.728	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1025	57.764	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1026	57.796	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353275	353275	353266	329
+1027	57.833	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1028	57.866	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353275	353275	353266	329
+1029	57.901	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1030	57.938	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353299	353299	353266	329
+1031	57.971	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353275	353275	353266	329
+1032	58.008	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353304	353304	353266	330
+1033	58.043	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353283	353283	353266	331
+1034	58.082	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353304	353304	353266	331
+1035	58.119	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353304	353304	353266	331
+1036	58.156	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353283	353283	353266	331
+1037	58.193	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353304	353304	353266	331
+1038	58.228	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353283	353283	353266	331
+1039	58.266	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353304	353304	353266	331
+1040	58.301	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	353304	353304	353266	331
+1041	58.337	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353278	353278	353266	332
+1042	58.376	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353304	353304	353266	332
+1043	58.413	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353278	353278	353266	332
+1044	58.458	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353304	353304	353266	332
+1045	58.496	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353303	353303	353266	333
+1046	58.531	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353278	353278	353266	334
+1047	58.566	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353303	353303	353266	334
+1048	58.605	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353278	353278	353266	334
+1049	58.643	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353303	353303	353266	334
+1050	58.678	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353303	353303	353266	334
+1051	58.711	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353278	353278	353266	334
+1052	58.747	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353303	353303	353266	334
+1053	58.781	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353278	353278	353266	334
+1054	58.816	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353303	353303	353266	334
+1055	58.85	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353303	353303	353266	334
+1056	58.884	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353278	353278	353266	334
+1057	58.92	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353303	353303	353266	334
+1058	58.955	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353278	353278	353266	334
+1059	58.981	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	353270	353270	353266	335
+1060	59.009	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path K-max Length Insert	353271	353271	353266	336
+1061	59.025	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path K-max Length Insert	353271	353271	353266	337
+1062	59.047	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path K-max Length Insert	353266	353266	353266	338
+1063	59.064	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path K-max Length Insert	353266	353266	353266	339
+1064	59.086	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path K-max Length Insert	353270	353270	353266	340
+1065	59.107	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path K-max Length Insert	353267	353267	353266	341
+1066	59.128	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path K-max Length Insert	353271	353271	353266	341
+1067	59.15	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path K-max Length Insert	353270	353270	353266	342
+1068	59.172	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path K-max Length Insert	353266	353266	353266	342
+1069	59.189	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path K-max Length Insert	353267	353267	353266	342
+1070	59.212	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path K-max Length Insert	353270	353270	353266	342
+1071	59.232	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path K-max Length Insert	353271	353271	353266	342
+1072	59.252	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353266	342
+1073	59.269	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353266	353266	353266	342
+1074	59.292	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353270	353270	353266	343
+1075	59.31	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353266	343
+1076	59.33	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353271	353271	353266	343
+1077	59.349	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353270	353270	353266	343
+1078	59.373	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353266	353266	353266	343
+1079	59.392	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353266	343
+1080	59.416	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353270	353270	353266	343
+1081	59.436	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353271	353271	353266	343
+1082	59.454	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353266	343
+1083	59.472	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353266	353266	353266	343
+1084	59.494	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353270	353270	353266	343
+1085	59.514	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353266	343
+1086	59.535	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353271	353271	353266	343
+1087	59.553	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353270	353270	353266	343
+1088	59.574	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353266	353266	353266	343
+1089	59.591	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353266	343
+1090	59.614	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353270	353270	353266	343
+1091	59.633	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353271	353271	353266	343
+1092	59.653	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353266	343
+1093	59.671	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353266	353266	353266	343
+1094	59.694	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353270	353270	353266	343
+1095	59.714	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353266	343
+1096	59.734	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353271	353271	353266	343
+1097	59.755	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353270	353270	353266	343
+1098	59.775	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353266	353266	353266	343
+1099	59.792	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353266	343
+1100	59.816	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353270	353270	353266	343
+1101	59.835	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353271	353271	353266	343
+1102	59.855	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353266	343
+1103	59.873	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353266	353266	353266	343
+1104	59.894	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353270	353270	353266	343
+1105	59.912	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353267	353267	353266	343
+1106	59.935	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353271	353271	353266	343
+1107	59.957	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353270	353270	353266	343
+1108	59.978	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path K-max Length Insert	353266	353266	353266	343
+1109	60.043	pathfirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path K-max Length Insert	353319	353319	353266	344

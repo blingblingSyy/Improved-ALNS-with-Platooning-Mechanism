@@ -1,14 +1,17 @@
-The column information of the Li_Lim_Benchmark is as follows:
+The column information of the dataset is as follows:
 - Line 1: 
-    * Number of Vehicles; 
-    * Vehicle Capacity; 
+    * Number of Passenger-type Vehicles; 
+    * Number of Freight-type Vehicles; 
+    * Passenger-type Vehicle Capacity
+    * Freight-type Vehicle Capacity
     * Speed;
 - from Line 2 to the end: 
-    * Task No.; 
+    * Request No.; 
     * X (coordinate); 
     * Y (coordinate); 
-    * Demand; 
+    * Demand (positive numbers indicate pickup requests, while negative numbers indicate delivery requests); 
     * Earliest pickup/delivery time; 
     * Latest pickup/delivery time; 
-    * Service Time; Pickup(index to sibling); 
-    * Delivery(index to sibling)
+    * Service Time; 
+    * Node type (0 for passenger-type nodes; 1 for freight-type nodes; 2 for other types of nodes, such as depots, intersections, etc.)
+

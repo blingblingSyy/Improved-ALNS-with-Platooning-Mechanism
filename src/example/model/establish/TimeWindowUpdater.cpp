@@ -327,7 +327,7 @@ int TimeWindowUpdater::calActualWaitTimePerNode(int nodepos, int arrtime_pos, in
         int servetime_thisnode = st_inroute[nodepos];
         int wait_beforeserve = max(0, earliest_servicetime - arrtime_pos);
         int wait_afterserve = deptime_pos - (max(arrtime_pos, earliest_servicetime) + servetime_thisnode);
-        wait_thisnode = wait_afterserve + wait_afterserve;
+        wait_thisnode = wait_beforeserve + wait_afterserve;
     }
     else //bypassed node without service time window and service time
     {

@@ -50,7 +50,7 @@ vector<double> Path_AvgLen_Removal::calMeasurement(VRPSolution& vrpsol, vector<t
             }
             else
             {
-                destroyable_arc_len.push_back(calAverage(dist_diff_i) * r.get_rflt(0.9, 1));
+                destroyable_arc_len.push_back(calAverage(dist_diff_i) * r.get_rflt(0.9, 1.1));
             }
         }
     }

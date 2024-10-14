@@ -307,7 +307,7 @@ vector<int> ARoute::setRouteLoadByInsertNode(int insert_pos, int insert_nodeid)
         route_load_copy[0] = route_load[0] - insert_nodedmd;
         for(int i = 1; i < insert_pos; i++)
         {
-            route_load_copy[i] = route_load_copy[i-1] + nodeset->getNodeDemand(route_load_copy[i]);
+            route_load_copy[i] = route_load_copy[i-1] + nodeset->getNodeDemand(compact_route[i]);
         }
     }
     else //pickup node
@@ -315,7 +315,7 @@ vector<int> ARoute::setRouteLoadByInsertNode(int insert_pos, int insert_nodeid)
         route_load_copy[insert_pos] += insert_nodedmd;
         for(int i = insert_pos+1; i < route_load_copy.size(); i++)
         {
-            route_load_copy[i] = route_load_copy[i-1] + nodeset->getNodeDemand(route_load_copy[i]);
+            route_load_copy[i] = route_load_copy[i-1] + nodeset->getNodeDemand(compact_route[i-1]);
         }
     }
     return route_load_copy;
@@ -400,7 +400,7 @@ vector<int> ARoute::setRouteLoadByRemoveNode(int remove_pos)
         route_load_copy[0] = route_load[0] + remove_nodedmd;
         for(int i = 1; i < remove_pos; i++)
         {
-            route_load_copy[i] = route_load_copy[i-1] + nodeset->getNodeDemand(route_load_copy[i]);
+            route_load_copy[i] = route_load_copy[i-1] + nodeset->getNodeDemand(compact_route[i]);
         }
     }
     else //pickup node
@@ -408,7 +408,7 @@ vector<int> ARoute::setRouteLoadByRemoveNode(int remove_pos)
         route_load_copy[remove_pos] -= remove_nodedmd;
         for(int i = remove_pos+1; i < route_load_copy.size(); i++)
         {
-            route_load_copy[i] = route_load_copy[i-1] + nodeset->getNodeDemand(route_load_copy[i]);
+            route_load_copy[i] = route_load_copy[i-1] + nodeset->getNodeDemand(compact_route[i+1]);
         }
     }
     return route_load_copy;
@@ -531,29 +531,36 @@ void ARoute::evaluateRouteByInsertNode(int insert_pos, int insert_nodeid)
     assert(vehid != -1);
     if(nodeset->getNodeType(insert_nodeid) == vehtype || nodeset->getNodeType(insert_nodeid) == 2)
     {
+        bool LinkFeas, TimeFeas, LoadFeas, DistFeas;
         //veh_id and veh_type unchanged
         vector<int> compact_route1 = insertNodeIntoCompactRoute(insert_pos, insert_nodeid);
-        vector<int> extended_route1 = setExtendRouteByInsertNode(insert_pos, insert_nodeid);
-        vector<int> node_labels1 = setNodeLabelsByInsertNode(insert_pos, insert_nodeid);
-        vector<int> route_load1 = setRouteLoadByInsertNode(insert_pos, insert_nodeid);
-        vector<double> route_mileage1 = setRouteMileageByInsertNode(insert_pos, insert_nodeid);
-        
-        TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
-        twupdater.calRouteExpectedTW();
-        
-        bool TimeFeas = twupdater.isRouteTimeFeas();
-        bool LoadFeas = isLoadFeas(route_load1);
-        bool DistFeas = isDistFeas(route_mileage1[route_mileage1.size()-1]);
-        bool LinkFeas = isLinkFeas(insert_pos-1, compact_route1) && isLinkFeas(insert_pos, compact_route1);
-
-        if(TimeFeas && LoadFeas && DistFeas&& LinkFeas)
+        LinkFeas = isLinkFeas(insert_pos-1, compact_route1) && isLinkFeas(insert_pos, compact_route1);
+        if(LinkFeas)
         {
-            nodeInsertionCosts = route_mileage1[route_mileage1.size()-1] - this->route_mileage[route_mileage.size()-1];
+            vector<int> extended_route1 = setExtendRouteByInsertNode(insert_pos, insert_nodeid);
+            vector<int> node_labels1 = setNodeLabelsByInsertNode(insert_pos, insert_nodeid);
+            TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
+            twupdater.calRouteExpectedTW();
+            TimeFeas = twupdater.isRouteTimeFeas();
+
+            vector<int> route_load1 = setRouteLoadByInsertNode(insert_pos, insert_nodeid);
+            LoadFeas = isLoadFeas(route_load1);
+            
+            vector<double> route_mileage1 = setRouteMileageByInsertNode(insert_pos, insert_nodeid);
+            DistFeas = isDistFeas(route_mileage1[route_mileage1.size()-1]);
+            if(TimeFeas && LoadFeas && DistFeas && LinkFeas)
+            {
+                nodeInsertionCosts = route_mileage1[route_mileage1.size()-1] - this->route_mileage[route_mileage.size()-1];
+            }
+            else
+            {
+                nodeInsertionCosts = INF;
+            }   
         }
         else
         {
             nodeInsertionCosts = INF;
-        }   
+        }
     }
     else
     {
@@ -592,25 +599,33 @@ void ARoute::setRouteByInsertNode(int insert_pos, int insert_nodeid)
 
 void ARoute::evaluateRouteByRemoveNode(int remove_pos)
 {
-    assert(vehid != -1);
+    // assert(vehid != -1);
     //veh_id and veh_type unchanged
+     bool LinkFeas, TimeFeas;
     vector<int> compact_route1 = removeNodeFromCompactRoute(remove_pos);
-    vector<int> extended_route1 = setExtendRouteByRemoveNode(remove_pos);
-    vector<int> node_labels1 = setNodeLabelsByRemoveNode(remove_pos);
-    vector<int> route_load1 = setRouteLoadByRemoveNode(remove_pos);
-    vector<double> route_mileage1 = setRouteMileageByRemoveNode(remove_pos);
-
-    TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
-    twupdater.calRouteExpectedTW();
-    bool TimeFeas = twupdater.isRouteTimeFeas();
-    bool LoadFeas = true; // isLoadFeas(route_load1);
-    bool DistFeas = true; // isDistFeas(route_mileage1[route_mileage1.size()-1]);
-    bool LinkFeas = isLinkFeas(remove_pos-1, compact_route1);
-
-    if(TimeFeas && LoadFeas && DistFeas&& LinkFeas)
+    LinkFeas = isLinkFeas(remove_pos-1, compact_route1);
+    if(LinkFeas)
     {
-        nodeRemovalCosts = route_mileage1[route_mileage1.size()-1] - this->route_mileage[route_mileage.size()-1];
-    } //the nodeRemovalCosts is negative: after removal costs - before removal costs
+        vector<int> extended_route1 = setExtendRouteByRemoveNode(remove_pos);
+        vector<int> node_labels1 = setNodeLabelsByRemoveNode(remove_pos);
+        vector<int> route_load1 = setRouteLoadByRemoveNode(remove_pos);
+        vector<double> route_mileage1 = setRouteMileageByRemoveNode(remove_pos);
+
+        TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
+        twupdater.calRouteExpectedTW();
+        bool TimeFeas = twupdater.isRouteTimeFeas();
+        // bool LoadFeas = true; // isLoadFeas(route_load1);
+        // bool DistFeas = true; // isDistFeas(route_mileage1[route_mileage1.size()-1]);
+
+        if(TimeFeas && LinkFeas)
+        {
+            nodeRemovalCosts = route_mileage1[route_mileage1.size()-1] - this->route_mileage[route_mileage.size()-1];
+        } //the nodeRemovalCosts is negative: after removal costs - before removal costs
+        else
+        {
+            nodeRemovalCosts = INF;
+        }
+    }
     else
     {
         nodeRemovalCosts = INF;
@@ -648,23 +663,31 @@ void ARoute::setRouteByRemoveNode(int remove_pos)
 
 void ARoute::evaluateRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
 {
-    assert(vehid != -1);
+    // assert(vehid != -1);
     //veh_id and veh_type unchanged
-    vector<int> extended_route1 = setExtendRouteByModifyUsedPath(modified_arcpos, used_path_id);
-    vector<int> node_labels1 = setNodeLabelsByModifyUsedPath(modified_arcpos, used_path_id);
-    vector<double> route_mileage1 = setRouteMileageByModifyUsedPath(modified_arcpos, used_path_id);
-
-    TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
-    twupdater.calRouteExpectedTW();
-    bool TimeFeas = twupdater.isRouteTimeFeas();
-    bool LoadFeas = true; // isLoadFeas(route_load);
-    bool DistFeas = isDistFeas(route_mileage1[route_mileage1.size()-1]);
-    bool LinkFeas = isLinkFeas(modified_arcpos, compact_route);
-
-    if(TimeFeas && LoadFeas && DistFeas&& LinkFeas)
+    bool LinkFeas, TimeFeas, DistFeas;
+    LinkFeas = isLinkFeas(modified_arcpos, compact_route);
+    if(LinkFeas)
     {
-        pathModificationCosts = route_mileage1[route_mileage1.size()-1] - this->route_mileage[route_mileage.size()-1];
-    } //the pathModificationCosts may be positive or negative
+        vector<int> extended_route1 = setExtendRouteByModifyUsedPath(modified_arcpos, used_path_id);
+        vector<int> node_labels1 = setNodeLabelsByModifyUsedPath(modified_arcpos, used_path_id);
+        vector<double> route_mileage1 = setRouteMileageByModifyUsedPath(modified_arcpos, used_path_id);
+
+        TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
+        twupdater.calRouteExpectedTW();
+        bool TimeFeas = twupdater.isRouteTimeFeas();
+        // bool LoadFeas = true; // isLoadFeas(route_load);
+        bool DistFeas = isDistFeas(route_mileage1[route_mileage1.size()-1]);
+
+        if(TimeFeas && DistFeas&& LinkFeas)
+        {
+            pathModificationCosts = route_mileage1[route_mileage1.size()-1] - this->route_mileage[route_mileage.size()-1];
+        } //the pathModificationCosts may be positive or negative
+        else
+        {
+            pathModificationCosts = INF;
+        }
+    }
     else
     {
         pathModificationCosts = INF;

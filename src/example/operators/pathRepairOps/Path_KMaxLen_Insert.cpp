@@ -35,7 +35,12 @@ vector<int> Path_KMaxLen_Insert::sortMeasurement(VRPSolution& vrpsol, vector<int
     }
     else
     {
-        sort(indices.begin(), indices.end(), [&](int A, int B) -> bool {return avail_path_set_at_arc[A]->getDist() * r.get_rflt(0.9, 1) > avail_path_set_at_arc[B]->getDist() * r.get_rflt(0.9, 1);});
+        vector<double> dist_vec;
+        for(int id: indices)
+        {
+            dist_vec.push_back(avail_path_set_at_arc[id]->getDist() * r.get_rflt(0.9, 1));
+        }
+        sortVec(indices, dist_vec, true);
     }
     return indices;
 }

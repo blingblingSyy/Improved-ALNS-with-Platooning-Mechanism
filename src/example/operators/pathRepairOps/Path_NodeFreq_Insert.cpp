@@ -58,7 +58,7 @@ vector<int> Path_NodeFreq_Insert::sortMeasurement(VRPSolution& vrpsol, vector<in
         }
         else
         {
-            path_avg_nodefreq.push_back(0);
+            path_avg_nodefreq.push_back(-1);
         }
     }
     vector<int> indices(avail_path_set_it.size());
