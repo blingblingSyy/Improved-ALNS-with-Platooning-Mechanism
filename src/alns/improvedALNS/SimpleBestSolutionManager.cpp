@@ -23,6 +23,10 @@ bool SimpleBestSolutionManager::isNewBestSolution(ISolution& sol)
 	for(list<ISolution*>::iterator it = bestSols.begin(); it != bestSols.end();) //it++
 	{
 		ISolution& currentSol = *(*it);
+		cout << "current solution: " << currentSol.getObjectiveValue() << "\t";
+		cout << "feasibility: " << currentSol.isFeasible() << endl;
+		cout << "new solution: " << sol.getObjectiveValue() << "\t";
+		cout << "feasibility: " << sol.isFeasible() << endl;
 		if(currentSol < sol) //! not better
 		{
 			return false;

@@ -327,11 +327,11 @@ void RawInstance::designVehInfo()
     {
         if(nodetypes[i] == 0)
         {
-            pas_dmd += demands[i];
+            pas_dmd += abs(demands[i]);
         }
         else if(nodetypes[i] == 1)
         {
-            fre_dmd += demands[i];
+            fre_dmd += abs(demands[i]);
         }
     }
     pas_vehnum = int(ceil(pas_dmd * 1.0 / VCAP_0));

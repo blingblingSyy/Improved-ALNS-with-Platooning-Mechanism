@@ -1,5 +1,5 @@
 Instance name: 50_cluster_even_1
-Algorithm Stage: initial_solution
+Algorithm Stage: alns_solution_wo_noise
 
 solution feasibility: 1
 total objective value: 378910
@@ -8,7 +8,7 @@ total energy-related distance cost: 81.9146
 total trip duration: 91
 total unserved passenger requests: 25
 total unserved freight requests: 16
-CPU time: 0.3
+CPU time: 30.057
 
 * All routes:
 vehicle id: 14  vehicle type: 1

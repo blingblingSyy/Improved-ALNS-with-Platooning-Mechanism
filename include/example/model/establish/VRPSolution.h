@@ -150,12 +150,15 @@ class VRPSolution: public ISolution
         int& getTotalUnservedRequests(int type = 2);
 
         //! a simple getter
+        // vector<vector<int>>& getNonInsertedNodes() {return nonInsertedNodes;};
         vector<int>& getNonInsertedNodes() {return nonInsertedNodes;};
 
         //! a simple getter
+        // int getTotalServedCusNum() {return static_cast<int>(nodeset->getCusNum() - nonInsertedNodes[0].size() - nonInsertedNodes[1].size());};
         int getTotalServedCusNum() {return static_cast<int>(nodeset->getCusNum() - nonInsertedNodes.size());};
 
         //! a simple getter
+        // vector<vector<int>>& getNonUsedVehs() {return nonUsedVehs;};
         vector<int>& getNonUsedVehs() {return nonUsedVehs;};
 
         //! a simple getter: {{destroyed_arcpos, destroyed_pathid, routeid}, ...}
@@ -228,11 +231,13 @@ class VRPSolution: public ISolution
         //! the current operation to the solution
         SolOperationKind solCurOpt;
 
-        //! the customers that has not been inserted
+        //! the customers that has not been inserted -> distinguish between passenger-type and freight-type
         vector<int> nonInsertedNodes;
+        // vector<vector<int>> nonInsertedNodes; //! nonInsertedNodes[0]: passenger-type; nonInsertedNodes[1]: freight-type
 
-        //! the vehicles that has not been used
+        //! the vehicles that has not been used -> distinguish between passenger-type and freight-type
         vector<int> nonUsedVehs;
+        // vector<vector<int>> nonUsedVehs; //! nonUsedVehs[0]: passenger-type; nonUsedVehs[1]: freight-type
 
         //! the set of positions of the arcs in the compact route of the solution that can be destroyed
         vector<tuple<int, int, int>> destroyableArcPos; //! {{destroyed_arcpos, destroyed_pathid, routeid}, ...}

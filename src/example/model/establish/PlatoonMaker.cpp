@@ -399,11 +399,11 @@ vector<int> PlatoonMaker::shrinkOverlapDeptwOnePlatoon(APlatoon* input_platoon, 
         }
         else if(pivot_arcpos_thisroute == -1)
         {
-            temp_deptime[r] = int(calAverage(overlap_deptw));
+            temp_deptime[r] = int(round(calAverage(overlap_deptw)));
             pivotArc_all_routes[platoon_config[r].first] = platoon_config[r].second;
         }
     }
-    updated_overlap_tw[0] = int(calAverage(temp_deptime));
+    updated_overlap_tw[0] = int(round(calAverage(temp_deptime)));
     updated_overlap_tw[1] = updated_overlap_tw[0];
     input_platoon->setOverlapDTW(updated_overlap_tw);
     return updated_overlap_tw;
@@ -442,6 +442,7 @@ vector<APlatoon*> PlatoonMaker::findAllPlatoons(vector<pair<int, int>>& graph_no
         {
             //! output the overlapped departure time windows of each platoon
             vector<int> maximum_platoon_tw = calOverlapDeptwOnePlatoon(maximum_clique->getPlatoonConfig());
+            assert(!maximum_platoon_tw.empty());
             vector<int> updated_max_platoon_tw = shrinkOverlapDeptwOnePlatoon(maximum_clique, maximum_platoon_tw);
             all_platoons.push_back(maximum_clique);
             //！ update time windows with the maximum platoon

@@ -21,15 +21,33 @@ VRPSolution::VRPSolution(Nodes& nodeset, Vehicles& vehset)
 {
     this->nodeset = &nodeset;
     this->vehset = &vehset;
+    // this->nonInsertedNodes.resize(2);
+    // this->nonUsedVehs.resize(2);
     for(int i = 1; i < nodeset.getNodeNum(); i++)
     {
         if(nodeset.getNodeType(i) != 2)
         {
-            nonInsertedNodes.push_back(i);  //{1,2,3,4,5,6,7,8,9}
+            nonInsertedNodes.push_back(i);
         }
+        // if(nodeset.getNodeType(i) == 0)
+        // {
+        //     nonInsertedNodes[0].push_back(i);  //{1,2,3,4,5,6,7,8,9}
+        // }
+        // else if(nodeset.getNodeType(i) == 1)
+        // {
+        //     nonInsertedNodes[1].push_back(i);  //{1,2,3,4,5,6,7,8,9}
+        // }
     }
     for(int v = 0; v < vehset.getVehNum(); v++)
     {
+        // if(vehset.getVehType(v) == 0)
+        // {
+        //     nonUsedVehs[0].push_back(v);  //{1,2,3,4,5,6,7,8,9}
+        // }
+        // else if(nodeset.getNodeType(v) == 1)
+        // {
+        //     nonUsedVehs[1].push_back(v);  //{1,2,3,4,5,6,7,8,9}
+        // }
         nonUsedVehs.push_back(v); //{0,1,2,3,4,5}
     }
     getDestroyedArcsPos().clear();
@@ -82,7 +100,7 @@ ARoute* VRPSolution::buildNewRoute()
     {
         //! randomly pick a customer to be inserted (note that the customer should not have nodetype of 2, which is for the intersection)
         RandomNumber r;
-        int pick_cus = nonInsertedNodes[0]; //r.get_rint(0, nonInsertedNodes.size()-1);
+        int pick_cus = nonInsertedNodes[r.get_rint(0, nonInsertedNodes.size()-1)]; //0;
         int cus_type = nodeset->getNodeType(pick_cus);
         //! after picking the customer, check whether there are lefting vehicles of the same type as the customer type to be inserted
         vector<int>::iterator veh_it = find_if(nonUsedVehs.begin(), nonUsedVehs.end(), [&](int x) -> bool {return vehset->getVehType(x) == cus_type || cus_type == 2;});
@@ -192,6 +210,8 @@ bool VRPSolution::isFeasible()
     {
         if(!sol_config[i]->isRouteFeas())
         {
+            cout << "route " << i << " is infeasible." << endl;
+            assert(false);
             return false;
         }
     }
@@ -389,19 +409,19 @@ void VRPSolution::updateSol(bool make_platoon)
 
 int& VRPSolution::getTotalUnservedRequests(int type)
 {
-    switch (type)
+    if(type == 0)
     {
-    case 0:
         return totalUnservedPasRequests;
-    case 1:
+    }
+    else if(type == 1)
+    {
         return totalUnservedFreRequests;
-    case 2:
+    }
+    else
+    {
         return totalUnservedRequests;
-    default:
-        break;
     }
 }
-
 
 ISolution* VRPSolution::getCopy()
 {

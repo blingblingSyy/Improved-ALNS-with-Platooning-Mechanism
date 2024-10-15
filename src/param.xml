@@ -4,10 +4,10 @@
 		<MinNbIterations>5</MinNbIterations>
 		<LookBackIterations>3000</LookBackIterations>
 		<ObjImpThreshold>0.001</ObjImpThreshold>
-		<MaxRunTime>60</MaxRunTime>
+		<MaxRunTime>30</MaxRunTime>
 		<MaxNbIterationsNoImp>5000</MaxNbIterationsNoImp>
 		<StoppingCriterion>ALL</StoppingCriterion>
-		<Noise>true</Noise>
+		<Noise>false</Noise>
 		<TimeSegmentIt>1</TimeSegmentIt>
 		<Sigma1>5</Sigma1>
 		<Sigma2>3</Sigma2>

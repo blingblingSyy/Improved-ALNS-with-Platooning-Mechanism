@@ -399,6 +399,9 @@ void TimeWindowUpdater::Calib_DT2_AT2(int fixed_deptw_arcpos, vector<vector<int>
         int deptime_nextnode = route_deptw[i+1][1];
         int arc_dist_i_DT2 = calPathTvlTime(extended_route, initial_timemat, i, i+1);
         route_deptw[i][1] = min(min(deptime_nextnode - servetime_nextnode, lateserve_nextnode) - arc_dist_i_DT2, original_deptw_input[i][1]);
+
+        bool feas = route_deptw[i][0] <= route_deptw[i][1];
+        assert(feas);
     }
     //then calculate AT2 based on DT2 for the nodes before the fixed_deptw_arcpos (including the fixed_deptw_arcpos)
     for(int i = 1; i < fixed_arrtw_next_arcpos; i++)
@@ -417,8 +420,11 @@ void TimeWindowUpdater::Calib_DT2_AT2(int fixed_deptw_arcpos, vector<vector<int>
     {
         int total_wait_max_DT2 = calWaitTimeBudget(i - fixed_deptw_arcpos, waiting_before_arc_start_pos);
         bool serve_start_pos = true;
-        bool serve_end_pos = false;
+        bool serve_end_pos = true;
         route_deptw[i][1] = min(route_arrtw[fixed_arrtw_next_arcpos][1] + calNecessaryTime(fixed_arrtw_next_arcpos, i, serve_start_pos, serve_end_pos) + total_wait_max_DT2, original_deptw_input[i][1]);
+
+        // bool feas = route_deptw[i][0] <= route_deptw[i][1];
+        // assert(feas);
     }
     //next calculate AT2 based on DT2 for the nodes after the fixed_arrtw_next_arcpos (excluding the fixed_arrtw_next_arcpos)
     for(int i = fixed_arrtw_next_arcpos+1; i < extendroutelen; i++) 
@@ -447,6 +453,12 @@ void TimeWindowUpdater::CalibRouteTW(int fixed_deptw_arcpos, vector<int> overlap
 
     //4. AT2 & DT2 -> void Calib_DT2_AT2()
     Calib_DT2_AT2(fixed_deptw_arcpos, original_deptw);
+
+    for(int i = 0; i < route_arrtw.size(); i++)
+    {
+        bool feas = route_arrtw[i][0] <= route_arrtw[i][1];
+        assert(feas);
+    }
 }
 
 void TimeWindowUpdater::clear_route_tw()

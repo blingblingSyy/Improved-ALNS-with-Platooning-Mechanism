@@ -730,9 +730,9 @@ bool ARoute::isTimeFeas()
 bool ARoute::isLoadFeas(vector<int> input_load_vec)
 {
     auto isNodeLoadFeas = [&](int node_load) -> bool {return node_load >= 0 && node_load <= vehset->getVehCap(vehid);};
-    for(int i = 0; i < route_load.size(); i++)
+    for(int i = 0; i < input_load_vec.size(); i++)
     {
-        if(!isNodeLoadFeas(route_load[i]))
+        if(!isNodeLoadFeas(input_load_vec[i]))
         {
             return false;
         }

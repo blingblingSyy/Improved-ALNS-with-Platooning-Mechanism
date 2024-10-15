@@ -134,7 +134,7 @@ void ALNS::performOneIteration()
 	//! param->getLogFrequence() obtains the value of logFrequence, which represents how often the information is output.
 	if(nbIterations % param->getLogFrequency() == 0)
 	{
-		cout << "[ALNS] it. " << nbIterations << " best sol: " << (*(bestSolManager->begin()))->getObjectiveValue() << " nb known solutions: " << knownKeys.size() << endl;
+		cout << "[ALNS] it. " << nbIterations << " best sol: " << (*(bestSolManager->begin()))->getObjectiveValue() << "; nb known solutions: " << knownKeys.size() << endl;
 	}
 
 	//! create new solution with the selected strategy and the operators

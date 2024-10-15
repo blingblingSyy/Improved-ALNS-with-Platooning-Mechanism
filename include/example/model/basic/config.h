@@ -15,7 +15,7 @@ using namespace std;
 const double AREA_SIZE = 20; //km^2
 const int SPEED = 1;      //MAV speed (km/h)
 const int PLEN_MAX = 10;  //the maximum length of platoons
-const int MAX_DIST = 100;   //MAV maximum range (km)
+const int MAX_DIST = 200;   //MAV maximum range (km)
 const int VTYPE = 2;        //the number of MAV types
 const int VCAP_0 = 6;       //MAV capacity for passenger
 const int VCAP_1 = 15;      //MAV capacity for freight
@@ -36,7 +36,7 @@ const vector<int> DMD_RANGE_1 = {1,VCAP_1};   //demand distribution range for fr
 const double PAS_CUS_PROP = 0.5;    //ratio of passenger requests
 const double FRE_CUS_PROP = 0.4;    //ratio of freight requests (the remaining belongs to intersections)
 const double INTERSECTIONS_PROB = 0.1; //probability of changing a node to be an intersection
-const double DISCONNECTION_PROB = 0.3; //probability of disconnecting the direct link between a given pair of nodes
+const double DISCONNECTION_PROB = 0.8; //probability of disconnecting the direct link between a given pair of nodes
 const vector<int> PLAN_HORIZON = {0, 960}; //the planning horizon is from 6 am to 10 pm
 const vector<int> PAS_DMD_PEAK = {180, 720}; //the peak period for the passenger demands is at 9 am and 6 pm
 const vector<int> FRE_DMD_PEAK = {240, 600}; //the peak period for the passenger demands is at 10 am and 4 pm
