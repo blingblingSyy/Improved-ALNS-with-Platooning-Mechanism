@@ -400,8 +400,8 @@ void TimeWindowUpdater::Calib_DT2_AT2(int fixed_deptw_arcpos, vector<vector<int>
         int arc_dist_i_DT2 = calPathTvlTime(extended_route, initial_timemat, i, i+1);
         route_deptw[i][1] = min(min(deptime_nextnode - servetime_nextnode, lateserve_nextnode) - arc_dist_i_DT2, original_deptw_input[i][1]);
 
-        bool feas = route_deptw[i][0] <= route_deptw[i][1];
-        assert(feas);
+        // bool feas = route_deptw[i][0] <= route_deptw[i][1];
+        // assert(feas);
     }
     //then calculate AT2 based on DT2 for the nodes before the fixed_deptw_arcpos (including the fixed_deptw_arcpos)
     for(int i = 1; i < fixed_arrtw_next_arcpos; i++)

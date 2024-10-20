@@ -12,6 +12,7 @@ Vehicles::Vehicles(RawInstance& inputInstance)
 {
     this->rawInstance = &inputInstance;
     pas_vehnum = rawInstance->getVehNum(0);
+    fre_vehnum = rawInstance->getVehNum(1);
     vehnum = rawInstance->getVehNum();
     veh_speed = rawInstance->getVehSpeed();
     veh_types.resize(vehnum);

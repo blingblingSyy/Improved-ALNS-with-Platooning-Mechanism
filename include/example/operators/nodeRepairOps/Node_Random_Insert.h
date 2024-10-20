@@ -22,19 +22,19 @@ class Node_Random_Insert: public ANodeRepairOperator
         //! repair operator
         void repairSolNode(ISolution& sol);
 
-        //! non-repairable node positions <rid, pos>
-        vector<pair<int, int>> nonRepairablePos; 
-        
     protected:
+        //! non-repairable node positions <rid, pos> -> type-specific
+        vector<vector<pair<int, int>>> nonRepairablePos; 
+        
         //! update the forbidden destroyed node positions
-        void keepRepairablePos(VRPSolution& vrpsol, vector<pair<int, int>>& all_cus_pos_copy);
+        void keepRepairablePos(VRPSolution& vrpsol, vector<pair<int, int>>& all_cus_pos_copy, int type);
         // vector<int> nonRepairableNodes(VRPSolution& vrpsol);
 
         //! initialize the non-repairable positions
         void initNonRepairablePos(VRPSolution& vrpsol);
 
         //! update the non-repairable position once an insertion occurs
-        void updateNonRepairablePos(int insert_rid, int insert_pos);
+        void updateNonRepairablePos(VRPSolution& vrpsol, int insert_rid, int insert_pos);
         
         //! update all customer positions once an insertion occurs
         void updateAllCusPos(VRPSolution& vrpsol, vector<pair<int, int>>& all_cus_pos, pair<int, int> insert_vehpos);

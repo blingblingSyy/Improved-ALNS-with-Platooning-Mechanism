@@ -1,6 +1,7 @@
 Instance name: test2
 Algorithm Stage: initial_solution
 
+solution feasibility: 1
 total objective value: 1113.69
 total distance before platooning: 101.079
 total energy-related distance cost: 100.569
@@ -10,33 +11,20 @@ total unserved freight requests: 0
 CPU time: 0.003
 
 * All routes:
-vehicle id: 3  vehicle type: 1
-	compact route: 0  1  0  
-	used paths between two served nodes: 0  0  
-	extended route: 0  2  1  2  0  
-	node labels: 0  0  1  0  0  
-	arrival time windows: {0, 40}  {11, 15}  {16, 20}  {24, 29}  {35, 40}  
-	departure time windows: {0, 4}  {11, 15}  {19, 24}  {24, 29}  {0, 40}  
-	arrival time: 0  15  20  28  39  
-	departure time: 4  15  23  28  0  
-	waiting time: 0  0  0  0  0  
-	total waiting time: 0  
-	route load: 0  2  2  
-	route mileage: 0  16.2794  32.5587  
 vehicle id: 0  vehicle type: 0
-	compact route: 0  3  0  
+	compact route: 0  5  0  
 	used paths between two served nodes: 0  0  
-	extended route: 0  4  3  4  0  
-	node labels: 0  0  1  0  0  
-	arrival time windows: {0, 40}  {5, 8}  {14, 16}  {24, 25}  {30, 30}  
-	departure time windows: {0, 3}  {6, 8}  {16, 17}  {25, 25}  {0, 40}  
-	arrival time: 0  8  16  25  30  
-	departure time: 3  8  17  25  0  
-	waiting time: 0  0  0  0  0  
+	extended route: 0  5  0  
+	node labels: 0  1  0  
+	arrival time windows: {0, 40}  {16, 18}  {33, 36}  
+	departure time windows: {0, 2}  {17, 20}  {0, 40}  
+	arrival time: 0  18  35  
+	departure time: 2  19  0  
+	waiting time: 0  0  0  
 	total waiting time: 0  
 	route load: 0  1  1  
-	route mileage: 0  13.1613  26.3226  
-vehicle id: 4  vehicle type: 1
+	route mileage: 0  16  32  
+vehicle id: 3  vehicle type: 1
 	compact route: 0  4  0  
 	used paths between two served nodes: 0  0  
 	extended route: 0  4  0  
@@ -50,22 +38,35 @@ vehicle id: 4  vehicle type: 1
 	route load: 0  2  2  
 	route mileage: 0  5.09902  10.198  
 vehicle id: 1  vehicle type: 0
-	compact route: 0  5  0  
+	compact route: 0  3  0  
 	used paths between two served nodes: 0  0  
-	extended route: 0  5  0  
-	node labels: 0  1  0  
-	arrival time windows: {0, 40}  {16, 18}  {33, 36}  
-	departure time windows: {0, 2}  {17, 20}  {0, 40}  
-	arrival time: 0  18  35  
-	departure time: 2  19  0  
-	waiting time: 0  0  0  
+	extended route: 0  4  3  4  0  
+	node labels: 0  0  1  0  0  
+	arrival time windows: {0, 40}  {5, 8}  {14, 16}  {24, 25}  {30, 30}  
+	departure time windows: {0, 3}  {6, 8}  {16, 17}  {25, 25}  {0, 40}  
+	arrival time: 0  8  16  25  30  
+	departure time: 3  8  17  25  0  
+	waiting time: 0  0  0  0  0  
 	total waiting time: 0  
 	route load: 0  1  1  
-	route mileage: 0  16  32  
+	route mileage: 0  13.1613  26.3226  
+vehicle id: 4  vehicle type: 1
+	compact route: 0  1  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  2  1  2  0  
+	node labels: 0  0  1  0  0  
+	arrival time windows: {0, 40}  {11, 15}  {16, 20}  {24, 29}  {35, 40}  
+	departure time windows: {0, 4}  {11, 15}  {19, 24}  {24, 29}  {0, 40}  
+	arrival time: 0  15  20  28  39  
+	departure time: 4  15  23  28  0  
+	waiting time: 0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  2  2  
+	route mileage: 0  16.2794  32.5587  
 
 * All platoons: 
 platoon 1	platooning arc: {4, 0}
 	platoons on this arc: 
-		vehicle id: 0  arc position: 3
-		vehicle id: 4  arc position: 1
+		vehicle id: 3  arc position: 1
+		vehicle id: 1  arc position: 3
 	energy saving on this arc: 0.509902

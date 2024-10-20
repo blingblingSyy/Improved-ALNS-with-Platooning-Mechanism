@@ -42,6 +42,10 @@ void Node_Random_Removal::destroySolNode(ISolution& sol)
     {
         //! after removal, the solution may become infeasible; after insertion, the solution must be feasible.
         vrpsol.removeNode(destroyed_nodeset[k].second, destroyed_nodeset[k].first);
+        if(vrpsol.getSolCurOperation() == VRPSolution::RemoveOneNode)
+        {
+            updateDestroyedArcPos(vrpsol, destroyed_nodeset[k]);
+        }
     }
     destroyed_nodeset.clear();
     // if(destroyed_nodeset.empty()) //! no nodes are actually removed
@@ -83,6 +87,17 @@ void Node_Random_Removal::keepRemovablePos(VRPSolution& vrpsol, vector<pair<int,
     // }
 }
 
+void Node_Random_Removal::updateDestroyedArcPos(VRPSolution& vrpsol, pair<int, int> destroyed_nodepos)
+{
+    vector<tuple<int, int, int>>& destroyedArcPosSet = vrpsol.getDestroyedArcsPos();
+    for(auto it = destroyedArcPosSet.begin(); it != destroyedArcPosSet.end(); it++)
+    {
+        if(get<2>(*it) == destroyed_nodepos.first && get<0>(*it) > destroyed_nodepos.second)
+        {
+            get<0>(*it) -= 1;
+        }
+    }
+}
 
 /*old version*/
 // void Node_Random_Removal::destroySolNode(ISolution& sol)

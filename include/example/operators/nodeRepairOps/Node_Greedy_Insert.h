@@ -2,14 +2,14 @@
 #define NODE_GREEDY_INSERT_H_
 
 // #include "ALNS_inc.h"
-#include "example/operators/nodeRepairOps/Node_Random_Insert.h"
+#include "example/operators/nodeRepairOps/Node_Regret_Insert.h"
 using namespace std;
 
 class ISolution;
-class Node_Random_Insert;
+class Node_Regret_Insert;
 class IUpdatable;
 
-class Node_Greedy_Insert: public Node_Random_Insert
+class Node_Greedy_Insert: public Node_Regret_Insert
 {
     public:
         //! constructor
@@ -19,7 +19,7 @@ class Node_Greedy_Insert: public Node_Random_Insert
         virtual ~Node_Greedy_Insert();
 
         //! destroy operator
-        virtual void repairSolNode(ISolution& sol);
+        // virtual void repairSolNode(ISolution& sol);
 
     // private:
     //     //! update the forbidden destroyed node positions

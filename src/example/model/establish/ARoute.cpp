@@ -59,7 +59,14 @@ ARoute::~ARoute()
 void ARoute::setVehIdType(int input_vehid)
 {
     vehid = input_vehid;
-    vehtype = vehset->getVehType(input_vehid);
+    if(vehid != -1)
+    {
+        vehtype = vehset->getVehType(input_vehid);
+    }
+    else if(vehid == -1)
+    {
+        vehtype = -1;
+    }
 }
 
 int ARoute::getRouteWaitTimeLimitPerNode()
@@ -214,6 +221,8 @@ void ARoute::calExpectedArrDepTW()
 
 void ARoute::calArrDepTime()
 {
+    this->actual_arrtime.clear();
+    this->actual_deptime.clear();
     TimeWindowUpdater twupdater(extended_route, node_labels, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
     twupdater.setRouteArrTW(expected_arrtw);
     twupdater.setRouteDepTW(expected_deptw);
@@ -566,7 +575,6 @@ void ARoute::evaluateRouteByInsertNode(int insert_pos, int insert_nodeid)
     {
         nodeInsertionCosts = INF;
     }
-
 }
 
 void ARoute::setRouteByInsertNode(int insert_pos, int insert_nodeid)
@@ -593,15 +601,15 @@ void ARoute::setRouteByInsertNode(int insert_pos, int insert_nodeid)
     twupdater.calRouteExpectedTW();
     this->expected_arrtw = twupdater.getRouteArrTW();
     this->expected_deptw = twupdater.getRouteDepTW();
-    this->actual_arrtime.clear();
-    this->actual_deptime.clear();
+    // this->actual_arrtime.clear();
+    // this->actual_deptime.clear();
 }
 
 void ARoute::evaluateRouteByRemoveNode(int remove_pos)
 {
     // assert(vehid != -1);
     //veh_id and veh_type unchanged
-     bool LinkFeas, TimeFeas;
+    bool LinkFeas, TimeFeas;
     vector<int> compact_route1 = removeNodeFromCompactRoute(remove_pos);
     LinkFeas = isLinkFeas(remove_pos-1, compact_route1);
     if(LinkFeas)
@@ -713,8 +721,8 @@ void ARoute::setRouteByModifyUsedPath(int modified_arcpos, int used_path_id)
     twupdater.calRouteExpectedTW();
     this->expected_arrtw = twupdater.getRouteArrTW();
     this->expected_deptw = twupdater.getRouteDepTW();
-    this->actual_arrtime.clear();
-    this->actual_deptime.clear();
+    // this->actual_arrtime.clear();
+    // this->actual_deptime.clear();
 }
 
 bool ARoute::isTimeFeas()
@@ -749,13 +757,15 @@ bool ARoute::isLinkFeas(int arcpos, vector<int> compactRoute)
 {
     bool linkfeas1 = !nodeset->getOnePath(compactRoute[arcpos], compactRoute[arcpos+1], 0)->getPath().empty();
     bool linkfeas2 = nodeset->getOnePath(compactRoute[arcpos], compactRoute[arcpos+1], 0)->getDist() < INF;
-    // bool linkfeas3 = nodeset->getOnePath(compactRoute[arcpos], compactRoute[arcpos+1], 0)->getDist() > 0;
-    return linkfeas1 && linkfeas2; //! if == INF -> contains depots in the middle of the path
+    bool linkfeas3 = nodeset->getOnePath(compactRoute[arcpos], compactRoute[arcpos+1], 0)->getDist() > 0;
+    return linkfeas1 && linkfeas2 && linkfeas3; //! if == INF -> contains depots in the middle of the path
     // return !nodeset->getAvailPathSet(compactRoute[arcpos], compactRoute[arcpos+1]).empty(); 
 }
 
 bool ARoute::isRouteFeas()
 {
+    // bool routefeas = !isEmpty();
+    bool routefeas = vehid != -1;
     bool timefeas = isTimeFeas();
     bool loadfeas = isLoadFeas(route_load);
     bool distfeas = isDistFeas(route_mileage[route_mileage.size()-1]);
@@ -764,7 +774,7 @@ bool ARoute::isRouteFeas()
     {
         linkfeas = isLinkFeas(i, compact_route) && linkfeas;
     }
-    return timefeas && loadfeas && distfeas && linkfeas;
+    return routefeas && timefeas && loadfeas && distfeas && linkfeas;
 }
 
 double ARoute::calInsertionCosts(int insert_pos, int insert_nodeid)
@@ -792,7 +802,7 @@ pair<double, int> ARoute::calCheapestInsertionCosts(int insert_nodeid) //! <inse
     vector<double> all_insertion_costs;
     for(int i = 1; i < compact_route.size(); i++) //the node cannot be inserted before the starting depot and after the ending depot
     {
-        evaluateRouteByInsertNode(i, insert_nodeid);
+        evaluateRouteByInsertNode(i, insert_nodeid);  //! if nodetype != vehtype: cost = INF;
         double insertioncosts = getRouteOperatorCosts(InsertOneNode);
         all_insertion_costs.push_back(insertioncosts);
     }

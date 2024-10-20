@@ -30,7 +30,13 @@ void Node_Worst_Removal::destroySolNode(ISolution& sol)
     calNodeDestroySize(vrpsol.getTotalServedCusNum()); //! get the nodeDestroySize
     vector<pair<int, int>> all_cus_pos = vrpsol.getAllCusPos();
     keepRemovablePos(vrpsol, all_cus_pos); //! this will modify all_cus_pos
-    sort(all_cus_pos.begin(), all_cus_pos.end(), [&](auto A, auto B) -> bool {return calRemovalCost(vrpsol, A) > calRemovalCost(vrpsol, B);});
+    vector<double> removalCosts_AllCusPos;
+    for(auto it = all_cus_pos.begin(); it != all_cus_pos.end(); it++)
+    {
+        removalCosts_AllCusPos.push_back(calRemovalCost(vrpsol, (*it)));
+    }
+    sortVec(all_cus_pos, removalCosts_AllCusPos, true);
+    // sort(all_cus_pos.begin(), all_cus_pos.end(), [&](auto A, auto B) -> bool {return calRemovalCost(vrpsol, A) > calRemovalCost(vrpsol, B);});
     int i = 0;
     while(i < nodeDestroySize && !all_cus_pos.empty())
     {
@@ -53,21 +59,38 @@ void Node_Worst_Removal::destroySolNode(ISolution& sol)
     // }
 }
 
-/* new version */
+/* old version -> consider platooning -> very very slow */
+// double Node_Worst_Removal::calRemovalCost(VRPSolution& vrpsol, pair<int, int> removed_node)
+// {
+//     // vrpsol.recomputeCost();
+//     double removalCost = -INF;
+//     double orig_cost = vrpsol.getPenalizedObjectiveValue(true);
+//     VRPSolution& vrpsol_new = dynamic_cast<VRPSolution&>(*(vrpsol.getCopy()));
+//     vrpsol_new.removeNode(removed_node.second, removed_node.first); //! removed_node.second = arcpos, removed_node.first = routeid;
+//     if(vrpsol_new.getSolCurOperation() == VRPSolution::RemoveOneNode) //! can remove the node
+//     {
+//         // vrpsol_new.getNonInsertedNodes().erase(remove(vrpsol_new.getNonInsertedNodes().begin(), vrpsol_new.getNonInsertedNodes().end(), 
+//         //                                 vrpsol_new.getOneRoute(removed_node.first)->getCompactRoute()[removed_node.second]));
+//         vrpsol_new.makePlatoons();
+//         vrpsol_new.recomputeCost(); //! rebuild platoons
+//         double new_cost = vrpsol_new.getPenalizedObjectiveValue(true); //! modified = true -> without the unserved request costs
+//         removalCost = orig_cost - new_cost;
+//     }
+//     delete &vrpsol_new;
+//     return removalCost;
+// }
+
+/*new version -> only consider total distance before platooning*/
 double Node_Worst_Removal::calRemovalCost(VRPSolution& vrpsol, pair<int, int> removed_node)
 {
     // vrpsol.recomputeCost();
     double removalCost = -INF;
-    double orig_cost = vrpsol.getPenalizedObjectiveValue(true);
+    double orig_cost = vrpsol.getTotalDistBeforePlatooning();
     VRPSolution& vrpsol_new = dynamic_cast<VRPSolution&>(*(vrpsol.getCopy()));
     vrpsol_new.removeNode(removed_node.second, removed_node.first); //! removed_node.second = arcpos, removed_node.first = routeid;
     if(vrpsol_new.getSolCurOperation() == VRPSolution::RemoveOneNode) //! can remove the node
     {
-        // vrpsol_new.getNonInsertedNodes().erase(remove(vrpsol_new.getNonInsertedNodes().begin(), vrpsol_new.getNonInsertedNodes().end(), 
-        //                                 vrpsol_new.getOneRoute(removed_node.first)->getCompactRoute()[removed_node.second]));
-        vrpsol_new.makePlatoons();
-        vrpsol_new.recomputeCost(); //! rebuild platoons
-        double new_cost = vrpsol_new.getPenalizedObjectiveValue(true); //! modified = true -> without the unserved request costs
+        double new_cost = vrpsol_new.calTotalDist(); //! modified = true -> without the unserved request costs
         removalCost = orig_cost - new_cost;
     }
     delete &vrpsol_new;

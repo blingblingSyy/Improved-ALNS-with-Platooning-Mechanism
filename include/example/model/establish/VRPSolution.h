@@ -44,8 +44,8 @@ class VRPSolution: public ISolution
         //! reset the expected time windows of all routes in the solution
         void resetExpectedTWAllRoutes();
 
-        //! build a new route with randomly selected node from the set of uninserted customers
-        ARoute* buildNewRoute();
+        //! build a new route of a specific type with randomly selected node from the set of uninserted customers
+        ARoute* buildNewRoute(int type);
 
         //! build an initial solution from scratch
         void buildInitialSol();
@@ -137,6 +137,9 @@ class VRPSolution: public ISolution
         //! update the solution
         void updateSol(bool make_platoon = false);
 
+        //! post process the solution
+        void postProcessSol();
+
         //! a simple getter
         double& getTotalDistBeforePlatooning() {return totalDistCostsBeforePlatooning;};
 
@@ -150,16 +153,16 @@ class VRPSolution: public ISolution
         int& getTotalUnservedRequests(int type = 2);
 
         //! a simple getter
-        // vector<vector<int>>& getNonInsertedNodes() {return nonInsertedNodes;};
-        vector<int>& getNonInsertedNodes() {return nonInsertedNodes;};
+        vector<vector<int>>& getNonInsertedNodes() {return nonInsertedNodes;};
+        // vector<int>& getNonInsertedNodes() {return nonInsertedNodes;};
 
         //! a simple getter
-        // int getTotalServedCusNum() {return static_cast<int>(nodeset->getCusNum() - nonInsertedNodes[0].size() - nonInsertedNodes[1].size());};
-        int getTotalServedCusNum() {return static_cast<int>(nodeset->getCusNum() - nonInsertedNodes.size());};
+        int getTotalServedCusNum() {return static_cast<int>(nodeset->getCusNum() - nonInsertedNodes[0].size() - nonInsertedNodes[1].size());};
+        // int getTotalServedCusNum() {return static_cast<int>(nodeset->getCusNum() - nonInsertedNodes.size());};
 
         //! a simple getter
-        // vector<vector<int>>& getNonUsedVehs() {return nonUsedVehs;};
-        vector<int>& getNonUsedVehs() {return nonUsedVehs;};
+        vector<vector<int>>& getNonUsedVehs() {return nonUsedVehs;};
+        // vector<int>& getNonUsedVehs() {return nonUsedVehs;};
 
         //! a simple getter: {{destroyed_arcpos, destroyed_pathid, routeid}, ...}
         vector<tuple<int, int, int>>& getDestroyedArcsPos() {return destroyedArcPos;};
@@ -202,7 +205,7 @@ class VRPSolution: public ISolution
 
         /*old version*/
         //! get positions of all customers <routeid, arcpos>
-        vector<pair<int, int>> getAllCusPos();
+        vector<pair<int, int>> getAllCusPos(int type = 2);  //! add vehicle type
         /*new version*/
         //! get positions of all customers <routeid, arcpos>
         // vector<vector<int>> getAllCusCopy();
@@ -232,12 +235,12 @@ class VRPSolution: public ISolution
         SolOperationKind solCurOpt;
 
         //! the customers that has not been inserted -> distinguish between passenger-type and freight-type
-        vector<int> nonInsertedNodes;
-        // vector<vector<int>> nonInsertedNodes; //! nonInsertedNodes[0]: passenger-type; nonInsertedNodes[1]: freight-type
+        // vector<int> nonInsertedNodes;
+        vector<vector<int>> nonInsertedNodes; //! nonInsertedNodes[0]: passenger-type; nonInsertedNodes[1]: freight-type
 
         //! the vehicles that has not been used -> distinguish between passenger-type and freight-type
-        vector<int> nonUsedVehs;
-        // vector<vector<int>> nonUsedVehs; //! nonUsedVehs[0]: passenger-type; nonUsedVehs[1]: freight-type
+        // vector<int> nonUsedVehs;
+        vector<vector<int>> nonUsedVehs; //! nonUsedVehs[0]: passenger-type; nonUsedVehs[1]: freight-type
 
         //! the set of positions of the arcs in the compact route of the solution that can be destroyed
         vector<tuple<int, int, int>> destroyableArcPos; //! {{destroyed_arcpos, destroyed_pathid, routeid}, ...}

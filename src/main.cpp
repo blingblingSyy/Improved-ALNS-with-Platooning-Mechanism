@@ -57,7 +57,7 @@ int main()
     // Vehicles vehset(data1);
 
     //! large test data
-    string test_filename = "50_cluster_even_1";
+    string test_filename = "100_cluster_peak_1";
     string filepath = dataset_dir + "Large_Dataset/" + test_filename + ".txt"; //"C:/Users/SYY/Improved_ALNS_Git/Large_Dataset/xxx.txt"
     RawInstance data1(filepath);
     Nodes nodeset(data1);
@@ -80,7 +80,7 @@ int main()
     Node_Shaw_Removal nodeShawR("Node Shaw Removal", ops_param, nodeset);
     Node_Worst_Removal nodeWorstR("Node Worst Removal", ops_param, nodeset.getCusNum());
     Node_Greedy_Insert nodeGreedyI("Node Greedy Insert");
-    Node_Random_Insert nodeRandomeI("Node Random Insert");
+    Node_Random_Insert nodeRandomI("Node Random Insert");
     Node_Regret_Insert nodeRegret2I("Node Regret-2 Insert", 2);
     Path_AvgLenDiff_Removal pathAvgLenDiffR("Path Average-Length-Difference Removal", ops_param, pathtabu, nodeset);
     Path_AvgLen_Removal pathAvgLenR("Path Average-Length Removal", ops_param, pathtabu, nodeset);
@@ -107,17 +107,17 @@ int main()
 	// stMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeRouteBasedR));
 
 	// stMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeGreedyI));
-	stMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeRandomeI));
+	stMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeRandomI));
 	// stMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeRegret2I));
 
-	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathAvgLenDiffR));
-	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathAvgLenR));
-	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathCardiR));
-	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathNFreqR));
+	// stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathAvgLenDiffR));
+	// stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathAvgLenR));
+	// stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathCardiR));
+	// stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathNFreqR));
 	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathRandomR));
 
-	stMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathKLenI));
-	stMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathNFreqI));
+	// stMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathKLenI));
+	// stMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathNFreqI));
 	stMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathRandomI));
 
 	SimpleBestSolutionManager bestSM(alnsParam);

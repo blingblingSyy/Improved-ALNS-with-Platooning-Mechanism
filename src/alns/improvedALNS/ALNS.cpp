@@ -83,6 +83,7 @@ bool ALNS::solve()
 	stManager->startSignal();
 	stats.setStart();
 	//! if not meeting the stopping criterion, will keep doing the iterations
+	cout << "=================ALNS Algorithm=================" << endl;
 	while(!isStoppingCriterionMet())
 	{
 		performOneIteration();
@@ -110,6 +111,8 @@ bool ALNS::solve()
 //! update the scores of the strategies, operators and ALNS iteration status.
 void ALNS::performOneIteration()
 {
+	double currentTime = clock();
+
 	//! initialize some status of the ALNS iteration
 	status.partialReinit();
 
@@ -189,7 +192,11 @@ void ALNS::performOneIteration()
 	status.setIterationId(nbIterations);
 	nbIterationsWC++;
 
+	// newSolution->postProcessSol();
+	double timeBeforePlatoonMaking = clock();
 	newSolution->makePlatoons();
+	double timeAfterPlatoonMaking = (clock() - timeBeforePlatoonMaking ) / (double) CLOCKS_PER_SEC;
+	cout << "Platooning time for new solution: " << timeAfterPlatoonMaking << endl;
 	newSolution->recomputeCost();
 	double newCost = newSolution->getObjectiveValue();
 

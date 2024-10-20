@@ -40,6 +40,9 @@ public:
 	//! update the solution
 	virtual void updateSol(bool make_platoon = false) = 0;
 
+	//! post-process the solution by removing all the empty route
+	virtual void postProcessSol() = 0;
+
 	//! recompute costs of the solution
 	virtual void recomputeCost() = 0;  //bool make_platoon = false
 };

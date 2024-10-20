@@ -21,34 +21,34 @@ VRPSolution::VRPSolution(Nodes& nodeset, Vehicles& vehset)
 {
     this->nodeset = &nodeset;
     this->vehset = &vehset;
-    // this->nonInsertedNodes.resize(2);
-    // this->nonUsedVehs.resize(2);
+    this->nonInsertedNodes.resize(2);
+    this->nonUsedVehs.resize(2);
     for(int i = 1; i < nodeset.getNodeNum(); i++)
     {
-        if(nodeset.getNodeType(i) != 2)
+        // if(nodeset.getNodeType(i) != 2)
+        // {
+        //     nonInsertedNodes.push_back(i);
+        // }
+        if(nodeset.getNodeType(i) == 0)
         {
-            nonInsertedNodes.push_back(i);
+            nonInsertedNodes[0].push_back(i);  //{1,2,3,4,5,6,7,8,9}
         }
-        // if(nodeset.getNodeType(i) == 0)
-        // {
-        //     nonInsertedNodes[0].push_back(i);  //{1,2,3,4,5,6,7,8,9}
-        // }
-        // else if(nodeset.getNodeType(i) == 1)
-        // {
-        //     nonInsertedNodes[1].push_back(i);  //{1,2,3,4,5,6,7,8,9}
-        // }
+        else if(nodeset.getNodeType(i) == 1)
+        {
+            nonInsertedNodes[1].push_back(i);  //{1,2,3,4,5,6,7,8,9}
+        }
     }
     for(int v = 0; v < vehset.getVehNum(); v++)
     {
-        // if(vehset.getVehType(v) == 0)
-        // {
-        //     nonUsedVehs[0].push_back(v);  //{1,2,3,4,5,6,7,8,9}
-        // }
-        // else if(nodeset.getNodeType(v) == 1)
-        // {
-        //     nonUsedVehs[1].push_back(v);  //{1,2,3,4,5,6,7,8,9}
-        // }
-        nonUsedVehs.push_back(v); //{0,1,2,3,4,5}
+        if(vehset.getVehType(v) == 0)
+        {
+            nonUsedVehs[0].push_back(v);  //{1,2,3,4,5,6,7,8,9}
+        }
+        else if(vehset.getVehType(v) == 1)
+        {
+            nonUsedVehs[1].push_back(v);  //{1,2,3,4,5,6,7,8,9}
+        }
+        // nonUsedVehs.push_back(v); //{0,1,2,3,4,5}
     }
     getDestroyedArcsPos().clear();
 }
@@ -89,10 +89,59 @@ void VRPSolution::findDestroyablePaths()
     }
 }
 
-ARoute* VRPSolution::buildNewRoute()
+/*old version*/
+// ARoute* VRPSolution::buildNewRoute()
+// {
+//     ARoute* new_route = new ARoute(*nodeset, *vehset);
+//     if(nonInsertedNodes.empty() || nonUsedVehs.empty()) //! if any set is empty, return an empty route
+//     {
+//         return new_route;
+//     }
+//     else //! if neither set is empty, do the following
+//     {
+//         //! randomly pick a customer to be inserted (note that the customer should not have nodetype of 2, which is for the intersection)
+//         RandomNumber r;
+//         int pick_cus = nonInsertedNodes[r.get_rint(0, nonInsertedNodes.size()-1)]; //0;
+//         int cus_type = nodeset->getNodeType(pick_cus);
+//         //! after picking the customer, check whether there are lefting vehicles of the same type as the customer type to be inserted
+//         vector<int>::iterator veh_it = find_if(nonUsedVehs.begin(), nonUsedVehs.end(), [&](int x) -> bool {return vehset->getVehType(x) == cus_type || cus_type == 2;});
+//         if(veh_it != nonUsedVehs.end())  //! there are at least one vehicle of the same type as the chosen customer
+//         {
+//             new_route->setVehIdType((*veh_it));
+//             new_route->evaluateRouteByInsertNode(1, pick_cus);
+//             double insert_cost = new_route->getRouteOperatorCosts(ARoute::InsertOneNode);
+//             if(insert_cost < INF)
+//             {
+//                 new_route->setRouteByInsertNode(1, pick_cus);
+//                 nonInsertedNodes.erase(remove(nonInsertedNodes.begin(), nonInsertedNodes.end(), pick_cus));
+//                 nonUsedVehs.erase(veh_it);
+//             }
+//             return new_route;
+//         }
+//         else //! there are no lefting vehicles of the same type as the selected customer type -> change a customer to create a new route
+//         {
+//             vector<int>::iterator new_cus_it = find_if(nonInsertedNodes.begin(), nonInsertedNodes.end(), [&](int x) -> bool {return nodeset->getNodeType(x) != cus_type;});
+//             if(new_cus_it != nonInsertedNodes.end()) //! if not, the remaining customers and vehicles are incompatible
+//             {
+//                 new_route->setVehIdType(nonUsedVehs[0]);
+//                 new_route->evaluateRouteByInsertNode(1, (*new_cus_it));
+//                 double insert_cost = new_route->getRouteOperatorCosts(ARoute::InsertOneNode);
+//                 if(insert_cost < INF) 
+//                 {
+//                     new_route->setRouteByInsertNode(1, (*new_cus_it));
+//                     nonInsertedNodes.erase(new_cus_it);
+//                     nonUsedVehs.erase(nonUsedVehs.begin());
+//                 }
+//             }
+//             return new_route;
+//         }
+//     }
+// }
+
+ARoute* VRPSolution::buildNewRoute(int type)
 {
     ARoute* new_route = new ARoute(*nodeset, *vehset);
-    if(nonInsertedNodes.empty() || nonUsedVehs.empty()) //! if any set is empty, return an empty route
+    if(nonInsertedNodes[type].empty() || nonUsedVehs[type].empty()) //! if any set is empty, return an empty route
     {
         return new_route;
     }
@@ -100,91 +149,107 @@ ARoute* VRPSolution::buildNewRoute()
     {
         //! randomly pick a customer to be inserted (note that the customer should not have nodetype of 2, which is for the intersection)
         RandomNumber r;
-        int pick_cus = nonInsertedNodes[r.get_rint(0, nonInsertedNodes.size()-1)]; //0;
-        int cus_type = nodeset->getNodeType(pick_cus);
-        //! after picking the customer, check whether there are lefting vehicles of the same type as the customer type to be inserted
-        vector<int>::iterator veh_it = find_if(nonUsedVehs.begin(), nonUsedVehs.end(), [&](int x) -> bool {return vehset->getVehType(x) == cus_type || cus_type == 2;});
-        if(veh_it != nonUsedVehs.end())  //! there are at least one vehicle of the same type as the chosen customer
+        int pick_cus = nonInsertedNodes[type][r.get_rint(0, nonInsertedNodes[type].size()-1)]; //0;
+        //! after picking the customer, select the vehicle of the same type for the customer to be inserted
+        new_route->setVehIdType(nonUsedVehs[type].front());
+        new_route->evaluateRouteByInsertNode(1, pick_cus);
+        double insert_cost = new_route->getRouteOperatorCosts(ARoute::InsertOneNode);
+        if(insert_cost < INF)
         {
-            new_route->setVehIdType((*veh_it));
-            new_route->evaluateRouteByInsertNode(1, pick_cus);
-            double insert_cost = new_route->getRouteOperatorCosts(ARoute::InsertOneNode);
-            if(insert_cost < INF)
-            {
-                new_route->setRouteByInsertNode(1, pick_cus);
-                nonInsertedNodes.erase(remove(nonInsertedNodes.begin(), nonInsertedNodes.end(), pick_cus));
-                nonUsedVehs.erase(veh_it);
-            }
-            return new_route;
+            new_route->setRouteByInsertNode(1, pick_cus);
+            nonInsertedNodes[type].erase(remove(nonInsertedNodes[type].begin(), nonInsertedNodes[type].end(), pick_cus));
+            nonUsedVehs[type].erase(nonUsedVehs[type].begin());
         }
-        else //! there are no lefting vehicles of the same type as the selected customer type -> change a customer to create a new route
-        {
-            vector<int>::iterator new_cus_it = find_if(nonInsertedNodes.begin(), nonInsertedNodes.end(), [&](int x) -> bool {return nodeset->getNodeType(x) != cus_type;});
-            if(new_cus_it != nonInsertedNodes.end()) //! if not, the remaining customers and vehicles are incompatible
-            {
-                new_route->setVehIdType(nonUsedVehs[0]);
-                new_route->evaluateRouteByInsertNode(1, (*new_cus_it));
-                double insert_cost = new_route->getRouteOperatorCosts(ARoute::InsertOneNode);
-                if(insert_cost < INF) 
-                {
-                    new_route->setRouteByInsertNode(1, (*new_cus_it));
-                    nonInsertedNodes.erase(new_cus_it);
-                    nonUsedVehs.erase(nonUsedVehs.begin());
-                }
-            }
-            return new_route;
-        }
+        return new_route;
     }
 }
 
+/*new version -> build based on the cheapest insertion costs*/
+// void VRPSolution::buildInitialSol()
+// {
+//     double start = clock(); // get current time
+//     for(int i = 0; i < VTYPE; i++)
+//     {
+//         while(!nonInsertedNodes[i].empty() && !nonUsedVehs[i].empty())
+//         {
+//             ARoute* new_route = buildNewRoute(i);  //! this will erase one customer and vehicle from the two sets
+//             while(!nonInsertedNodes[i].empty())
+//             {
+//                 //! for all uninserted customers, insert all possible customers in the current route (start with the customer with the least insertion cost)
+//                 vector<pair<double, int>> insert_costs_set;    //to store the cheapest insertion costs of all uninserted customers in the route
+//                 for(auto iter = nonInsertedNodes[i].begin(); iter != nonInsertedNodes[i].end(); iter++)
+//                 {
+//                     pair<double, int> cus_insert_cost = new_route->calCheapestInsertionCosts(*iter);
+//                     insert_costs_set.push_back(cus_insert_cost);
+//                 }
+//                 auto selected_cost_iter = min_element(insert_costs_set.begin(), insert_costs_set.end(), [&](auto x, auto y){return x.first < y.first;});
+//                 double selected_cost = (*selected_cost_iter).first;  //! the minimum insertion costs among all customers
+//                 int selected_insert_pos = (*selected_cost_iter).second;
+//                 int selected_cost_index = selected_cost_iter - insert_costs_set.begin();
+//                 int selected_node = nonInsertedNodes[i][selected_cost_index];  //! the customer with the minium insertion cost
+//                 if(selected_cost < INF) //selected_cost < INF -> feasible
+//                 {
+//                     new_route->setRouteByInsertNode(selected_insert_pos, selected_node);
+//                     nonInsertedNodes[i].erase(remove(nonInsertedNodes[i].begin(), nonInsertedNodes[i].end(), selected_node)); //! remove the customer from the set of uninserted customers
+//                 }
+//                 else
+//                 {
+//                     break;
+//                 }
+//             }
+//             sol_config.push_back(new_route);
+//         }
+//     }
+
+//     //need to be deleted later
+//     //! mip_optimal_solution (integer distance)
+//     // sol_config[3]->setRouteByModifyUsedPath(1, 1);
+//     // sol_config[3]->setRouteByModifyUsedPath(0, 1);
+//     // sol_config[1]->setRouteByModifyUsedPath(0, 1);
+
+//     //! mip_optimal_solution (original distance)
+//     // sol_config[1]->setRouteByModifyUsedPath(0, 1);
+//     // sol_config[0]->setRouteByModifyUsedPath(1, 1);
+
+//     double cpuBeforePlatooning = clock();
+//     cout << "solution building time: " << (cpuBeforePlatooning - start ) / (double) CLOCKS_PER_SEC << "\t";
+//     makePlatoons();
+//     cout << "Platooning time: " << (clock() - cpuBeforePlatooning ) / (double) CLOCKS_PER_SEC << "\t";
+//     recomputeCost();
+//     cpuAfterPlatooning = (clock() - start ) / (double) CLOCKS_PER_SEC;
+//     cout << "Total time for building initial solution: " << cpuAfterPlatooning << endl;
+// }
+
+/*new version -> build randomly*/
 void VRPSolution::buildInitialSol()
 {
     double start = clock(); // get current time
-    
-    while(!nonInsertedNodes.empty() && !nonUsedVehs.empty())
+    cout << "=================Build initial Solution=================" << endl;
+    for(int i = 0; i < VTYPE; i++)
     {
-        ARoute* new_route = buildNewRoute(); //! this will erase one customer and vehicle from the two sets
-        if(!new_route->isEmpty())
+        while(!nonInsertedNodes[i].empty() && !nonUsedVehs[i].empty())
         {
-            vector<int> unserved_cus_id_same_type;
-            for(auto iter = nonInsertedNodes.begin(); iter != nonInsertedNodes.end(); iter++)
+            ARoute* new_route = buildNewRoute(i);  //! this will erase one customer and vehicle from the two sets
+            if(!new_route->isEmpty())
             {
-                if(nodeset->getNodeType(*iter) == new_route->getVehType())
+                vector<int> remaining_noninserted = nonInsertedNodes[i];
+                while(!remaining_noninserted.empty())
                 {
-                    unserved_cus_id_same_type.push_back(*iter);
+                    RandomNumber r1;
+                    int p = r1.get_rint(0, remaining_noninserted.size()-1);
+                    int selected_node = remaining_noninserted[p];
+                    pair<double, int> cus_insert_cost = new_route->calCheapestInsertionCosts(selected_node);
+                    double selected_cost = cus_insert_cost.first;
+                    int selected_insert_pos = cus_insert_cost.second;
+                    if(selected_cost < INF) //selected_cost < INF -> feasible
+                    {
+                        new_route->setRouteByInsertNode(selected_insert_pos, selected_node);
+                        nonInsertedNodes[i].erase(remove(nonInsertedNodes[i].begin(), nonInsertedNodes[i].end(), selected_node)); //! remove the customer from the set of uninserted customers
+                    }
+                    remaining_noninserted.erase(remaining_noninserted.begin()+p);
                 }
+                sol_config.push_back(new_route);
             }
-            while(!unserved_cus_id_same_type.empty())
-            {
-                //! for all uninserted customers, insert all possible customers in the current route (start with the customer with the least insertion cost)
-                vector<pair<double, int>> insert_costs_set;    //to store the cheapest insertion costs of all uninserted customers in the route
-                for(auto iter = unserved_cus_id_same_type.begin(); iter != unserved_cus_id_same_type.end(); iter++)
-                {
-                    pair<double, int> cus_insert_cost = new_route->calCheapestInsertionCosts(*iter);
-                    insert_costs_set.push_back(cus_insert_cost);
-                }
-                auto selected_cost_iter = min_element(insert_costs_set.begin(), insert_costs_set.end(), [&](auto x, auto y){return x.first < y.first;});
-                double selected_cost = (*selected_cost_iter).first;  //! the minimum insertion costs among all customers
-                int selected_insert_pos = (*selected_cost_iter).second;
-                int selected_cost_index = selected_cost_iter - insert_costs_set.begin();
-                int selected_node = unserved_cus_id_same_type[selected_cost_index];  //! the customer with the minium insertion cost
-                if(selected_cost < INF) //selected_cost < INF -> feasible
-                {
-                    new_route->setRouteByInsertNode(selected_insert_pos, selected_node);
-                    unserved_cus_id_same_type.erase(unserved_cus_id_same_type.begin() + selected_cost_index);  
-                    nonInsertedNodes.erase(remove(nonInsertedNodes.begin(), nonInsertedNodes.end(), selected_node)); //! remove the customer from the set of uninserted customers
-                }
-                else
-                {
-                    break;
-                }
-            }
-            sol_config.push_back(new_route);
-        } 
-        else //in case that the remaining customers and vehicles are incompatible
-        {
-            cerr << "No initial solution can be built from the given set of customers and vehicles.";
-            break;
         }
     }
 
@@ -198,11 +263,78 @@ void VRPSolution::buildInitialSol()
     // sol_config[1]->setRouteByModifyUsedPath(0, 1);
     // sol_config[0]->setRouteByModifyUsedPath(1, 1);
 
-    // cpuBeforePlatooning = (clock() - start ) / (double) CLOCKS_PER_SEC;
+    double cpuBeforePlatooning = clock();
+    cout << "solution building time: " << (cpuBeforePlatooning - start ) / (double) CLOCKS_PER_SEC << "\t";
     makePlatoons();
+    cout << "Platooning time: " << (clock() - cpuBeforePlatooning ) / (double) CLOCKS_PER_SEC << "\t";
     recomputeCost();
     cpuAfterPlatooning = (clock() - start ) / (double) CLOCKS_PER_SEC;
+    cout << "Total time for building initial solution: " << cpuAfterPlatooning << endl;
 }
+
+/*old version*/
+// void VRPSolution::buildInitialSol()
+// {
+//     double start = clock(); // get current time
+//     while(!nonInsertedNodes.empty() && !nonUsedVehs.empty())
+//     {
+//         ARoute* new_route = buildNewRoute(); //! this will erase one customer and vehicle from the two sets
+//         if(!new_route->isEmpty())
+//         {
+//             vector<int> unserved_cus_id_same_type;
+//             for(auto iter = nonInsertedNodes.begin(); iter != nonInsertedNodes.end(); iter++)
+//             {
+//                 if(nodeset->getNodeType(*iter) == new_route->getVehType())
+//                 {
+//                     unserved_cus_id_same_type.push_back(*iter);
+//                 }
+//             }
+//             while(!unserved_cus_id_same_type.empty())
+//             {
+//                 //! for all uninserted customers, insert all possible customers in the current route (start with the customer with the least insertion cost)
+//                 vector<pair<double, int>> insert_costs_set;    //to store the cheapest insertion costs of all uninserted customers in the route
+//                 for(auto iter = unserved_cus_id_same_type.begin(); iter != unserved_cus_id_same_type.end(); iter++)
+//                 {
+//                     pair<double, int> cus_insert_cost = new_route->calCheapestInsertionCosts(*iter);
+//                     insert_costs_set.push_back(cus_insert_cost);
+//                 }
+//                 auto selected_cost_iter = min_element(insert_costs_set.begin(), insert_costs_set.end(), [&](auto x, auto y){return x.first < y.first;});
+//                 double selected_cost = (*selected_cost_iter).first;  //! the minimum insertion costs among all customers
+//                 int selected_insert_pos = (*selected_cost_iter).second;
+//                 int selected_cost_index = selected_cost_iter - insert_costs_set.begin();
+//                 int selected_node = unserved_cus_id_same_type[selected_cost_index];  //! the customer with the minium insertion cost
+//                 if(selected_cost < INF) //selected_cost < INF -> feasible
+//                 {
+//                     new_route->setRouteByInsertNode(selected_insert_pos, selected_node);
+//                     unserved_cus_id_same_type.erase(unserved_cus_id_same_type.begin() + selected_cost_index);  
+//                     nonInsertedNodes.erase(remove(nonInsertedNodes.begin(), nonInsertedNodes.end(), selected_node)); //! remove the customer from the set of uninserted customers
+//                 }
+//                 else
+//                 {
+//                     break;
+//                 }
+//             }
+//             sol_config.push_back(new_route);
+//         } 
+//         else //in case that the remaining customers and vehicles are incompatible
+//         {
+//             cerr << "No initial solution can be built from the given set of customers and vehicles.";
+//             break;
+//         }
+//     }
+//     //need to be deleted later
+//     //! mip_optimal_solution (integer distance)
+//     // sol_config[3]->setRouteByModifyUsedPath(1, 1);
+//     // sol_config[3]->setRouteByModifyUsedPath(0, 1);
+//     // sol_config[1]->setRouteByModifyUsedPath(0, 1);
+//     //! mip_optimal_solution (original distance)
+//     // sol_config[1]->setRouteByModifyUsedPath(0, 1);
+//     // sol_config[0]->setRouteByModifyUsedPath(1, 1);
+//     // cpuBeforePlatooning = (clock() - start ) / (double) CLOCKS_PER_SEC;
+//     makePlatoons();
+//     recomputeCost();
+//     cpuAfterPlatooning = (clock() - start ) / (double) CLOCKS_PER_SEC;
+// }
 
 bool VRPSolution::isFeasible()
 {
@@ -301,48 +433,48 @@ int VRPSolution::calTotalTripDuration()
 
 int VRPSolution::calTotalUnservedRequests()
 {
-    totalUnservedPasRequests = 0;
-    totalUnservedFreRequests = 0;
-    totalUnservedRequests = 0;
-    for(int i = 0; i < nonInsertedNodes.size(); i++)
-    {
-        if(nodeset->getNodeType(nonInsertedNodes[i]) == 0)
-        {
-            totalUnservedPasRequests += 1;
-        }
-        else if(nodeset->getNodeType(nonInsertedNodes[i]) == 1)
-        {
-            totalUnservedFreRequests += 1;
-        }
-        totalUnservedRequests += 1;
-    }
+    // totalUnservedPasRequests = nonInsertedNodes[0].size();
+    // totalUnservedFreRequests = nonInsertedNodes[1].size();
+    totalUnservedRequests = nonInsertedNodes[0].size() + nonInsertedNodes[1].size();
+    // for(int i = 0; i < nonInsertedNodes.size(); i++)
+    // {
+    //     if(nodeset->getNodeType(nonInsertedNodes[i]) == 0)
+    //     {
+    //         totalUnservedPasRequests += 1;
+    //     }
+    //     else if(nodeset->getNodeType(nonInsertedNodes[i]) == 1)
+    //     {
+    //         totalUnservedFreRequests += 1;
+    //     }
+    //     totalUnservedRequests += 1;
+    // }
     return totalUnservedRequests;
     // return nonInsertedNodes.size();
 }
 
 int VRPSolution::calTotalUnservedPasRequests()
 {
-    totalUnservedPasRequests = 0;
-    for(int i = 0; i < nonInsertedNodes.size(); i++)
-    {
-        if(nodeset->getNodeType(nonInsertedNodes[i]) == 0)
-        {
-            totalUnservedPasRequests += 1;
-        }
-    }
+    totalUnservedPasRequests = nonInsertedNodes[0].size();
+    // for(int i = 0; i < nonInsertedNodes.size(); i++)
+    // {
+    //     if(nodeset->getNodeType(nonInsertedNodes[i]) == 0)
+    //     {
+    //         totalUnservedPasRequests += 1;
+    //     }
+    // }
     return totalUnservedPasRequests;
 }
 
 int VRPSolution::calTotalUnservedFreRequests()
 {
-    totalUnservedFreRequests = 0;
-    for(int i = 0; i < nonInsertedNodes.size(); i++)
-    {
-        if(nodeset->getNodeType(nonInsertedNodes[i]) == 0)
-        {
-            totalUnservedFreRequests += 1;
-        }
-    }
+    totalUnservedFreRequests = nonInsertedNodes[1].size();
+    // for(int i = 0; i < nonInsertedNodes.size(); i++)
+    // {
+    //     if(nodeset->getNodeType(nonInsertedNodes[i]) == 0)
+    //     {
+    //         totalUnservedFreRequests += 1;
+    //     }
+    // }
     return totalUnservedFreRequests;
 }
 
@@ -379,18 +511,21 @@ void VRPSolution::recomputeCost() //bool make_platoon
         totalEnergySaving += platoons_config[p]->calEnergySaving();
     }
     totalDistCostsAfterPlatooning = totalDistCostsBeforePlatooning - totalEnergySaving;
-    for(int i = 0; i < nonInsertedNodes.size(); i++)
-    {
-        if(nodeset->getNodeType(nonInsertedNodes[i]) == 0)
-        {
-            totalUnservedPasRequests += 1;
-        }
-        else if(nodeset->getNodeType(nonInsertedNodes[i] == 1))
-        {
-            totalUnservedFreRequests += 1;
-        }
-        totalUnservedRequests += 1;
-    }
+    totalUnservedPasRequests = nonInsertedNodes[0].size();
+    totalUnservedFreRequests = nonInsertedNodes[1].size();
+    totalUnservedRequests = totalUnservedPasRequests + totalUnservedFreRequests;
+    // for(int i = 0; i < nonInsertedNodes.size(); i++)
+    // {
+    //     if(nodeset->getNodeType(nonInsertedNodes[i]) == 0)
+    //     {
+    //         totalUnservedPasRequests += 1;
+    //     }
+    //     else if(nodeset->getNodeType(nonInsertedNodes[i] == 1))
+    //     {
+    //         totalUnservedFreRequests += 1;
+    //     }
+    //     totalUnservedRequests += 1;
+    // }
     // totalUnservedRequests = nonInsertedNodes.size();
     totalObjValueAfterPlatooning = obj_w1*totalDistCostsAfterPlatooning + obj_w2*totalTripDurationAllRoutes + obj_w3*(totalUnservedPasRequests+fp*totalUnservedFreRequests);
 }
@@ -404,6 +539,22 @@ void VRPSolution::updateSol(bool make_platoon)
         // sol_config[i]->calRouteMileage();
         // if(make_platoon) makePlatoons(); //! make_platoon = true: rebuild platoons again
         // sol_config[i]->calArrDepTime();
+    }
+}
+
+void VRPSolution::postProcessSol()
+{
+    for(auto it = sol_config.begin(); it != sol_config.end();)
+    {
+        if((*it)->isEmpty())
+        {
+            delete *it;
+            it = sol_config.erase(it);
+        }
+        else
+        {
+            it++;
+        }
     }
 }
 
@@ -429,14 +580,22 @@ ISolution* VRPSolution::getCopy()
     // newSol->nodeset = nodeset;
     // newSol->vehset = vehset;
     newSol->getNonInsertedNodes().clear();
-    for(int i = 0; i < getNonInsertedNodes().size(); i++)
+    newSol->getNonInsertedNodes().resize(VTYPE);
+    for(int i = 0; i < VTYPE; i++)
     {
-        newSol->getNonInsertedNodes().push_back(getNonInsertedNodes()[i]);
+        for(int j = 0; j < getNonInsertedNodes()[i].size(); j++)
+        {
+            newSol->getNonInsertedNodes()[i].push_back(getNonInsertedNodes()[i][j]);
+        }
     }
     newSol->getNonUsedVehs().clear();
-    for(int v = 0; v <getNonUsedVehs().size(); v++)
+    newSol->getNonUsedVehs().resize(VTYPE);
+    for(int i = 0; i < VTYPE; i++)
     {
-        newSol->getNonUsedVehs().push_back(getNonUsedVehs()[v]);
+        for(int v = 0; v <getNonUsedVehs()[i].size(); v++)
+        {
+            newSol->getNonUsedVehs()[i].push_back(getNonUsedVehs()[i][v]);
+        }
     }
     newSol->destroyableArcConfig.clear(); //! destroyable
     newSol->destroyableArcPos.clear(); //! destroyable
@@ -487,14 +646,16 @@ void VRPSolution::insertNode(int insert_pos, int insert_nodeid, int routeid)
 {
     /* new version */
     ARoute* original_route = sol_config[routeid];
-    auto it = find(nonInsertedNodes.begin(), nonInsertedNodes.end(), insert_nodeid);
-    if(it != nonInsertedNodes.end()) //! make sure that the inserted node is in the nonInsertedNodes set
+    assert(nodeset->getNodeType(insert_nodeid) == original_route->getVehType());
+    int vehtype = original_route->getVehType();
+    auto it = find(nonInsertedNodes[vehtype].begin(), nonInsertedNodes[vehtype].end(), insert_nodeid);
+    if(it != nonInsertedNodes[vehtype].end()) //! make sure that the inserted node is in the nonInsertedNodes set
     {
         double insertcosts = evaluateInsertNode(insert_pos, insert_nodeid, routeid);
         if(insertcosts < INF) //! only insert when the insertion is feasible
         {
             sol_config[routeid]->setRouteByInsertNode(insert_pos, insert_nodeid);
-            nonInsertedNodes.erase(it);
+            nonInsertedNodes[vehtype].erase(it);
             solCurOpt = InsertOneNode;
             //! compute the cost for the solution after the insertion
             totalDistCostsBeforePlatooning += insertcosts;
@@ -530,10 +691,11 @@ void VRPSolution::removeNode(int remove_pos, int routeid)
     ARoute* original_route = sol_config[routeid];
     double removalcosts = evaluateRemoveNode(remove_pos, routeid);
     int remove_nodeid = sol_config[routeid]->getCompactRoute()[remove_pos];
+    int nodetype = nodeset->getNodeType(remove_nodeid);
     if(removalcosts < INF) //only remove when the removal is feasible
     {
         sol_config[routeid]->setRouteByRemoveNode(remove_pos);
-        nonInsertedNodes.push_back(remove_nodeid);
+        nonInsertedNodes[nodetype].push_back(remove_nodeid);
         solCurOpt = RemoveOneNode;
         //! compute the removal costs for the solution after the removal
         totalDistCostsBeforePlatooning += removalcosts;
@@ -550,7 +712,13 @@ void VRPSolution::removeNode(int remove_pos, int routeid)
     else
     {
         solCurOpt = NoChange;
+        // if(getOneRoute(routeid)->getCompactRoute().size() < 3)
+        // {
+        //     nonUsedVehs[nodetype].push_back(getOneRoute(routeid)->getVehID());
+        //     getOneRoute(routeid)->setVehIdType(-1);
+        // }
     }
+
 
     /* old version */
     // int remove_nodeid = sol_config[routeid]->getCompactRoute()[remove_pos];
@@ -620,10 +788,12 @@ void VRPSolution::deleteOneRoute(int rid)
 {
     //! remove nodes in the route
     vector<int> compact_route = getOneRoute(rid)->getCompactRoute();
+    int rtype = getOneRoute(rid)->getVehType();
     for(int i = 1; i < compact_route.size()-1; i++)
     {
-        nonInsertedNodes.push_back(compact_route[i]);
+        nonInsertedNodes[rtype].push_back(compact_route[i]);
     }
+    nonUsedVehs[rtype].push_back(getOneRoute(rid)->getVehID());
     delete sol_config[rid];
     sol_config.erase(sol_config.begin()+rid);
     //! remove platoons containing the route
@@ -687,14 +857,30 @@ int VRPSolution::getNodeShowTimes(int nodeid)
 }
 
 /*old version*/
-vector<pair<int, int>> VRPSolution::getAllCusPos()
+vector<pair<int, int>> VRPSolution::getAllCusPos(int type)
 {
     vector<pair<int, int>> all_cus_pos;
-    for(int i = 0; i < getRoutesNum(); i++)
+    if(type == 0 || type == 1)
     {
-        for(int j = 1; j < sol_config[i]->getCompactRoute().size()-1; j++)
+        for(int i = 0; i < getRoutesNum(); i++)
         {
-            all_cus_pos.push_back(make_pair(i, j)); //! <routeid, arcpos>
+            if(getOneRoute(i)->getVehType() == type)
+            {
+                for(int j = 1; j < sol_config[i]->getCompactRoute().size()-1; j++)
+                {
+                    all_cus_pos.push_back(make_pair(i, j)); //! <routeid, arcpos>
+                }
+            }
+        }
+    }
+    else
+    {
+        for(int i = 0; i < getRoutesNum(); i++)
+        {
+            for(int j = 1; j < sol_config[i]->getCompactRoute().size()-1; j++)
+            {
+                all_cus_pos.push_back(make_pair(i, j)); //! <routeid, arcpos>
+            }
         }
     }
     return all_cus_pos;

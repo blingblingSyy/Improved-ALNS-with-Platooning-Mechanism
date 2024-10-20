@@ -35,6 +35,9 @@ class Node_Random_Removal: public ANodeDestroyOperator
         /*new version*/
         void keepRemovablePos(VRPSolution& vrpsol, vector<pair<int, int>>& all_cus_pos);
 
+        //! update the removable arc positions
+        void updateDestroyedArcPos(VRPSolution& vrpsol, pair<int, int> destroyed_nodepos); //! destroyed_nodepos = pair<route_id, remove_pos>
+
 };
 
 #endif /* TSP_RANDOM_REMOVAL_H_ */
