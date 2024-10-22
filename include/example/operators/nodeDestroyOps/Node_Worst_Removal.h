@@ -27,7 +27,7 @@ class Node_Worst_Removal: public Node_Random_Removal
     
     private:
         //! calculate the cost of removing a node
-        double calRemovalCost(VRPSolution& vrpsol, pair<int, int> removed_node); //! removed_node -> <routeid, arcpos>
+        // double calRemovalCost(VRPSolution& vrpsol, pair<int, int> removed_node); //! removed_node -> <routeid, arcpos>
 
         //! randomizinng parameters
         double randWorst;

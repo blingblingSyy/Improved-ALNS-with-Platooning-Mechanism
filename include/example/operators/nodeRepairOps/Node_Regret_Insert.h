@@ -28,9 +28,12 @@ class Node_Regret_Insert: public Node_Random_Insert
         //! calculate the ordered insertion costs of all non-inserted nodes to a solution
         vector<vector<tuple<double, int, int>>> calNoisedOrderedInsertCostsAllNodes(VRPSolution& vrpsol, vector<int> all_non_inserted);
 
+        //！update the ordered insertion costs of the new set of non-inserted nodes to a solution
+        void updateOrderedInsertCostsAllNodes(VRPSolution& vrpsol, vector<vector<tuple<double, int, int>>>& origOrderedCostsAllNodes, vector<int> all_non_inserted, int insert_rid, int insert_pos);
+
         //! calculate the regret value of all non-inserted nodes
         vector<double> calRegretValAllNodes(vector<int> all_non_inserted, vector<vector<tuple<double, int, int>>> orderedCostsAllNodes);
-
+        
         //! determine the first feasible position of all nodes to be inserted to a solution 
         vector<tuple<double, int, int>> findFeasPosAllNodes(VRPSolution& vrpsol, vector<int> all_non_inserted, vector<vector<tuple<double, int, int>>> orderedCostsAllNodes);
 };

@@ -116,6 +116,9 @@ void ALNS::performOneIteration()
 	//! initialize some status of the ALNS iteration
 	status.partialReinit();
 
+	//! record the time of strategy selection, 
+	double startTime = clock();
+
 	//! select strategies
 	stManager->selectStrategy();
 
@@ -126,6 +129,8 @@ void ALNS::performOneIteration()
 	ANodeRepairOperator& nodeRep = stManager->selectNodeRepairOperator(nodeDes.isEmpty());
 	APathDestroyOperator& pathDes = stManager->selectPathDestroyOperator();
 	APathRepairOperator& pathRep = stManager->selectPathRepairOperator(pathDes.isEmpty());
+	double selectionTime = (clock() - startTime)/(double) CLOCKS_PER_SEC;
+	cout << "Strategy and Operators Selection Time for the New Solution: " << selectionTime << endl;
 
 	// cout << "ALNS: APathDestroyOperator& pathDes: " << "\t ";
 	// cout << pathDes.getName() << "\t " << pathDes.getNumberOfCallsSinceLastEvaluation() << endl;
@@ -143,43 +148,67 @@ void ALNS::performOneIteration()
 	//! create new solution with the selected strategy and the operators
 	if(stManager->getCurStrategy() == AStrategyManager::NodeFirst)
 	{
+		double opStartTime = clock();
 		status.setAlreadyStrategySelected(ALNS_Iteration_Status::TRUE);
 		//! node destroy
 		nodeDes.destroySolNode(*newSolution);
 		status.setAlreadyNodeDestroyed(ALNS_Iteration_Status::TRUE);
 		nodeDes.setHasSelectedCur(true);
+		double nodeDesTime = clock();
 		//! node repair
 		nodeRep.repairSolNode(*newSolution);
 		status.setAlreadyNodeRepaired(ALNS_Iteration_Status::TRUE);
 		nodeRep.setHasSelectedCur(true);
+		double nodeRepTime = clock();
 		//! path destroy
 		pathDes.destroySolPath(*newSolution);
 		status.setAlreadyPathDestroyed(ALNS_Iteration_Status::TRUE);
 		pathDes.setHasSelectedCur(true);
+		double pathDesTime = clock();
 		//! path repair
 		pathRep.repairSolPath(*newSolution);
 		status.setAlreadyPathRepaired(ALNS_Iteration_Status::TRUE);
 		pathRep.setHasSelectedCur(true);
+		double pathRepTime = clock();
+
+		//! print out the time spent in each step
+		cout << "NodeFirst Strategy (overall time): " << (pathRepTime - opStartTime)/(double) CLOCKS_PER_SEC << endl;
+		cout << nodeDes.getName() << ": " << (nodeDesTime - opStartTime)/(double) CLOCKS_PER_SEC << endl;
+		cout << nodeRep.getName() << ": " << (nodeRepTime - nodeDesTime)/(double) CLOCKS_PER_SEC << endl;
+		cout << pathDes.getName() << ": " << (pathDesTime - nodeRepTime)/(double) CLOCKS_PER_SEC << endl;
+		cout << pathRep.getName() << ": " << (pathRepTime - pathDesTime)/(double) CLOCKS_PER_SEC << endl;
 	}
 	else if(stManager->getCurStrategy() == AStrategyManager::PathFirst)
 	{
+		double opStartTime = clock();
 		status.setAlreadyStrategySelected(ALNS_Iteration_Status::TRUE);
 		//! path destroy
 		pathDes.destroySolPath(*newSolution);
 		status.setAlreadyPathDestroyed(ALNS_Iteration_Status::TRUE);
 		pathDes.setHasSelectedCur(true);
+		double pathDesTime = clock();
 		//! path repair
 		pathRep.repairSolPath(*newSolution);
 		status.setAlreadyPathRepaired(ALNS_Iteration_Status::TRUE);
 		pathRep.setHasSelectedCur(true);
+		double pathRepTime = clock();
 		//! node destroy
 		nodeDes.destroySolNode(*newSolution);
 		status.setAlreadyNodeDestroyed(ALNS_Iteration_Status::TRUE);
 		nodeDes.setHasSelectedCur(true);
+		double nodeDesTime = clock();
 		//! node repair
 		nodeRep.repairSolNode(*newSolution);
 		status.setAlreadyNodeRepaired(ALNS_Iteration_Status::TRUE);
 		nodeRep.setHasSelectedCur(true);
+		double nodeRepTime = clock();
+
+		//! print out the time spent in each step
+		cout << "PathFirst Strategy (overall time): " << (nodeRepTime - opStartTime)/(double) CLOCKS_PER_SEC << endl;
+		cout << pathDes.getName() << ": " << (pathDesTime - opStartTime)/(double) CLOCKS_PER_SEC << endl;
+		cout << pathRep.getName() << ": " << (pathRepTime - pathDesTime)/(double) CLOCKS_PER_SEC << endl;
+		cout << nodeDes.getName() << ": " << (nodeDesTime - pathRepTime)/(double) CLOCKS_PER_SEC << endl;
+		cout << nodeRep.getName() << ": " << (nodeRepTime - nodeDesTime)/(double) CLOCKS_PER_SEC << endl;
 	}
 	//! update the updatable operators
 	// for(vector<IUpdatable*>::iterator it = updatableStructures.begin(); it != updatableStructures.end(); it++)
@@ -196,7 +225,7 @@ void ALNS::performOneIteration()
 	double timeBeforePlatoonMaking = clock();
 	newSolution->makePlatoons();
 	double timeAfterPlatoonMaking = (clock() - timeBeforePlatoonMaking ) / (double) CLOCKS_PER_SEC;
-	cout << "Platooning time for new solution: " << timeAfterPlatoonMaking << endl;
+	cout << "Platooning making time: " << timeAfterPlatoonMaking << endl;
 	newSolution->recomputeCost();
 	double newCost = newSolution->getObjectiveValue();
 
@@ -399,7 +428,7 @@ bool ALNS::isStoppingCriterionMet()
 				// if(nbIterations > 0)
 				// 	return stats.getOneBestCost(nbIterations-1) <= 5021; //! for test2.txt
 
-				if(nbIterations >= param->getMinNbIterations() && nbIterations > 2*param->getLookBackIterations())
+				if((nbIterations >= param->getMinNbIterations()) && (nbIterations > 2*param->getLookBackIterations()))
 				{
 					double accum_objval_before = 0;
 					double accum_objval_after = 0;
@@ -435,6 +464,25 @@ bool ALNS::isStoppingCriterionMet()
 					cout << "Stop: the algorithm reaches the maximum number of iterations without improvement by threshold.";
 					return true;
 				}
+				// if((nbIterations >= param->getMinNbIterations()) && (nbIterations > 2*param->getLookBackIterations()))
+				// {
+				// 	double accum_objval_before = 0;
+				// 	double accum_objval_after = 0;
+				// 	for(int i = nbIterations - param->getLookBackIterations(); i < nbIterations; i++)
+				// 	{
+				// 		accum_objval_after += stats.getOneBestCost(i);
+				// 	}
+				// 	for(int i = nbIterations - 2*param->getLookBackIterations(); i < nbIterations - param->getLookBackIterations(); i++)
+				// 	{
+				// 		accum_objval_before += stats.getOneBestCost(i);
+				// 	}
+				// 	bool maxitnoimp = (accum_objval_before / accum_objval_after - 1 <= param->getObjImpThreshold());
+				// 	if(maxitnoimp)
+				// 	{
+				// 		cout << "Stop: the algorithm reaches the maximum number of iterations without improvement by threshold.";
+				// 		return true;
+				// 	}
+				// }
 				clock_t currentTime = clock();
 				double elapsed = (static_cast<double>(currentTime - startingTime)) / CLOCKS_PER_SEC;
 				if(elapsed >= param->getMaxRunningTime())

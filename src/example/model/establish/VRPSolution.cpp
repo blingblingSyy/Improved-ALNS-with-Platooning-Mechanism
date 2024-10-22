@@ -767,7 +767,7 @@ double VRPSolution::evaluateModifyPath(int modified_arcpos, int modified_pathid,
 }
 
 
-vector<tuple<double, int, int>> VRPSolution::calOrderedInsertCostsAllRoutes(int insert_node_id)
+vector<tuple<double, int, int>> VRPSolution::calOrderedInsertCostsAllRoutes(int insert_node_id) //! <insert_cost, insert_pos, insert_route>
 {
     vector<tuple<double, int, int>> min_cost_all_routes; //! <insert_cost, insert_pos, insert_route>
     for(int i = 0; i < getRoutesNum(); i++)

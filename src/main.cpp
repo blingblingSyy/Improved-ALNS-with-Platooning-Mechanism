@@ -102,22 +102,22 @@ int main()
 	StrategyManager stMan(alnsParam);
     
 	stMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeRandomR));
-	// stMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeShawR));
-	// stMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeWorstR));
+	stMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeShawR));
+	stMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeWorstR));
 	// stMan.addNodeDestroyOperator(dynamic_cast<ANodeDestroyOperator&>(nodeRouteBasedR));
 
-	// stMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeGreedyI));
+	stMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeGreedyI));
 	stMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeRandomI));
-	// stMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeRegret2I));
+	stMan.addNodeRepairOperator(dynamic_cast<ANodeRepairOperator&>(nodeRegret2I));
 
-	// stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathAvgLenDiffR));
-	// stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathAvgLenR));
-	// stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathCardiR));
-	// stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathNFreqR));
+	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathAvgLenDiffR));
+	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathAvgLenR));
+	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathCardiR));
+	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathNFreqR));
 	stMan.addPathDestroyOperator(dynamic_cast<APathDestroyOperator&>(pathRandomR));
 
-	// stMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathKLenI));
-	// stMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathNFreqI));
+	stMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathKLenI));
+	stMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathNFreqI));
 	stMan.addPathRepairOperator(dynamic_cast<APathRepairOperator&>(pathRandomI));
 
 	SimpleBestSolutionManager bestSM(alnsParam);

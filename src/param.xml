@@ -7,7 +7,7 @@
 		<MaxRunTime>600</MaxRunTime>
 		<MaxNbIterationsNoImp>5000</MaxNbIterationsNoImp>
 		<StoppingCriterion>ALL</StoppingCriterion>
-		<Noise>false</Noise>
+		<Noise>true</Noise>
 		<TimeSegmentIt>1</TimeSegmentIt>
 		<Sigma1>5</Sigma1>
 		<Sigma2>3</Sigma2>
@@ -41,7 +41,7 @@
 		<NodeDestroyRate>0.9</NodeDestroyRate>
 		<ShawRate1>9</ShawRate1>
 		<ShawRate2>6</ShawRate2>
-		<ShawRate3>4</ShawRate3>
+		<ShawRate3>3</ShawRate3>
 		<ShawRate4>9</ShawRate4>
 		<RandShawDes>4</RandShawDes>
 		<RandWorstDes>4</RandWorstDes>

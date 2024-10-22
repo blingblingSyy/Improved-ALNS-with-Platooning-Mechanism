@@ -18,8 +18,14 @@ KSPBuilder::KSPBuilder(vector<vector<double>> distmat, int nodenum, int ksp_limi
     // AlternativeSetSize_PerPath.resize(node_num);
     SP_AllPaths.resize(node_num);
     KSP_AllPaths.resize(node_num);
+    cout << "=================Build distance matrix=================" << endl;
+    double startbuild = clock();
     Dijkstra_AllPaths(); //generate SP_AllPaths
+    double dijstraTime = clock();
+    cout << "Time to build the shortest path matrix: " << (dijstraTime - startbuild) / (double) CLOCKS_PER_SEC << endl;
     ModifiedYen_AllPaths(); //generate KSP_AllPaths
+    double yenTime = clock();
+    cout << "Time to build the available path set matrix: " << (yenTime - dijstraTime) / (double) CLOCKS_PER_SEC << endl;
 }
 
 KSPBuilder::~KSPBuilder()
