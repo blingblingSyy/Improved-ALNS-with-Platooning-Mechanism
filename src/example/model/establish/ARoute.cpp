@@ -539,7 +539,7 @@ void ARoute::evaluateRouteByInsertNode(int insert_pos, int insert_nodeid)
 {
     assert(vehid != -1);
     nodeInsertionCosts = INF;
-    if(nodeset->getNodeType(insert_nodeid) == vehtype || nodeset->getNodeType(insert_nodeid) == 2)
+    if(nodeset->getNodeType(insert_nodeid) == vehtype)  // || nodeset->getNodeType(insert_nodeid) == 2
     {
         bool LinkFeas, TimeFeas, LoadFeas, DistFeas;
         //veh_id and veh_type unchanged
@@ -554,8 +554,8 @@ void ARoute::evaluateRouteByInsertNode(int insert_pos, int insert_nodeid)
                 vector<int> extended_route1 = setExtendRouteByInsertNode(insert_pos, insert_nodeid);
                 vector<int> node_labels1 = setNodeLabelsByInsertNode(insert_pos, insert_nodeid);
                 TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
-                twupdater.calRouteExpectedTW();
-                TimeFeas = twupdater.isRouteTimeFeas();
+                TimeFeas = twupdater.calRouteExpectedTW();
+                // TimeFeas = twupdater.isRouteTimeFeas();
                 if(TimeFeas)
                 {
                     vector<double> route_mileage1 = setRouteMileageByInsertNode(insert_pos, insert_nodeid);
@@ -611,8 +611,8 @@ void ARoute::evaluateRouteByRemoveNode(int remove_pos)
         vector<int> extended_route1 = setExtendRouteByRemoveNode(remove_pos);
         vector<int> node_labels1 = setNodeLabelsByRemoveNode(remove_pos);
         TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
-        twupdater.calRouteExpectedTW();
-        TimeFeas = twupdater.isRouteTimeFeas();
+        TimeFeas = twupdater.calRouteExpectedTW();
+        // TimeFeas = twupdater.isRouteTimeFeas();
         if(TimeFeas)
         {
             vector<double> route_mileage1 = setRouteMileageByRemoveNode(remove_pos);
@@ -664,8 +664,8 @@ void ARoute::evaluateRouteByModifyUsedPath(int modified_arcpos, int used_path_id
         vector<int> extended_route1 = setExtendRouteByModifyUsedPath(modified_arcpos, used_path_id);
         vector<int> node_labels1 = setNodeLabelsByModifyUsedPath(modified_arcpos, used_path_id);
         TimeWindowUpdater twupdater(extended_route1, node_labels1, getRouteWaitTimeLimitPerNode(), getRouteWaitMaxLimit(), *nodeset);
-        twupdater.calRouteExpectedTW();
-        TimeFeas = twupdater.isRouteTimeFeas();
+        TimeFeas = twupdater.calRouteExpectedTW();
+        // TimeFeas = twupdater.isRouteTimeFeas();
         if(TimeFeas)
         {
             vector<double> route_mileage1 = setRouteMileageByModifyUsedPath(modified_arcpos, used_path_id);
@@ -776,19 +776,24 @@ double ARoute::calInsertionCosts(int insert_pos, int insert_nodeid)
 pair<double, int> ARoute::calCheapestInsertionCosts(int insert_nodeid) //! <insert_cost, insert_pos>
 {
     pair<double, int> cost_pos;  // a pair is created to store the cheapest insertion cost and the corresponding position of the node in the route
-    vector<double> all_insertion_costs;
+    // vector<double> all_insertion_costs;
+    vector<pair<double, int>> all_insert_costpos;
     for(int i = 1; i < compact_route.size(); i++) //the node cannot be inserted before the starting depot and after the ending depot
     {
         evaluateRouteByInsertNode(i, insert_nodeid);  //! if nodetype != vehtype: cost = INF;
         double insertioncosts = getRouteOperatorCosts(InsertOneNode);
-        all_insertion_costs.push_back(insertioncosts);
+        // all_insertion_costs.push_back(insertioncosts);
+        all_insert_costpos.push_back(make_pair(insertioncosts, i));
     }
-    auto min_pos = min_element(all_insertion_costs.begin(), all_insertion_costs.end());
-    double min_cost = *min_pos;
-    nodeInsertionCosts = min_cost; //! update the nodeInsertionCosts to be the cheapest insertion costs of the given node
-    int insert_pos = min_pos - all_insertion_costs.begin() + 1; //1 is for the starting depot
-    cost_pos = make_pair(min_cost, insert_pos);
-    return cost_pos;
+    auto min_pos = min_element(all_insert_costpos.begin(), all_insert_costpos.end(), [&](auto A, auto B){return A.first < B.first;});
+    pair<double, int> min_costpos = *min_pos;
+    return min_costpos;
+    // auto min_pos = min_element(all_insertion_costs.begin(), all_insertion_costs.end());
+    // double min_cost = *min_pos;
+    // nodeInsertionCosts = min_cost; //! update the nodeInsertionCosts to be the cheapest insertion costs of the given node
+    // int insert_pos = min_pos - all_insertion_costs.begin() + 1; //1 is for the starting depot
+    // cost_pos = make_pair(min_cost, insert_pos);
+    // return cost_pos;
 }
 
 double ARoute::calRemovalCosts(int removal_pos)

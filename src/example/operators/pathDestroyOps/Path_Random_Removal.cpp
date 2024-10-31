@@ -40,6 +40,7 @@ void Path_Random_Removal::destroySolPath(ISolution& sol)
     vector<tuple<int, int, int>> all_destroyable_arcpos = vrpsol.getDestroyableArcPos();  //! <destroyed_arcpos, destroyed_pathid, routeid>
     vector<vector<int>> all_destroyable_arcconfig = vrpsol.getDestroyableArcConfig(); //! {node1, node2}
     vrpsol.getDestroyedArcsPos().clear(); //! clear for the current iteration
+    vrpsol.getDestroyedArcConfig().clear();
 
     //! calculate the average difference of length between alternative paths for each specific path
     path_measurement = calMeasurement(vrpsol, all_destroyable_arcpos, all_destroyable_arcconfig);
@@ -72,6 +73,7 @@ void Path_Random_Removal::destroySolPath(ISolution& sol)
         vector<int> selected_arcconfig = all_destroyable_arcconfig[indices[select_indpos]]; //! {node1, node2}
         //! destroy the selected path
         vrpsol.getDestroyedArcsPos().push_back(selected_arcpos);
+        vrpsol.getDestroyedArcConfig().push_back(selected_arcconfig);
         //! update the tabu tenure for the selected path
         pathTabuObj->updatePathTenure(selected_arcconfig);
         //! remove the path from the set of destroyable paths

@@ -17,7 +17,8 @@ Path_NodeFreq_Insert::Path_NodeFreq_Insert(string s, Operators_Parameters& ops_p
     empty = false;
     // hasSelectedCur = true;
     toSelectNext = true;
-    this->randF = ops_param.getRandNfreqRep();
+    // this->randF = ops_param.getRandNfreqRep();
+    randSel = ops_param.getRandNfreqRep();
 }
 
 Path_NodeFreq_Insert::~Path_NodeFreq_Insert()
@@ -58,7 +59,7 @@ vector<int> Path_NodeFreq_Insert::sortMeasurement(VRPSolution& vrpsol, vector<in
         }
         else
         {
-            path_avg_nodefreq.push_back(-1);
+            path_avg_nodefreq.push_back(-INF);
         }
     }
     vector<int> indices(avail_path_set_it.size());

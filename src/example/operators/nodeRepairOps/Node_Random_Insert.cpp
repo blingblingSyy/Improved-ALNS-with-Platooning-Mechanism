@@ -71,7 +71,7 @@ void Node_Random_Insert::repairSolNode(ISolution& sol)  //! wrong: insert to the
         while(!all_non_inserted.empty()) //! iterate through all non-inserted nodes -> insert the first element in the noninserted each time
         {
             vector<pair<int, int>> cus_pos_copy = all_cus_pos;
-            keepRepairablePos(vrpsol, cus_pos_copy, i); 
+            keepRepairablePos(vrpsol, cus_pos_copy, i);  //! type == i
             while(!cus_pos_copy.empty()) //iterate through all possible insertion positions
             {
                 RandomNumber r1;
@@ -82,7 +82,6 @@ void Node_Random_Insert::repairSolNode(ISolution& sol)  //! wrong: insert to the
                 {
                     updateAllCusPos(vrpsol, all_cus_pos, selected_vehpos);
                     updateNonRepairablePos(vrpsol, selected_vehpos.first, selected_vehpos.second);  //! will sort nonRepairablePos
-                    int vehtype = vrpsol.getOneRoute(selected_vehpos.first)->getVehType();
                     break;
                 }
                 cus_pos_copy.erase(cus_pos_copy.begin()+p);

@@ -4,7 +4,7 @@
 		<MinNbIterations>5</MinNbIterations>
 		<LookBackIterations>3000</LookBackIterations>
 		<ObjImpThreshold>0.001</ObjImpThreshold>
-		<MaxRunTime>600</MaxRunTime>
+		<MaxRunTime>60</MaxRunTime>
 		<MaxNbIterationsNoImp>5000</MaxNbIterationsNoImp>
 		<StoppingCriterion>ALL</StoppingCriterion>
 		<Noise>true</Noise>
@@ -38,7 +38,7 @@
 	</CoolingSchedule>
 	<Operators>
 		<PathDestroyRate>0.9</PathDestroyRate>
-		<NodeDestroyRate>0.9</NodeDestroyRate>
+		<NodeDestroyRate>0.75</NodeDestroyRate>
 		<ShawRate1>9</ShawRate1>
 		<ShawRate2>6</ShawRate2>
 		<ShawRate3>3</ShawRate3>
@@ -49,8 +49,8 @@
 		<RandAvgLenDes>3</RandAvgLenDes>
 		<RandCardiDes>3</RandCardiDes>
 		<RandNfreqDes>3</RandNfreqDes>
-		<RandKlenRep>2</RandKlenRep>
-		<RandNfreqRep>2</RandNfreqRep>
+		<RandKlenRep>1.6</RandKlenRep>
+		<RandNfreqRep>1.6</RandNfreqRep>
 		<Tenure>1</Tenure>
 	</Operators>
 </Parameters>

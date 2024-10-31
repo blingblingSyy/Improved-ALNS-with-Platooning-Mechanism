@@ -167,6 +167,9 @@ class VRPSolution: public ISolution
         //! a simple getter: {{destroyed_arcpos, destroyed_pathid, routeid}, ...}
         vector<tuple<int, int, int>>& getDestroyedArcsPos() {return destroyedArcPos;};
 
+        //! a simple getter
+        vector<vector<int>>& getDestroyedArcConfig() {return destroyedArcConfig;};
+
         //! a simple getter: {{destroyed_arcpos, destroyed_pathid, routeid}, ...}
         // vector<tuple<int, int, int>>& getRepairedArcsPos() {return repairedArcs;};
         
@@ -249,8 +252,11 @@ class VRPSolution: public ISolution
         //! as each served node only appears in the solution once, the destroyableArcConfig is in the same order as the destroyableArcPos
         vector<vector<int>> destroyableArcConfig; //! {{i,j}, ...}
 
-        //! the selected paths to be destroyed later
+        //! the selected paths position to be destroyed later
         vector<tuple<int, int, int>> destroyedArcPos; //{{destroyed_arcpos, destroyed_pathid, routeid}, ...};
+
+        //! the selected path configuration to be destroyed later
+        vector<vector<int>> destroyedArcConfig;
 
         //! the route configuration of the solution
         vector<ARoute*> sol_config;

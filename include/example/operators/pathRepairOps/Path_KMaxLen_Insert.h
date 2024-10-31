@@ -26,7 +26,7 @@ class Path_KMaxLen_Insert: public Path_Random_Insert
         // Nodes& nodeset;
 
         //! the randomizing parameters 
-        double randK;
+        // double randK;
 
         //! sort indices based on the length of each alternative path
         vector<int> sortMeasurement(VRPSolution& vrpsol, vector<int> arc_config, int orig_usedpath);

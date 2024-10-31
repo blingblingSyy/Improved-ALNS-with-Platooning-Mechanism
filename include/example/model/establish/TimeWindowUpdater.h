@@ -102,7 +102,7 @@ class TimeWindowUpdater
         ~TimeWindowUpdater();
 
         //! calculate the expected arrival and departure time windows of a route
-        void calRouteExpectedTW();
+        bool calRouteExpectedTW();
 
         //! calibrate the time windows of a route given a modfied departure time window of an arc
         void CalibRouteTW(int fixed_deptw_arcpos, vector<int> overlap_dep_tw);

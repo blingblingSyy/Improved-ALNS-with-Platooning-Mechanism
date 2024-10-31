@@ -117,7 +117,7 @@ void ALNS::performOneIteration()
 	status.partialReinit();
 
 	//! record the time of strategy selection, 
-	double startTime = clock();
+	// double startSelectionTime = clock();
 
 	//! select strategies
 	stManager->selectStrategy();
@@ -129,8 +129,8 @@ void ALNS::performOneIteration()
 	ANodeRepairOperator& nodeRep = stManager->selectNodeRepairOperator(nodeDes.isEmpty());
 	APathDestroyOperator& pathDes = stManager->selectPathDestroyOperator();
 	APathRepairOperator& pathRep = stManager->selectPathRepairOperator(pathDes.isEmpty());
-	double selectionTime = (clock() - startTime)/(double) CLOCKS_PER_SEC;
-	cout << "Strategy and Operators Selection Time for the New Solution: " << selectionTime << endl;
+	// double selectionTime = (clock() - startSelectionTime)/(double) CLOCKS_PER_SEC;
+	// cout << "Strategy and Operators Selection Time for the New Solution: " << selectionTime << endl;
 
 	// cout << "ALNS: APathDestroyOperator& pathDes: " << "\t ";
 	// cout << pathDes.getName() << "\t " << pathDes.getNumberOfCallsSinceLastEvaluation() << endl;
@@ -153,22 +153,22 @@ void ALNS::performOneIteration()
 		//! node destroy
 		nodeDes.destroySolNode(*newSolution);
 		status.setAlreadyNodeDestroyed(ALNS_Iteration_Status::TRUE);
-		nodeDes.setHasSelectedCur(true);
+		// nodeDes.setHasSelectedCur(true);
 		double nodeDesTime = clock();
 		//! node repair
 		nodeRep.repairSolNode(*newSolution);
 		status.setAlreadyNodeRepaired(ALNS_Iteration_Status::TRUE);
-		nodeRep.setHasSelectedCur(true);
+		// nodeRep.setHasSelectedCur(true);
 		double nodeRepTime = clock();
 		//! path destroy
 		pathDes.destroySolPath(*newSolution);
 		status.setAlreadyPathDestroyed(ALNS_Iteration_Status::TRUE);
-		pathDes.setHasSelectedCur(true);
+		// pathDes.setHasSelectedCur(true);
 		double pathDesTime = clock();
 		//! path repair
 		pathRep.repairSolPath(*newSolution);
 		status.setAlreadyPathRepaired(ALNS_Iteration_Status::TRUE);
-		pathRep.setHasSelectedCur(true);
+		// pathRep.setHasSelectedCur(true);
 		double pathRepTime = clock();
 
 		//! print out the time spent in each step
@@ -185,22 +185,22 @@ void ALNS::performOneIteration()
 		//! path destroy
 		pathDes.destroySolPath(*newSolution);
 		status.setAlreadyPathDestroyed(ALNS_Iteration_Status::TRUE);
-		pathDes.setHasSelectedCur(true);
+		// pathDes.setHasSelectedCur(true);
 		double pathDesTime = clock();
 		//! path repair
 		pathRep.repairSolPath(*newSolution);
 		status.setAlreadyPathRepaired(ALNS_Iteration_Status::TRUE);
-		pathRep.setHasSelectedCur(true);
+		// pathRep.setHasSelectedCur(true);
 		double pathRepTime = clock();
 		//! node destroy
 		nodeDes.destroySolNode(*newSolution);
 		status.setAlreadyNodeDestroyed(ALNS_Iteration_Status::TRUE);
-		nodeDes.setHasSelectedCur(true);
+		// nodeDes.setHasSelectedCur(true);
 		double nodeDesTime = clock();
 		//! node repair
 		nodeRep.repairSolNode(*newSolution);
 		status.setAlreadyNodeRepaired(ALNS_Iteration_Status::TRUE);
-		nodeRep.setHasSelectedCur(true);
+		// nodeRep.setHasSelectedCur(true);
 		double nodeRepTime = clock();
 
 		//! print out the time spent in each step

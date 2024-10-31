@@ -1,0 +1,4 @@
+iterations	timeStamps	Strategy	Node Destroy Operator	Node Repair Operator	Path Destroy Operator	Path Repair Operator	New Cost	Current Cost	Best Cost	Cumulative Known Solutions
+1	30.521	nodefirst	Node Random Removal	Node Greedy Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	84861.1	61414.8	61414.8	1
+2	46.012	nodefirst	Node Random Removal	Node Greedy Insert	pathNullDestroy	pathNullRepair	60938.5	60938.5	60938.5	2
+3	66.128	nodefirst	Node Random Removal	Node Greedy Insert	pathNullDestroy	pathNullRepair	83045.5	60938.5	60938.5	3

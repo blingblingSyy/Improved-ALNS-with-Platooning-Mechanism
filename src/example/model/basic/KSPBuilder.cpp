@@ -68,10 +68,10 @@ void KSPBuilder::end()
 void KSPBuilder::Dijsktra_body(vector<ADijkstraSol*> &SPset_fromstart, vector<int> &pred_fromstart, vector<vector<double>> input_distmat)
 {
     //unvisited node
-    vector<int> unvisited_nodes(node_num); //temporary list
+    vector<int> unvisited_nodes; //temporary list
     for(int i = 0; i < node_num; i++)
     {
-        unvisited_nodes[i] = i;
+        unvisited_nodes.push_back(i);
     }
     
     auto compare = [&](int s, int r) {return SPset_fromstart[s]->getDist() < SPset_fromstart[r]->getDist();}; //! initial distance from the starting node
@@ -141,6 +141,7 @@ void KSPBuilder::Dijkstra_AllPaths()  //calculate the shortest path distance bet
         vector<int> predecessors(node_num, -1);
         //vector<vector<int>> SP_from_i;  //shortest path from node i to all other nodes
         SP_AllPaths[i].resize(node_num);  //shortest path structure from node i
+        SP_AllPaths[i][i] = empty_DijkstraSol;
         for(int j = 0; j < node_num; j++)
         {
             if(j != i)
@@ -148,28 +149,27 @@ void KSPBuilder::Dijkstra_AllPaths()  //calculate the shortest path distance bet
                 SP_AllPaths[i][j] = new ADijkstraSol;  //defaulted: dist = 0; path = {}
                 SP_AllPaths[i][j]->setDist(INF);
             }
-            else //j == i
-            {
-                // SP_AllPaths[i][j]->setDist(0);
-                SP_AllPaths[i][j] = empty_DijkstraSol;
-            }
         }
         
-        Dijsktra_body(SP_AllPaths[i], predecessors, init_distmat);
+        Dijsktra_body(SP_AllPaths[i], predecessors, init_distmat); //! SP_AllPaths[i][z]->setDist() has done
 
         //SP_from_i = generate_paths_tree(predecessors);
         for(int z = 0; z < node_num; z++)
         {
             if(i != z)
             {
-                SP_AllPaths[i][z]->setPath(generate_onepath(z, predecessors));
+                SP_AllPaths[i][z]->setPath(generate_onepath(z, predecessors)); //! has eliminated the path containing subtours with the depot
                 //! to eliminate the path containing the subtours with the depot
                 vector<int> temp_path = SP_AllPaths[i][z]->getPath();
-                if(find(temp_path.begin()+1, temp_path.end()-1, 0) != temp_path.end()-1)
+                if(temp_path.empty())
                 {
-                    SP_AllPaths[i][z]->setPath({});
                     SP_AllPaths[i][z]->setDist(INF);
                 }
+                // if(find(temp_path.begin()+1, temp_path.end()-1, 0) != temp_path.end()-1)
+                // {
+                //     SP_AllPaths[i][z]->setPath({});
+                //     SP_AllPaths[i][z]->setDist(INF);
+                // }
             }
         }
     }
@@ -184,6 +184,13 @@ vector<int> KSPBuilder::generate_onepath(int end, vector<int> pred_vecs)
         {
             path_track.push_back(end);
             end = pred_vecs[end];
+            //! eliminate the path containing the depot in the middle of the route
+            if(end == 0 && pred_vecs[end] != -1) //! pred_vecs[end'] == 0 && pred_vecs[pred_vecs[end']] != -1 (end': original end)
+            {
+                // path_track = {};
+                // return path_track;
+                return {};
+            }
         }
         reverse(path_track.begin(), path_track.end());
     }
@@ -289,7 +296,7 @@ vector<ADijkstraSol*> KSPBuilder::ModifiedYen_OnePath(int start_node, int end_no
             //     }
             // }
             //! check 2: whether there are subtours in the  -> revise: subtour is allowed
-            bool subtour = 0; //subtour is allowed
+            // bool subtour = 0; //subtour is allowed
             // for(int w = 1; w < new_path.size(); w++) //w starts from 1 because the start node in new_path is the same as the end node in old_path
             // {
             //     if(find(old_path.begin(), old_path.end(), new_path[w]) != old_path.end())
@@ -299,29 +306,29 @@ vector<ADijkstraSol*> KSPBuilder::ModifiedYen_OnePath(int start_node, int end_no
             //         break;
             //     }
             // }
-            if(!subtour) //if no subtour
+            // if(!subtour) //if no subtour
+            // {
+            ADijkstraSol* tempSP_Start_End = new ADijkstraSol; 
+            //! path reconnection
+            old_path.insert(old_path.end(), new_path.begin()+1, new_path.end()); //bug: new_path is empty because of unconnected nodes
+            tempSP_Start_End->setPath(old_path);
+            //! calculate distance
+            tempSP_Start_End->setDist(old_dist + SPk_Start_End->getDist());
+            //! evaluate distance - whether falls into coupling range
+            if(tempSP_Start_End->getDist() > SP1_Start_End->getDist()*10*1.0/9)
             {
-                ADijkstraSol* tempSP_Start_End = new ADijkstraSol; 
-                //! path reconnection
-                old_path.insert(old_path.end(), new_path.begin()+1, new_path.end()); //bug: new_path is empty because of unconnected nodes
-                tempSP_Start_End->setPath(old_path);
-                //! calculate distance
-                tempSP_Start_End->setDist(old_dist + SPk_Start_End->getDist());
-                //! evaluate distance - whether falls into coupling range
-                if(tempSP_Start_End->getDist() > SP1_Start_End->getDist()*10*1.0/9)
-                {
-                    continue; //jump out the current "for" cycle -> visit the next deviation node
-                }
-                //! else: put the temporary solution in B[] if the solution did not appear in both A[] and B[] before
-                //! need to define == operator in struct Dijkstra Solution
-                //! the pointers are different, but the contents pointed by the pointers may be the same
-                bool appear_in_A = find_if(KShortestPath_Start_End.begin(), KShortestPath_Start_End.end(), [&](ADijkstraSol* sol){return *sol == *tempSP_Start_End;}) != KShortestPath_Start_End.end();
-                bool appear_in_B = find_if(KDeviationPath_Start_End.begin(), KDeviationPath_Start_End.end(), [&](ADijkstraSol* sol){return *sol == *tempSP_Start_End;}) != KDeviationPath_Start_End.end();
-                if(!appear_in_A && !appear_in_B)
-                {
-                    KDeviationPath_Start_End.push_back(tempSP_Start_End);
-                }
+                continue; //jump out the current "for" cycle -> visit the next deviation node
             }
+            //! else: put the temporary solution in B[] if the solution did not appear in both A[] and B[] before
+            //! need to define == operator in struct Dijkstra Solution
+            //! the pointers are different, but the contents pointed by the pointers may be the same
+            bool appear_in_A = find_if(KShortestPath_Start_End.begin(), KShortestPath_Start_End.end(), [&](ADijkstraSol* sol){return *sol == *tempSP_Start_End;}) != KShortestPath_Start_End.end();
+            bool appear_in_B = find_if(KDeviationPath_Start_End.begin(), KDeviationPath_Start_End.end(), [&](ADijkstraSol* sol){return *sol == *tempSP_Start_End;}) != KDeviationPath_Start_End.end();
+            if(!appear_in_A && !appear_in_B)
+            {
+                KDeviationPath_Start_End.push_back(tempSP_Start_End);
+            }
+            // }
         }
     }
 
@@ -334,18 +341,56 @@ vector<ADijkstraSol*> KSPBuilder::ModifiedYen_OnePath(int start_node, int end_no
     return KShortestPath_Start_End;
 }
 
-void KSPBuilder::ModifiedYen_AllPaths()
+/*old version*/
+// void KSPBuilder::ModifiedYen_AllPaths() //! can be accelerated using the sysmmetric properties of the undirected graph
+// {
+//     // ADijkstraSol* empty_DijkstraSol = new ADijkstraSol; //defaulted: dist = 0; path = {}
+//     for(int i = 0; i < node_num; i++) //start_node
+//     {
+//         KSP_AllPaths[i].resize(node_num);
+//         KSP_AllPaths[i][i].push_back(SP_AllPaths[i][i]); //! points to the same empty_DijkstraSol
+//         for(int j = 0; j < node_num; j++) //end_node
+//         {
+//             if(j != i)
+//             {
+//                 KSP_AllPaths[i][j] = ModifiedYen_OnePath(i, j);
+//             }
+//         }
+//     }
+// }
+
+/*new version*/
+void KSPBuilder::ModifiedYen_AllPaths() //! can be accelerated using the sysmmetric properties of the undirected graph
 {
     // ADijkstraSol* empty_DijkstraSol = new ADijkstraSol; //defaulted: dist = 0; path = {}
     for(int i = 0; i < node_num; i++) //start_node
     {
         KSP_AllPaths[i].resize(node_num);
         KSP_AllPaths[i][i].push_back(SP_AllPaths[i][i]); //! points to the same empty_DijkstraSol
-        for(int j = 0; j < node_num; j++) //end_node
+        for(int j = 0; j < i; j++) //end_node
         {
-            if(j != i)
+            KSP_AllPaths[i][j] = ModifiedYen_OnePath(i, j);
+        }
+    }
+    for(int i = 0; i < node_num; i++) //start_node
+    {
+        for(int j = i+1; j < node_num; j++)
+        {
+            if(KSP_AllPaths[j][i][0]->getPath().empty())
             {
-                KSP_AllPaths[i][j] = ModifiedYen_OnePath(i, j);
+                KSP_AllPaths[i][j] = KSP_AllPaths[j][i];
+            }
+            else
+            {
+                KSP_AllPaths[i][j].resize(KSP_AllPaths[j][i].size());
+                for(int k = 0; k < KSP_AllPaths[j][i].size(); k++)
+                {
+                    KSP_AllPaths[i][j][k] = new ADijkstraSol;
+                    KSP_AllPaths[i][j][k]->setDist(KSP_AllPaths[j][i][k]->getDist());
+                    vector<int> symm_path = KSP_AllPaths[j][i][k]->getPath();
+                    reverse(symm_path.begin(), symm_path.end());
+                    KSP_AllPaths[i][j][k]->setPath(symm_path);
+                }
             }
         }
     }

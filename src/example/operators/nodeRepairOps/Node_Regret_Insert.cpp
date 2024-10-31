@@ -176,11 +176,13 @@ vector<vector<tuple<double, int, int>>> Node_Regret_Insert::calNoisedOrderedInse
     for(int i = 0; i < all_non_inserted.size(); i++)
     {
         vector<tuple<double, int, int>> ordered_insert_costs = vrpsol.calOrderedInsertCostsAllRoutes(all_non_inserted[i]);
-        if(noise)
+        if(noise) //!  && !ordered_insert_costs.empty()
         {
             RandomNumber r;
             for(auto it = ordered_insert_costs.begin(); it != ordered_insert_costs.end(); it++)
             {
+                // double cost = get<0>(*it) * r.get_rflt();
+                // get<0>(*it) = cost;
                 if(get<0>(*it) < INF)
                 {
                     double cost = get<0>(*it) * r.get_rflt();
@@ -201,7 +203,7 @@ vector<vector<tuple<double, int, int>>> Node_Regret_Insert::calNoisedOrderedInse
 void Node_Regret_Insert::updateOrderedInsertCostsAllNodes(VRPSolution& vrpsol, vector<vector<tuple<double, int, int>>>& origOrderedCostsAllNodes, 
                                                             vector<int> all_non_inserted, int insert_rid, int insert_pos)
 {
-    double t1 = clock();
+    // double t1 = clock();
     RandomNumber r;
     ARoute* inserted_route = vrpsol.getOneRoute(insert_rid);
     for(int i = 0; i < all_non_inserted.size(); i++)
@@ -229,29 +231,29 @@ void Node_Regret_Insert::updateOrderedInsertCostsAllNodes(VRPSolution& vrpsol, v
             if(insertioncosts < INF)
             {
                 if(noise)  insertioncosts *= r.get_rflt();
-                for(auto it = origOrderedCostsAllNodes[i].begin(); it != origOrderedCostsAllNodes[i].end();)  //! worst case: O(N)
-                {
-                    if(get<0>(*it) < insertioncosts)
-                    {
-                        it++;
-                    }
-                    else
-                    {
-                        origOrderedCostsAllNodes[i].insert(it, make_tuple(insertioncosts, pos, insert_rid)); //! <insert_cost, insert_pos, insert_route>
-                        break;
-                    }
-                }
+                // for(auto it = origOrderedCostsAllNodes[i].begin(); it != origOrderedCostsAllNodes[i].end();)  //! worst case: O(N)
+                // {
+                //     if(get<0>(*it) < insertioncosts)
+                //     {
+                //         it++;
+                //     }
+                //     else
+                //     {
+                //         origOrderedCostsAllNodes[i].insert(it, make_tuple(insertioncosts, pos, insert_rid)); //! <insert_cost, insert_pos, insert_route>
+                //         break;
+                //     }
+                // }
             }
-            else
-            {
-                origOrderedCostsAllNodes[i].push_back(make_tuple(insertioncosts, pos, insert_rid)); //! <insert_cost, insert_pos, insert_route>
-            }
-            // origOrderedCostsAllNodes[i].push_back(make_tuple(insertioncosts, pos, insert_rid)); //! <insert_cost, insert_pos, insert_route>
+            // else
+            // {
+            //     origOrderedCostsAllNodes[i].push_back(make_tuple(insertioncosts, pos, insert_rid)); //! <insert_cost, insert_pos, insert_route>
+            // }
+            origOrderedCostsAllNodes[i].push_back(make_tuple(insertioncosts, pos, insert_rid)); //! <insert_cost, insert_pos, insert_route>
         }
-        // sort(origOrderedCostsAllNodes[i].begin(), origOrderedCostsAllNodes[i].end(), [&](auto A, auto B){return get<0>(A) < get<0>(B);});  //! worst case: O(N^2)
+        sort(origOrderedCostsAllNodes[i].begin(), origOrderedCostsAllNodes[i].end(), [&](auto A, auto B){return get<0>(A) < get<0>(B);});  //! worst case: O(N^2)
     }
-    double t2 = clock();
-    cout << "update ordered costs time: " << (t2-t1)/(double)CLOCKS_PER_SEC << endl;
+    // double t2 = clock();
+    // cout << "update ordered costs time: " << (t2-t1)/(double)CLOCKS_PER_SEC << endl;
 }
 
 vector<double> Node_Regret_Insert::calRegretValAllNodes(vector<int> all_non_inserted, vector<vector<tuple<double, int, int>>> orderedCostsAllNodes)

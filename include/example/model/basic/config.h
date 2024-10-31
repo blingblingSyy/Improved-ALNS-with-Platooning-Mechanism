@@ -13,7 +13,7 @@ using namespace std;
 
 /*network information*/
 const double AREA_SIZE = 20; //km^2
-const int SPEED = 1;      //MAV speed (km/h)
+const int SPEED = 0.5;      //MAV speed (km/h)
 const int PLEN_MAX = 10;  //the maximum length of platoons
 const int MAX_DIST = 200;   //MAV maximum range (km)
 const int VTYPE = 2;        //the number of MAV types
@@ -39,12 +39,12 @@ const double INTERSECTIONS_PROB = 0.1; //probability of changing a node to be an
 const double DISCONNECTION_PROB = 0.8; //probability of disconnecting the direct link between a given pair of nodes
 const vector<int> PLAN_HORIZON = {0, 960}; //the planning horizon is from 6 am to 10 pm
 const vector<int> PAS_DMD_PEAK = {180, 720}; //the peak period for the passenger demands is at 9 am and 6 pm
-const vector<int> FRE_DMD_PEAK = {240, 600}; //the peak period for the passenger demands is at 10 am and 4 pm
+const vector<int> FRE_DMD_PEAK = {240, 540}; //the peak period for the passenger demands is at 10 am and 3 pm
 const double PICKUP_DROPOFF_PROB = 0.4; // the probability of having pickup requests overall all customers
 
 /*model parameters*/
 const int AVAIL_PATHSET_SIZE_K = 5;  //the limit of the size of alternative paths
-const double obj_w1 = 10;    //weight of the energy-related total distance in the objective
+const double obj_w1 = 20;    //weight of the energy-related total distance in the objective
 const double obj_w2 = 1;    //weight of the total trip duration in the objective
 const double obj_w3 = 10000;   //weight of the total number of unserved requests
 const double fp = 0.8;   //Freight to passenger weight ratio of total unserved request

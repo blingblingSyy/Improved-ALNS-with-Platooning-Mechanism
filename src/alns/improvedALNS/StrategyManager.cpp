@@ -301,13 +301,13 @@ void StrategyManager::selectStrategy()
 	if(cumulSum >= randomWeightPos)
 	{
 		nodeFirstStrategy->increaseNumberOfCalls();
-		nodeFirstStrategy->setHasSelectedCur(true);
+		// nodeFirstStrategy->setHasSelectedCur(true);
 		setCurStrategy(NodeFirst);
 	}
 	else
 	{
 		pathFirstStrategy->increaseNumberOfCalls();
-		pathFirstStrategy->setHasSelectedCur(true);
+		// pathFirstStrategy->setHasSelectedCur(true);
 		setCurStrategy(PathFirst);
 	}
 }

@@ -238,7 +238,7 @@ int TimeWindowUpdater::calExpectedAT2(int node_pos, int thisnode_DT2, int lastno
     return AT2;
 }
 
-void TimeWindowUpdater::calRouteExpectedTW()
+bool TimeWindowUpdater::calRouteExpectedTW()
 {
     clear_route_tw();
     initTimeElements();
@@ -265,19 +265,24 @@ void TimeWindowUpdater::calRouteExpectedTW()
         int DT2_i = calExpectedDT2(i, nextnode_DT2);
         route_deptw[i][1] = DT2_i;
         nextnode_DT2 = DT2_i;
+        if(route_deptw[i][1] < route_deptw[i][0])
+        {
+            return false;
+        }
     }    
     //AT2
+    route_arrtw[0][1] = calExpectedAT2(0, 0, 0); 
     for(int i = extendroutelen-1; i > 0; i--)
     {
         route_arrtw[i][1] = calExpectedAT2(i, route_deptw[i][1], route_deptw[i-1][1]);
     }
-    route_arrtw[0][1] = calExpectedAT2(0, 0, 0); 
+    return true;
 }
 
 bool TimeWindowUpdater::checkNodeTimeFeas(int node_pos)
 {
     //case 1: AT1 > AT2
-    if(route_arrtw[node_pos][0] > route_arrtw[node_pos][1])
+    if(route_arrtw[node_pos][0] > route_arrtw[node_pos][1] || route_deptw[node_pos][0] > route_deptw[node_pos][1])
     {
         return false;
     }
@@ -457,6 +462,10 @@ void TimeWindowUpdater::CalibRouteTW(int fixed_deptw_arcpos, vector<int> overlap
     for(int i = 0; i < route_arrtw.size(); i++)
     {
         bool feas = route_arrtw[i][0] <= route_arrtw[i][1];
+        if(!feas)
+        {
+            cout << "infeasible arrtw of node " << i << ": (" << route_arrtw[i][0] << ", " << route_arrtw[i][1] << ")" << endl;
+        }
         assert(feas);
     }
 }

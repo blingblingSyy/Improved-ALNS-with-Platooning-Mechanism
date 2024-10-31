@@ -24,7 +24,7 @@ class AStrategy
 		string Name;
 
 		//! Indicate whether the opeartor has been selected
-		bool hasSelectedCur;
+		// bool hasSelectedCur;
 
 	public:
 
@@ -32,7 +32,7 @@ class AStrategy
 		AStrategy(string name)
 		{
 			Name = name;
-			hasSelectedCur = false;
+			// hasSelectedCur = false;
 			init();
 		}
 
@@ -103,10 +103,10 @@ class AStrategy
 		string getName(){return Name;};
 
 		//! getter: evaluate whether the operator(strategy) has been selected
-		bool getHasSelectedCur() {return hasSelectedCur;};
+		// bool getHasSelectedCur() {return hasSelectedCur;};
 
-		//! a simple setter
-		void setHasSelectedCur(bool cur) {hasSelectedCur = cur;};
+		// //! a simple setter
+		// void setHasSelectedCur(bool cur) {hasSelectedCur = cur;};
 
 };
 

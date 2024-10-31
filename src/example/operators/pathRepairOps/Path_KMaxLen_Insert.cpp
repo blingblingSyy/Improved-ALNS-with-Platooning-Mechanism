@@ -14,7 +14,8 @@ using namespace std;
 
 Path_KMaxLen_Insert::Path_KMaxLen_Insert(string s, Operators_Parameters& ops_param, Nodes& nodes) : Path_Random_Insert(s, nodes)
 {
-    this->randK = ops_param.getRandKLenRep();
+    // this->randK = ops_param.getRandKLenRep();
+    randSel = ops_param.getRandKLenRep();
 }
 
 Path_KMaxLen_Insert::~Path_KMaxLen_Insert()
@@ -40,7 +41,7 @@ vector<int> Path_KMaxLen_Insert::sortMeasurement(VRPSolution& vrpsol, vector<int
         {
             dist_vec.push_back(avail_path_set_at_arc[id]->getDist() * r.get_rflt(0.9, 1));
         }
-        sortVec(indices, dist_vec, true);
+        sortVec(indices, dist_vec, true); //! greater = true
     }
     return indices;
 }

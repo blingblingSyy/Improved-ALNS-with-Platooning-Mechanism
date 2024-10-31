@@ -37,13 +37,13 @@ void Node_Shaw_Removal::destroySolNode(ISolution& sol)
     maxTimeDiff = calMaxTimeDiff(vrpsol);
     calNodeDestroySize(vrpsol.getTotalServedCusNum()); //! get the nodeDestroySize
     vector<pair<int, int>> all_cus_pos = vrpsol.getAllCusPos();
-    keepRemovablePos(vrpsol, all_cus_pos); //! this will modify all_cus_pos
+    keepRemovablePos(vrpsol, all_cus_pos); //! this will modify all_cus_pos by removing all the non-repairable positions from all_cus_pos
     RandomNumber r1;
     int select_pos = r1.get_rint(0, all_cus_pos.size()-1);
     destroyed_nodeset.push_back(all_cus_pos[select_pos]);
     all_cus_pos.erase(all_cus_pos.begin() + select_pos);
     int i = 0;
-    while(i < nodeDestroySize && !all_cus_pos.empty())
+    while(i < nodeDestroySize && !all_cus_pos.empty())  //! destroyed_nodeset.size() < nodeDestroySize
     {
         RandomNumber r2;
         int pos = r2.get_rint(0, destroyed_nodeset.size()-1);

@@ -27,7 +27,7 @@ class Path_NodeFreq_Insert: public Path_Random_Insert
         // Nodes& nodeset;
 
         //! the randomizing parameters 
-        double randF;
+        // double randF;
 
         //! calculate the average frequency of intermediate nodes 
         double calPathAvgNodeFreq(VRPSolution& vrpsol, vector<int> path);
