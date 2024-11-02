@@ -1,0 +1,727 @@
+Instance name: 100_cluster_even_1
+Algorithm Stage: initial_solution
+
+solution feasibility: 1
+total objective value: 90593.3
+total distance before platooning: 1068.5
+total energy-related distance cost: 1066.97
+total trip duration: 1254
+total unserved passenger requests: 6
+total unserved freight requests: 1
+CPU time: 3.482
+
+* All routes:
+vehicle id: 0  vehicle type: 0
+	compact route: 0  42  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  4  44  42  44  4  61  0  
+	node labels: 0  0  0  0  1  0  0  0  0  
+	arrival time windows: {0, 960}  {594, 594}  {598, 599}  {600, 602}  {601, 603}  {605, 607}  {607, 609}  {612, 613}  {614, 614}  
+	departure time windows: {593, 593}  {594, 595}  {598, 600}  {600, 602}  {604, 606}  {605, 607}  {608, 609}  {613, 613}  {0, 960}  
+	arrival time: 0  594  598  600  601  605  607  612  614  
+	departure time: 593  594  598  600  604  605  608  613  0  
+	waiting time: 0  0  0  0  0  0  1  1  0  
+	total waiting time: 2  
+	route load: 5  0  0  
+	route mileage: 0  7.66501  15.33  
+vehicle id: 1  vehicle type: 0
+	compact route: 0  16  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  72  51  1  16  1  51  72  0  
+	node labels: 0  0  0  0  1  0  0  0  0  
+	arrival time windows: {0, 960}  {886, 905}  {892, 910}  {895, 912}  {896, 913}  {899, 916}  {901, 919}  {906, 925}  {908, 928}  
+	departure time windows: {884, 903}  {887, 905}  {893, 910}  {895, 912}  {898, 915}  {899, 917}  {901, 920}  {906, 926}  {0, 960}  
+	arrival time: 0  905  910  912  913  915  917  922  924  
+	departure time: 903  905  910  912  914  915  917  922  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  2  2  
+	route mileage: 0  10.0011  20.0022  
+vehicle id: 2  vehicle type: 0
+	compact route: 0  38  36  0  
+	used paths between two served nodes: 0  0  0  
+	extended route: 0  61  8  38  80  2  36  2  0  
+	node labels: 0  0  0  1  0  0  1  0  0  
+	arrival time windows: {0, 960}  {517, 526}  {519, 527}  {521, 529}  {533, 541}  {533, 542}  {534, 544}  {538, 548}  {546, 557}  
+	departure time windows: {516, 525}  {518, 526}  {519, 527}  {524, 532}  {533, 542}  {533, 543}  {537, 547}  {538, 549}  {0, 960}  
+	arrival time: 0  526  527  529  540  540  541  544  552  
+	departure time: 525  526  527  531  540  540  543  544  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 3  0  4  4  
+	route mileage: 0  4.4158  15.0791  24.316  
+vehicle id: 3  vehicle type: 0
+	compact route: 0  34  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  91  34  91  61  0  
+	node labels: 0  0  0  1  0  0  0  
+	arrival time windows: {0, 960}  {743, 765}  {745, 766}  {747, 768}  {753, 774}  {754, 776}  {755, 778}  
+	departure time windows: {742, 764}  {744, 765}  {745, 766}  {751, 772}  {753, 775}  {754, 777}  {0, 960}  
+	arrival time: 0  765  766  768  773  774  775  
+	departure time: 764  765  766  771  773  774  0  
+	waiting time: 0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  6  6  
+	route mileage: 0  4.5316  9.06321  
+vehicle id: 4  vehicle type: 0
+	compact route: 0  10  23  4  0  
+	used paths between two served nodes: 0  0  0  0  
+	extended route: 0  61  8  10  23  77  91  61  4  61  0  
+	node labels: 0  0  0  1  1  0  0  0  1  0  0  
+	arrival time windows: {0, 960}  {681, 681}  {682, 682}  {690, 691}  {704, 706}  {710, 712}  {711, 713}  {712, 714}  {716, 718}  {722, 725}  {723, 727}  
+	departure time windows: {680, 680}  {681, 681}  {682, 683}  {692, 694}  {705, 707}  {710, 712}  {711, 713}  {712, 714}  {718, 721}  {722, 726}  {0, 960}  
+	arrival time: 0  681  682  690  704  710  711  712  716  722  723  
+	departure time: 680  681  682  692  705  710  711  712  718  722  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 5  1  0  3  3  
+	route mileage: 0  10.1787  22.0451  33.3829  38.2556  
+vehicle id: 5  vehicle type: 0
+	compact route: 0  12  45  0  
+	used paths between two served nodes: 0  0  0  
+	extended route: 0  61  7  88  12  29  45  61  0  
+	node labels: 0  0  0  0  1  0  1  0  0  
+	arrival time windows: {0, 960}  {346, 350}  {348, 351}  {350, 352}  {356, 358}  {361, 362}  {364, 365}  {372, 374}  {373, 376}  
+	departure time windows: {345, 349}  {347, 350}  {349, 351}  {350, 352}  {359, 360}  {361, 362}  {367, 369}  {372, 375}  {0, 960}  
+	arrival time: 0  350  351  352  358  362  365  373  374  
+	departure time: 349  350  351  352  360  362  368  373  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 3  0  5  5  
+	route mileage: 0  8.98641  14.1333  20.1418  
+vehicle id: 6  vehicle type: 0
+	compact route: 0  6  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  8  38  58  6  58  38  8  61  0  
+	node labels: 0  0  0  0  0  1  0  0  0  0  0  
+	arrival time windows: {0, 960}  {931, 936}  {932, 937}  {934, 939}  {939, 943}  {941, 945}  {947, 950}  {951, 954}  {954, 956}  {956, 957}  {958, 958}  
+	departure time windows: {930, 935}  {931, 936}  {932, 937}  {935, 939}  {939, 943}  {945, 948}  {947, 950}  {952, 954}  {955, 956}  {957, 957}  {0, 960}  
+	arrival time: 0  936  937  939  943  945  950  954  956  957  958  
+	departure time: 935  936  937  939  943  948  950  954  956  957  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  5  5  
+	route mileage: 0  10.9474  21.8947  
+vehicle id: 7  vehicle type: 0
+	compact route: 0  18  20  40  13  0  
+	used paths between two served nodes: 0  0  0  0  0  
+	extended route: 0  61  91  77  71  18  82  20  2  14  40  47  13  81  0  
+	node labels: 0  0  0  0  0  1  0  1  0  0  1  0  1  0  0  
+	arrival time windows: {0, 960}  {202, 216}  {203, 217}  {205, 218}  {208, 220}  {209, 221}  {218, 229}  {221, 232}  {224, 236}  {226, 238}  {227, 240}  {242, 255}  {245, 259}  {248, 262}  {255, 269}  
+	departure time windows: {201, 215}  {202, 216}  {204, 217}  {206, 218}  {208, 220}  {211, 222}  {218, 229}  {223, 235}  {225, 237}  {226, 239}  {229, 242}  {242, 256}  {247, 261}  {248, 262}  {0, 960}  
+	arrival time: 0  216  217  218  220  221  229  232  235  236  237  251  254  257  264  
+	departure time: 215  216  217  218  220  222  229  234  235  236  238  251  256  257  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 5  6  3  1  4  4  
+	route mileage: 0  5.22474  14.8456  17.7085  33.5027  41.6767  
+vehicle id: 8  vehicle type: 0
+	compact route: 0  44  43  48  0  
+	used paths between two served nodes: 0  0  0  0  
+	extended route: 0  61  4  44  23  90  43  90  92  48  88  7  61  0  
+	node labels: 0  0  0  1  0  0  1  0  0  1  0  0  0  0  
+	arrival time windows: {0, 960}  {102, 106}  {107, 110}  {109, 112}  {124, 126}  {125, 127}  {125, 127}  {127, 128}  {128, 129}  {140, 141}  {149, 150}  {150, 151}  {151, 152}  {153, 153}  
+	departure time windows: {101, 105}  {103, 106}  {107, 110}  {113, 115}  {124, 126}  {125, 127}  {127, 128}  {127, 128}  {128, 129}  {142, 143}  {149, 150}  {150, 151}  {152, 152}  {0, 960}  
+	arrival time: 0  106  110  112  126  127  127  128  129  141  150  151  152  153  
+	departure time: 105  106  110  115  126  127  128  128  129  143  150  151  152  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 6  0  1  4  4  
+	route mileage: 0  7.13087  19.6644  33.2594  43.3156  
+vehicle id: 9  vehicle type: 0
+	compact route: 0  30  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  91  30  91  61  0  
+	node labels: 0  0  0  1  0  0  0  
+	arrival time windows: {0, 960}  {800, 800}  {801, 802}  {804, 806}  {810, 813}  {811, 815}  {812, 817}  
+	departure time windows: {799, 799}  {800, 801}  {801, 803}  {807, 810}  {810, 814}  {811, 816}  {0, 960}  
+	arrival time: 0  800  801  804  810  811  812  
+	departure time: 799  800  801  807  810  811  0  
+	waiting time: 0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 6  0  0  
+	route mileage: 0  5.10795  10.2159  
+vehicle id: 10  vehicle type: 0
+	compact route: 0  32  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  72  51  1  87  32  87  1  51  72  0  
+	node labels: 0  0  0  0  0  1  0  0  0  0  0  
+	arrival time windows: {0, 960}  {855, 860}  {860, 865}  {862, 867}  {862, 867}  {862, 867}  {866, 870}  {867, 870}  {870, 872}  {876, 877}  {879, 879}  
+	departure time windows: {853, 858}  {855, 860}  {860, 865}  {862, 867}  {862, 867}  {866, 870}  {867, 870}  {868, 870}  {871, 872}  {877, 877}  {0, 960}  
+	arrival time: 0  860  865  867  867  867  870  870  872  877  879  
+	departure time: 858  860  865  867  867  870  870  870  872  877  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  6  6  
+	route mileage: 0  9.39655  18.7931  
+vehicle id: 11  vehicle type: 0
+	compact route: 0  39  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  91  39  91  61  0  
+	node labels: 0  0  0  1  0  0  0  
+	arrival time windows: {0, 960}  {892, 901}  {894, 902}  {902, 910}  {913, 921}  {914, 923}  {915, 925}  
+	departure time windows: {891, 900}  {893, 901}  {894, 902}  {905, 913}  {913, 922}  {914, 924}  {0, 960}  
+	arrival time: 0  901  902  910  920  921  922  
+	departure time: 900  901  902  912  920  921  0  
+	waiting time: 0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  3  3  
+	route mileage: 0  10.5065  21.013  
+vehicle id: 12  vehicle type: 0
+	compact route: 0  1  2  22  28  0  
+	used paths between two served nodes: 0  0  0  0  0  
+	extended route: 0  72  51  1  16  2  80  22  91  77  28  77  91  61  0  
+	node labels: 0  0  0  1  0  1  0  1  0  0  1  0  0  0  0  
+	arrival time windows: {0, 960}  {427, 427}  {432, 433}  {434, 436}  {437, 440}  {441, 445}  {443, 448}  {458, 463}  {467, 471}  {468, 472}  {476, 480}  {485, 489}  {486, 490}  {487, 491}  {488, 492}  
+	departure time windows: {425, 425}  {427, 428}  {432, 434}  {436, 439}  {437, 441}  {443, 448}  {443, 448}  {460, 464}  {467, 471}  {468, 472}  {477, 481}  {485, 489}  {486, 490}  {487, 491}  {0, 960}  
+	arrival time: 0  427  432  434  437  441  443  458  467  468  476  485  486  487  488  
+	departure time: 425  427  432  436  437  443  443  460  467  468  477  485  486  487  0  
+	waiting time: 0  0  0  0  0  0  0  1  0  0  0  0  0  0  0  
+	total waiting time: 1  
+	route load: 3  0  4  5  6  6  
+	route mileage: 0  8.92144  13.6095  28.3658  44.3538  55.4444  
+vehicle id: 13  vehicle type: 0
+	compact route: 0  37  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  84  3  37  3  84  0  
+	node labels: 0  0  0  1  0  0  0  
+	arrival time windows: {0, 960}  {770, 783}  {772, 784}  {773, 785}  {776, 788}  {777, 790}  {782, 796}  
+	departure time windows: {765, 778}  {771, 783}  {772, 784}  {775, 787}  {776, 789}  {777, 791}  {0, 960}  
+	arrival time: 0  783  784  785  787  788  793  
+	departure time: 778  783  784  786  787  788  0  
+	waiting time: 0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 1  0  0  
+	route mileage: 0  7.20648  14.413  
+vehicle id: 14  vehicle type: 0
+	compact route: 0  25  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  84  25  84  0  
+	node labels: 0  0  1  0  0  
+	arrival time windows: {0, 960}  {577, 594}  {578, 595}  {583, 600}  {588, 606}  
+	departure time windows: {572, 589}  {577, 594}  {582, 599}  {583, 601}  {0, 960}  
+	arrival time: 0  594  595  599  604  
+	departure time: 589  594  598  599  0  
+	waiting time: 0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  6  6  
+	route mileage: 0  6.68099  13.362  
+vehicle id: 15  vehicle type: 0
+	compact route: 0  21  19  0  
+	used paths between two served nodes: 0  0  0  
+	extended route: 0  61  4  21  94  19  72  0  
+	node labels: 0  0  0  1  0  1  0  0  
+	arrival time windows: {0, 960}  {850, 855}  {854, 859}  {859, 863}  {863, 866}  {865, 867}  {876, 877}  {879, 879}  
+	departure time windows: {849, 854}  {850, 855}  {855, 859}  {861, 864}  {864, 866}  {869, 870}  {877, 877}  {0, 960}  
+	arrival time: 0  855  859  863  866  867  877  879  
+	departure time: 854  855  859  864  866  870  877  0  
+	waiting time: 0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 5  6  1  1  
+	route mileage: 0  8.88314  12.3998  21.3429  
+vehicle id: 16  vehicle type: 0
+	compact route: 0  35  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  35  0  
+	node labels: 0  1  0  
+	arrival time windows: {0, 960}  {652, 660}  {664, 672}  
+	departure time windows: {643, 651}  {655, 663}  {0, 960}  
+	arrival time: 0  660  671  
+	departure time: 651  662  0  
+	waiting time: 0  0  0  
+	total waiting time: 0  
+	route load: 0  3  3  
+	route mileage: 0  9.18277  18.3655  
+vehicle id: 17  vehicle type: 0
+	compact route: 0  49  15  0  
+	used paths between two served nodes: 0  0  0  
+	extended route: 0  61  8  89  96  49  41  4  15  1  51  72  0  
+	node labels: 0  0  0  0  0  1  0  0  1  0  0  0  0  
+	arrival time windows: {0, 960}  {161, 170}  {163, 171}  {165, 172}  {172, 178}  {174, 180}  {181, 186}  {186, 191}  {194, 199}  {197, 203}  {199, 206}  {204, 212}  {206, 215}  
+	departure time windows: {160, 169}  {162, 170}  {164, 171}  {166, 172}  {172, 178}  {177, 182}  {181, 186}  {186, 191}  {196, 202}  {197, 204}  {199, 207}  {204, 213}  {0, 960}  
+	arrival time: 0  170  171  172  178  180  186  191  199  202  204  209  211  
+	departure time: 169  170  171  172  178  182  186  191  201  202  204  209  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  3  6  6  
+	route mileage: 0  10.4992  26.7636  36.5692  
+vehicle id: 18  vehicle type: 0
+	compact route: 0  8  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  8  61  0  
+	node labels: 0  0  1  0  0  
+	arrival time windows: {0, 960}  {681, 681}  {682, 682}  {686, 687}  {687, 689}  
+	departure time windows: {680, 680}  {681, 681}  {685, 686}  {686, 688}  {0, 960}  
+	arrival time: 0  681  682  686  687  
+	departure time: 680  681  685  686  0  
+	waiting time: 0  0  0  0  0  
+	total waiting time: 0  
+	route load: 5  0  0  
+	route mileage: 0  2.0566  4.1132  
+vehicle id: 19  vehicle type: 0
+	compact route: 0  29  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  45  29  45  61  0  
+	node labels: 0  0  0  1  0  0  0  
+	arrival time windows: {0, 960}  {38, 53}  {44, 58}  {47, 61}  {53, 67}  {58, 73}  {59, 75}  
+	departure time windows: {37, 52}  {39, 53}  {44, 58}  {50, 64}  {53, 68}  {58, 74}  {0, 960}  
+	arrival time: 0  53  58  61  66  71  72  
+	departure time: 52  53  58  63  66  71  0  
+	waiting time: 0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  3  3  
+	route mileage: 0  8.66349  17.327  
+vehicle id: 20  vehicle type: 0
+	compact route: 0  24  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  8  24  8  61  0  
+	node labels: 0  0  0  1  0  0  0  
+	arrival time windows: {0, 960}  {540, 559}  {542, 560}  {549, 567}  {559, 577}  {560, 579}  {561, 581}  
+	departure time windows: {539, 558}  {541, 559}  {542, 560}  {552, 570}  {559, 578}  {560, 580}  {0, 960}  
+	arrival time: 0  559  560  567  576  577  578  
+	departure time: 558  559  560  569  576  577  0  
+	waiting time: 0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  3  3  
+	route mileage: 0  8.83342  17.6668  
+vehicle id: 21  vehicle type: 0
+	compact route: 0  46  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  72  46  72  0  
+	node labels: 0  0  1  0  0  
+	arrival time windows: {0, 960}  {233, 254}  {236, 257}  {242, 263}  {244, 266}  
+	departure time windows: {231, 252}  {233, 254}  {239, 260}  {242, 264}  {0, 960}  
+	arrival time: 0  254  257  262  264  
+	departure time: 252  254  259  262  0  
+	waiting time: 0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  4  4  
+	route mileage: 0  4.75682  9.51363  
+vehicle id: 22  vehicle type: 0
+	compact route: 0  41  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  7  88  41  88  7  61  0  
+	node labels: 0  0  0  0  1  0  0  0  0  
+	arrival time windows: {0, 960}  {147, 158}  {149, 159}  {151, 160}  {155, 164}  {163, 172}  {164, 174}  {165, 176}  {166, 178}  
+	departure time windows: {146, 157}  {148, 158}  {150, 159}  {151, 160}  {159, 168}  {163, 173}  {164, 175}  {165, 177}  {0, 960}  
+	arrival time: 0  158  159  160  164  171  172  173  174  
+	departure time: 157  158  159  160  167  171  172  173  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  6  6  
+	route mileage: 0  7.17002  14.34  
+vehicle id: 23  vehicle type: 0
+	compact route: 0  26  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  26  0  
+	node labels: 0  1  0  
+	arrival time windows: {0, 960}  {886, 905}  {899, 918}  
+	departure time windows: {877, 896}  {890, 909}  {0, 960}  
+	arrival time: 0  905  917  
+	departure time: 896  908  0  
+	waiting time: 0  0  0  
+	total waiting time: 0  
+	route load: 0  6  6  
+	route mileage: 0  8.73176  17.4635  
+vehicle id: 24  vehicle type: 0
+	compact route: 0  9  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  72  9  72  0  
+	node labels: 0  0  1  0  0  
+	arrival time windows: {0, 960}  {518, 525}  {525, 532}  {534, 541}  {536, 544}  
+	departure time windows: {516, 523}  {518, 525}  {527, 534}  {534, 542}  {0, 960}  
+	arrival time: 0  525  532  540  542  
+	departure time: 523  525  533  540  0  
+	waiting time: 0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  2  2  
+	route mileage: 0  8.77496  17.5499  
+vehicle id: 25  vehicle type: 0
+	compact route: 0  7  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  7  61  0  
+	node labels: 0  0  1  0  0  
+	arrival time windows: {0, 960}  {439, 440}  {441, 441}  {446, 446}  {448, 448}  
+	departure time windows: {438, 439}  {440, 440}  {445, 445}  {447, 447}  {0, 960}  
+	arrival time: 0  440  441  446  448  
+	departure time: 439  440  445  447  0  
+	waiting time: 0  0  1  1  0  
+	total waiting time: 2  
+	route load: 5  0  0  
+	route mileage: 0  2.31596  4.63192  
+vehicle id: 26  vehicle type: 0
+	compact route: 0  33  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  72  82  33  82  72  0  
+	node labels: 0  0  0  1  0  0  0  
+	arrival time windows: {0, 960}  {298, 313}  {303, 317}  {304, 318}  {309, 323}  {313, 328}  {315, 331}  
+	departure time windows: {296, 311}  {299, 313}  {303, 317}  {308, 322}  {309, 324}  {313, 329}  {0, 960}  
+	arrival time: 0  313  317  318  322  326  328  
+	departure time: 311  313  317  321  322  326  0  
+	waiting time: 0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 5  0  0  
+	route mileage: 0  7.22601  14.452  
+vehicle id: 27  vehicle type: 0
+	compact route: 0  14  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  14  0  
+	node labels: 0  1  0  
+	arrival time windows: {0, 960}  {197, 212}  {210, 225}  
+	departure time windows: {188, 203}  {201, 216}  {0, 960}  
+	arrival time: 0  212  224  
+	departure time: 203  215  0  
+	waiting time: 0  0  0  
+	total waiting time: 0  
+	route load: 0  6  6  
+	route mileage: 0  9.33002  18.66  
+vehicle id: 28  vehicle type: 0
+	compact route: 0  50  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  7  50  7  61  0  
+	node labels: 0  0  0  1  0  0  0  
+	arrival time windows: {0, 960}  {594, 594}  {595, 595}  {603, 603}  {612, 612}  {613, 613}  {614, 614}  
+	departure time windows: {593, 593}  {594, 594}  {595, 595}  {604, 604}  {612, 612}  {613, 613}  {0, 960}  
+	arrival time: 0  594  595  603  612  613  614  
+	departure time: 593  594  595  604  612  613  0  
+	waiting time: 0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  2  2  
+	route mileage: 0  10.3465  20.6929  
+vehicle id: 29  vehicle type: 0
+	compact route: 0  27  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  27  0  
+	node labels: 0  1  0  
+	arrival time windows: {0, 960}  {343, 357}  {356, 370}  
+	departure time windows: {334, 348}  {347, 361}  {0, 960}  
+	arrival time: 0  357  369  
+	departure time: 348  360  0  
+	waiting time: 0  0  0  
+	total waiting time: 0  
+	route load: 5  0  0  
+	route mileage: 0  8.86172  17.7234  
+vehicle id: 30  vehicle type: 1
+	compact route: 0  74  58  0  
+	used paths between two served nodes: 0  0  0  
+	extended route: 0  61  74  5  29  12  58  38  8  61  0  
+	node labels: 0  0  1  0  0  0  1  0  0  0  0  
+	arrival time windows: {0, 960}  {365, 370}  {371, 376}  {379, 381}  {381, 383}  {383, 385}  {384, 386}  {391, 396}  {393, 401}  {394, 404}  {395, 405}  
+	departure time windows: {364, 369}  {365, 370}  {377, 379}  {379, 381}  {381, 383}  {383, 385}  {387, 392}  {391, 399}  {393, 403}  {394, 404}  {0, 960}  
+	arrival time: 0  370  376  381  383  385  386  393  395  396  397  
+	departure time: 369  370  379  381  383  385  389  393  395  396  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 11  0  11  11  
+	route mileage: 0  7.00809  13.7328  22.4045  
+vehicle id: 31  vehicle type: 1
+	compact route: 0  73  69  89  0  
+	used paths between two served nodes: 0  0  0  0  
+	extended route: 0  73  79  65  29  69  49  96  89  8  61  0  
+	node labels: 0  1  0  0  0  1  0  0  1  0  0  0  
+	arrival time windows: {0, 960}  {44, 64}  {48, 70}  {52, 72}  {56, 73}  {59, 76}  {66, 80}  {68, 82}  {74, 88}  {76, 93}  {77, 97}  {78, 98}  
+	departure time windows: {37, 57}  {45, 67}  {50, 70}  {55, 72}  {56, 73}  {63, 77}  {66, 80}  {68, 82}  {75, 92}  {76, 96}  {77, 97}  {0, 960}  
+	arrival time: 0  64  68  70  71  74  78  80  86  88  89  90  
+	departure time: 57  65  68  70  71  75  78  80  87  88  89  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  4  7  9  9  
+	route mileage: 0  7.33025  16.1284  26.5661  29.3328  
+vehicle id: 32  vehicle type: 1
+	compact route: 0  56  87  0  
+	used paths between two served nodes: 0  0  0  
+	extended route: 0  56  32  87  1  51  72  0  
+	node labels: 0  1  0  1  0  0  0  0  
+	arrival time windows: {0, 960}  {315, 345}  {338, 365}  {338, 365}  {340, 370}  {342, 375}  {347, 382}  {349, 384}  
+	departure time windows: {306, 336}  {321, 348}  {338, 365}  {340, 370}  {340, 373}  {342, 377}  {347, 382}  {0, 960}  
+	arrival time: 0  345  365  365  367  369  374  376  
+	departure time: 336  348  365  367  367  369  374  0  
+	waiting time: 0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 9  0  8  8  
+	route mileage: 0  8.87286  26.4895  35.7661  
+vehicle id: 33  vehicle type: 1
+	compact route: 0  82  80  90  0  
+	used paths between two served nodes: 0  0  0  0  
+	extended route: 0  72  82  80  90  100  0  
+	node labels: 0  0  1  1  1  0  0  
+	arrival time windows: {0, 960}  {721, 741}  {727, 745}  {736, 754}  {749, 770}  {753, 773}  {760, 780}  
+	departure time windows: {719, 739}  {723, 741}  {733, 751}  {736, 757}  {753, 773}  {753, 773}  {0, 960}  
+	arrival time: 0  741  745  751  764  765  772  
+	departure time: 739  741  748  751  765  765  0  
+	waiting time: 0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 2  12  13  11  11  
+	route mileage: 0  6.16121  8.85995  22.1219  29.7063  
+vehicle id: 34  vehicle type: 1
+	compact route: 0  63  62  85  0  
+	used paths between two served nodes: 0  0  0  0  
+	extended route: 0  61  8  63  62  2  80  85  86  84  0  
+	node labels: 0  0  0  1  1  0  0  1  0  0  0  
+	arrival time windows: {0, 960}  {497, 497}  {498, 501}  {501, 505}  {506, 513}  {510, 518}  {510, 518}  {514, 522}  {517, 525}  {518, 526}  {523, 531}  
+	departure time windows: {496, 496}  {497, 500}  {498, 502}  {501, 508}  {508, 516}  {510, 518}  {510, 518}  {515, 523}  {517, 525}  {518, 526}  {0, 960}  
+	arrival time: 0  497  498  501  506  510  510  514  517  518  523  
+	departure time: 496  497  498  501  508  510  510  515  517  518  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 12  13  5  1  1  
+	route mileage: 0  5.42341  10.9164  17.8813  26.637  
+vehicle id: 35  vehicle type: 1
+	compact route: 0  72  79  0  
+	used paths between two served nodes: 0  0  0  
+	extended route: 0  72  7  79  65  0  
+	node labels: 0  1  0  1  0  0  
+	arrival time windows: {0, 960}  {427, 427}  {429, 432}  {440, 446}  {446, 454}  {455, 463}  
+	departure time windows: {425, 425}  {428, 431}  {429, 435}  {444, 452}  {446, 454}  {0, 960}  
+	arrival time: 0  427  429  440  446  455  
+	departure time: 425  428  429  444  446  0  
+	waiting time: 0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 4  0  14  14  
+	route mileage: 0  1.86682  14.1274  24.5614  
+vehicle id: 36  vehicle type: 1
+	compact route: 0  55  78  54  84  0  
+	used paths between two served nodes: 0  0  0  0  0  
+	extended route: 0  61  78  55  78  41  57  54  67  25  84  0  
+	node labels: 0  0  0  1  1  0  0  1  0  0  1  0  
+	arrival time windows: {0, 960}  {800, 800}  {807, 810}  {808, 814}  {813, 821}  {818, 826}  {823, 831}  {829, 837}  {831, 839}  {835, 843}  {836, 844}  {842, 850}  
+	departure time windows: {799, 799}  {800, 803}  {807, 813}  {812, 820}  {814, 822}  {818, 826}  {823, 831}  {829, 837}  {831, 839}  {835, 843}  {837, 845}  {0, 960}  
+	arrival time: 0  800  807  808  813  818  823  829  831  835  836  842  
+	departure time: 799  800  807  812  814  818  823  829  831  835  837  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 14  2  5  6  4  4  
+	route mileage: 0  9.07318  10.1622  25.5999  33.2014  38.4523  
+vehicle id: 37  vehicle type: 1
+	compact route: 0  83  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  68  83  68  61  0  
+	node labels: 0  0  0  1  0  0  0  
+	arrival time windows: {0, 960}  {122, 123}  {123, 124}  {132, 133}  {145, 147}  {149, 151}  {153, 153}  
+	departure time windows: {121, 122}  {122, 123}  {123, 124}  {136, 138}  {148, 150}  {152, 152}  {0, 960}  
+	arrival time: 0  123  124  133  145  149  153  
+	departure time: 122  123  124  136  148  152  0  
+	waiting time: 0  0  0  1  3  3  0  
+	total waiting time: 7  
+	route load: 0  6  6  
+	route mileage: 0  10.8443  21.6886  
+vehicle id: 38  vehicle type: 1
+	compact route: 0  66  53  64  0  
+	used paths between two served nodes: 0  0  0  0  
+	extended route: 0  66  1  15  53  60  64  60  0  
+	node labels: 0  1  0  0  1  0  1  0  0  
+	arrival time windows: {0, 960}  {565, 607}  {571, 611}  {575, 612}  {585, 622}  {593, 627}  {594, 628}  {595, 632}  {603, 643}  
+	departure time windows: {556, 598}  {570, 610}  {574, 611}  {575, 612}  {590, 624}  {593, 627}  {594, 631}  {595, 635}  {0, 960}  
+	arrival time: 0  607  611  612  622  627  628  629  637  
+	departure time: 598  610  611  612  624  627  628  629  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 12  1  6  5  5  
+	route mileage: 0  8.94236  20.4448  24.8711  34.5779  
+vehicle id: 39  vehicle type: 1
+	compact route: 0  71  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  91  77  71  77  91  61  0  
+	node labels: 0  0  0  0  1  0  0  0  0  
+	arrival time windows: {0, 960}  {594, 594}  {595, 598}  {596, 602}  {598, 605}  {605, 611}  {606, 612}  {610, 613}  {614, 614}  
+	departure time windows: {593, 593}  {594, 597}  {595, 601}  {596, 603}  {603, 609}  {605, 611}  {609, 612}  {613, 613}  {0, 960}  
+	arrival time: 0  594  595  596  598  605  606  610  614  
+	departure time: 593  594  595  596  603  605  609  613  0  
+	waiting time: 0  0  0  0  1  0  3  3  0  
+	total waiting time: 7  
+	route load: 0  12  12  
+	route mileage: 0  4.5204  9.0408  
+vehicle id: 40  vehicle type: 1
+	compact route: 0  67  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  67  0  
+	node labels: 0  1  0  
+	arrival time windows: {0, 960}  {524, 563}  {538, 577}  
+	departure time windows: {516, 555}  {530, 569}  {0, 960}  
+	arrival time: 0  563  574  
+	departure time: 555  566  0  
+	waiting time: 0  0  0  
+	total waiting time: 0  
+	route load: 11  0  0  
+	route mileage: 0  8.05501  16.11  
+vehicle id: 41  vehicle type: 1
+	compact route: 0  81  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  81  0  
+	node labels: 0  1  0  
+	arrival time windows: {0, 960}  {813, 846}  {824, 857}  
+	departure time windows: {806, 839}  {817, 850}  {0, 960}  
+	arrival time: 0  846  854  
+	departure time: 839  847  0  
+	waiting time: 0  0  0  
+	total waiting time: 0  
+	route load: 2  0  0  
+	route mileage: 0  7.05108  14.1022  
+vehicle id: 42  vehicle type: 1
+	compact route: 0  76  77  0  
+	used paths between two served nodes: 0  0  0  
+	extended route: 0  61  74  5  76  77  91  61  0  
+	node labels: 0  0  0  0  1  1  0  0  0  
+	arrival time windows: {0, 960}  {410, 418}  {418, 424}  {423, 426}  {425, 428}  {443, 443}  {446, 446}  {447, 447}  {448, 448}  
+	departure time windows: {409, 417}  {412, 418}  {421, 424}  {423, 426}  {433, 433}  {445, 445}  {446, 446}  {447, 447}  {0, 960}  
+	arrival time: 0  418  424  426  428  443  446  447  448  
+	departure time: 417  418  424  426  433  445  446  447  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 15  0  7  7  
+	route mileage: 0  10.6942  20.3791  23.324  
+vehicle id: 43  vehicle type: 1
+	compact route: 0  51  88  59  0  
+	used paths between two served nodes: 0  0  0  0  
+	extended route: 0  72  51  88  7  59  73  0  
+	node labels: 0  0  1  1  0  1  0  0  
+	arrival time windows: {0, 960}  {682, 682}  {687, 690}  {695, 701}  {698, 706}  {707, 715}  {710, 718}  {717, 725}  
+	departure time windows: {680, 680}  {682, 685}  {688, 694}  {697, 705}  {698, 706}  {709, 717}  {710, 718}  {0, 960}  
+	arrival time: 0  682  687  695  698  707  710  717  
+	departure time: 680  682  688  697  698  709  710  0  
+	waiting time: 0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 6  9  3  9  9  
+	route mileage: 0  7.11917  13.9726  23.1138  31.3122  
+vehicle id: 44  vehicle type: 1
+	compact route: 0  61  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  0  
+	node labels: 0  1  0  
+	arrival time windows: {0, 960}  {497, 497}  {503, 506}  
+	departure time windows: {496, 496}  {502, 505}  {0, 960}  
+	arrival time: 0  497  503  
+	departure time: 496  502  0  
+	waiting time: 0  0  0  
+	total waiting time: 0  
+	route load: 15  0  0  
+	route mileage: 0  0.855102  1.7102  
+vehicle id: 45  vehicle type: 1
+	compact route: 0  86  57  60  0  
+	used paths between two served nodes: 0  0  0  0  
+	extended route: 0  84  86  84  3  57  91  47  60  0  
+	node labels: 0  0  1  0  0  1  0  0  1  0  
+	arrival time windows: {0, 960}  {223, 240}  {224, 241}  {230, 244}  {231, 245}  {232, 246}  {238, 255}  {243, 263}  {246, 268}  {258, 280}  
+	departure time windows: {218, 235}  {223, 240}  {229, 243}  {230, 244}  {231, 245}  {233, 250}  {238, 258}  {243, 265}  {250, 272}  {0, 960}  
+	arrival time: 0  240  241  244  245  246  252  257  260  272  
+	departure time: 235  240  243  244  245  247  252  257  264  0  
+	waiting time: 0  0  0  0  0  0  0  0  0  0  
+	total waiting time: 0  
+	route load: 11  3  0  14  14  
+	route mileage: 0  6.63157  10.1594  23.2031  31.6333  
+vehicle id: 46  vehicle type: 1
+	compact route: 0  65  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  65  0  
+	node labels: 0  1  0  
+	arrival time windows: {0, 960}  {772, 828}  {789, 845}  
+	departure time windows: {763, 819}  {780, 836}  {0, 960}  
+	arrival time: 0  828  842  
+	departure time: 819  833  0  
+	waiting time: 0  0  0  
+	total waiting time: 0  
+	route load: 15  0  0  
+	route mileage: 0  8.86235  17.7247  
+vehicle id: 47  vehicle type: 1
+	compact route: 0  75  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  56  75  56  0  
+	node labels: 0  0  1  0  0  
+	arrival time windows: {0, 960}  {741, 777}  {743, 779}  {753, 789}  {762, 801}  
+	departure time windows: {732, 768}  {741, 777}  {751, 787}  {753, 792}  {0, 960}  
+	arrival time: 0  777  779  786  795  
+	departure time: 768  777  784  786  0  
+	waiting time: 0  0  0  0  0  
+	total waiting time: 0  
+	route load: 15  0  0  
+	route mileage: 0  10.9003  21.8006  
+vehicle id: 48  vehicle type: 1
+	compact route: 0  68  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  61  68  61  0  
+	node labels: 0  0  1  0  0  
+	arrival time windows: {0, 960}  {946, 954}  {949, 955}  {954, 957}  {958, 958}  
+	departure time windows: {945, 953}  {948, 954}  {953, 956}  {957, 957}  {0, 960}  
+	arrival time: 0  954  955  957  958  
+	departure time: 953  954  956  957  0  
+	waiting time: 0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  2  2  
+	route mileage: 0  2.31613  4.63226  
+vehicle id: 49  vehicle type: 1
+	compact route: 0  70  0  
+	used paths between two served nodes: 0  0  
+	extended route: 0  72  70  72  0  
+	node labels: 0  0  1  0  0  
+	arrival time windows: {0, 960}  {682, 682}  {688, 691}  {697, 703}  {699, 707}  
+	departure time windows: {680, 680}  {682, 685}  {691, 697}  {697, 705}  {0, 960}  
+	arrival time: 0  682  688  697  699  
+	departure time: 680  682  691  697  0  
+	waiting time: 0  0  0  0  0  
+	total waiting time: 0  
+	route load: 0  11  11  
+	route mileage: 0  8.16714  16.3343  
+
+* All platoons: 
+platoon 1	platooning arc: {72, 0}
+	platoons on this arc: 
+		vehicle id: 10  arc position: 9
+		vehicle id: 15  arc position: 6
+	energy saving on this arc: 0.186682
+platoon 2	platooning arc: {61, 8}
+	platoons on this arc: 
+		vehicle id: 4  arc position: 1
+		vehicle id: 18  arc position: 1
+	energy saving on this arc: 0.12015
+platoon 3	platooning arc: {61, 0}
+	platoons on this arc: 
+		vehicle id: 25  arc position: 3
+		vehicle id: 42  arc position: 7
+	energy saving on this arc: 0.0855102
+platoon 4	platooning arc: {61, 0}
+	platoons on this arc: 
+		vehicle id: 8  arc position: 12
+		vehicle id: 37  arc position: 5
+	energy saving on this arc: 0.0855102
+platoon 5	platooning arc: {61, 0}
+	platoons on this arc: 
+		vehicle id: 6  arc position: 9
+		vehicle id: 48  arc position: 3
+	energy saving on this arc: 0.0855102
+platoon 6	platooning arc: {61, 0}
+	platoons on this arc: 
+		vehicle id: 0  arc position: 7
+		vehicle id: 28  arc position: 5
+		vehicle id: 39  arc position: 7
+	energy saving on this arc: 0.17102
+platoon 7	platooning arc: {0, 72}
+	platoons on this arc: 
+		vehicle id: 43  arc position: 0
+		vehicle id: 49  arc position: 0
+	energy saving on this arc: 0.186682
+platoon 8	platooning arc: {0, 72}
+	platoons on this arc: 
+		vehicle id: 12  arc position: 0
+		vehicle id: 35  arc position: 0
+	energy saving on this arc: 0.186682
+platoon 9	platooning arc: {0, 61}
+	platoons on this arc: 
+		vehicle id: 34  arc position: 0
+		vehicle id: 44  arc position: 0
+	energy saving on this arc: 0.0855102
+platoon 10	platooning arc: {0, 61}
+	platoons on this arc: 
+		vehicle id: 9  arc position: 0
+		vehicle id: 36  arc position: 0
+	energy saving on this arc: 0.0855102
+platoon 11	platooning arc: {0, 61}
+	platoons on this arc: 
+		vehicle id: 4  arc position: 0
+		vehicle id: 18  arc position: 0
+	energy saving on this arc: 0.0855102
+platoon 12	platooning arc: {0, 61}
+	platoons on this arc: 
+		vehicle id: 0  arc position: 0
+		vehicle id: 28  arc position: 0
+		vehicle id: 39  arc position: 0
+	energy saving on this arc: 0.17102

@@ -1,0 +1,15 @@
+iterations	timeStamps	Strategy	Node Destroy Operator	Node Repair Operator	Path Destroy Operator	Path Repair Operator	New Cost	Current Cost	Best Cost	Cumulative Known Solutions
+1	1.478	nodefirst	Node Random Removal	Node Random Insert	Path Node-Frequency Removal	Path K-max Length Insert	32384.6	32300.4	32300.4	1
+2	3.159	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path Node-Frequency Insert	32436.7	32436.7	32300.4	2
+3	5.21	pathfirst	Node Random Removal	Node Regret-2 Insert	Path Node-Frequency Removal	Path K-max Length Insert	32508.9	32508.9	32300.4	3
+4	7.099	pathfirst	Node Worst Removal	Node Random Insert	Path Random Removal	Path K-max Length Insert	78747.1	32508.9	32300.4	4
+5	9.669	pathfirst	Node Shaw Removal	Node Regret-2 Insert	Path Average-Length-Difference Removal	Path Node-Frequency Insert	48201.5	32508.9	32300.4	5
+6	12.096	nodefirst	Node Shaw Removal	Node Regret-2 Insert	Path Node-Frequency Removal	Path Random Insert	32217	32217	32217	6
+7	13.733	nodefirst	Node Worst Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	145534	32217	32217	7
+8	16.13	nodefirst	Node Shaw Removal	Node Greedy Insert	pathNullDestroy	pathNullRepair	32022.3	32022.3	32022.3	8
+9	19.288	pathfirst	Node Shaw Removal	Node Regret-2 Insert	Path Average-Length Removal	Path Node-Frequency Insert	55748.7	32022.3	32022.3	9
+10	22.519	nodefirst	Node Worst Removal	Node Regret-2 Insert	Path Random Removal	Path Random Insert	47367.9	32022.3	32022.3	10
+11	24.283	nodefirst	Node Random Removal	Node Regret-2 Insert	Path Average-Length-Difference Removal	Path Random Insert	31930.3	31930.3	31930.3	11
+12	26.122	nodefirst	Node Shaw Removal	Node Regret-2 Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	31894.7	31894.7	31894.7	12
+13	28.564	nodefirst	Node Worst Removal	Node Greedy Insert	Path Average-Length Removal	Path K-max Length Insert	31734.6	31734.6	31734.6	13
+14	30.97	nodefirst	Node Shaw Removal	Node Regret-2 Insert	Path Node-Frequency Removal	Path K-max Length Insert	47082.9	31734.6	31734.6	14

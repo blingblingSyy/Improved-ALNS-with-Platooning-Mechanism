@@ -424,9 +424,11 @@ void TimeWindowUpdater::Calib_DT2_AT2(int fixed_deptw_arcpos, vector<vector<int>
     for(int i = fixed_arrtw_next_arcpos; i < extendroutelen-1; i++) //fixed_arrtw_next_arcpos = fixed_deptw_arcpos + 1
     {
         int total_wait_max_DT2 = calWaitTimeBudget(i - fixed_deptw_arcpos, waiting_before_arc_start_pos);
-        bool serve_start_pos = true;
+        bool serve_start_pos = false;
         bool serve_end_pos = true;
-        route_deptw[i][1] = min(route_arrtw[fixed_arrtw_next_arcpos][1] + calNecessaryTime(fixed_arrtw_next_arcpos, i, serve_start_pos, serve_end_pos) + total_wait_max_DT2, original_deptw_input[i][1]);
+        //! wrong: for the fixed_arrtw_next_arcpos, repeatedly calculate the service time for two times because both serve_start_pos and serve_end_pos are true.
+        // route_deptw[i][1] = min(route_arrtw[fixed_arrtw_next_arcpos][1] + calNecessaryTime(fixed_arrtw_next_arcpos, i, serve_start_pos, serve_end_pos) + total_wait_max_DT2, original_deptw_input[i][1]); 
+        route_deptw[i][1] = min(route_deptw[fixed_deptw_arcpos][1] + calNecessaryTime(fixed_deptw_arcpos, i, serve_start_pos, serve_end_pos) + total_wait_max_DT2, original_deptw_input[i][1]);
 
         // bool feas = route_deptw[i][0] <= route_deptw[i][1];
         // assert(feas);
@@ -459,12 +461,52 @@ void TimeWindowUpdater::CalibRouteTW(int fixed_deptw_arcpos, vector<int> overlap
     //4. AT2 & DT2 -> void Calib_DT2_AT2()
     Calib_DT2_AT2(fixed_deptw_arcpos, original_deptw);
 
-    for(int i = 0; i < route_arrtw.size(); i++)
+    for(int i = 1; i < route_arrtw.size()-1; i++)
     {
-        bool feas = route_arrtw[i][0] <= route_arrtw[i][1];
+        // bool feas = route_arrtw[i][0] <= route_arrtw[i][1];
+        bool feas = route_arrtw[i][0] <= route_deptw[i][0] && route_arrtw[i][1] <= route_deptw[i][1] && route_arrtw[i][0] <= route_arrtw[i][1] && route_deptw[i][0] <= route_deptw[i][1];
         if(!feas)
         {
-            cout << "infeasible arrtw of node " << i << ": (" << route_arrtw[i][0] << ", " << route_arrtw[i][1] << ")" << endl;
+            cout << endl;
+            cout << "fixed deptw arcpos: " << fixed_deptw_arcpos << endl;
+            cout << "overlap deptw: (" << overlap_dep_tw[0] << ", " << overlap_dep_tw[1] << ")" << endl; 
+            cout << "extended route: ";
+            for(int e = 0; e < extendroutelen; e++)
+            {
+                cout << extended_route[e] << " ";
+            }
+            cout << endl;
+            cout << "service tw: ";
+            for(int e = 0; e < extendroutelen; e++)
+            {
+                cout << "(" << sertw_inroute[e][0] << ", " << sertw_inroute[e][1] << ") ";
+            }
+            cout << endl;
+            cout << "service time: ";
+            for(int e = 0; e < extendroutelen; e++)
+            {
+                cout << st_inroute[e] << " ";
+            }
+            cout << endl;
+            cout << "travel time: ";
+            for(int e = 0; e < extendroutelen-1; e++)
+            {
+                cout << initial_timemat[extended_route[e]][extended_route[e+1]] << " ";
+            }
+            cout << endl;
+            cout << "original arrtw: ";
+            for(int e = 0; e < extendroutelen; e++)
+            {
+                cout << "(" << original_arrtw[e][0] << ", " << original_arrtw[e][1] << ") ";
+            }
+            cout << endl;
+            cout << "calibrated arrtw: ";
+            for(int e = 0; e < extendroutelen; e++)
+            {
+                cout << "(" << route_arrtw[e][0] << ", " << route_arrtw[e][1] << ") ";
+            }
+            cout << endl;
+            // cout << "infeasible arrtw of node " << i << ": (" << route_arrtw[i][0] << ", " << route_arrtw[i][1] << ")" << endl;
         }
         assert(feas);
     }

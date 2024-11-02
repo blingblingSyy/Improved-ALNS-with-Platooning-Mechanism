@@ -1,21 +1,16 @@
 iterations	timeStamps	Strategy	Node Destroy Operator	Node Repair Operator	Path Destroy Operator	Path Repair Operator	New Cost	Current Cost	Best Cost	Cumulative Known Solutions
-1	1.449	nodefirst	Node Worst Removal	Node Random Insert	pathNullDestroy	pathNullRepair	124655	36471.5	36471.5	1
-2	3.103	pathfirst	nodeNullDestroy	nodeNullRepair	Path Node-Frequency Removal	Path Random Insert	36742.3	36742.3	36471.5	2
-3	6.219	pathfirst	Node Random Removal	Node Greedy Insert	Path Average-Length-Difference Removal	Path Random Insert	36077.7	36077.7	36077.7	3
-4	9.9	pathfirst	Node Random Removal	Node Greedy Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	43923.5	36077.7	36077.7	4
-5	13.506	pathfirst	Node Worst Removal	Node Greedy Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	50460.5	36077.7	36077.7	5
-6	15.749	nodefirst	Node Shaw Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	152024	36077.7	36077.7	6
-7	18.715	nodefirst	Node Worst Removal	Node Greedy Insert	Path Cardinality Removal	Path Random Insert	36255.3	36255.3	36077.7	7
-8	22.773	pathfirst	Node Random Removal	Node Greedy Insert	Path Random Removal	Path K-max Length Insert	27000.7	27000.7	27000.7	8
-9	27.182	nodefirst	Node Random Removal	Node Greedy Insert	Path Cardinality Removal	Path Node-Frequency Insert	34140.7	27000.7	27000.7	9
-10	31.402	pathfirst	Node Worst Removal	Node Regret-2 Insert	Path Random Removal	Path K-max Length Insert	58712.5	27000.7	27000.7	10
-11	36.711	pathfirst	Node Worst Removal	Node Greedy Insert	Path Cardinality Removal	Path K-max Length Insert	37462.5	27000.7	27000.7	11
-12	38.927	pathfirst	Node Shaw Removal	Node Random Insert	Path Random Removal	Path Random Insert	27274	27000.7	27000.7	12
-13	42.891	nodefirst	Node Shaw Removal	Node Random Insert	Path Average-Length Removal	Path K-max Length Insert	56034.9	27000.7	27000.7	13
-14	45.764	pathfirst	nodeNullDestroy	nodeNullRepair	Path Cardinality Removal	Path Random Insert	27010.9	27010.9	27000.7	14
-15	47.744	pathfirst	Node Random Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	118515	27010.9	27000.7	15
-16	51.331	pathfirst	Node Shaw Removal	Node Greedy Insert	Path Average-Length Removal	Path Random Insert	44628	27010.9	27000.7	16
-17	53.706	pathfirst	Node Shaw Removal	Node Random Insert	Path Node-Frequency Removal	Path K-max Length Insert	118221	27010.9	27000.7	17
-18	56.253	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path K-max Length Insert	26844.3	26844.3	26844.3	18
-19	58.242	pathfirst	Node Random Removal	Node Regret-2 Insert	Path Average-Length-Difference Removal	Path Random Insert	34483.4	26844.3	26844.3	19
-20	60.619	pathfirst	Node Worst Removal	Node Random Insert	Path Cardinality Removal	Path Random Insert	73142.4	26844.3	26844.3	20
+1	1.419	nodefirst	Node Random Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	84995.1	36182.1	36182.1	1
+2	3.97	nodefirst	Node Worst Removal	Node Regret-2 Insert	pathNullDestroy	pathNullRepair	35378.5	35378.5	35378.5	2
+3	6.141	pathfirst	Node Shaw Removal	Node Regret-2 Insert	Path Average-Length-Difference Removal	Path Random Insert	35386.4	35386.4	35378.5	3
+4	7.896	pathfirst	Node Worst Removal	Node Random Insert	Path Average-Length Removal	Path Random Insert	194309	35386.4	35378.5	4
+5	10.833	nodefirst	Node Random Removal	Node Regret-2 Insert	Path Node-Frequency Removal	Path K-max Length Insert	76557.2	35386.4	35378.5	5
+6	14.059	pathfirst	Node Shaw Removal	Node Regret-2 Insert	Path Random Removal	Path Node-Frequency Insert	45333.4	45333.4	35378.5	6
+7	15.628	nodefirst	Node Shaw Removal	Node Regret-2 Insert	Path Average-Length Removal	Path Node-Frequency Insert	35613.6	35613.6	35378.5	7
+8	17.748	nodefirst	Node Worst Removal	Node Regret-2 Insert	Path Cardinality Removal	Path Random Insert	35384.5	35384.5	35378.5	8
+9	20.232	nodefirst	Node Shaw Removal	Node Greedy Insert	Path Node-Frequency Removal	Path K-max Length Insert	35473.2	35473.2	35378.5	9
+10	22.477	nodefirst	Node Worst Removal	Node Regret-2 Insert	pathNullDestroy	pathNullRepair	43042.5	43042.5	35378.5	10
+11	24.032	nodefirst	Node Shaw Removal	Node Random Insert	Path Average-Length Removal	Path Node-Frequency Insert	98478.6	43042.5	35378.5	11
+12	25.19	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length-Difference Removal	Path Node-Frequency Insert	43042.7	43042.7	35378.5	12
+13	26.904	nodefirst	Node Shaw Removal	Node Random Insert	Path Node-Frequency Removal	Path Random Insert	105850	35378.5	35378.5	13
+14	29.607	nodefirst	Node Random Removal	Node Regret-2 Insert	Path Random Removal	Path Random Insert	42934.7	35378.5	35378.5	14
+15	32.712	nodefirst	Node Random Removal	Node Regret-2 Insert	Path Average-Length-Difference Removal	Path K-max Length Insert	68195.6	35378.5	35378.5	15

@@ -31,7 +31,7 @@ class TimeWindowUpdater
         //! the service time window of all nodes in the extended route
         vector<vector<int>> sertw_inroute;
 
-        //! the service time of all nodes in the extend=ed route
+        //! the service time of all nodes in the extended route
         vector<int> st_inroute;
 
         //! the updated waiting time limit of the route for each node

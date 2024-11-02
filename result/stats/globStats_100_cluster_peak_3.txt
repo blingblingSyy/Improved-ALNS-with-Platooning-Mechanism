@@ -1,0 +1,11 @@
+iterations	timeStamps	Strategy	Node Destroy Operator	Node Repair Operator	Path Destroy Operator	Path Repair Operator	New Cost	Current Cost	Best Cost	Cumulative Known Solutions
+1	2.352	pathfirst	nodeNullDestroy	nodeNullRepair	Path Average-Length Removal	Path K-max Length Insert	56640.6	56640.6	56300.7	1
+2	4.677	pathfirst	nodeNullDestroy	nodeNullRepair	Path Random Removal	Path Node-Frequency Insert	56755.2	56755.2	56300.7	2
+3	7.124	pathfirst	Node Worst Removal	Node Random Insert	Path Node-Frequency Removal	Path Node-Frequency Insert	75853	56755.2	56300.7	3
+4	9.118	nodefirst	Node Shaw Removal	Node Random Insert	Path Average-Length-Difference Removal	Path Random Insert	95326.6	56755.2	56300.7	4
+5	11.901	nodefirst	Node Random Removal	Node Greedy Insert	Path Average-Length Removal	Path Random Insert	65605	56755.2	56300.7	5
+6	14.964	nodefirst	Node Shaw Removal	Node Regret-2 Insert	Path Node-Frequency Removal	Path K-max Length Insert	56403.6	56403.6	56300.7	6
+7	18.773	nodefirst	Node Worst Removal	Node Regret-2 Insert	pathNullDestroy	pathNullRepair	80561.5	56403.6	56300.7	7
+8	22.695	nodefirst	Node Worst Removal	Node Regret-2 Insert	Path Cardinality Removal	Path Random Insert	71375.5	56403.6	56300.7	8
+9	27.241	nodefirst	Node Worst Removal	Node Greedy Insert	Path Random Removal	Path K-max Length Insert	88475.5	56403.6	56300.7	9
+10	30.121	nodefirst	Node Shaw Removal	Node Regret-2 Insert	Path Cardinality Removal	Path Random Insert	56267	56267	56267	10

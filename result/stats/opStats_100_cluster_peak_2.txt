@@ -1,0 +1,15 @@
+time stamp	Weights of nodefirst	Calls of nodefirst	Weights of pathfirst	Calls of pathfirst	Weights of Node Random Removal	Calls of Node Random Removal	Weights of Node Shaw Removal	Calls of Node Shaw Removal	Weights of Node Worst Removal	Calls of Node Worst Removal	Weights of nodeNullDestroy	Calls of nodeNullDestroy	Weights of Node Greedy Insert	Calls of Node Greedy Insert	Weights of Node Random Insert	Calls of Node Random Insert	Weights of Node Regret-2 Insert	Calls of Node Regret-2 Insert	Weights of Path Average-Length-Difference Removal	Calls of Path Average-Length-Difference Removal	Weights of Path Average-Length Removal	Calls of Path Average-Length Removal	Weights of Path Cardinality Removal	Calls of Path Cardinality Removal	Weights of Path Node-Frequency Removal	Calls of Path Node-Frequency Removal	Weights of Path Random Removal	Calls of Path Random Removal	Weights of pathNullDestroy	Calls of pathNullDestroy	Weights of Path K-max Length Insert	Calls of Path K-max Length Insert	Weights of Path Node-Frequency Insert	Calls of Path Node-Frequency Insert	Weights of Path Random Insert	Calls of Path Random Insert	Weights of nodeNoise	Calls of nodeNoise	Weights of pathNoise	Calls of pathNoise	
+1.478	1	1	1	0	1	1	1	0	1	0	2.4	0	1	0	1	1	1	0	1	0	1	0	1	0	1	1	1	0	4	0	1	1	1	0	1	0	0.5	0	0.5	0	
+3.159	1	0	1.2	1	1	0	1	0	1	0	2.32	1	1	0	1	0	1	0	1	0	1.2	1	1	0	1	0	1	0	3.2	0	1	0	1.2	1	1	0	0.666667	1	0.666667	1	
+5.21	1	0	1.36	1	1.2	1	1	0	1	0	1.856	0	1	0	1	0	1.2	1	1	0	1	0	1	0	1.2	1	1	0	2.56	0	1.2	1	1	0	1	0	0.666667	1	0.333333	0	
+7.099	1	0	1.088	1	1	0	1	0	1	1	1.4848	0	1	0	1	1	1	0	1	0	1	0	1	0	1	0	1	1	2.048	0	1	1	1	0	1	0	0.5	0	0.5	0	
+9.669	1	0	1	1	1	0	1	1	1	0	1.18784	0	1	0	1	0	1	1	1	1	1	0	1	0	1	0	1	0	1.6384	0	1	0	1	1	1	0	0.5	0	0.5	0	
+12.096	2.4	1	1	0	1	0	2.4	1	1	0	1	0	1	0	1	0	2.4	1	1	0	1	0	1	0	2.4	1	1	0	1.31072	0	1	0	1	0	2.4	1	0.666667	1	0.333333	0	
+13.733	1.92	1	1	0	1	0	1.92	0	1	1	1	0	1	0	1	1	1.92	0	1	0	1	0	1	0	1.92	1	1	0	1.04858	0	1	0	1	0	1.92	1	0.5	0	0.5	0	
+16.13	3.136	1	1	0	1	0	3.136	1	1	0	1	0	2.4	1	1	0	1.536	0	1	0	1	0	1	0	1.536	0	1	0	2.43886	1	1	0	1	0	1.536	0	0.666667	1	0.666667	1	
+19.288	2.5088	0	1	1	1	0	2.5088	1	1	0	1	0	1.92	0	1	0	1.2288	1	1	0	1	1	1	0	1.2288	0	1	0	1.95109	0	1	0	1	1	1.2288	0	0.5	0	0.5	0	
+22.519	2.00704	1	1	0	1	0	2.00704	0	1	1	1	0	1.536	0	1	0	1	1	1	0	1	0	1	0	1	0	1	1	1.56087	0	1	0	1	0	1	1	0.5	0	0.5	0	
+24.283	3.20563	1	1	0	2.4	1	1.60563	0	1	0	1	0	1.2288	0	1	0	2.4	1	2.4	1	1	0	1	0	1	0	1	0	1.2487	0	1	0	1	0	2.4	1	0.666667	1	0.666667	1	
+26.122	4.16451	1	1	0	1.92	0	2.88451	1	1	0	1	0	1	0	1	0	3.52	1	3.52	1	1	0	1	0	1	0	1	0	1	0	2.4	1	1	0	1.92	0	0.666667	1	0.333333	0	
+28.564	4.9316	1	1	0	1.536	0	2.3076	0	2.4	1	1	0	2.4	1	1	0	2.816	0	2.816	0	2.4	1	1	0	1	0	1	0	1	0	3.52	1	1	0	1.536	0	0.666667	1	0.333333	0	
+30.97	3.94528	1	1	0	1.2288	0	1.84608	1	1.92	0	1	0	1.92	0	1	0	2.2528	1	2.2528	0	1.92	0	1	0	1	1	1	0	1	0	2.816	1	1	0	1.2288	0	0.5	0	0.5	0	

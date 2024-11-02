@@ -1,0 +1,11 @@
+time stamp	Weights of nodefirst	Calls of nodefirst	Weights of pathfirst	Calls of pathfirst	Weights of Node Random Removal	Calls of Node Random Removal	Weights of Node Shaw Removal	Calls of Node Shaw Removal	Weights of Node Worst Removal	Calls of Node Worst Removal	Weights of nodeNullDestroy	Calls of nodeNullDestroy	Weights of Node Greedy Insert	Calls of Node Greedy Insert	Weights of Node Random Insert	Calls of Node Random Insert	Weights of Node Regret-2 Insert	Calls of Node Regret-2 Insert	Weights of Path Average-Length-Difference Removal	Calls of Path Average-Length-Difference Removal	Weights of Path Average-Length Removal	Calls of Path Average-Length Removal	Weights of Path Cardinality Removal	Calls of Path Cardinality Removal	Weights of Path Node-Frequency Removal	Calls of Path Node-Frequency Removal	Weights of Path Random Removal	Calls of Path Random Removal	Weights of pathNullDestroy	Calls of pathNullDestroy	Weights of Path K-max Length Insert	Calls of Path K-max Length Insert	Weights of Path Node-Frequency Insert	Calls of Path Node-Frequency Insert	Weights of Path Random Insert	Calls of Path Random Insert	Weights of nodeNoise	Calls of nodeNoise	Weights of pathNoise	Calls of pathNoise	
+2.352	1	0	1.2	1	1	0	1	0	1	0	2.8	1	1	0	1	0	1	0	1	0	1.2	1	1	0	1	0	1	0	4	0	1.2	1	1	0	1	0	0.333333	0	0.333333	0	
+4.677	1	0	1.36	1	1	0	1	0	1	0	2.64	1	1	0	1	0	1	0	1	0	1	0	1	0	1	0	1.2	1	3.2	0	1	0	1.2	1	1	0	0.666667	1	0.666667	1	
+7.124	1	0	1.088	1	1	0	1	0	1	1	2.112	0	1	0	1	1	1	0	1	0	1	0	1	0	1	1	1	0	2.56	0	1	0	1	1	1	0	0.5	0	0.5	0	
+9.118	1	1	1	0	1	0	1	1	1	0	1.6896	0	1	0	1	1	1	0	1	1	1	0	1	0	1	0	1	0	2.048	0	1	0	1	0	1	1	0.5	0	0.5	0	
+11.901	1	1	1	0	1	1	1	0	1	0	1.35168	0	1	1	1	0	1	0	1	0	1	1	1	0	1	0	1	0	1.6384	0	1	0	1	0	1	1	0.5	0	0.5	0	
+14.964	1.2	1	1	0	1	0	1.2	1	1	0	1.08134	0	1	0	1	0	1.2	1	1	0	1	0	1	0	1.2	1	1	0	1.31072	0	1.2	1	1	0	1	0	0.666667	1	0.666667	1	
+18.773	1	1	1	0	1	0	1	0	1	1	1	0	1	0	1	0	1	1	1	0	1	0	1	0	1	0	1	0	1.04858	1	1	0	1	0	1	0	0.5	0	0.5	0	
+22.695	1	1	1	0	1	0	1	0	1	1	1	0	1	0	1	0	1	1	1	0	1	0	1	1	1	0	1	0	1	0	1	0	1	0	1	1	0.5	0	0.5	0	
+27.241	1	1	1	0	1	0	1	0	1	1	1	0	1	1	1	0	1	0	1	0	1	0	1	0	1	0	1	1	1	0	1	1	1	0	1	0	0.5	0	0.5	0	
+30.121	2.4	1	1	0	1	0	2.4	1	1	0	1	0	1	0	1	0	2.4	1	1	0	1	0	2.4	1	1	0	1	0	1	0	1	0	1	0	2.4	1	0.666667	1	0.333333	0	
